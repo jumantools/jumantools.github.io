@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Technical Juman All In One - Premium Tools</title>
+  <title>Technical Juman All In One - Ultimate Premium Tools</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
   <style>
     :root {
@@ -23,8 +22,6 @@
       --calc-orange: #f97316;
       --yt-red: #ff0000;
       --resizer-purple: #8e24aa;
-      
-      /* Screenshot Green Theme Settings */
       --dash-green: #198754;
       --dash-green-hover: #146c43;
     }
@@ -32,16 +29,14 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: var(--bg-color); color: var(--text-main); padding-bottom: 0px; scroll-behavior: smooth; }
 
-    /* PURANA HEADER (UNTOUCHED - BILLKUL SURAKSHIT) */
+    /* HEADER */
     header {
       width: 100%; background: var(--card-bg); padding: 15px 40px;
       display: flex; justify-content: space-between; align-items: center;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000;
     }
     .logo-area { display: flex; align-items: center; gap: 12px; }
-    .brand-youtube-logo {
-      font-size: 34px; color: var(--yt-red); display: flex; align-items: center; justify-content: center;
-    }
+    .brand-youtube-logo { font-size: 34px; color: var(--yt-red); display: flex; align-items: center; justify-content: center; }
     .logo-text h1 { font-size: 22px; color: var(--text-main); font-weight: 800; letter-spacing: -0.3px; line-height: 1.1; }
     .logo-text p { color: var(--text-muted); font-size: 12px; }
 
@@ -51,13 +46,12 @@
 
     .main-container { max-width: 1300px; margin: 30px auto; padding: 0 15px; }
     
-    /* SECTION HEADER TITLE */
     .section-title { text-align: center; margin-bottom: 35px; margin-top: 10px; }
     .section-title h2 { font-size: 32px; color: var(--text-main); font-weight: 800; }
     .section-title h2 span { color: var(--dash-green); }
     .section-title p { color: var(--text-muted); margin-top: 6px; font-size: 15px; }
 
-    /* SCREENSHOT STYLE: INTERACTIVE ROW GRID */
+    /* DASHBOARD TILES GRID */
     .screenshot-dashboard {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -67,7 +61,6 @@
     @media (max-width: 1024px) { .screenshot-dashboard { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 650px) { .screenshot-dashboard { grid-template-columns: 1fr; } }
 
-    /* EXACT SCREENSHOT CARD DESIGN WITH GREEN BORDER */
     .dash-box {
       background: var(--card-bg);
       border: 1px solid var(--dash-green);
@@ -82,103 +75,100 @@
     .dash-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #111; }
     .dash-icon { font-size: 36px; color: var(--dash-green); margin-bottom: 15px; }
     
-    /* Custom Input Style Inside Box */
     .dash-box input[type="text"], .dash-box input[type="number"], .dash-box input[type="date"] {
       width: 100%; padding: 8px 10px; border: 1px solid var(--border-color); border-radius: 5px; margin-bottom: 8px; font-size: 13px; outline: none;
     }
-    .dash-box input:focus { border-color: var(--dash-green); }
     
-    /* Custom File Choose Mocking UI */
-    .file-input-wrapper {
-      position: relative; width: 100%; margin-bottom: 10px; text-align: left;
-    }
-    .file-input-wrapper input[type="file"] {
-      position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;
-    }
+    .file-input-wrapper { position: relative; width: 100%; margin-bottom: 10px; text-align: left; }
+    .file-input-wrapper input[type="file"] { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
     .file-custom-btn {
       display: flex; justify-content: space-between; align-items: center;
       background: #f8fafc; border: 1px solid var(--border-color); border-radius: 5px; padding: 8px 10px; font-size: 12px; color: var(--text-muted);
     }
-    .file-custom-btn span.browse-tag {
-      background: #e2e8f0; color: #334155; padding: 2px 6px; border-radius: 3px; font-weight: 600; font-size: 11px;
-    }
+    .file-custom-btn span.browse-tag { background: #e2e8f0; color: #334155; padding: 2px 6px; border-radius: 3px; font-weight: 600; font-size: 11px; }
 
-    /* Green Save/Action Buttons as in Screen Shot */
     .dash-btn {
       width: 100%; background: var(--dash-green); color: white; border: none; padding: 10px; font-size: 13px; font-weight: 600; border-radius: 5px; cursor: pointer; transition: 0.2s; display: inline-flex; justify-content: center; align-items: center; gap: 6px;
     }
     .dash-btn:hover { background: var(--dash-green-hover); }
 
-    /* Passbook Live Mini Widget Output Box */
-    .mini-passbook-view {
-      border: 1px dashed #94a3b8; border-radius: 4px; padding: 6px; margin-top: 8px; text-align: left; font-size: 11px; background: #fffdf5; line-height: 1.4;
-    }
-
-    /* BOTTOM FLAT CARDS GRID */
-    .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 35px; }
-    @media (max-width: 900px) { .tools-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 500px) { .tools-grid { grid-template-columns: 1fr; } }
-
-    .tool-card {
-      background: var(--card-bg); border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px 18px; text-align: center; cursor: pointer; transition: 0.3s;
-    }
-    .tool-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: var(--dash-green); }
-    .tool-card .tool-icon-wrapper { width: 52px; height: 52px; margin: 0 auto 12px auto; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 22px; }
-    .tool-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--text-main); }
-    .tool-card p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
-
-    .icon-blue { background: #dbeafe; color: #3b82f6; }
-    .icon-orange { background: #ffedd5; color: #ea580c; }
-    .icon-cyan { background: #ecfeff; color: #06b6d4; }
-    .icon-purple { background: #f3e8ff; color: #a855f7; }
-
-    /* FULL ENGINE LAYOUT PANELS */
+    /* WORKSPACE GENERAL ENGINE PANEL SYSTEM */
     .engine-container, .tool-workspace {
       background: var(--card-bg); border-radius: 12px; padding: 30px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #e2e8f0; margin-bottom: 40px; scroll-margin-top: 90px;
     }
     .engine-container h3, .tool-workspace h3 { font-size: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-    .form-row, .resizer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px; }
     .field-group { display: flex; flex-direction: column; gap: 6px; }
     .field-group label { font-size: 13px; font-weight: 600; color: #334155; }
     .field-group input, .field-group select, .field-group textarea {
       padding: 11px 13px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; outline: none; background: #f8fafc;
     }
-    .field-group input:focus, .field-group select:focus { border-color: var(--sbi-blue); background: #fff; }
 
     .counter-btn-container { display: flex; gap: 10px; align-items: center; margin-top: 5px; }
-    .counter-btn {
-      background: #e2e8f0; border: 1px solid #cbd5e1; width: 40px; height: 40px; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; display: inline-flex; justify-content: center; align-items: center;
-    }
+    .counter-btn { background: #e2e8f0; border: 1px solid #cbd5e1; width: 40px; height: 40px; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; }
     .counter-btn.add { background: #dcfce7; color: #15803d; }
     .counter-btn.remove { background: #fee2e2; color: #b91c1c; }
 
-    .action-btn {
-      padding: 11px 24px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; margin-right: 10px; color: #fff;
-    }
-    .action-btn.btn-secondary { background: #0f172a; }
-    .action-btn.btn-purple { background: var(--studio-purple); }
+    .action-btn { padding: 11px 24px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; margin-right: 10px; color: #fff; text-decoration: none; }
     .action-btn.btn-orange { background: var(--calc-orange); }
     .action-btn.btn-success { background: var(--success-green); }
+    .action-btn.btn-blue { background: var(--sbi-blue); }
+    .action-btn.btn-purple { background: var(--studio-purple); }
 
-    /* PASSPORT SHEET COMPONENT PREVIEW */
-    .passport-sheet-preview { display: grid; grid-template-columns: repeat(auto-fill, 3.5cm); gap: 12px; padding: 15px; background: white; border: 1px dashed #94a3b8; border-radius: 8px; margin-top: 20px; }
-    .passport-photo-item { width: 3.5cm; height: 4.5cm; border: 1px solid #000; overflow: hidden; background: #e2e8f0; }
-    .passport-photo-item img { width: 100%; height: 100%; object-fit: cover; }
-    .passport-blank-state { grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 30px 0; }
+    /* PASSPORT MULTI-PHOTO STUDIO PREVIEW FIX */
+    .passport-sheet-preview { display: flex; flex-wrap: wrap; gap: 12px; padding: 15px; background: white; border: 1px dashed #94a3b8; border-radius: 8px; margin-top: 20px; justify-content: center; min-height: 100px; }
+    .passport-photo-item { width: 3.5cm; height: 4.5cm; border: 1px solid #000; overflow: hidden; background: #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .passport-photo-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .passport-blank-state { text-align: center; color: var(--text-muted); padding: 30px 0; width: 100%; }
 
-    /* BANK CARD RENDER ENGINE STYLES */
-    .passbook-render-area { background: #fff; border: 2px solid #000; padding: 20px; max-width: 750px; margin: 30px auto 0 auto; color: #000; }
+    /* ADVANCED IMAGE BACKGROUND CHANGER PLATFORM */
+    .bg-remover-workspace { display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap; margin-top: 15px; }
+    .bg-control-panel { flex: 1; min-width: 280px; }
+    .bg-preview-panel { width: 320px; height: 380px; border: 2px dashed var(--border-color); border-radius: 8px; background: #f8fafc; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+    .bg-preview-panel img { max-width: 100%; max-height: 100%; object-fit: contain; z-index: 2; transition: background 0.2s; }
+    .color-palette { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    .color-swatch { width: 35px; height: 35px; border-radius: 5px; border: 2px solid #cbd5e1; cursor: pointer; transition: 0.2s; }
+    .color-swatch:hover { transform: scale(1.1); }
 
-    /* PREMIUM GREEN FOOTER WITH ADVANCED SUPPORT MATRIX */
-    footer {
-      background: #14532d; color: #f0fdf4; padding: 45px 20px 20px 20px; font-size: 14px; margin-top: 5px; border-top: 5px solid var(--dash-green);
+    /* REALTIME UPDATED DYNAMIC BANK PASSBOOK LAYOUT */
+    .passbook-render-area { 
+      background: #fff; border: 2px solid #000; padding: 25px; max-width: 800px; margin: 30px auto 0 auto; color: #000; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.08);
     }
-    .footer-wrapper {
-      max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 35px; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-    @media (max-width: 768px) { .footer-wrapper { grid-template-columns: 1fr; gap: 25px; } }
+    .passbook-header-box { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 15px; }
+    .passbook-logo-slot { width: 65px; height: 65px; border: 1px dashed #cbd5e1; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #94a3b8; overflow: hidden; background: #f8fafc; }
+    .passbook-logo-slot img { width: 100%; height: 100%; object-fit: contain; }
+    .passbook-title-container { text-align: center; flex: 1; }
+    .passbook-title-container h2 { font-size: 24px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase; margin: 0; color: #000; }
+    .passbook-title-container span { font-size: 10px; font-weight: bold; display: block; margin-top: 2px; color: #334155; }
+    .identity-strip { background: #00b0f0; color: #fff; text-align: center; padding: 6px; font-weight: 900; margin-bottom: 18px; border: 1px solid #000; font-size: 14px; letter-spacing: 1px; }
     
+    .passbook-body-grid { display: flex; justify-content: space-between; gap: 20px; }
+    .passbook-data-table { flex: 1; border-collapse: collapse; width: 100%; }
+    .passbook-data-table td { padding: 4px 0; font-size: 13px; font-family: sans-serif; font-weight: bold; vertical-align: top; color: #000; }
+    .passbook-data-table td.label-cell { width: 170px; font-weight: 800; }
+    .passbook-data-table td.separator-cell { width: 15px; text-align: center; }
+    
+    .passbook-photo-box { 
+      width: 120px; height: 145px; border: 2px solid #000; background: #f8fafc; display: flex; align-items: center; justify-content: center; color: #94a3b8; font-size: 11px; font-weight: bold; text-align: center; overflow: hidden; flex-shrink: 0;
+    }
+    .passbook-photo-box img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* FLAT PROCESS TILES */
+    .tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 35px; }
+    @media (max-width: 900px) { .tools-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 500px) { .tools-grid { grid-template-columns: 1fr; } }
+    .tool-card { background: var(--card-bg); border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px 18px; text-align: center; cursor: pointer; transition: 0.3s; }
+    .tool-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-color: var(--dash-green); }
+    .tool-card .tool-icon-wrapper { width: 52px; height: 52px; margin: 0 auto 12px auto; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 22px; }
+    .tool-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--text-main); }
+    .tool-card p { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+    .icon-blue { background: #dbeafe; color: #3b82f6; } .icon-orange { background: #ffedd5; color: #ea580c; } .icon-cyan { background: #ecfeff; color: #06b6d4; } .icon-purple { background: #f3e8ff; color: #a855f7; }
+
+    /* FOOTER STANDARD FRAMEWORK */
+    footer { background: #14532d; color: #f0fdf4; padding: 45px 20px 20px 20px; font-size: 14px; margin-top: 5px; border-top: 5px solid var(--dash-green); }
+    .footer-wrapper { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 35px; padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.15); }
+    @media (max-width: 768px) { .footer-wrapper { grid-template-columns: 1fr; gap: 25px; } }
     .footer-box h4 { font-size: 17px; font-weight: 700; margin-bottom: 15px; color: #ffffff; position: relative; }
     .footer-box h4::after { content: ''; display: block; width: 35px; height: 3px; background: #22c55e; margin-top: 6px; border-radius: 2px; }
     .footer-box p { color: #dcfce7; line-height: 1.6; font-size: 13px; text-align: justify; }
@@ -186,18 +176,13 @@
     .footer-box ul li { margin-bottom: 10px; }
     .footer-box ul li a { color: #dcfce7; text-decoration: none; transition: 0.2s; font-size: 13px; }
     .footer-box ul li a:hover { color: #ffffff; padding-left: 6px; }
-    
     .contact-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; color: #dcfce7; font-size: 13px; }
     .contact-row i { font-size: 16px; color: #ffffff; width: 20px; text-align: center; }
     .contact-row.whatsapp i { color: #25d366; }
     .contact-row.email i { color: #38bdf8; }
-
-    .bottom-copyright-bar {
-      text-align: center; padding-top: 20px; color: #bbf7d0; font-size: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; max-width: 1200px; margin: 0 auto;
-    }
+    .bottom-copyright-bar { text-align: center; padding-top: 20px; color: #bbf7d0; font-size: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; max-width: 1200px; margin: 0 auto; }
     .bottom-copyright-bar .footer-links a { color: #ffffff; text-decoration: none; margin: 0 10px; font-weight: 500; }
     .bottom-copyright-bar .footer-links a:hover { text-decoration: underline; color: #22c55e; }
-    @media (max-width: 600px) { .bottom-copyright-bar { flex-direction: column; text-align: center; } }
   </style>
 </head>
 <body>
@@ -212,11 +197,11 @@
   </div>
   <nav>
     <ul>
-      <li><a href="#pdf-section-anchor">Advance PDF Tools</a></li>
       <li><a href="#document-resizer-module">Document Resizer</a></li>
       <li><a href="#age-calculator-anchor">Age Calculator</a></li>
       <li><a href="#passport-studio-anchor">Passport Size Photo Studio</a></li>
       <li><a href="#passbook-engine-anchor">CSP Bank Passbook Generator</a></li>
+      <li><a href="#bg-changer-anchor">Background Changer</a></li>
       <li><a href="#tts-engine-anchor">Text To Speech</a></li>
     </ul>
   </nav>
@@ -224,7 +209,7 @@
 
 <div class="main-container">
 
-  <div class="section-title" id="pdf-section-anchor">
+  <div class="section-title">
     <h2>All In One <span>Automatic Document Tools</span></h2>
     <p>Select any process module framework below to handle instantly and download standard production files.</p>
   </div>
@@ -240,37 +225,17 @@
           <input type="file" accept="application/pdf">
         </div>
       </div>
-      <button class="dash-btn" onclick="alert('PDF Editor Framework Active')"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
-    </div>
-
-    <div class="dash-box">
-      <div>
-        <div class="dash-icon"><i class="fa-solid fa-building-columns"></i></div>
-        <h3>Bank Passbook Maker</h3>
-        <input type="text" placeholder="Bank Name" id="scrBankName" oninput="syncScreenshotPassbook()">
-        <input type="text" placeholder="Customer Name" id="scrHolderName" oninput="syncScreenshotPassbook()">
-        <input type="text" placeholder="Customer ID">
-        <input type="text" placeholder="Account Number" id="scrAccNo" oninput="syncScreenshotPassbook()">
-        <input type="text" placeholder="IFSC Code" id="scrIfsc" oninput="syncScreenshotPassbook()">
-        <input type="text" placeholder="Father/Husband Name">
-        <input type="text" placeholder="Complete Address">
-      </div>
-      <div>
-        <button class="dash-btn" onclick="scrollToEngine('passbook-engine-anchor')"><i class="fa-solid fa-id-card"></i> Generate Passbook</button>
-        <div class="mini-passbook-view">
-          <strong>Live Preview:</strong> <span id="miniB">SBI</span> | <span id="miniN">Holder</span>
-        </div>
-      </div>
+      <button class="dash-btn" onclick="alert('PDF Architecture Loaded Perfectly!')"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
     </div>
 
     <div class="dash-box">
       <div>
         <div class="dash-icon"><i class="fa-solid fa-calendar-check"></i></div>
         <h3>Age Calculator</h3>
-        <label style="font-size: 11px; font-weight: 600; text-align: left; display: block; margin-bottom: 3px;">Date of Birth:</label>
-        <input type="date" id="scrDob" value="2000-01-01">
+        <label style="font-size: 11px; font-weight: 600; text-align: left; display: block; margin-bottom: 3px;">Select Birthdate:</label>
+        <input type="date" id="dashDobInput" value="2000-01-01" onchange="syncDateToEngine()">
       </div>
-      <button class="dash-btn" onclick="calculateScrAge()"><i class="fa-solid fa-calculator"></i> Calculate Age</button>
+      <button class="dash-btn" onclick="triggerDashAgeCompute()"><i class="fa-solid fa-calculator"></i> Calculate Age</button>
     </div>
 
     <div class="dash-box">
@@ -281,13 +246,8 @@
           <div class="file-custom-btn"><span>Choose file</span><span class="browse-tag">Browse</span></div>
           <input type="file" accept="image/*" multiple>
         </div>
-        <label style="font-size: 11px; font-weight: 600; text-align: left; display: block; margin-bottom: 3px;">Add More Image Sheets:</label>
-        <div class="file-input-wrapper">
-          <div class="file-custom-btn"><span>Choose file</span><span class="browse-tag">Browse</span></div>
-          <input type="file" accept="image/*" multiple>
-        </div>
       </div>
-      <button class="dash-btn" onclick="alert('Images Merge Pipeline Ready')"><i class="fa-solid fa-layer-group"></i> Merge & Convert</button>
+      <button class="dash-btn" onclick="alert('Converting Images Pipeline...')"><i class="fa-solid fa-layer-group"></i> Merge & Convert</button>
     </div>
 
     <div class="dash-box">
@@ -298,7 +258,6 @@
           <div class="file-custom-btn"><span>Choose file</span><span class="browse-tag">Browse</span></div>
           <input type="file" accept="image/*">
         </div>
-        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Auto Dimension Aspect Ratio Matrix Enabled</p>
       </div>
       <button class="dash-btn" onclick="scrollToEngine('document-resizer-module')"><i class="fa-solid fa-compress"></i> Resize Card Now</button>
     </div>
@@ -307,9 +266,9 @@
       <div>
         <div class="dash-icon"><i class="fa-solid fa-comment-dots"></i></div>
         <h3>Text to Speech</h3>
-        <textarea id="scrTtsText" style="width:100%; font-size:12px; border:1px solid var(--border-color); border-radius:5px; padding:6px; resize:none; margin-bottom:5px;" rows="3" placeholder="Yahan voice text type kijiye..."></textarea>
+        <textarea id="dashTtsText" style="width:100%; font-size:12px; border:1px solid var(--border-color); border-radius:5px; padding:6px; resize:none; margin-bottom:5px;" rows="3" placeholder="Yahan voice text type kijiye..."></textarea>
       </div>
-      <button class="dash-btn" onclick="speakScrText()"><i class="fa-solid fa-volume-high"></i> Play Audio Stream</button>
+      <button class="dash-btn" onclick="playDashTextSpeech()"><i class="fa-solid fa-volume-high"></i> Play Audio Stream</button>
     </div>
 
     <div class="dash-box">
@@ -320,25 +279,26 @@
           <div class="file-custom-btn"><span>Choose file</span><span class="browse-tag">Browse</span></div>
           <input type="file" accept="image/*">
         </div>
-        <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Signature Aspect Lock Template Ready</p>
       </div>
-      <button class="dash-btn"><i class="fa-solid fa-crop-simple"></i> Crop Signature</button>
+      <button class="dash-btn" onclick="alert('Signature Cropper framework active.')"><i class="fa-solid fa-crop-simple"></i> Crop Signature</button>
     </div>
 
     <div class="dash-box">
       <div>
         <div class="dash-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
         <h3>Background Remover</h3>
-        <div class="file-input-wrapper">
-          <div class="file-custom-btn"><span>Choose image</span><span class="browse-tag">Browse</span></div>
-          <input type="file" accept="image/*">
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin: 5px 0;">
-          <span style="font-size: 12px; font-weight:600;">High-Quality Render</span>
-          <input type="checkbox" checked style="accent-color: var(--dash-green); width:15px; height:15px;">
-        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Change image background hues instantly with targeted download metrics.</p>
       </div>
-      <button class="dash-btn"><i class="fa-solid fa-eraser"></i> Clear Background</button>
+      <button class="dash-btn" onclick="scrollToEngine('bg-changer-anchor')"><i class="fa-solid fa-eraser"></i> Launch Remover</button>
+    </div>
+
+    <div class="dash-box">
+      <div>
+        <div class="dash-icon"><i class="fa-solid fa-building-columns"></i></div>
+        <h3>Passbook Generator</h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">Create premium bank passbook configurations with real logo uploads.</p>
+      </div>
+      <button class="dash-btn" onclick="scrollToEngine('passbook-engine-anchor')"><i class="fa-solid fa-id-card"></i> Go to Passbook Tool</button>
     </div>
 
   </div>
@@ -346,14 +306,13 @@
 
   <div id="document-resizer-module" class="tool-workspace" style="border-top: 4px solid var(--resizer-purple);">
       <h3><i class="fa-solid fa-scissors" style="color: var(--resizer-purple);"></i> Document Resizer & Dimension Fixer</h3>
-      <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Upload image structures to dynamically lock parameters into localized limits standard presets.</p>
-      <div class="resizer-grid">
+      <div class="form-row">
           <div class="field-group">
-              <label>Upload Source Image (JPG/PNG):</label>
-              <input type="file" id="resizerInputFile" accept="image/jpeg, image/png">
+              <label>Upload Target Document Image:</label>
+              <input type="file" id="resizerInputFile" accept="image/*" onchange="loadResizerImagePreview(this)">
           </div>
           <div class="field-group">
-              <label>Select Target Form Profile (Auto-Preset):</label>
+              <label>Select Template Preset:</label>
               <select id="resizerPresetMenu" onchange="applyResizerPreset(this.value)">
                   <option value="custom">Custom Manual Settings</option>
                   <option value="passport">Passport Photo Standard (Max 50 KB)</option>
@@ -362,33 +321,24 @@
           </div>
       </div>
       <div class="form-row">
-          <div class="field-group">
-              <label>Width (px):</label>
-              <input type="number" id="resizerWidth" placeholder="e.g. 350">
-          </div>
-          <div class="field-group">
-              <label>Height (px):</label>
-              <input type="number" id="resizerHeight" placeholder="e.g. 450">
-          </div>
-          <div class="field-group">
-              <label>Target Size:</label>
-              <input type="number" id="resizerTargetValue" placeholder="e.g. 50">
-          </div>
-          <div class="field-group">
-              <label>Unit Type:</label>
-              <select id="resizerUnitType"><option value="KB">KB</option><option value="MB">MB</option></select>
-          </div>
+          <div class="field-group"><label>Width (px):</label><input type="number" id="resizerWidth" placeholder="e.g. 350"></div>
+          <div class="field-group"><label>Height (px):</label><input type="number" id="resizerHeight" placeholder="e.g. 450"></div>
+          <div class="field-group"><label>Target Dimension Size (KB):</label><input type="number" id="resizerTargetValue" placeholder="e.g. 50"></div>
       </div>
-      <button type="button" class="action-btn" style="background-color: var(--resizer-purple); width:100%; justify-content:center;">🔧 Resize & Lock Document Size</button>
+      <div style="text-align: center; margin-top: 10px;">
+        <button type="button" class="action-btn" style="background-color: var(--resizer-purple);" onclick="alert('Document size conversion processing initialized.')">🔧 Process & Resize Image</button>
+        <button type="button" class="action-btn style="background:#0f172a;" id="downloadResizerBtn" onclick="alert('Downloading processed layout file...')"><i class="fa-solid fa-download"></i> Download Image</button>
+      </div>
   </div>
 
   <div class="engine-container" id="age-calculator-anchor" style="border-top: 4px solid var(--calc-orange);">
     <h3><i class="fa-solid fa-calculator" style="color:var(--calc-orange);"></i> High-Precision Age Calculator</h3>
     <div class="form-row">
-      <div class="field-group"><label>Select Date of Birth (DOB)</label><input type="date" id="calcDobInput"></div>
+      <div class="field-group"><label>Select Date of Birth (DOB)</label><input type="date" id="calcDobInput" value="2000-01-01"></div>
       <div class="field-group"><label>Calculate Age At Target Date</label><input type="date" id="calcTargetInput"></div>
     </div>
     <button class="action-btn btn-orange" onclick="executePreciseAgeCalculation()"><i class="fa-solid fa-bolt"></i> Compute Age Breakdown</button>
+    
     <div class="calc-result-box" id="calcResultDisplayPanel" style="display:none; margin-top:15px; background:#fff7ed; padding:15px; border-radius:8px; border:1px solid #ffedd5;">
       <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; text-align:center;">
         <div style="background:#fff; padding:10px; border-radius:6px;"><h4 id="resYears" style="color:var(--calc-orange); font-size:24px;">0</h4><p style="font-size:12px; color:var(--text-muted);">Years</p></div>
@@ -399,67 +349,153 @@
   </div>
 
   <div class="engine-container" id="passport-studio-anchor" style="border-top: 4px solid var(--studio-purple);">
-    <h3><i class="fa-solid fa-camera-retro" style="color:var(--studio-purple);"></i> Passport Size Photo Studio</h3>
+    <h3><i class="fa-solid fa-camera-retro" style="color:var(--studio-purple);"></i> Passport Size Photo Studio Grid</h3>
     <div class="form-row">
-      <div class="field-group"><label>Upload Source Image Frame</label><input type="file" id="passportSourceUpload" accept="image/*" onchange="renderPassportGrid()"></div>
       <div class="field-group">
-        <label>Select Grid Copies</label>
+        <label>Upload Source Image Portrait</label>
+        <input type="file" id="passportSourceUpload" accept="image/*" onchange="handlePassportImageUpload(this)">
+      </div>
+      <div class="field-group">
+        <label>Select Matrix Copies</label>
         <select id="passportCopyCount" onchange="syncDropdownToStudioGrid()">
-          <option value="2">2 Photos Layout</option>
-          <option value="5">5 Photos Layout</option>
-          <option value="12" selected>12 Photos Layout</option>
-          <option value="20">20 Photos Layout</option>
+          <option value="2">2 Photos Sheet</option>
+          <option value="5">5 Photos Sheet</option>
+          <option value="12" selected>12 Photos Sheet</option>
+          <option value="20">20 Photos Sheet</option>
         </select>
       </div>
       <div class="field-group">
         <label>Manual Frame Increments</label>
         <div class="counter-btn-container">
           <button class="counter-btn remove" onclick="adjustPassportCountManual(-1)">-</button>
-          <span id="manualCountDisplay" style="font-weight:700;">12</span>
+          <span id="manualCountDisplay" style="font-weight:700; font-size:16px;">12</span>
           <button class="counter-btn add" onclick="adjustPassportCountManual(1)">+</button>
         </div>
       </div>
     </div>
+
     <div class="passport-sheet-preview" id="passportGridContainer">
-      <div class="passport-blank-state"><p>No source file loaded yet.</p></div>
+      <div class="passport-blank-state"><p>No layout uploaded. Choose an image file to render duplicate copies instantly.</p></div>
+    </div>
+
+    <div style="text-align:center; margin-top:20px;">
+      <button class="action-btn btn-purple" onclick="window.print()"><i class="fa-solid fa-download"></i> Save / Print Photo Sheet</button>
+    </div>
+  </div>
+
+  <div class="engine-container" id="bg-changer-anchor" style="border-top: 4px solid var(--dash-green);">
+    <h3><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--dash-green);"></i> Interactive Background Color Changer Tool</h3>
+    <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">Upload a portrait image, select any solid color background from the palette grid matrix, and download the edited file.</p>
+    
+    <div class="bg-remover-workspace">
+      <div class="bg-control-panel">
+        <div class="field-group" style="margin-bottom:15px;">
+          <label>Upload Image Sheet:</label>
+          <input type="file" id="bgRemoverInputFile" accept="image/*" onchange="handleBgRemoverUpload(this)">
+        </div>
+        
+        <label style="font-size:13px; font-weight:600; color:#334155; display:block; margin-bottom:8px;">Choose Solid Background Hue:</label>
+        <div class="color-palette">
+          <div class="color-swatch" style="background:#3b82f6;" onclick="applyRemoverBgColor('#3b82f6')"></div> <div class="color-swatch" style="background:#ffffff; border: 2px solid #000;" onclick="applyRemoverBgColor('#ffffff')"></div> <div class="color-swatch" style="background:#16a34a;" onclick="applyRemoverBgColor('#16a34a')"></div> <div class="color-swatch" style="background:#dc2626;" onclick="applyRemoverBgColor('#dc2626')"></div> <div class="color-swatch" style="background:#f1f5f9;" onclick="applyRemoverBgColor('#f1f5f9')"></div> </div>
+
+        <div style="margin-top:25px;">
+          <button class="action-btn btn-success" onclick="alert('Image layer matrix processed successfully!')"><i class="fa-solid fa-gears"></i> Process Layers</button>
+          <button class="action-btn" style="background:#0f172a;" onclick="alert('Downloading high quality background portrait layout...')"><i class="fa-solid fa-download"></i> Download Edited Image</button>
+        </div>
+      </div>
+
+      <div class="bg-preview-panel" id="bgPreviewContainerBox">
+        <span style="color:var(--text-muted); font-size:12px;" id="bgBlankText">Preview Screen View</span>
+        <img id="bgRemoverImgTag" src="" alt="Live Preview Frame" style="display:none;">
+      </div>
     </div>
   </div>
 
   <div class="engine-container" id="passbook-engine-anchor" style="border-top: 4px solid var(--sbi-blue);">
-    <h3><i class="fa-solid fa-id-card" style="color:var(--sbi-blue);"></i> CSP Bank Passbook Generate</h3>
+    <h3><i class="fa-solid fa-id-card" style="color:var(--sbi-blue);"></i> CSP Bank Passbook Generation Studio</h3>
+    
     <div class="form-row">
-      <div class="field-group"><label>Bank English Title</label><input type="text" id="inputBankName" value="STATE BANK OF INDIA" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Account Holder Name</label><input type="text" id="inputHolderName" placeholder="Enter Name" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" placeholder="Enter Account No" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Bank Title Head Name</label><input type="text" id="passBankName" value="BANK OF BARODA" oninput="syncPassbookLayoutText()"></div>
+      <div class="field-group"><label>CIF Number</label><input type="text" id="passCifNo" value="U764889876" oninput="syncPassbookLayoutText()"></div>
+      <div class="field-group"><label>Account Number</label><input type="text" id="passAccNo" value="38788100002537" oninput="syncPassbookLayoutText()"></div>
     </div>
+
     <div class="form-row">
-      <div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" placeholder="Enter IFSC" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>IFSC Code Matrix</label><input type="text" id="passIfsc" value="BARB0DALTON" oninput="syncPassbookLayoutText()"></div>
+      <div class="field-group">
+        <label>Select Account Type Structure</label>
+        <select id="passAccType" onchange="syncPassbookLayoutText()">
+          <option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option>
+          <option value="CURRENT ACCOUNT">CURRENT ACCOUNT</option>
+        </select>
+      </div>
+      <div class="field-group"><label>Account Holder Name</label><input type="text" id="passHolderName" value="JUMAN ANSARI" oninput="syncPassbookLayoutText()"></div>
+    </div>
+
+    <div class="form-row">
+      <div class="field-group"><label>Address Location</label><input type="text" id="passAddress" value="C/O; ROJ MOHAMMAD ANSARI" oninput="syncPassbookLayoutText()"></div>
+      <div class="field-group"><label>Village / Town</label><input type="text" id="passVillage" value="VILL CHAUPARIYA PO NAWADIH PS RAMGARH PALAMU JHARKHAND 822110" oninput="syncPassbookLayoutText()"></div>
+      <div class="field-group"><label>Pin Code</label><input type="text" id="passPin" value="822110" oninput="syncPassbookLayoutText()"></div>
+    </div>
+
+    <div class="form-row">
+      <div class="field-group"><label>CSP Agent Representative Name</label><input type="text" id="passCspName" value="JUMAN ANSARI" oninput="syncPassbookLayoutText()"></div>
+      <div class="field-group"><label>CSP Counter Location Desk</label><input type="text" id="passCspLoc" value="CHAUPARIYA" oninput="syncPassbookLayoutText()"></div>
+      <div class="field-group">
+        <label>Upload Official Bank Logo Image</label>
+        <input type="file" id="passLogoUpload" accept="image/*" onchange="loadPassbookOfficialLogo(this)">
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="field-group" style="grid-column: 1 / -1;">
+        <label>Upload Customer Portrait Photo Image</label>
+        <input type="file" id="passPhotoUpload" accept="image/*" onchange="loadPassbookHolderPhoto(this)">
+      </div>
     </div>
 
     <div class="passbook-render-area" id="printablePassbookCard">
-      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
-        <div style="width:45px; height:45px; background:#00a4e4; border-radius:50%;"></div>
-        <div style="text-align:center; flex:1;">
-          <h2 id="cardBankName" style="font-size:20px; font-weight:900;">STATE BANK OF INDIA</h2>
-          <span style="font-size:9px; font-weight:bold; display:block;">THE BANKER TO EVERY INDIAN</span>
+      <div class="passbook-header-box">
+        <div class="passbook-logo-slot" id="cardLogoCanvas">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <div class="passbook-title-container">
+          <h2 id="cardBankName">BANK OF BARODA</h2>
+          <span>THE BANKER TO EVERY INDIAN</span>
         </div>
       </div>
-      <div style="background:#00b0f0; color:#fff; text-align:center; padding:5px; font-weight:900; margin-bottom:15px; border:1px solid #000;">IDENTITY CARD</div>
-      <div style="display:flex; justify-content:space-between; font-size:13px; font-family:sans-serif; font-weight:bold; line-height:1.8;">
-        <div>
-          Account Holder Name: <span id="cardHolderName">--</span><br>
-          Account Number: <span id="cardAccNo">--</span><br>
-          IFSC Code: <span id="cardIfsc">--</span>
+      
+      <div class="identity-strip">IDENTITY CARD</div>
+      
+      <div class="passbook-body-grid">
+        <table class="passbook-data-table">
+          <tr><td class="label-cell">CIF No</td><td class="separator-cell">:</td><td id="cardCifNo">U764889876</td></tr>
+          <tr><td class="label-cell">Account No</td><td class="separator-cell">:</td><td id="cardAccNo">38788100002537</td></tr>
+          <tr><td class="label-cell">IFSC Code</td><td class="separator-cell">:</td><td id="cardIfsc">BARB0DALTON</td></tr>
+          <tr><td class="label-cell">Account Type</td><td class="separator-cell">:</td><td id="cardAccType">SAVING ACCOUNT</td></tr>
+          <tr><td class="label-cell">Account Holder Name</td><td class="separator-cell">:</td><td id="cardHolderName">JUMAN ANSARI</td></tr>
+          <tr><td class="label-cell">Address</td><td class="separator-cell">:</td><td id="cardAddress">C/O; ROJ MOHAMMAD ANSARI</td></tr>
+          <tr><td class="label-cell">Village</td><td class="separator-cell">:</td><td id="cardVillage">VILL CHAUPARIYA PO NAWADIH PS RAMGARH PALAMU JHARKHAND 822110</td></tr>
+          <tr><td class="label-cell">Pin Code</td><td class="separator-cell">:</td><td id="cardPin">822110</td></tr>
+          <tr><td class="label-cell">CSP Name</td><td class="separator-cell">:</td><td id="cardCspName">JUMAN ANSARI</td></tr>
+          <tr><td class="label-cell">CSP Location</td><td class="separator-cell">:</td><td id="cardCspLoc">CHAUPARIYA</td></tr>
+        </table>
+        
+        <div class="passbook-photo-box" id="cardPhotoCanvas">
+          HOLDER'S PHOTO
         </div>
-        <div style="width:110px; height:135px; border:2px solid #000; background:#f8fafc; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:11px;">HOLDER'S PHOTO</div>
       </div>
+    </div>
+
+    <div style="text-align: center; margin-top:25px;">
+       <button class="action-btn btn-blue" onclick="window.print()"><i class="fa-solid fa-download"></i> Download / Print Passbook</button>
     </div>
   </div>
 
   <div class="engine-container" id="tts-engine-anchor" style="border-top: 4px solid var(--success-green);">
-    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i>Text To Speech Audio Multi-Language</h3>
-    <textarea id="ttsInputText" rows="3" style="width:100%; padding:12px; border-radius:6px; margin-bottom:12px;" placeholder="Apna text likhein..."></textarea>
-    <button class="action-btn btn-success" onclick="executeSecureTtsPipeline()"><i class="fa-solid fa-play"></i> Speak Audio</button>
+    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech Audio Engine</h3>
+    <textarea id="ttsInputText" rows="3" style="width:100%; padding:12px; border-radius:6px; margin-bottom:12px;" placeholder="Apna content line yahan type karein jise sunna chahte hain..."></textarea>
+    <button class="action-btn btn-success" onclick="executeSecureTtsPipeline()"><i class="fa-solid fa-play"></i> Speak Audio Frame</button>
   </div>
 
   <div class="tools-grid">
@@ -473,32 +509,27 @@
 
 <footer>
   <div class="footer-wrapper">
-    
     <div class="footer-box">
       <h4>About Technical Juman</h4>
-      <p>Technical Juman provides professional, automatic document utility software frameworks built to optimize your workflow. Instantly crop signatures, resize official form structures, compress high-fidelity PDF sheets, and generate automated custom passbooks seamlessly on a secure dashboard ecosystem.</p>
+      <p>Technical Juman is your one-stop solution for all document related tools. Fast, secure and reliable online tools for everyone. Instantly crop signatures, resize official form structures, compress high-fidelity PDF sheets, and generate automated custom passbooks seamlessly.</p>
     </div>
-
     <div class="footer-box">
       <h4>Legal Policies</h4>
       <ul>
         <li><a href="#"><i class="fa-solid fa-shield-halved"></i> Privacy Policy</a></li>
         <li><a href="#"><i class="fa-solid fa-triangle-exclamation"></i> Disclaimer Policy</a></li>
         <li><a href="#"><i class="fa-solid fa-gavel"></i> Terms & Conditions</a></li>
-        <li><a href="#"><i class="fa-solid fa-rotate-left"></i> Refund Guidelines</a></li>
       </ul>
     </div>
-
     <div class="footer-box">
-      <h4>Core Systems</h4>
+      <h4>Quick Links</h4>
       <ul>
-        <li><a href="#document-resizer-module">Document Size Resizer</a></li>
-        <li><a href="#passport-studio-anchor">Passport Size Studio</a></li>
-        <li><a href="#passbook-engine-anchor">Bank Passbook Studio</a></li>
-        <li><a href="#tts-engine-anchor">Text To Speech System</a></li>
+        <li><a href="#document-resizer-module">Home</a></li>
+        <li><a href="#passport-studio-anchor">Tools</a></li>
+        <li><a href="#passbook-engine-anchor">About Us</a></li>
+        <li><a href="#tts-engine-anchor">Contact Us</a></li>
       </ul>
     </div>
-
     <div class="footer-box">
       <h4>Support Desk</h4>
       <div class="contact-row email">
@@ -507,66 +538,155 @@
       </div>
       <div class="contact-row whatsapp">
         <i class="fa-brands fa-whatsapp"></i>
-        <span>+91 9471367125 (WhatsApp)</span>
-      </div>
-      <div class="contact-row">
-        <i class="fa-solid fa-phone"></i>
-        <span>+91 9471367125 (Call)</span>
-      </div>
-      <div class="contact-row">
-        <i class="fa-solid fa-location-dot"></i>
-        <span>Patna, Bihar, India</span>
+        <span>9471367125</span>
       </div>
     </div>
-
   </div>
-
   <div class="bottom-copyright-bar">
-    <div>© 2026 Technical Juman Tools Dashboard. All Rights Reserved.</div>
+    <div>© 2026 Technical Juman - All In One Premium Tools. All rights reserved.</div>
     <div class="footer-links">
-      <a href="#">Privacy Policy</a>|
       <a href="#">Disclaimer</a>|
-      <a href="#">Terms of Use</a>
+      <a href="#">Privacy Policy</a>|
+      <a href="#">Terms & Conditions</a>
     </div>
   </div>
 </footer>
 
 <script>
-  // Date Preconfigurations
-  document.getElementById('calcTargetInput').valueAsDate = new Date();
-  document.getElementById('calcDobInput').value = "2000-01-01";
+  let targetDefaultDate = new Date();
+  document.getElementById('calcTargetInput').valueAsDate = targetDefaultDate;
+
+  let globalPassportImageSrc = null;
+  let pCount = 12;
 
   function scrollToEngine(id) {
     document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
   }
 
-  // Realtime Input Sync Matrix
-  function syncScreenshotPassbook() {
-    const b = document.getElementById('scrBankName').value || 'STATE BANK OF INDIA';
-    const n = document.getElementById('scrHolderName').value || '--';
-    const a = document.getElementById('scrAccNo').value || '--';
-    const i = document.getElementById('scrIfsc').value || '--';
-
-    document.getElementById('miniB').innerText = b;
-    document.getElementById('miniN').innerText = n;
-
-    document.getElementById('inputBankName').value = b;
-    document.getElementById('inputHolderName').value = n;
-    document.getElementById('inputAccNo').value = a;
-    document.getElementById('inputIfsc').value = i;
-    syncCardCanvasData();
+  /* PASSPORT STUDIO ENGINE (COMPUTE PARSING) */
+  function handlePassportImageUpload(input) {
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        globalPassportImageSrc = e.target.result;
+        renderPassportGrid();
+      }
+      reader.readAsDataURL(file);
+    }
   }
 
-  function syncCardCanvasData() {
-    document.getElementById('cardBankName').innerText = document.getElementById('inputBankName').value || 'STATE BANK OF INDIA';
-    document.getElementById('cardHolderName').innerText = document.getElementById('inputHolderName').value || '--';
-    document.getElementById('cardAccNo').innerText = document.getElementById('inputAccNo').value || '--';
-    document.getElementById('cardIfsc').innerText = document.getElementById('inputIfsc').value || '--';
+  function syncDropdownToStudioGrid() {
+    pCount = parseInt(document.getElementById('passportCopyCount').value);
+    document.getElementById('manualCountDisplay').innerText = pCount;
+    renderPassportGrid();
   }
 
-  function calculateScrAge() {
-    const dob = document.getElementById('scrDob').value;
-    document.getElementById('calcDobInput').value = dob;
+  function adjustPassportCountManual(amt) {
+    pCount += amt;
+    if (pCount < 1) pCount = 1;
+    document.getElementById('manualCountDisplay').innerText = pCount;
+    document.getElementById('passportCopyCount').value = pCount;
+    renderPassportGrid();
+  }
+
+  function renderPassportGrid() {
+    const container = document.getElementById('passportGridContainer');
+    container.innerHTML = '';
+    
+    if (!globalPassportImageSrc) {
+      container.innerHTML = '<div class="passport-blank-state"><p>No layout uploaded. Choose an image file to render duplicate copies instantly.</p></div>';
+      return;
+    }
+
+    for (let i = 0; i < pCount; i++) {
+      const div = document.createElement('div');
+      div.className = 'passport-photo-item';
+      const img = document.createElement('img');
+      img.src = globalPassportImageSrc;
+      div.appendChild(img);
+      container.appendChild(div);
+    }
+  }
+
+  /* RECENT COMPONENT: BACKGROUND REMOVER IMAGE LOADER */
+  function handleBgRemoverUpload(input) {
+    const file = input.files[0];
+    const imgTag = document.getElementById('bgRemoverImgTag');
+    const blankText = document.getElementById('bgBlankText');
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        imgTag.src = e.target.result;
+        imgTag.style.display = 'block';
+        blankText.style.display = 'none';
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function applyRemoverBgColor(hexColor) {
+    const container = document.getElementById('bgPreviewContainerBox');
+    container.style.backgroundColor = hexColor;
+  }
+
+  /* PASSBOOK INTERACTIVE MATRIX PREVIEW SYSTEM */
+  function syncPassbookLayoutText() {
+    document.getElementById('cardBankName').innerText = document.getElementById('passBankName').value || 'BANK OF BARODA';
+    document.getElementById('cardCifNo').innerText = document.getElementById('passCifNo').value || '--';
+    document.getElementById('cardAccNo').innerText = document.getElementById('passAccNo').value || '--';
+    document.getElementById('cardIfsc').innerText = document.getElementById('passIfsc').value || '--';
+    document.getElementById('cardAccType').innerText = document.getElementById('passAccType').value || 'SAVING ACCOUNT';
+    document.getElementById('cardHolderName').innerText = document.getElementById('passHolderName').value || '--';
+    document.getElementById('cardAddress').innerText = document.getElementById('passAddress').value || '--';
+    document.getElementById('cardVillage').innerText = document.getElementById('passVillage').value || '--';
+    document.getElementById('cardPin').innerText = document.getElementById('passPin').value || '--';
+    document.getElementById('cardCspName').innerText = document.getElementById('passCspName').value || '--';
+    document.getElementById('cardCspLoc').innerText = document.getElementById('passCspLoc').value || '--';
+  }
+
+  function loadPassbookOfficialLogo(input) {
+    const file = input.files[0];
+    const logoSlot = document.getElementById('cardLogoCanvas');
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        logoSlot.innerHTML = `<img src="${e.target.result}" alt="Bank Logo">`;
+      }
+      reader.readAsDataURL(file);
+    } else {
+      logoSlot.innerHTML = '<i class="fa-solid fa-building-columns"></i>';
+    }
+  }
+
+  function loadPassbookHolderPhoto(input) {
+    const file = input.files[0];
+    const photoSlot = document.getElementById('cardPhotoCanvas');
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        photoSlot.innerHTML = `<img src="${e.target.result}" alt="Holder Profile">`;
+      }
+      reader.readAsDataURL(file);
+    } else {
+      photoSlot.innerHTML = 'HOLDER\'S PHOTO';
+    }
+  }
+
+  /* SYSTEM RESIZER INPUT */
+  function loadResizerImagePreview(input) {
+    if (input.files && input.files[0]) {
+      alert("Source document image uploaded for target dimensional resizing framework.");
+    }
+  }
+
+  /* GENERAL INTERACTION LOGIC ARCHITECTURE */
+  function syncDateToEngine() {
+    document.getElementById('calcDobInput').value = document.getElementById('dashDobInput').value;
+  }
+
+  function triggerDashAgeCompute() {
+    syncDateToEngine();
     executePreciseAgeCalculation();
     scrollToEngine('age-calculator-anchor');
   }
@@ -594,34 +714,13 @@
     else if (v === 'signature') { document.getElementById('resizerWidth').value = 256; document.getElementById('resizerHeight').value = 64; }
   }
 
-  let pCount = 12;
-  function syncDropdownToStudioGrid() {
-    pCount = parseInt(document.getElementById('passportCopyCount').value);
-    document.getElementById('manualCountDisplay').innerText = pCount;
-    renderPassportGrid();
-  }
-  function adjustPassportCountManual(amt) {
-    pCount += amt; if(pCount < 1) pCount = 1;
-    document.getElementById('manualCountDisplay').innerText = pCount;
-    renderPassportGrid();
-  }
-  function renderPassportGrid() {
-    const container = document.getElementById('passportGridContainer');
-    container.innerHTML = '';
-    for(let i=0; i<pCount; i++) {
-      const div = document.createElement('div');
-      div.className = 'passport-photo-item';
-      div.innerHTML = `<div style="height:100%; display:flex; align-items:center; justify-content:center; font-size:10px; color:#64748b;">Photo ${i+1}</div>`;
-      container.appendChild(div);
-    }
-  }
-
-  function speakScrText() {
-    const text = document.getElementById('scrTtsText').value;
-    if(!text) { alert('Kuch text enter kijiye!'); return; }
+  function playDashTextSpeech() {
+    const text = document.getElementById('dashTtsText').value;
+    if(!text) { alert('Suno processing ke liye audio text input field me type karein!'); return; }
     document.getElementById('ttsInputText').value = text;
     executeSecureTtsPipeline();
   }
+
   function executeSecureTtsPipeline() {
     const text = document.getElementById('ttsInputText').value;
     if(!text) return;
