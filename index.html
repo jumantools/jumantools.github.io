@@ -7,8 +7,6 @@
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  
-  <!-- LIBRARIES FOR ALL PDF TOOLS & BG REMOVER -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
@@ -22,22 +20,29 @@
       --success-green: #16a34a; --studio-purple: #6366f1; --calc-orange: #f97316; --yt-red: #ff0000;
       --resizer-purple: #8e24aa;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: var(--bg-color); color: var(--text-main); scroll-behavior: smooth; }
 
-    /* HEADER STYLES */
-    header { width: 100%; background: var(--card-bg); padding: 15px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
-    .logo-area { display: flex; align-items: center; gap: 12px; }
-    .brand-youtube-logo { font-size: 34px; color: var(--yt-red); display: flex; align-items: center; justify-content: center; }
-    .logo-text h1 { font-size: 22px; color: var(--text-main); font-weight: 800; letter-spacing: -0.3px; line-height: 1.1; }
-    .logo-text p { color: var(--text-muted); font-size: 12px; }
-    nav ul { display: flex; list-style: none; gap: 20px; align-items: center; }
-    nav ul li a { text-decoration: none; color: var(--text-main); font-weight: 600; font-size: 14px; transition: 0.3s; }
-    nav ul li a:hover { color: var(--primary-color); }
+    /* HEADER & SEARCH & AUTH */
+    header { width: 100%; background: var(--card-bg); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; gap: 15px;}
+    .logo-area { display: flex; align-items: center; gap: 10px; }
+    .brand-youtube-logo { font-size: 30px; color: var(--yt-red); }
+    .logo-text h1 { font-size: 20px; color: var(--text-main); font-weight: 800; letter-spacing: -0.3px; line-height: 1.1; }
+    .logo-text p { color: var(--text-muted); font-size: 11px; }
+    
+    .header-search { display: flex; align-items: center; background: #f1f5f9; border-radius: 8px; padding: 8px 15px; width: 100%; max-width: 400px; border: 1px solid #cbd5e1; }
+    .header-search i { color: #94a3b8; margin-right: 10px; }
+    .header-search input { border: none; background: transparent; outline: none; width: 100%; font-size: 14px; color: #334155; }
+    
+    .header-auth { display: flex; gap: 10px; align-items: center; }
+    .auth-btn { text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 600; transition: 0.2s; }
+    .sign-in { color: var(--text-main); background: #e2e8f0; }
+    .sign-in:hover { background: #cbd5e1; }
+    .sign-up { color: #fff; background: var(--primary-color); }
+    .sign-up:hover { background: var(--primary-hover); }
 
     .main-container { max-width: 1200px; margin: 30px auto; padding: 0 20px 40px; }
-    .section-title { text-align: center; margin-bottom: 30px; margin-top: 10px; }
+    .section-title { text-align: center; margin-bottom: 30px; }
     .section-title h2 { font-size: 32px; color: var(--text-main); }
     .section-title h2 span { color: var(--primary-color); }
     .section-title p { color: var(--text-muted); margin-top: 6px; font-size: 15px; }
@@ -46,7 +51,7 @@
     .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-bottom: 35px; }
     .tool-card { background: var(--card-bg); border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px 15px; text-align: center; cursor: pointer; transition: 0.3s; }
     .tool-card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.06); border-color: var(--primary-color); }
-    .tool-card .card-icon-container, .tool-icon-wrapper { width: 50px; height: 50px; margin: 0 auto 12px auto; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 22px; }
+    .tool-card .tool-icon-wrapper { width: 50px; height: 50px; margin: 0 auto 12px auto; border-radius: 10px; display: flex; justify-content: center; align-items: center; font-size: 22px; }
     .tool-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--text-main); }
     .tool-card p { font-size: 11px; color: var(--text-muted); line-height: 1.3; }
     
@@ -56,17 +61,15 @@
     .icon-dark { background: #f1f5f9; color: #334155; } .icon-yellow { background: #fef08a; color: #b45309; }
 
     /* ENGINE LAYOUT PANELS */
-    .engine-container, .tool-workspace { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 40px; scroll-margin-top: 90px; }
+    .engine-container, .tool-workspace { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 40px; scroll-margin-top: 100px; }
     .engine-container h3, .tool-workspace h3 { font-size: 22px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
-    /* INPUT FIELDS STRUCTURE */
     .form-row, .resizer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px; }
     .field-group { display: flex; flex-direction: column; gap: 6px; }
     .field-group label { font-size: 13px; font-weight: 600; color: #334155; }
     .field-group input, .field-group select, .field-group textarea { padding: 11px 13px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; outline: none; background: #f8fafc; transition: 0.2s; }
     .field-group input:focus, .field-group select:focus { border-color: var(--sbi-blue); background: #fff; }
 
-    /* BUTTONS */
     .action-btn { background: var(--primary-color); color: #fff; padding: 11px 24px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; margin-right: 10px; }
     .action-btn:hover { background: var(--primary-hover); }
     .btn-secondary { background: #0f172a; } .btn-secondary:hover { background: #1e293b; }
@@ -80,27 +83,67 @@
     /* SIGNATURE CANVAS */
     .signature-pad { border: 2px dashed #cbd5e1; background: #f8fafc; cursor: crosshair; touch-action: none; border-radius: 6px; width: 100%; max-width: 400px; height: 150px; }
 
-    /* NEW PROFESSIONAL FOOTER */
-    .custom-footer { background: #115e59; color: #ffffff; padding: 50px 20px 20px; font-family: 'Segoe UI', sans-serif; margin-top: 40px; border-top: 4px solid #14532d; }
+    /* BLACK FOOTER / ABOUT SECTION */
+    .custom-footer { background: #000000; color: #ffffff; padding: 50px 20px 20px; font-family: 'Segoe UI', sans-serif; margin-top: 40px; border-top: 4px solid #222; }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
-    .footer-col h4 { font-size: 18px; margin-bottom: 18px; color: #fff; font-weight: bold; text-transform: capitalize; }
-    .footer-col p { color: #dcfce7; font-size: 14px; line-height: 1.8; margin-bottom: 15px; }
+    .footer-col h4 { font-size: 18px; margin-bottom: 18px; color: #ffffff; font-weight: bold; text-transform: capitalize; }
+    .footer-col p { color: #cccccc; font-size: 14px; line-height: 1.8; margin-bottom: 15px; }
     .footer-col ul { list-style: none; }
     .footer-col ul li { margin-bottom: 10px; }
-    .footer-col ul li a { color: #dcfce7; font-size: 14px; text-decoration: none; transition: 0.2s; }
-    .footer-col ul li a:hover { color: #fff; text-decoration: underline; padding-left: 5px; }
-    .footer-contact { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; color: #dcfce7; font-size: 14px; }
-    .footer-contact i { font-size: 20px; color: #4ade80; }
-    .footer-bottom { text-align: center; border-top: 1px solid #166534; margin-top: 40px; padding-top: 20px; font-size: 13px; color: #bbf7d0; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; align-items: center; }
-    .footer-bottom a { color: #bbf7d0; text-decoration: none; margin: 0 10px; }
-    .footer-bottom a:hover { color: #fff; }
+    .footer-col ul li a { color: #cccccc; font-size: 14px; text-decoration: none; transition: 0.2s; }
+    .footer-col ul li a:hover { color: #ffffff; text-decoration: underline; padding-left: 5px; }
+    .footer-contact { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; color: #cccccc; font-size: 14px; }
+    .footer-contact i.fa-envelope { font-size: 20px; color: #ffffff; }
+    .footer-contact i.fa-whatsapp { font-size: 20px; color: #25D366; }
+    .footer-contact a { color: #cccccc; text-decoration: none; }
+    .footer-contact a:hover { color: #ffffff; }
+    .footer-bottom { text-align: center; border-top: 1px solid #333333; margin-top: 40px; padding-top: 20px; font-size: 13px; color: #aaaaaa; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; align-items: center; }
+    .footer-bottom a { color: #cccccc; text-decoration: none; margin: 0 10px; }
+    .footer-bottom a:hover { color: #ffffff; }
 
-    /* MISC STYLES FROM OLD CODE */
+    /* SPECIFIC TOOLS UI */
     .merge-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 8px; }
     .remove-pdf-btn { background: #fee2e2; color: #b91c1c; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
-    .passbook-render-area { background: #ffffff; border: 2px solid #000000; padding: 20px; max-width: 750px; margin: 30px auto 0 auto; color: #000000; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .calc-result-box { display: none; margin-top: 20px; background: #fff7ed; border: 1px solid #ffedd5; border-radius: 8px; padding: 20px; text-align: center; }
+    .calc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
+    .calc-tile { background: white; border: 1px solid #fed7aa; border-radius: 8px; padding: 15px; }
+    .calc-tile h4 { font-size: 28px; color: var(--calc-orange); font-weight: 800; }
+    .calc-tile p { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-top: 2px; }
+    
     .passport-sheet-preview { display: grid; grid-template-columns: repeat(auto-fill, 3.5cm); gap: 12px; padding: 15px; background: white; border: 1px dashed #94a3b8; min-height: 150px; }
+    .passport-photo-item { width: 3.5cm; height: 4.5cm; border: 1px solid #000; overflow: hidden; background: #e2e8f0; position: relative; }
+    .passport-photo-item img { width: 100%; height: 100%; object-fit: cover; }
+    .passport-blank-state { grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0; font-size:14px; }
+    
+    .passbook-render-area { background: #ffffff; border: 2px solid #000000; padding: 20px; max-width: 750px; margin: 30px auto 0 auto; color: #000000; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    .pb-new-top { position: relative; display: flex; align-items: center; min-height: 60px; padding-bottom: 5px; }
+    .pb-card-logo-slot { position: absolute; left: 0; top: 0; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; }
+    .pb-card-logo-slot img { width: 100%; height: 100%; object-fit: contain; }
+    .pb-sbi-circle { width: 50px; height: 50px; background: #00a4e4; border-radius: 50%; position: relative; display: flex; justify-content: center; align-items: center; }
+    .pb-sbi-circle::after { content: ''; width: 16px; height: 16px; background: #ffffff; border-radius: 50%; }
+    .pb-sbi-circle::before { content: ''; position: absolute; bottom: 0; left: calc(50% - 4px); width: 8px; height: 14px; background: #ffffff; z-index: 5; }
+    .pb-bank-names { width: 100%; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+    .pb-bank-names .english-name { font-size: 24px; font-weight: 900; letter-spacing: 0.5px; color: #000; font-family: 'Arial Black', Gadget, sans-serif; line-height: 1.1; margin: 0; }
+    .pb-bank-names .sub-tag-line { font-size: 10px; font-weight: bold; color: #000; letter-spacing: 0.3px; margin-top: 2px; text-transform: uppercase; margin: 0; }
+    .pb-blue-identity-strip { background: #00b0f0; color: #ffffff; display: flex; justify-content: center; align-items: center; padding: 7px 20px; margin: 15px 0 20px 0; border: 1px solid #000; }
+    .pb-blue-identity-strip h3 { font-size: 21px; font-weight: 900; letter-spacing: 1.5px; font-family: 'Arial Black', Gadget, sans-serif; margin: 0; }
+    .pb-main-body { display: flex; justify-content: space-between; gap: 20px; position: relative; }
+    .pb-details { flex: 1; }
+    .pb-details table { width: 100%; border-collapse: collapse; }
+    .pb-details td { font-size: 14px; font-weight: bold; padding: 5px 2px; vertical-align: top; color: #000; }
+    .pb-details td.label-col { width: 160px; white-space: nowrap; }
+    .pb-details td.separator-col { width: 15px; text-align: center; }
+    .pb-photo-slot { width: 120px; height: 150px; border: 2px solid #000; background: #fff; display: flex; justify-content: center; align-items: center; text-align: center; font-size: 11px; font-weight: bold; color: #777; overflow: hidden; }
+    .pb-photo-slot img { width: 100%; height: 100%; object-fit: cover; }
+    
     .audio-controls-box { margin-top: 15px; padding: 20px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; display: none; }
+    .native-audio-player { flex: 1; min-width: 260px; height: 40px; outline: none; margin-top: 10px; width: 100%; }
+
+    @media (max-width: 768px) {
+        header { flex-direction: column; gap: 15px; }
+        .header-search { max-width: 100%; order: 3; }
+        .header-auth { order: 2; }
+    }
   </style>
 </head>
 <body>
@@ -113,13 +156,16 @@
       <p>All In One Premium Tools</p>
     </div>
   </div>
-  <nav>
-    <ul class="hide-mobile">
-      <li><a href="#pdf-section-anchor">Advance PDF Tools</a></li>
-      <li><a href="#document-resizer-module">Document Resizer</a></li>
-      <li><a href="#bg-remover-module">AI Tools</a></li>
-    </ul>
-  </nav>
+  
+  <div class="header-search">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="toolSearchBox" placeholder="Search tools..." onkeyup="searchTools()">
+  </div>
+
+  <div class="header-auth">
+    <a href="#" class="auth-btn sign-in">Sign In</a>
+    <a href="#" class="auth-btn sign-up">Sign Up</a>
+  </div>
 </header>
 
 <div class="main-container">
@@ -129,8 +175,8 @@
     <p>Select any process module framework below to handle instantly and download standard production files.</p>
   </div>
 
-  <div class="tools-grid">
-    <!-- OLD WORKING TOOLS -->
+  <div class="tools-grid" id="toolsGridBox">
+    <!-- WORKING TOOLS -->
     <div class="tool-card" onclick="openTool('jpg-to-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-pdf"></i></div><h4>JPG to PDF</h4><p>Convert images to PDFs.</p></div>
     <div class="tool-card" onclick="openTool('pdf-to-jpg-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-file-image"></i></div><h4>PDF to JPG</h4><p>Extract images from PDF.</p></div>
     <div class="tool-card" onclick="openTool('compress-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-file-shield"></i></div><h4>Compress PDF</h4><p>Reduce PDF file size.</p></div>
@@ -146,14 +192,12 @@
     <div class="tool-card" onclick="openTool('passport-studio-anchor')"><div class="tool-icon-wrapper icon-purple"><i class="fa-solid fa-camera-retro"></i></div><h4>Passport Studio</h4><p>A4 size photo sheet.</p></div>
     <div class="tool-card" onclick="openTool('passbook-engine-anchor')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-id-card"></i></div><h4>Passbook Maker</h4><p>Bank passbook generator.</p></div>
     <div class="tool-card" onclick="openTool('tts-engine-anchor')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-volume-high"></i></div><h4>Text To Speech</h4><p>Multi-language audio.</p></div>
-
-    <!-- 18 NEW REQUESTED TOOLS (Included in Grid) -->
     <div class="tool-card" onclick="openTool('edit-pdf-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-pen-to-square"></i></div><h4>Edit PDF</h4><p>Add text to PDF file.</p></div>
     <div class="tool-card" onclick="openTool('sign-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-signature"></i></div><h4>Sign PDF</h4><p>Draw & add signature.</p></div>
     <div class="tool-card" onclick="openTool('page-numbers-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-list-ol"></i></div><h4>Page Numbers</h4><p>Add numbers to pages.</p></div>
     <div class="tool-card" onclick="openTool('scan-to-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-scanner-image"></i></div><h4>Scan to PDF</h4><p>Convert scans to PDF.</p></div>
     
-    <!-- Premium / Server Needed Tools -->
+    <!-- Premium UI Tools -->
     <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-regular fa-file-word"></i></div><h4>Word to PDF</h4><p>Convert DOCX to PDF.</p></div>
     <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-regular fa-file-excel"></i></div><h4>PDF to Excel</h4><p>Convert PDF to XLSX.</p></div>
     <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-file-csv"></i></div><h4>Excel to PDF</h4><p>Convert Excel to PDF.</p></div>
@@ -170,9 +214,9 @@
     <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-file-archive"></i></div><h4>PDF to PDF/A</h4><p>Archive format PDF.</p></div>
   </div>
 
-  <!-- WORKSPACES FOR ALL TOOLS -->
-
-  <!-- 1. Background Remover (Fixed with Color) -->
+  <!-- WORKSPACES -->
+  
+  <!-- 1. Background Remover -->
   <div id="bg-remover-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444;">
     <h3><i class="fa-solid fa-user-slash" style="color: #ef4444;"></i> Photo Background Remover</h3>
     <div class="form-row">
@@ -192,25 +236,93 @@
     <div id="bgRemoveLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#ef4444;"></div>
   </div>
 
-  <!-- 2. Protect PDF (Fixed: No Popup, In-UI Message) -->
+  <!-- 2. Protect PDF -->
   <div id="protect-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444;">
     <h3><i class="fa-solid fa-lock" style="color: #ef4444;"></i> Protect PDF</h3>
     <div class="form-row">
-        <div class="field-group">
-            <label>Upload PDF Document:</label>
-            <input type="file" id="protectPdfInput" accept=".pdf">
-        </div>
-        <div class="field-group">
-            <label>Set New Password:</label>
-            <input type="password" id="protectPdfPassword" placeholder="Create a password">
-        </div>
+        <div class="field-group"><label>Upload PDF Document:</label><input type="file" id="protectPdfInput" accept=".pdf"></div>
+        <div class="field-group"><label>Set New Password:</label><input type="password" id="protectPdfPassword" placeholder="Create a password"></div>
     </div>
-    <!-- Note inside UI instead of popup -->
     <p style="font-size: 12px; color: #dc2626; margin-bottom: 10px;">* Note: Advanced 256-bit AES encryption cannot run purely in the browser. This tool simulates locking for display purposes.</p>
     <button class="action-btn btn-red" onclick="alertSimulateProtection()">Lock PDF & Download</button>
   </div>
 
-  <!-- 3. Edit PDF -->
+  <!-- Passport Studio (UPDATED WITH DROPDOWN AND LIVE PREVIEW) -->
+  <div class="engine-container" id="passport-studio-anchor" style="display:none; border-top: 4px solid var(--studio-purple);">
+    <h3><i class="fa-solid fa-camera-retro" style="color:var(--studio-purple);"></i> Passport Size Photo Studio</h3>
+    <div class="form-row">
+      <div class="field-group">
+          <label>Upload Image Frame</label>
+          <input type="file" id="passportSourceUpload" accept="image/*" onchange="loadPassportStudioSource(event)">
+      </div>
+      <div class="field-group">
+          <label>Select Grid Layout</label>
+          <select id="passportCopyCount" onchange="syncDropdownToStudioGrid()">
+            <option value="6">6 Photos Layout</option>
+            <option value="12" selected>12 Photos Layout</option>
+            <option value="24">24 Photos Layout</option>
+            <option value="30">30 Photos Layout</option>
+          </select>
+      </div>
+    </div>
+    <button class="action-btn btn-purple" onclick="downloadPassportStudioSheet()">Download A4 Photo Sheet</button>
+    <div id="passportSheetAreaToPrint" style="margin-top:20px;">
+        <div class="passport-sheet-preview" id="passportGridContainer">
+            <div class="passport-blank-state"><i class="fa-regular fa-images"></i><p>Upload a photo to see live grid preview instantly.</p></div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Passbook Maker (RESTORED FULLY) -->
+  <div class="engine-container" id="passbook-engine-anchor" style="display:none; border-top: 4px solid var(--sbi-blue);">
+    <h3><i class="fa-solid fa-id-card" style="color:var(--sbi-blue);"></i> CSP Bank Passbook Generate</h3>
+    <div class="form-row">
+      <div class="field-group"><label>Bank English Title</label><input type="text" id="inputBankName" placeholder="e.g. STATE BANK OF INDIA" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Account Holder Name</label><input type="text" id="inputHolderName" placeholder="Enter Name" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Account Type</label><select id="inputAccountType" onchange="syncCardCanvasData()"><option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option><option value="CURRENT ACCOUNT">CURRENT ACCOUNT</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="field-group"><label>CIF Number</label><input type="text" id="inputCifId" placeholder="Enter CIF No" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" placeholder="Enter Account No" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" placeholder="Enter IFSC Code" oninput="syncCardCanvasData()"></div>
+    </div>
+    <div class="form-row">
+      <div class="field-group"><label>Address Info</label><input type="text" id="inputAddress" placeholder="Address" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Village Name</label><input type="text" id="inputVillage" placeholder="Village" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" placeholder="Pin" oninput="syncCardCanvasData()"></div>
+    </div>
+    <div class="form-row">
+      <div class="field-group"><label>Upload Bank Logo</label><input type="file" accept="image/*" onchange="uploadLeftBankLogo(event)"></div>
+      <div class="field-group"><label>Upload Holder Photo</label><input type="file" accept="image/*" onchange="uploadRightProfilePhoto(event)"></div>
+    </div>
+
+    <button class="action-btn btn-secondary" onclick="exportCardLayoutAsImage()">Download Bank Passbook</button>
+
+    <div class="passbook-render-area" id="printablePassbookCard">
+      <div class="pb-new-top">
+        <div class="pb-card-logo-slot" id="cardLogoWrapper"><div class="pb-sbi-circle"></div></div>
+        <div class="pb-bank-names"><span class="english-name" id="cardBankName">STATE BANK OF INDIA</span><span class="sub-tag-line">THE BANKER TO EVERY INDIAN</span></div>
+      </div>
+      <div class="pb-blue-identity-strip"><h3>IDENTITY CARD</h3></div>
+      <div class="pb-main-body">
+        <div class="pb-details">
+          <table>
+            <tr><td class="label-col">CIF No</td><td class="separator-col">:</td><td id="cardCifId"></td></tr>
+            <tr><td class="label-col">Account No</td><td class="separator-col">:</td><td id="cardAccNo"></td></tr>
+            <tr><td class="label-col">IFSC Code</td><td class="separator-col">:</td><td id="cardIfsc"></td></tr>
+            <tr><td class="label-col">Account Type</td><td class="separator-col">:</td><td id="cardAccountType" style="font-weight: 800;">SAVING ACCOUNT</td></tr>
+            <tr><td class="label-col">Account Holder Name</td><td class="separator-col">:</td><td id="cardHolderName" style="font-weight: 800;"></td></tr>
+            <tr><td class="label-col">Address</td><td class="separator-col">:</td><td id="cardAddress"></td></tr>
+            <tr><td class="label-col">Village</td><td class="separator-col">:</td><td id="cardVillage"></td></tr>
+            <tr><td class="label-col">Pin Code</td><td class="separator-col">:</td><td id="cardPinCode"></td></tr>
+          </table>
+        </div>
+        <div class="pb-photo-slot" id="cardPhotoWrapper"><div style="display:flex; flex-direction:column; align-items:center; gap:8px;"><i class="fa-regular fa-user" style="font-size:24px; color:#cbd5e1;"></i><span style="color:#94a3b8; font-size:10px;">HOLDER PHOTO</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit PDF -->
   <div id="edit-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #334155;">
     <h3><i class="fa-solid fa-pen-to-square" style="color: #334155;"></i> Edit PDF (Add Text)</h3>
     <div class="form-row">
@@ -220,130 +332,122 @@
     <button class="action-btn btn-secondary" onclick="processEditPdf()">Add Text & Download</button>
   </div>
 
-  <!-- 4. Sign PDF -->
+  <!-- Sign PDF -->
   <div id="sign-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #3b82f6;">
     <h3><i class="fa-solid fa-signature" style="color: #3b82f6;"></i> Sign PDF / Draw Signature</h3>
-    <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">Draw your signature in the box below and download as Transparent PNG to attach on any form.</p>
     <div style="margin-bottom: 15px;">
-        <canvas id="sigCanvas" class="signature-pad" width="400" height="150"></canvas>
-        <br><a href="javascript:void(0)" onclick="clearSignature()" style="color:red; font-size:12px;">Clear Signature</a>
+        <canvas id="sigCanvas" class="signature-pad" width="400" height="150"></canvas><br>
+        <a href="javascript:void(0)" onclick="clearSignature()" style="color:red; font-size:12px;">Clear Signature</a>
     </div>
     <button class="action-btn btn-blue" onclick="downloadSignature()">Download Signature (PNG)</button>
   </div>
 
-  <!-- 5. Add Page Numbers -->
+  <!-- Add Page Numbers -->
   <div id="page-numbers-module" class="tool-workspace" style="display: none; border-top: 4px solid #ea580c;">
     <h3><i class="fa-solid fa-list-ol" style="color: #ea580c;"></i> Add Page Numbers</h3>
-    <div class="form-row">
-        <div class="field-group"><label>Upload PDF:</label><input type="file" id="pageNumInput" accept=".pdf"></div>
-    </div>
+    <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="pageNumInput" accept=".pdf"></div></div>
     <button class="action-btn btn-orange" onclick="processPageNumbers()">Add Numbers & Download</button>
   </div>
 
-  <!-- 6. Premium Notice Workspace -->
+  <!-- Scan to PDF -->
+  <div id="scan-to-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #06b6d4;">
+    <h3><i class="fa-solid fa-scanner-image" style="color: #06b6d4;"></i> Scan to PDF</h3>
+    <div class="form-row"><div class="field-group"><label>Upload Scans (JPG/PNG):</label><input type="file" id="scanPdfInput" accept="image/jpeg, image/png"></div></div>
+    <button class="action-btn btn-cyan" onclick="processScanToPdf()">Create PDF & Download</button>
+  </div>
+
+  <!-- Server/Premium Notice -->
   <div id="premium-notice-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444; text-align: center;">
     <i class="fa-solid fa-server" style="font-size: 50px; color: #cbd5e1; margin-bottom: 20px;"></i>
     <h3>Advanced Server Processing Required</h3>
     <p style="color: #64748b; font-size: 15px; max-width: 600px; margin: 0 auto;">
-        Features like Word/Excel to PDF, OCR, AI Summarization, and HTML to PDF require high-end backend servers and paid APIs to process. Since this platform runs entirely locally in your browser for your privacy and security, these specific heavy conversions are currently unavailable. Please use the other 15+ fully working tools!
+        Features like Word/Excel to PDF, OCR, AI Summarization, and HTML to PDF require high-end backend servers and paid APIs. Since this platform runs locally in your browser for privacy, these heavy conversions are currently unavailable. Please use the other 15+ working tools!
     </p>
   </div>
 
-
-  <!-- EXISTING PDF TOOLS (Kept exactly same as before but inside workspaces) -->
+  <!-- Rest of Working PDF Tools -->
   <div id="jpg-to-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #3b82f6;">
-    <h3><i class="fa-solid fa-file-pdf" style="color: #3b82f6;"></i> JPG to PDF Converter</h3>
+    <h3><i class="fa-solid fa-file-pdf" style="color: #3b82f6;"></i> JPG to PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload Image:</label><input type="file" id="jpgToPdfInput" accept="image/jpeg, image/png"></div></div>
-    <button class="action-btn btn-blue" onclick="processJpgToPdf()">Convert to PDF & Download</button>
+    <button class="action-btn btn-blue" onclick="processJpgToPdf()">Convert to PDF</button>
   </div>
 
   <div id="pdf-to-jpg-module" class="tool-workspace" style="display: none; border-top: 4px solid #ea580c;">
-    <h3><i class="fa-solid fa-file-image" style="color: #ea580c;"></i> PDF to JPG Extractor</h3>
+    <h3><i class="fa-solid fa-file-image" style="color: #ea580c;"></i> PDF to JPG</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="pdfToJpgInput" accept=".pdf"></div></div>
-    <button class="action-btn btn-orange" onclick="processPdfToJpg()">Extract to JPG & Download</button>
+    <button class="action-btn btn-orange" onclick="processPdfToJpg()">Extract JPG</button>
     <div id="pdfToJpgLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#16a34a;"></div>
   </div>
 
   <div id="compress-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #06b6d4;">
-    <h3><i class="fa-solid fa-file-shield" style="color: #06b6d4;"></i> Compress PDF File</h3>
+    <h3><i class="fa-solid fa-file-shield" style="color: #06b6d4;"></i> Compress PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="compressPdfInput" accept=".pdf"></div></div>
-    <button class="action-btn btn-cyan" onclick="processCompressPdf()">Compress PDF & Download</button>
+    <button class="action-btn btn-cyan" onclick="processCompressPdf()">Compress PDF</button>
     <div id="compressPdfLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#06b6d4;"></div>
   </div>
 
   <div id="merge-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #a855f7;">
-    <h3><i class="fa-solid fa-layer-group" style="color: #a855f7;"></i> Merge Multiple PDFs</h3>
+    <h3><i class="fa-solid fa-layer-group" style="color: #a855f7;"></i> Merge PDFs</h3>
     <div id="mergePdfListContainer" style="margin-bottom: 15px;"></div>
     <input type="file" id="mergeHiddenInput" accept=".pdf" multiple style="display: none;" onchange="handleNewMergeFiles(event)">
     <button class="action-btn" style="background:#f3e8ff; color:#a855f7; border: 2px dashed #a855f7; width:100%; justify-content:center; margin-bottom:20px;" onclick="document.getElementById('mergeHiddenInput').click()"><i class="fa-solid fa-plus"></i> Choice PDF File</button>
-    <button class="action-btn btn-purple" onclick="processDynamicMergePdf()">Merge All PDFs & Download</button>
-    <div id="mergePdfLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold;"></div>
+    <button class="action-btn btn-purple" onclick="processDynamicMergePdf()">Merge All PDFs</button>
   </div>
 
   <div id="split-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #3b82f6;">
     <h3><i class="fa-solid fa-file-lines" style="color: #3b82f6;"></i> Split PDF</h3>
     <div class="form-row">
         <div class="field-group"><label>Upload PDF:</label><input type="file" id="splitPdfInput" accept=".pdf"></div>
-        <div class="field-group"><label>Page Number to Extract:</label><input type="number" id="splitPageNum" placeholder="e.g. 1" min="1" value="1"></div>
+        <div class="field-group"><label>Page Number to Extract:</label><input type="number" id="splitPageNum" value="1"></div>
     </div>
-    <button class="action-btn btn-blue" onclick="processSplitPdf()">Extract Page & Download</button>
+    <button class="action-btn btn-blue" onclick="processSplitPdf()">Extract Page</button>
   </div>
 
   <div id="unlock-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #10b981;">
     <h3><i class="fa-solid fa-lock-open" style="color: #10b981;"></i> Unlock PDF</h3>
     <div class="form-row">
         <div class="field-group"><label>Upload Locked PDF:</label><input type="file" id="unlockPdfInput" accept=".pdf"></div>
-        <div class="field-group"><label>Enter Password:</label><input type="password" id="unlockPdfPassword" placeholder="Enter file password"></div>
+        <div class="field-group"><label>Enter Password:</label><input type="password" id="unlockPdfPassword"></div>
     </div>
-    <button class="action-btn btn-success" onclick="processUnlockPdf()">Unlock PDF & Download</button>
+    <button class="action-btn btn-success" onclick="processUnlockPdf()">Unlock PDF</button>
   </div>
 
   <div id="watermark-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #a855f7;">
-    <h3><i class="fa-solid fa-stamp" style="color: #a855f7;"></i> Add Watermark to PDF</h3>
+    <h3><i class="fa-solid fa-stamp" style="color: #a855f7;"></i> Add Watermark</h3>
     <div class="form-row">
         <div class="field-group"><label>Upload PDF:</label><input type="file" id="watermarkPdfInput" accept=".pdf"></div>
-        <div class="field-group"><label>Watermark Text:</label><input type="text" id="watermarkPdfText" placeholder="e.g. CONFIDENTIAL"></div>
+        <div class="field-group"><label>Watermark Text:</label><input type="text" id="watermarkPdfText"></div>
     </div>
-    <button class="action-btn btn-purple" onclick="processWatermarkPdf()">Add Watermark & Download</button>
+    <button class="action-btn btn-purple" onclick="processWatermarkPdf()">Add Watermark</button>
   </div>
 
   <div id="rotate-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #ea580c;">
-    <h3><i class="fa-solid fa-rotate-right" style="color: #ea580c;"></i> Rotate PDF Pages</h3>
+    <h3><i class="fa-solid fa-rotate-right" style="color: #ea580c;"></i> Rotate PDF</h3>
     <div class="form-row">
         <div class="field-group"><label>Upload PDF:</label><input type="file" id="rotatePdfInput" accept=".pdf"></div>
-        <div class="field-group">
-            <label>Rotation Angle:</label>
-            <select id="rotatePdfAngle"><option value="90">90 Degrees (Right)</option><option value="180">180 Degrees (Upside Down)</option><option value="270">270 Degrees (Left)</option></select>
-        </div>
+        <div class="field-group"><label>Angle:</label><select id="rotatePdfAngle"><option value="90">90 Degrees</option><option value="180">180 Degrees</option><option value="270">270 Degrees</option></select></div>
     </div>
-    <button class="action-btn btn-orange" onclick="processRotatePdf()">Rotate PDF & Download</button>
+    <button class="action-btn btn-orange" onclick="processRotatePdf()">Rotate PDF</button>
   </div>
 
-  <div id="scan-to-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #06b6d4;">
-    <h3><i class="fa-solid fa-scanner-image" style="color: #06b6d4;"></i> Scan to PDF</h3>
-    <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Upload your scanned documents (images) to bundle them into a PDF.</p>
-    <div class="form-row"><div class="field-group"><label>Upload Scans (JPG/PNG):</label><input type="file" id="scanPdfInput" accept="image/jpeg, image/png"></div></div>
-    <button class="action-btn btn-cyan" onclick="processScanToPdf()">Create PDF & Download</button>
-  </div>
-
-  <!-- ALL OTHER EXISTING WORKSPACES (Resizer, Age Calc, Passport, Passbook, TTS) KEPT SAME AS BEFORE. OMITTED DUPLICATE CODE IN VIEW, ASSUME THEY ARE HERE -->
-  <!-- Document Resizer -->
+  <!-- Document Resizer (RESTORED FULLY) -->
   <div id="document-resizer-module" class="tool-workspace" style="display: none; border-top: 4px solid var(--resizer-purple);">
     <h3><i class="fa-solid fa-scissors" style="color: var(--resizer-purple);"></i> Document Resizer & Dimension Fixer</h3>
     <div class="resizer-grid">
-        <div class="field-group"><label>Upload Source Image:</label><input type="file" id="resizerInputFile" accept="image/jpeg, image/png" onchange="handleResizerPreview(this)"></div>
-        <div class="field-group"><label>Select Preset:</label><select id="resizerPresetMenu" onchange="applyResizerPreset(this.value)"><option value="custom">Custom Manual Settings</option><option value="passport">Passport Photo (50 KB)</option><option value="signature">Signature (20 KB)</option><option value="aadhar">Aadhar Print (300 KB)</option></select></div>
+        <div class="field-group"><label>Upload Image:</label><input type="file" id="resizerInputFile" accept="image/jpeg, image/png" onchange="handleResizerPreview(this)"></div>
+        <div class="field-group"><label>Select Preset:</label><select id="resizerPresetMenu" onchange="applyResizerPreset(this.value)"><option value="custom">Custom</option><option value="passport">Passport (50 KB)</option><option value="signature">Signature (20 KB)</option><option value="aadhar">Aadhar (300 KB)</option></select></div>
     </div>
     <div class="form-row">
         <div class="field-group"><label>Width (px):</label><input type="number" id="resizerWidth"></div>
         <div class="field-group"><label>Height (px):</label><input type="number" id="resizerHeight"></div>
-        <div class="field-group"><label>Target Size Amount:</label><input type="number" id="resizerTargetValue"></div>
-        <div class="field-group"><label>Unit Type:</label><select id="resizerUnitType"><option value="KB">KB</option><option value="MB">MB</option></select></div>
+        <div class="field-group"><label>Target Size:</label><input type="number" id="resizerTargetValue"></div>
+        <div class="field-group"><label>Unit:</label><select id="resizerUnitType"><option value="KB">KB</option><option value="MB">MB</option></select></div>
     </div>
-    <button type="button" class="action-btn" style="background-color: var(--resizer-purple); width: 100%; justify-content: center;" onclick="processAndResizeDocument()">🔧 Resize & Lock Size</button>
+    <button class="action-btn" style="background-color: var(--resizer-purple); width: 100%; justify-content: center;" onclick="processAndResizeDocument()">Resize & Lock Size</button>
     <div id="resizerStatusLogs" style="margin-top: 15px; font-size: 13px; text-align: center; display: none;"></div>
   </div>
 
+  <!-- Age Calculator (RESTORED FULLY) -->
   <div class="engine-container" id="age-calculator-anchor" style="display:none; border-top: 4px solid var(--calc-orange);">
     <h3><i class="fa-solid fa-calculator" style="color:var(--calc-orange);"></i> High-Precision Age Calculator</h3>
     <div class="form-row">
@@ -354,44 +458,13 @@
     <div class="calc-result-box" id="calcResultDisplayPanel"><div class="calc-grid"><div class="calc-tile"><h4 id="resYears">0</h4><p>Years</p></div><div class="calc-tile"><h4 id="resMonths">0</h4><p>Months</p></div><div class="calc-tile"><h4 id="resDays">0</h4><p>Days</p></div></div></div>
   </div>
 
-  <!-- Passport Studio -->
-  <div class="engine-container" id="passport-studio-anchor" style="display:none; border-top: 4px solid var(--studio-purple);">
-    <h3><i class="fa-solid fa-camera-retro" style="color:var(--studio-purple);"></i> Passport Size Photo Studio</h3>
-    <div class="form-row">
-      <div class="field-group"><label>Upload Image Frame</label><input type="file" id="passportSourceUpload" accept="image/*" onchange="loadPassportStudioSource(event)"></div>
-      <div class="field-group"><label>Grid Copies</label><select id="passportCopyCount" onchange="syncDropdownToStudioGrid()"><option value="12" selected>12 Photos Layout</option><option value="30">30 Photos</option></select></div>
-      <div class="field-group"><label>Manual Increments</label><div class="counter-btn-container"><button class="counter-btn remove" onclick="adjustPassportCountManual(-1)"><i class="fa-solid fa-minus"></i></button><span id="manualCountDisplay">12</span><button class="counter-btn add" onclick="adjustPassportCountManual(1)"><i class="fa-solid fa-plus"></i></button></div></div>
-    </div>
-    <button class="action-btn btn-purple" onclick="downloadPassportStudioSheet()">Download A4 Photo Sheet</button>
-    <div id="passportSheetAreaToPrint"><div class="passport-sheet-preview" id="passportGridContainer"></div></div>
-  </div>
-
-  <!-- Passbook Maker -->
-  <div class="engine-container" id="passbook-engine-anchor" style="display:none; border-top: 4px solid var(--sbi-blue);">
-    <h3><i class="fa-solid fa-id-card" style="color:var(--sbi-blue);"></i> CSP Bank Passbook Generate</h3>
-    <div class="form-row">
-      <div class="field-group"><label>Bank Title</label><input type="text" id="inputBankName" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Holder Name</label><input type="text" id="inputHolderName" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>A/C Type</label><select id="inputAccountType" onchange="syncCardCanvasData()"><option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option></select></div>
-    </div>
-    <!-- Miniaturized for brevity, assuming standard passbook inputs are here as before -->
-    <button class="action-btn btn-secondary" onclick="exportCardLayoutAsImage()">Download Bank Passbook</button>
-    <div class="passbook-render-area" id="printablePassbookCard">
-      <!-- UI of passbook kept exact same -->
-      <div class="pb-bank-names"><span class="english-name" id="cardBankName">BANK NAME</span></div>
-      <div class="pb-main-body"><div class="pb-details"><table><tr><td id="cardHolderName">NAME</td></tr></table></div></div>
-    </div>
-  </div>
-
-  <!-- TTS Engine -->
+  <!-- Text To Speech (RESTORED FULLY) -->
   <div class="engine-container" id="tts-engine-anchor" style="display:none; border-top: 4px solid var(--success-green);">
-    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i>Text To Speech Audio Multi-Language</h3>
+    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i>Text To Speech Audio</h3>
+    <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4"></textarea></div></div>
     <div class="form-row">
-      <div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4"></textarea></div>
-    </div>
-    <div class="form-row">
-      <div class="field-group"><select id="ttsLanguageSelect"><option value="hi-IN" selected>Hindi</option></select></div>
-      <div class="field-group"><select id="ttsGenderSelect"><option value="male" selected>Male Voice</option><option value="female">Female Voice</option></select></div>
+      <div class="field-group"><select id="ttsLanguageSelect"><option value="hi-IN" selected>Hindi</option><option value="en-US">English</option></select></div>
+      <div class="field-group"><select id="ttsGenderSelect"><option value="male" selected>Male</option><option value="female">Female</option></select></div>
     </div>
     <button class="action-btn btn-success" onclick="executeSecureTtsPipeline()">Generate Audio</button>
     <div class="audio-controls-box" id="ttsPlaybackDock"><audio id="htmlLiveAudioComponent" class="native-audio-player" controls></audio><button class="action-btn btn-success" onclick="triggerDirectLocalDownload()">Download (.wav)</button></div>
@@ -399,7 +472,7 @@
 
 </div>
 
-<!-- NEW FOOTER / ABOUT SECTION AS PER SCREENSHOT -->
+<!-- BLACK FOOTER AS REQUESTED -->
 <footer class="custom-footer">
     <div class="footer-grid">
         <div class="footer-col" style="padding-right: 20px;">
@@ -428,28 +501,28 @@
         </div>
         <div class="footer-col">
             <h4>Contact Us</h4>
-            <div class="footer-contact">
-                <i class="fa-solid fa-envelope"></i>
-                <a href="mailto:technicaljumancontact@gmail.com">technicaljumancontact@gmail.com</a>
-            </div>
-            <div class="footer-contact">
-                <i class="fa-brands fa-whatsapp"></i>
-                <a href="https://wa.me/919471367125" target="_blank">9471367125</a>
-            </div>
+            <div class="footer-contact"><i class="fa-solid fa-envelope"></i><a href="mailto:technicaljumancontact@gmail.com">technicaljumancontact@gmail.com</a></div>
+            <div class="footer-contact"><i class="fa-brands fa-whatsapp"></i><a href="https://wa.me/919471367125" target="_blank">9471367125</a></div>
         </div>
     </div>
     <div class="footer-bottom">
         <div>© 2025 Technical Juman - All In One Premium Tools. All rights reserved.</div>
-        <div>
-            <a href="#">Disclaimer</a> | 
-            <a href="#">Privacy Policy</a> | 
-            <a href="#">Terms & Conditions</a>
-        </div>
+        <div><a href="#">Disclaimer</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a></div>
     </div>
 </footer>
 
 <script>
-  // Tool Toggler
+  // Search Functionality
+  function searchTools() {
+      let input = document.getElementById('toolSearchBox').value.toLowerCase();
+      let cards = document.getElementById('toolsGridBox').getElementsByClassName('tool-card');
+      for (let i = 0; i < cards.length; i++) {
+          let title = cards[i].getElementsByTagName('h4')[0].innerText.toLowerCase();
+          if (title.indexOf(input) > -1) { cards[i].style.display = ""; } 
+          else { cards[i].style.display = "none"; }
+      }
+  }
+
   function openTool(moduleId) {
       const allWorkspaces = document.querySelectorAll('.tool-workspace, .engine-container');
       allWorkspaces.forEach(el => el.style.display = 'none');
@@ -457,7 +530,7 @@
       document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' });
   }
 
-  // 1. BACKGROUND REMOVER (With Color Option & Error Fix)
+  // 1. BG REMOVER (Fixed Error & Color)
   async function processBgRemover() {
       const fileInput = document.getElementById('bgRemoveInput');
       const log = document.getElementById('bgRemoveLog');
@@ -465,126 +538,89 @@
       const bgColor = document.getElementById('bgColorPicker').value;
 
       if (fileInput.files.length === 0) return alert("Please upload a photo first!");
-      
       log.style.display = "block"; log.style.color = "#ef4444";
-      log.innerText = "🔄 Processing... Loading AI Model. (Please wait 10-15 seconds on first use...)";
+      log.innerText = "🔄 Processing AI Engine... Please wait 10-15 seconds.";
       btn.disabled = true;
 
       try {
           const imageBlob = await imglyRemoveBackground(fileInput.files[0]);
           const url = URL.createObjectURL(imageBlob);
-          
           const img = new Image();
           img.onload = function() {
               const canvas = document.createElement('canvas');
               canvas.width = img.width; canvas.height = img.height;
               const ctx = canvas.getContext('2d');
-              
-              // Draw Background Color
-              ctx.fillStyle = bgColor;
-              ctx.fillRect(0, 0, canvas.width, canvas.height);
-              
-              // Draw Transparent Image over it
+              ctx.fillStyle = bgColor; ctx.fillRect(0, 0, canvas.width, canvas.height);
               ctx.drawImage(img, 0, 0);
-
               const link = document.createElement('a');
-              link.href = canvas.toDataURL('image/jpeg', 1.0);
-              link.download = "New_Background_Juman.jpg";
-              link.click();
-              
-              log.style.color = "#16a34a"; log.innerText = "✅ Background Removed & Color Applied! Image Downloaded.";
+              link.href = canvas.toDataURL('image/jpeg', 1.0); link.download = "New_Background.jpg"; link.click();
+              log.style.color = "#16a34a"; log.innerText = "✅ Done! Background color applied and downloaded.";
           }
           img.src = url;
-      } catch(err) {
-          log.style.color = "#dc2626"; log.innerText = "❌ Error processing. Image might be too large or internet is slow.";
-      }
+      } catch(err) { log.style.color = "#dc2626"; log.innerText = "❌ Error. Image too large."; }
       btn.disabled = false;
   }
 
-  // 2. PROTECT PDF (Simulated for Browser)
+  // 2. PROTECT PDF
   function alertSimulateProtection() {
       const file = document.getElementById('protectPdfInput').files[0];
       const pwd = document.getElementById('protectPdfPassword').value;
-      if(!file || !pwd) return alert("Please upload file and enter password.");
-      
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(file);
-      a.download = "Locked_" + file.name;
-      a.click();
-      alert("Note: File downloaded. (Real AES encryption needs a server API).");
+      if(!file || !pwd) return alert("Upload file and enter password.");
+      const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = "Locked_" + file.name; a.click();
+      alert("Note: File downloaded. (Real AES encryption needs a server).");
   }
 
-  // 3. EDIT PDF (Add Text)
+  // 3. EDIT PDF
   async function processEditPdf() {
       const fileInput = document.getElementById('editPdfInput');
       const text = document.getElementById('editPdfText').value;
       if (fileInput.files.length === 0 || !text) return alert("Upload PDF and write text!");
-      
       const fileBytes = await fileInput.files[0].arrayBuffer();
       const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
       const pages = pdfDoc.getPages();
       const { height } = pages[0].getSize();
-      
       pages[0].drawText(text, { x: 50, y: height - 50, size: 24, color: PDFLib.rgb(1, 0, 0) });
       const newBytes = await pdfDoc.save();
       const blob = new Blob([newBytes], { type: 'application/pdf' });
-      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Edited_Juman.pdf"; link.click();
+      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Edited.pdf"; link.click();
   }
 
-  // 4. SIGNATURE MAKER
-  const canvas = document.getElementById('sigCanvas');
-  const ctx = canvas.getContext('2d');
-  let isDrawing = false;
-  
+  // 4. SIGNATURE
+  const canvas = document.getElementById('sigCanvas'); const ctx = canvas.getContext('2d'); let isDrawing = false;
   canvas.addEventListener('mousedown', (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
   canvas.addEventListener('mousemove', (e) => { if(isDrawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } });
   canvas.addEventListener('mouseup', () => isDrawing = false);
-  
   function clearSignature() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
-  function downloadSignature() {
-      const link = document.createElement('a'); link.download = 'Signature_Juman.png';
-      link.href = canvas.toDataURL('image/png'); link.click();
-  }
+  function downloadSignature() { const link = document.createElement('a'); link.download = 'Signature.png'; link.href = canvas.toDataURL('image/png'); link.click(); }
 
-  // 5. ADD PAGE NUMBERS
+  // 5. PAGE NUMBERS
   async function processPageNumbers() {
       const fileInput = document.getElementById('pageNumInput');
       if (fileInput.files.length === 0) return alert("Upload PDF!");
-      
       const fileBytes = await fileInput.files[0].arrayBuffer();
       const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
       const pages = pdfDoc.getPages();
-      
-      pages.forEach((page, index) => {
-          const { width } = page.getSize();
-          page.drawText(`Page ${index + 1}`, { x: width / 2 - 20, y: 20, size: 12, color: PDFLib.rgb(0, 0, 0) });
-      });
+      pages.forEach((page, index) => { const { width } = page.getSize(); page.drawText(`Page ${index + 1}`, { x: width / 2 - 20, y: 20, size: 12, color: PDFLib.rgb(0, 0, 0) }); });
       const newBytes = await pdfDoc.save();
       const blob = new Blob([newBytes], { type: 'application/pdf' });
-      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Numbered_Juman.pdf"; link.click();
+      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Numbered.pdf"; link.click();
   }
 
-  // 6. SCAN TO PDF (Same as JPG to PDF)
+  // 6. SCAN TO PDF
   function processScanToPdf() {
       const fileInput = document.getElementById('scanPdfInput');
       if (fileInput.files.length === 0) return alert("Upload Image!");
       const reader = new FileReader();
-      reader.onload = function(e) {
-          const { jsPDF } = window.jspdf; const doc = new jsPDF();
-          doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Scanned_Doc_Juman.pdf");
-      }
+      reader.onload = function(e) { const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Scanned.pdf"); }
       reader.readAsDataURL(fileInput.files[0]);
   }
 
-  // BAAKI EXISTING 100% WORKING PDF TOOLS (Merge, Split, Rotate, Compress, JPG to PDF etc.)
+  // PDF TOOLS
   function processJpgToPdf() {
       const fileInput = document.getElementById('jpgToPdfInput');
       if (fileInput.files.length === 0) return alert("Upload Image!");
       const reader = new FileReader();
-      reader.onload = function(e) {
-          const { jsPDF } = window.jspdf; const doc = new jsPDF();
-          doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Juman_Converted.pdf");
-      }
+      reader.onload = function(e) { const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Converted.pdf"); }
       reader.readAsDataURL(fileInput.files[0]);
   }
 
@@ -592,58 +628,47 @@
       const fileInput = document.getElementById('splitPdfInput');
       let pageNum = parseInt(document.getElementById('splitPageNum').value);
       if (fileInput.files.length === 0) return alert("Upload PDF!");
-      if (!pageNum || pageNum < 1) pageNum = 1;
-
       const fileBytes = await fileInput.files[0].arrayBuffer();
       const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
       const newPdf = await PDFLib.PDFDocument.create();
       const [copiedPage] = await newPdf.copyPages(pdfDoc, [pageNum - 1]);
       newPdf.addPage(copiedPage);
-
       const newBytes = await newPdf.save();
       const blob = new Blob([newBytes], { type: 'application/pdf' });
-      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `Split_Page_${pageNum}.pdf`; link.click();
+      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `Page_${pageNum}.pdf`; link.click();
   }
 
   async function processWatermarkPdf() {
       const fileInput = document.getElementById('watermarkPdfInput');
       const text = document.getElementById('watermarkPdfText').value;
       if (fileInput.files.length === 0 || !text) return alert("Upload PDF & Text!");
-
       const fileBytes = await fileInput.files[0].arrayBuffer();
       const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
       const pages = pdfDoc.getPages();
-
-      pages.forEach(page => {
-          const { width, height } = page.getSize();
-          page.drawText(text, { x: width / 4, y: height / 2, size: 50, color: PDFLib.rgb(0.8, 0.2, 0.2), opacity: 0.3, rotate: PDFLib.degrees(45) });
-      });
+      pages.forEach(page => { const { width, height } = page.getSize(); page.drawText(text, { x: width / 4, y: height / 2, size: 50, color: PDFLib.rgb(0.8, 0.2, 0.2), opacity: 0.3, rotate: PDFLib.degrees(45) }); });
       const newBytes = await pdfDoc.save();
       const blob = new Blob([newBytes], { type: 'application/pdf' });
-      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Watermark_Juman.pdf"; link.click();
+      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Watermark.pdf"; link.click();
   }
 
   async function processRotatePdf() {
       const fileInput = document.getElementById('rotatePdfInput');
       const angle = parseInt(document.getElementById('rotatePdfAngle').value);
       if (fileInput.files.length === 0) return alert("Upload PDF!");
-
       const fileBytes = await fileInput.files[0].arrayBuffer();
       const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
       const pages = pdfDoc.getPages();
-      
       pages.forEach(page => { page.setRotation(PDFLib.degrees(page.getRotation().angle + angle)); });
       const newBytes = await pdfDoc.save();
       const blob = new Blob([newBytes], { type: 'application/pdf' });
-      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Rotated_Juman.pdf"; link.click();
+      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Rotated.pdf"; link.click();
   }
 
   async function processPdfToJpg() {
       const fileInput = document.getElementById('pdfToJpgInput');
       const log = document.getElementById('pdfToJpgLog');
       if (fileInput.files.length === 0) return alert("Upload PDF!");
-      log.style.display = "block"; log.innerText = "🔄 Processing PDF to Image... Please wait.";
-
+      log.style.display = "block"; log.innerText = "🔄 Processing PDF to Image...";
       const fileReader = new FileReader();
       fileReader.onload = async function() {
           const typedarray = new Uint8Array(this.result);
@@ -653,7 +678,7 @@
           const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
           canvas.height = viewport.height; canvas.width = viewport.width;
           await page.render({canvasContext: ctx, viewport: viewport}).promise;
-          const link = document.createElement('a'); link.href = canvas.toDataURL('image/jpeg', 0.9); link.download = "Extracted_Image.jpg"; link.click();
+          const link = document.createElement('a'); link.href = canvas.toDataURL('image/jpeg', 0.9); link.download = "Extracted.jpg"; link.click();
           log.innerText = "✅ JPG Extracted!";
       };
       fileReader.readAsArrayBuffer(fileInput.files[0]);
@@ -677,12 +702,11 @@
               if(i > 1) newPdf.addPage();
               newPdf.addImage(imgData, 'JPEG', 0, 0, newPdf.internal.pageSize.getWidth(), newPdf.internal.pageSize.getHeight());
           }
-          newPdf.save("Compressed_Juman.pdf");
+          newPdf.save("Compressed.pdf");
       };
       fileReader.readAsArrayBuffer(fileInput.files[0]);
   }
 
-  // DYNAMIC MERGE PDF
   let mergePdfFilesArray = [];
   function handleNewMergeFiles(event) {
       const files = event.target.files; if (!files) return;
@@ -699,7 +723,7 @@
       });
   }
   async function processDynamicMergePdf() {
-      if (mergePdfFilesArray.length < 2) return alert("Merge karne ke liye kam se kam 2 PDF select karein!");
+      if (mergePdfFilesArray.length < 2) return alert("Select at least 2 PDFs!");
       const mergedPdf = await PDFLib.PDFDocument.create();
       for (let i = 0; i < mergePdfFilesArray.length; i++) {
           const fileBytes = await mergePdfFilesArray[i].arrayBuffer();
@@ -709,12 +733,104 @@
       }
       const mergedPdfBytes = await mergedPdf.save();
       const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
-      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Merged_Juman_All.pdf"; link.click();
+      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Merged_All.pdf"; link.click();
   }
 
-  // DO NOT DELETE: Keeping old Document Resizer, Age Calc, TTS logic intact silently to save code space.
-  function processAndResizeDocument() { alert("Document Resizer active! Select preset from menu to continue."); }
-  function executePreciseAgeCalculation() { alert("Age Calculator active! Enter DOB."); }
+  // --- FULLY RESTORED ORIGINAL JS LOGIC (PASSPORT, PASSBOOK, RESIZER, AGE, TTS) ---
+
+  // RESIZER
+  let uploadedImageSrcData = null;
+  function applyResizerPreset(presetVal) {
+      const wField = document.getElementById('resizerWidth'); const hField = document.getElementById('resizerHeight'); const targetField = document.getElementById('resizerTargetValue'); const unitField = document.getElementById('resizerUnitType');
+      if (presetVal === 'passport') { wField.value = 413; hField.value = 531; targetField.value = 50; unitField.value = 'KB'; } 
+      else if (presetVal === 'signature') { wField.value = 256; hField.value = 64; targetField.value = 20; unitField.value = 'KB'; } 
+      else if (presetVal === 'aadhar') { wField.value = 1013; hField.value = 638; targetField.value = 300; unitField.value = 'KB'; } 
+      else { wField.value = ''; hField.value = ''; targetField.value = ''; unitField.value = 'KB'; }
+  }
+  function handleResizerPreview(input) { if (input.files && input.files[0]) { const r = new FileReader(); r.onload = function(e) { uploadedImageSrcData = e.target.result; }; r.readAsDataURL(input.files[0]); } }
+  function processAndResizeDocument() {
+      const logs = document.getElementById('resizerStatusLogs');
+      if (!uploadedImageSrcData) { return alert("Upload Image!"); }
+      let userWidth = parseInt(document.getElementById('resizerWidth').value); let userHeight = parseInt(document.getElementById('resizerHeight').value);
+      const sizeLimit = parseFloat(document.getElementById('resizerTargetValue').value); const unitType = document.getElementById('resizerUnitType').value;
+      if (!sizeLimit) { return alert("Enter target size!"); }
+      let targetBytesLimit = sizeLimit * 1024; if (unitType === 'MB') { targetBytesLimit = sizeLimit * 1024 * 1024; }
+      logs.style.display = 'block'; logs.innerHTML = "Processing...";
+      const img = new Image(); img.src = uploadedImageSrcData;
+      img.onload = function() {
+          if (!userWidth) userWidth = img.width; if (!userHeight) userHeight = img.height;
+          const canvas = document.createElement('canvas'); canvas.width = userWidth; canvas.height = userHeight;
+          canvas.getContext('2d').drawImage(img, 0, 0, userWidth, userHeight);
+          let q = 0.95; let b64 = ""; let bytes = 0;
+          for (let i = 0; i < 12; i++) {
+              b64 = canvas.toDataURL('image/jpeg', q); bytes = Math.round((b64.length - 814) * 0.75);
+              if (bytes <= targetBytesLimit) { if (targetBytesLimit - bytes < (targetBytesLimit * 0.04)) break; q += 0.04; } else { q -= 0.06; }
+              if (q < 0.1) break;
+          }
+          const a = document.createElement('a'); a.href = b64; a.download = "Resized.jpg"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          logs.innerHTML = "✅ Saved successfully!";
+      };
+  }
+
+  // AGE CALC
+  function executePreciseAgeCalculation() {
+    const dobString = document.getElementById('calcDobInput').value; const targetString = document.getElementById('calcTargetInput').value;
+    if(!dobString || !targetString) { return alert("Select dates."); }
+    const birthDate = new Date(dobString); const endDate = new Date(targetString);
+    if (endDate < birthDate) { return alert("Target date error!"); }
+    let yearsDiff = endDate.getFullYear() - birthDate.getFullYear(); let monthsDiff = endDate.getMonth() - birthDate.getMonth(); let daysDiff = endDate.getDate() - birthDate.getDate();
+    if (daysDiff < 0) { monthsDiff--; const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0); daysDiff += prevMonth.getDate(); }
+    if (monthsDiff < 0) { yearsDiff--; monthsDiff += 12; }
+    document.getElementById('resYears').innerText = yearsDiff; document.getElementById('resMonths').innerText = monthsDiff; document.getElementById('resDays').innerText = daysDiff;
+    document.getElementById('calcResultDisplayPanel').style.display = 'block';
+  }
+
+  // PASSPORT STUDIO
+  let passportStudioImgSourceBase64 = ''; let currentStudioPhotosCounter = 12;
+  function loadPassportStudioSource(event) {
+    if(event.target.files && event.target.files[0]) {
+      const reader = new FileReader(); reader.onload = function(e) { passportStudioImgSourceBase64 = e.target.result; renderPassportStudioPhotosGrid(); }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+  function syncDropdownToStudioGrid() { currentStudioPhotosCounter = parseInt(document.getElementById('passportCopyCount').value); renderPassportStudioPhotosGrid(); }
+  function renderPassportStudioPhotosGrid() {
+    const grid = document.getElementById('passportGridContainer');
+    if(!passportStudioImgSourceBase64) { grid.innerHTML = '<div class="passport-blank-state"><p>No source file loaded yet.</p></div>'; return; }
+    grid.innerHTML = '';
+    for(let i = 0; i < currentStudioPhotosCounter; i++) { const cell = document.createElement('div'); cell.className = `passport-photo-item`; cell.innerHTML = `<img src="${passportStudioImgSourceBase64}" />`; grid.appendChild(cell); }
+  }
+  function downloadPassportStudioSheet() {
+    if(!passportStudioImgSourceBase64 || currentStudioPhotosCounter === 0) return;
+    html2canvas(document.getElementById('passportSheetAreaToPrint'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passport_Sheet.png`; a.href = canvas.toDataURL('image/png'); a.click(); });
+  }
+
+  // PASSBOOK
+  function syncCardCanvasData() {
+    document.getElementById('cardBankName').innerText = (document.getElementById('inputBankName').value || 'STATE BANK OF INDIA').toUpperCase();
+    document.getElementById('cardCifId').innerText = document.getElementById('inputCifId').value;
+    document.getElementById('cardAccNo').innerText = document.getElementById('inputAccNo').value;
+    document.getElementById('cardIfsc').innerText = document.getElementById('inputIfsc').value.toUpperCase();
+    document.getElementById('cardAccountType').innerText = document.getElementById('inputAccountType').value;
+    document.getElementById('cardHolderName').innerText = document.getElementById('inputHolderName').value.toUpperCase();
+    document.getElementById('cardAddress').innerText = document.getElementById('inputAddress').value;
+    document.getElementById('cardVillage').innerText = document.getElementById('inputVillage').value;
+    document.getElementById('cardPinCode').innerText = document.getElementById('inputPinCode').value;
+  }
+  function uploadLeftBankLogo(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardLogoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
+  function uploadRightProfilePhoto(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardPhotoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
+  function exportCardLayoutAsImage() { html2canvas(document.getElementById('printablePassbookCard'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passbook.png`; a.href = canvas.toDataURL('image/png'); a.click(); }); }
+
+  // TTS
+  let liveSpeechBlobUrlTrack = "";
+  function executeSecureTtsPipeline() {
+    const text = document.getElementById('ttsInputText').value.trim(); if (!text) return alert("Enter text!");
+    window.speechSynthesis.cancel(); const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = document.getElementById('ttsLanguageSelect').value;
+    if (document.getElementById('ttsGenderSelect').value === 'female') { utt.pitch = 1.65; utt.rate = 1.05; } else { utt.pitch = 0.45; utt.rate = 0.86; }
+    window.speechSynthesis.speak(utt); document.getElementById('ttsPlaybackDock').style.display = 'block';
+  }
+  document.getElementById('calcTargetInput').valueAsDate = new Date(); document.getElementById('calcDobInput').value = "2000-01-01";
 </script>
 
 </body>
