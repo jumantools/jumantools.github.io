@@ -1,2 +1,252 @@
-Age Calculator>
-input<date of birth>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Juman - Premium Tools</title>
+    <!-- Tailwind CSS for Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- jsPDF Library for JPG to PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- Header Section -->
+    <nav class="flex flex-wrap justify-between items-center py-4 px-4 md:px-8 bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="flex items-center gap-3">
+            <div class="bg-red-600 text-white p-2 rounded-lg"><i class="fa-brands fa-youtube text-xl"></i></div>
+            <div>
+                <h1 class="text-xl font-bold text-gray-800 leading-tight">Technical Juman</h1>
+                <p class="text-xs text-gray-500">All In One Premium Tools</p>
+            </div>
+        </div>
+        <div class="hidden lg:flex gap-6 text-sm font-medium text-gray-600 mt-4 md:mt-0">
+            <a href="#" class="hover:text-green-600">Advance PDF Tools</a>
+            <a href="#" class="hover:text-green-600">Document Resizer</a>
+            <a href="#" class="hover:text-green-600">Age Calculator</a>
+            <a href="#" class="hover:text-green-600">Passbook Maker</a>
+            <a href="#" class="text-green-600 flex items-center gap-1">New Tools <span class="bg-red-500 text-white text-[10px] px-1 py-0.5 rounded">NEW</span></a>
+        </div>
+    </nav>
+
+    <!-- Main Dashboard -->
+    <main class="max-w-7xl mx-auto p-4 md:p-8">
+        
+        <div class="text-center mb-10 mt-4">
+            <h2 class="text-3xl font-bold text-gray-800">All In One Premium Tools</h2>
+            <p class="text-gray-500 mt-2">Sabhi tools ek jagah - Fast, Easy & 100% Secure</p>
+        </div>
+
+        <!-- Tools Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+
+            <!-- 1. WORKING: Age Calculator -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
+                <div>
+                    <div class="flex justify-center mb-3 text-4xl text-orange-500"><i class="fa-solid fa-calendar-days"></i></div>
+                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">Age Calculator</h3>
+                    <div class="space-y-2 mb-4">
+                        <label class="text-xs text-gray-500">Date of Birth</label>
+                        <input type="date" id="dobInput" class="w-full border rounded p-2 text-sm text-gray-700 bg-gray-50 outline-none focus:border-green-500" />
+                    </div>
+                </div>
+                <button onclick="calculateAge()" class="w-full bg-[#1a8047] hover:bg-green-800 text-white py-2 rounded text-sm font-medium transition">Calculate Age</button>
+            </div>
+
+            <!-- 2. WORKING: QR Code Generator -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
+                <div>
+                    <div class="flex justify-center mb-3 text-4xl text-yellow-600"><i class="fa-solid fa-qrcode"></i></div>
+                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">QR Code Generator</h3>
+                    <div class="space-y-2 mb-4">
+                        <input type="text" id="qrText" placeholder="Enter text or URL" class="w-full border rounded p-2 text-sm text-gray-700 bg-gray-50 outline-none focus:border-green-500" />
+                        <div id="qrCodeOutput" class="flex justify-center mt-2"></div>
+                    </div>
+                </div>
+                <button onclick="generateQR()" class="w-full bg-[#1a8047] hover:bg-green-800 text-white py-2 rounded text-sm font-medium transition">Generate QR</button>
+            </div>
+
+            <!-- 3. WORKING: Text To Speech -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
+                <div>
+                    <div class="flex justify-center mb-3 text-4xl text-green-500"><i class="fa-solid fa-microphone"></i></div>
+                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">Text to Speech</h3>
+                    <div class="space-y-2 mb-4">
+                        <textarea id="ttsInput" rows="3" placeholder="Type text here..." class="w-full border rounded p-2 text-sm text-gray-700 bg-gray-50 outline-none focus:border-green-500"></textarea>
+                    </div>
+                </div>
+                <button onclick="speakText()" class="w-full bg-[#1a8047] hover:bg-green-800 text-white py-2 rounded text-sm font-medium transition">Convert and Listen</button>
+            </div>
+
+            <!-- 4. WORKING: JPG to PDF -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
+                <div>
+                    <div class="flex justify-center mb-3 text-4xl text-emerald-500"><i class="fa-solid fa-file-image"></i></div>
+                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">JPG to PDF</h3>
+                    <div class="space-y-2 mb-4">
+                        <input type="file" id="jpgInput" accept="image/jpeg, image/png" class="w-full border rounded p-1 text-xs text-gray-700 bg-gray-50" />
+                    </div>
+                </div>
+                <button onclick="convertToPDF()" class="w-full bg-[#1a8047] hover:bg-green-800 text-white py-2 rounded text-sm font-medium transition">Convert to PDF</button>
+            </div>
+
+            <!-- 5. UI ONLY: Smart PDF Editor -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md opacity-80">
+                <div>
+                    <div class="flex justify-center mb-3 text-4xl text-green-700"><i class="fa-solid fa-file-pen"></i></div>
+                    <h3 class="text-center font-bold text-gray-800 mb-2 text-sm">Smart PDF Editor</h3>
+                    <p class="text-[10px] text-center text-gray-500 mb-3">Edit, merge, split, rotate PDF</p>
+                    <input type="file" disabled class="w-full border rounded p-1 text-xs text-gray-400 bg-gray-100 mb-4" />
+                </div>
+                <button onclick="alert('PDF Editor is coming soon!')" class="w-full bg-[#1a8047] text-white py-2 rounded text-sm font-medium">Edit PDF</button>
+            </div>
+
+            <!-- 6. UI ONLY: Remove Background -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md opacity-80">
+                <div>
+                    <div class="flex justify-center mb-3 text-4xl text-red-500"><i class="fa-solid fa-user-xmark"></i></div>
+                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">Remove Background</h3>
+                    <input type="file" disabled class="w-full border rounded p-1 text-xs text-gray-400 bg-gray-100 mb-4" />
+                </div>
+                <button onclick="alert('AI Background Remover is coming soon!')" class="w-full bg-[#1a8047] text-white py-2 rounded text-sm font-medium">Remove Background</button>
+            </div>
+
+             <!-- 7. UI ONLY: Bank Passbook Maker -->
+             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md opacity-80">
+                <div>
+                    <div class="flex justify-center mb-3 text-4xl text-blue-600"><i class="fa-solid fa-building-columns"></i></div>
+                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">Bank Passbook Maker</h3>
+                    <div class="space-y-1 mb-4">
+                        <input type="text" placeholder="Bank Name" disabled class="w-full border rounded p-1.5 text-xs text-gray-400 bg-gray-100" />
+                        <input type="text" placeholder="Customer Name" disabled class="w-full border rounded p-1.5 text-xs text-gray-400 bg-gray-100" />
+                    </div>
+                </div>
+                <button onclick="alert('Passbook Maker is coming soon!')" class="w-full bg-[#1a8047] text-white py-2 rounded text-sm font-medium">Generate Passbook</button>
+            </div>
+
+             <!-- 8. UI ONLY: Compress Image -->
+             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md opacity-80">
+                <div>
+                    <div class="flex justify-center mb-3 text-4xl text-orange-400"><i class="fa-solid fa-compress"></i></div>
+                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">Compress Image</h3>
+                    <input type="file" disabled class="w-full border rounded p-1 text-xs text-gray-400 bg-gray-100 mb-4" />
+                </div>
+                <button onclick="alert('Image Compressor is coming soon!')" class="w-full bg-[#1a8047] text-white py-2 rounded text-sm font-medium">Compress Image</button>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-12 mb-4">
+            <span class="bg-gray-200 text-gray-700 text-sm py-2 px-6 rounded-full font-medium">Aur bhi naye tools jaldi hi add kiye jayenge... 🚀</span>
+        </div>
+
+    </main>
+
+    <!-- About Section with WhatsApp -->
+    <div class="bg-white p-8 md:p-12 mt-8 border-t border-gray-200">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">About Technical Juman Tools</h2>
+            <p class="text-gray-600 mb-4 leading-relaxed text-sm md:text-base">
+                Welcome to <span class="font-semibold text-gray-800">Technical Juman</span> – your ultimate destination for all-in-one premium digital utilities. We understand that in today’s fast-paced digital world, time is money. That is why we have built a comprehensive dashboard that brings all your essential everyday tools into one single place.
+            </p>
+            
+            <h3 class="text-lg font-bold text-gray-800 mb-2 mt-6">Why Choose Us?</h3>
+            <ul class="list-disc list-inside text-gray-600 mb-6 space-y-1 text-sm md:text-base">
+                <li><strong class="text-gray-800">Fast & Easy:</strong> No complex software installation required.</li>
+                <li><strong class="text-gray-800">100% Secure & Private:</strong> Most of our tools process files locally in your browser.</li>
+                <li><strong class="text-gray-800">Premium Quality:</strong> Enjoy high-quality outputs without hidden charges.</li>
+            </ul>
+
+            <!-- Contact Box -->
+            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mt-6 shadow-sm">
+                <h3 class="text-lg font-bold text-gray-800 mb-3">Get in Touch With Us:</h3>
+                <p class="text-gray-600 mb-4 text-sm">Have a suggestion, found a bug, or need business support? We’d love to hear from you!</p>
+                <div class="space-y-3">
+                    <p class="text-gray-700 flex items-center">
+                        <i class="fa-solid fa-envelope text-gray-500 mr-3 text-lg"></i>
+                        <strong>Email: &nbsp;</strong> support@technicaljuman.com
+                    </p>
+                    <p class="text-gray-700 flex items-center">
+                        <i class="fa-brands fa-whatsapp text-green-600 mr-3 text-lg"></i>
+                        <strong>WhatsApp Support: &nbsp;</strong> 
+                        <a href="https://wa.me/919471367125" target="_blank" class="text-green-700 hover:underline font-bold">+91 9471367125</a>
+                    </p>
+                    <p class="text-gray-700 flex items-center">
+                        <i class="fa-brands fa-youtube text-red-600 mr-3 text-lg"></i>
+                        <strong>YouTube: &nbsp;</strong> <a href="#" class="text-blue-600 hover:underline">Technical Juman</a>
+                    </p>
+                </div>
+            </div>
+            <p class="text-center text-xs text-gray-400 mt-8">© 2024 Technical Juman. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic for Working Tools -->
+    <script>
+        // 1. Age Calculator Logic
+        function calculateAge() {
+            const dobInput = document.getElementById('dobInput').value;
+            if (!dobInput) return alert("Please select your Date of Birth!");
+            
+            const dob = new Date(dobInput);
+            const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            const m = today.getMonth() - dob.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            alert(`Your age is: ${age} years old.`);
+        }
+
+        // 2. QR Code Generator Logic
+        let qrcode = null;
+        function generateQR() {
+            const text = document.getElementById('qrText').value;
+            if (!text) return alert("Please enter text or URL!");
+            
+            const container = document.getElementById("qrCodeOutput");
+            container.innerHTML = ""; // clear previous
+            
+            qrcode = new QRCode(container, {
+                text: text,
+                width: 128,
+                height: 128,
+            });
+        }
+
+        // 3. Text to Speech Logic
+        function speakText() {
+            const text = document.getElementById('ttsInput').value;
+            if (!text) return alert("Please type some text first!");
+            
+            const msg = new SpeechSynthesisUtterance();
+            msg.text = text;
+            window.speechSynthesis.speak(msg);
+        }
+
+        // 4. JPG to PDF Logic
+        async function convertToPDF() {
+            const fileInput = document.getElementById('jpgInput');
+            if (fileInput.files.length === 0) return alert("Please select an image first!");
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const imgData = e.target.result;
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Add image to PDF (sizing it to fit standard page)
+                doc.addImage(imgData, 'JPEG', 10, 10, 190, 0); 
+                doc.save("Technical_Juman_Converted.pdf");
+            }
+            reader.readAsDataURL(file);
+        }
+    </script>
+</body>
+</html>
