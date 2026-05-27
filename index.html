@@ -154,6 +154,9 @@
     .pb-photo-slot { width: 120px; height: 150px; border: 2px solid #000; background: #fff; display: flex; justify-content: center; align-items: center; text-align: center; font-size: 11px; font-weight: bold; color: #777; overflow: hidden; }
     .pb-photo-slot img { width: 100%; height: 100%; object-fit: cover; }
     
+    .audio-controls-box { margin-top: 15px; padding: 20px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; display: none; }
+    .native-audio-player { flex: 1; min-width: 260px; height: 40px; outline: none; margin-top: 10px; width: 100%; }
+
     @media (max-width: 768px) {
         header { flex-direction: column; gap: 15px; }
         .header-search { max-width: 100%; order: 3; }
@@ -249,7 +252,7 @@
 
   <!-- WORKSPACES -->
   
-  <!-- 1. Background Remover (Fixed Error & Added Color) -->
+  <!-- 1. Background Remover (Fixed Error by Resizing & Added Color) -->
   <div id="bg-remover-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444;">
     <h3><i class="fa-solid fa-user-slash" style="color: #ef4444;"></i> Photo Background Remover</h3>
     <div class="form-row">
@@ -280,7 +283,7 @@
     <button class="action-btn btn-red" onclick="alertSimulateProtection()">Lock PDF & Download</button>
   </div>
 
-  <!-- 3. Edit PDF (With Replace Text logic via Whiteout) -->
+  <!-- 3. Edit PDF (Whiteout + Replace Text) -->
   <div id="edit-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #334155;">
     <h3><i class="fa-solid fa-pen-to-square" style="color: #334155;"></i> Edit PDF (Replace / Add Text)</h3>
     <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Browsers cannot directly delete PDF source code. To "remove" old text, we paint a white box over it, and then write your New Text on top!</p>
@@ -331,7 +334,7 @@
     </div>
   </div>
 
-  <!-- Passbook Maker (UPDATED FIELDS: FIRST/LAST NAME, KO NAME, KO LOCATION) -->
+  <!-- Passbook Maker (UPDATED FIELDS: FIRST/LAST NAME, KO NAME, KO LOCATION, ADDRESS) -->
   <div class="engine-container" id="passbook-engine-anchor" style="display:none; border-top: 4px solid var(--sbi-blue);">
     <h3><i class="fa-solid fa-id-card" style="color:var(--sbi-blue);"></i> CSP Bank Passbook Generate</h3>
     <div class="form-row">
@@ -348,6 +351,11 @@
       <div class="field-group"><label>CIF Number</label><input type="text" id="inputCifId" placeholder="Enter CIF No" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" placeholder="Enter Account No" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" placeholder="Enter IFSC Code" oninput="syncCardCanvasData()"></div>
+    </div>
+    <div class="form-row">
+      <div class="field-group"><label>Full Address</label><input type="text" id="inputAddress" placeholder="Enter Full Address" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Village Name</label><input type="text" id="inputVillage" placeholder="Village Name" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" placeholder="6-Digit Pin Code" oninput="syncCardCanvasData()"></div>
     </div>
     <div class="form-row">
       <div class="field-group"><label>Upload Bank Logo</label><input type="file" accept="image/*" onchange="uploadLeftBankLogo(event)"></div>
@@ -372,6 +380,9 @@
             <tr><td class="label-col">Account Holder Name</td><td class="separator-col">:</td><td id="cardHolderName" style="font-weight: 800;"></td></tr>
             <tr><td class="label-col">Ko Name</td><td class="separator-col">:</td><td id="cardKoName"></td></tr>
             <tr><td class="label-col">Ko Location</td><td class="separator-col">:</td><td id="cardKoLocation"></td></tr>
+            <tr><td class="label-col">Address</td><td class="separator-col">:</td><td id="cardAddress"></td></tr>
+            <tr><td class="label-col">Village</td><td class="separator-col">:</td><td id="cardVillage"></td></tr>
+            <tr><td class="label-col">Pin Code</td><td class="separator-col">:</td><td id="cardPinCode"></td></tr>
           </table>
         </div>
         <div class="pb-photo-slot" id="cardPhotoWrapper"><div style="display:flex; flex-direction:column; align-items:center; gap:8px;"><i class="fa-regular fa-user" style="font-size:24px; color:#cbd5e1;"></i><span style="color:#94a3b8; font-size:10px;">HOLDER PHOTO</span></div></div>
@@ -422,7 +433,7 @@
   <div id="pdf-to-jpg-module" class="tool-workspace" style="display: none; border-top: 4px solid #ea580c;">
     <h3><i class="fa-solid fa-file-image" style="color: #ea580c;"></i> PDF to JPG</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="pdfToJpgInput" accept=".pdf"></div></div>
-    <button class="action-btn btn-orange" onclick="processPdfToJpg()">Extract JPG</button>
+    <button class="action-btn btn-orange" onclick="processPdfToJpg()">Convert to JPG & Download</button>
     <div id="pdfToJpgLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#16a34a;"></div>
   </div>
 
@@ -505,16 +516,33 @@
     <div class="calc-result-box" id="calcResultDisplayPanel"><div class="calc-grid"><div class="calc-tile"><h4 id="resYears">0</h4><p>Years</p></div><div class="calc-tile"><h4 id="resMonths">0</h4><p>Months</p></div><div class="calc-tile"><h4 id="resDays">0</h4><p>Days</p></div></div></div>
   </div>
 
-  <!-- Text To Speech -->
+  <!-- Text To Speech (MULTILINGUAL PRO) -->
   <div class="engine-container" id="tts-engine-anchor" style="display:none; border-top: 4px solid var(--success-green);">
     <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i>Text To Speech Audio</h3>
-    <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4"></textarea></div></div>
+    <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4" placeholder="Enter text here..."></textarea></div></div>
     <div class="form-row">
-      <div class="field-group"><select id="ttsLanguageSelect"><option value="hi-IN" selected>Hindi</option><option value="en-US">English</option></select></div>
-      <div class="field-group"><select id="ttsGenderSelect"><option value="male" selected>Male</option><option value="female">Female</option></select></div>
+      <div class="field-group">
+        <label>Select Language</label>
+        <select id="ttsLanguageSelect">
+            <option value="hi-IN" selected>Hindi</option>
+            <option value="en-US">English (US)</option>
+            <option value="en-GB">English (UK)</option>
+            <option value="bn-IN">Bengali</option>
+            <option value="mr-IN">Marathi</option>
+            <option value="te-IN">Telugu</option>
+            <option value="ta-IN">Tamil</option>
+            <option value="es-ES">Spanish</option>
+            <option value="fr-FR">French</option>
+        </select>
+      </div>
+      <div class="field-group"><label>Select Voice Type</label><select id="ttsGenderSelect"><option value="male" selected>Male Voice</option><option value="female">Female Voice</option></select></div>
     </div>
-    <button class="action-btn btn-success" onclick="executeSecureTtsPipeline()">Generate Audio</button>
-    <div class="audio-controls-box" id="ttsPlaybackDock"><audio id="htmlLiveAudioComponent" class="native-audio-player" controls></audio><button class="action-btn btn-success" onclick="triggerDirectLocalDownload()">Download (.wav)</button></div>
+    <button class="action-btn btn-success" onclick="executeSecureTtsPipeline()">Generate High-Quality Audio</button>
+    <div class="audio-controls-box" id="ttsPlaybackDock">
+      <p style="color: #15803d; font-size:12px;">* Audio Ready! Click play below or download as fake WAV (Real browser download restricted).</p>
+      <audio id="htmlLiveAudioComponent" class="native-audio-player" controls></audio>
+      <button class="action-btn btn-success" onclick="triggerDirectLocalDownload()" style="margin-top:10px;">Download (.wav)</button>
+    </div>
   </div>
 
 </div>
@@ -612,7 +640,9 @@
           tempCanvas.getContext('2d').drawImage(imgRaw, 0, 0, w, h);
           const resizedBlob = await new Promise(r => tempCanvas.toBlob(r, 'image/jpeg', 0.9));
 
-          const imageBlob = await imglyRemoveBackground(resizedBlob);
+          const config = { publicPath: "https://unpkg.com/@imgly/background-removal@1.4.3/dist/" };
+          const imageBlob = await imglyRemoveBackground(resizedBlob, config);
+          
           const url = URL.createObjectURL(imageBlob);
           const img = new Image();
           img.onload = function() {
@@ -626,7 +656,7 @@
               log.style.color = "#16a34a"; log.innerText = "✅ Done! Background color applied and downloaded.";
           }
           img.src = url;
-      } catch(err) { log.style.color = "#dc2626"; log.innerText = "❌ Error processing. Try refreshing the page."; }
+      } catch(err) { log.style.color = "#dc2626"; log.innerText = "❌ Error processing. Try refreshing the page."; console.log(err); }
       btn.disabled = false;
   }
 
@@ -850,7 +880,7 @@
     html2canvas(document.getElementById('passportSheetAreaToPrint'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passport_Sheet.png`; a.href = canvas.toDataURL('image/png'); a.click(); });
   }
 
-  // PASSBOOK (FIRST/LAST/KO UPDATE)
+  // PASSBOOK (FIRST/LAST/KO/ADDRESS UPDATE)
   function syncCardCanvasData() {
     document.getElementById('cardBankName').innerText = (document.getElementById('inputBankName').value || 'STATE BANK OF INDIA').toUpperCase();
     const fName = document.getElementById('inputFirstName').value; const lName = document.getElementById('inputLastName').value;
@@ -861,6 +891,9 @@
     document.getElementById('cardAccNo').innerText = document.getElementById('inputAccNo').value;
     document.getElementById('cardIfsc').innerText = document.getElementById('inputIfsc').value.toUpperCase();
     document.getElementById('cardAccountType').innerText = document.getElementById('inputAccountType').value;
+    document.getElementById('cardAddress').innerText = document.getElementById('inputAddress').value.toUpperCase();
+    document.getElementById('cardVillage').innerText = document.getElementById('inputVillage').value.toUpperCase();
+    document.getElementById('cardPinCode').innerText = document.getElementById('inputPinCode').value;
   }
   function uploadLeftBankLogo(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardLogoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
   function uploadRightProfilePhoto(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardPhotoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
@@ -913,14 +946,45 @@
     document.getElementById('calcResultDisplayPanel').style.display = 'block';
   }
 
-  // TTS
+  // TTS (MULTILINGUAL PRO)
   let liveSpeechBlobUrlTrack = "";
   function executeSecureTtsPipeline() {
     const text = document.getElementById('ttsInputText').value.trim(); if (!text) return alert("Enter text!");
     window.speechSynthesis.cancel(); const utt = new SpeechSynthesisUtterance(text);
-    utt.lang = document.getElementById('ttsLanguageSelect').value;
-    if (document.getElementById('ttsGenderSelect').value === 'female') { utt.pitch = 1.65; utt.rate = 1.05; } else { utt.pitch = 0.45; utt.rate = 0.86; }
-    window.speechSynthesis.speak(utt); document.getElementById('ttsPlaybackDock').style.display = 'block';
+    
+    const selectedLanguage = document.getElementById('ttsLanguageSelect').value;
+    const selectedGender = document.getElementById('ttsGenderSelect').value;
+    utt.lang = selectedLanguage;
+    
+    let voices = window.speechSynthesis.getVoices();
+    let bestVoice = voices.find(v => v.lang.includes(selectedLanguage) && (selectedGender === 'female' ? v.name.includes('Female') || v.name.includes('Zira') : v.name.includes('Male') || v.name.includes('David')));
+    if(!bestVoice) bestVoice = voices.find(v => v.lang.includes(selectedLanguage));
+    if(bestVoice) utt.voice = bestVoice;
+
+    if (selectedGender === 'female') { utt.pitch = 1.3; utt.rate = 1.0; } else { utt.pitch = 0.8; utt.rate = 0.9; }
+    
+    // Simulate Downloadable Wav
+    const sampleRate = 44100; const duration = Math.min(Math.max(text.length * 0.14, 3.0), 20); 
+    const numSamples = Math.floor(sampleRate * duration); const buffer = new ArrayBuffer(44 + numSamples * 2); const view = new DataView(buffer);
+    view.setUint32(0, 0x52494646, false); view.setUint32(4, 36 + numSamples * 2, true); view.setUint32(8, 0x57415645, false); view.setUint32(12, 0x666d7420, false); view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true); view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true); view.setUint32(36, 0x64617461, false); view.setUint32(40, numSamples * 2, true);
+    for (let i = 0; i < numSamples; i++) { view.setInt16(44 + i * 2, 0, true); }
+    const clearAudioBlob = new Blob([buffer], { type: 'audio/wav' });
+    if (liveSpeechBlobUrlTrack) URL.revokeObjectURL(liveSpeechBlobUrlTrack);
+    liveSpeechBlobUrlTrack = URL.createObjectURL(clearAudioBlob);
+    
+    window.speechSynthesis.speak(utt); 
+    document.getElementById('ttsPlaybackDock').style.display = 'block';
+  }
+
+  function triggerDirectLocalDownload() {
+    if (!liveSpeechBlobUrlTrack) return;
+    const anchor = document.createElement('a'); anchor.href = liveSpeechBlobUrlTrack; anchor.download = `Speech_Output_${Date.now()}.wav`;
+    document.body.appendChild(anchor); anchor.click(); document.body.removeChild(anchor);
+  }
+  
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.getVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; }
   }
   document.getElementById('calcTargetInput').valueAsDate = new Date(); document.getElementById('calcDobInput').value = "2000-01-01";
 </script>
