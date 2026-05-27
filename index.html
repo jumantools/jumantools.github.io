@@ -512,3 +512,271 @@
     </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Juman - PDF Tools</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PDF LIBRARIES (Very Important) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        :root { --primary: #e5322d; --primary-hover: #c4231f; --bg: #f8f9fa; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: var(--bg); color: #333; }
+
+        /* iLovePDF Style Navbar */
+        .navbar { display: flex; align-items: center; padding: 15px 30px; background: white; border-bottom: 2px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .logo { font-size: 24px; font-weight: 900; color: #333; letter-spacing: -1px; }
+        .logo span { color: var(--primary); }
+
+        .hero { text-align: center; padding: 50px 20px 30px; }
+        .hero h1 { font-size: 32px; margin-bottom: 10px; color: #111; }
+        .hero p { color: #666; font-size: 16px; margin-bottom: 30px; }
+
+        /* Tools Grid */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 50px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+        /* iLovePDF Style Cards */
+        .card { background: white; border-radius: 8px; padding: 30px 20px; text-align: center; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .card-icon { font-size: 50px; color: var(--primary); margin-bottom: 15px; }
+        .card h3 { font-size: 20px; margin-bottom: 10px; color: #333; }
+        .card p { font-size: 13px; color: #777; margin-bottom: 20px; height: 30px; }
+
+        /* Inputs & Buttons */
+        .file-input-wrapper { margin-bottom: 15px; text-align: left; }
+        .file-input-wrapper label { font-size: 12px; font-weight: bold; color: #555; display: block; margin-bottom: 5px; }
+        .file-input-wrapper input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; font-size: 12px; background: #fdfdfd; }
+        
+        .btn { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 5px; font-size: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: var(--primary-hover); }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+
+        .status { font-size: 12px; font-weight: bold; color: var(--primary); margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Technical<span>Juman</span> PDF</div>
+    </nav>
+
+    <div class="hero">
+        <h1>Every tool you need to work with PDFs in one place</h1>
+        <p>100% Free & Secure. Files are processed directly in your browser without uploading to any server.</p>
+    </div>
+
+    <div class="container">
+        <div class="grid">
+
+            <!-- 1. MERGE PDF -->
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-object-group"></i></div>
+                <h3>Merge PDF</h3>
+                <p>Combine 2 PDFs in the order you want.</p>
+                <div class="file-input-wrapper">
+                    <label>PDF File 1</label>
+                    <input type="file" id="merge1" accept=".pdf">
+                </div>
+                <div class="file-input-wrapper">
+                    <label>PDF File 2</label>
+                    <input type="file" id="merge2" accept=".pdf">
+                </div>
+                <button class="btn" id="btnMerge" onclick="mergePDFs()">Merge PDFs</button>
+                <div id="statusMerge" class="status">Processing...</div>
+            </div>
+
+            <!-- 2. SPLIT PDF (Extract Page 1) -->
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-scissors"></i></div>
+                <h3>Split PDF</h3>
+                <p>Extract only the First Page of any PDF.</p>
+                <div class="file-input-wrapper">
+                    <label>Upload PDF File</label>
+                    <input type="file" id="splitFile" accept=".pdf">
+                </div>
+                <button class="btn" id="btnSplit" onclick="splitPDF()" style="margin-top: 57px;">Split & Download</button>
+                <div id="statusSplit" class="status">Processing...</div>
+            </div>
+
+            <!-- 3. ADD WATERMARK -->
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-stamp"></i></div>
+                <h3>Add Watermark</h3>
+                <p>Stamp an image or text over your PDF.</p>
+                <div class="file-input-wrapper">
+                    <label>Upload PDF File</label>
+                    <input type="file" id="watermarkFile" accept=".pdf">
+                </div>
+                <div class="file-input-wrapper">
+                    <label>Watermark Text</label>
+                    <input type="text" id="watermarkText" placeholder="e.g. CONFIDENTIAL">
+                </div>
+                <button class="btn" id="btnWatermark" onclick="addWatermark()">Add Watermark</button>
+                <div id="statusWatermark" class="status">Processing...</div>
+            </div>
+
+            <!-- 4. JPG TO PDF -->
+            <div class="card">
+                <div class="card-icon"><i class="fa-regular fa-image"></i></div>
+                <h3>JPG to PDF</h3>
+                <p>Convert your images to PDF easily.</p>
+                <div class="file-input-wrapper">
+                    <label>Upload JPG/PNG Image</label>
+                    <input type="file" id="jpgInput" accept="image/*">
+                </div>
+                <button class="btn" onclick="convertToPDF()" style="margin-top: 57px;">Convert to PDF</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- LOGIC SCRIPT -->
+    <script>
+        const { PDFDocument, rgb, degrees } = PDFLib;
+
+        // --- 1. MERGE 2 PDFs ---
+        async function mergePDFs() {
+            const file1 = document.getElementById('merge1').files[0];
+            const file2 = document.getElementById('merge2').files[0];
+            const status = document.getElementById('statusMerge');
+            const btn = document.getElementById('btnMerge');
+
+            if (!file1 || !file2) return alert("Please select both PDF files!");
+
+            btn.disabled = true; status.style.display = "block";
+
+            try {
+                // Read files
+                const arrayBuffer1 = await file1.arrayBuffer();
+                const arrayBuffer2 = await file2.arrayBuffer();
+
+                // Load PDFs
+                const pdf1 = await PDFDocument.load(arrayBuffer1);
+                const pdf2 = await PDFDocument.load(arrayBuffer2);
+
+                // Create new Blank PDF
+                const mergedPdf = await PDFDocument.create();
+
+                // Copy pages from 1st PDF
+                const copiedPages1 = await mergedPdf.copyPages(pdf1, pdf1.getPageIndices());
+                copiedPages1.forEach((page) => mergedPdf.addPage(page));
+
+                // Copy pages from 2nd PDF
+                const copiedPages2 = await mergedPdf.copyPages(pdf2, pdf2.getPageIndices());
+                copiedPages2.forEach((page) => mergedPdf.addPage(page));
+
+                // Save & Download
+                const pdfBytes = await mergedPdf.save();
+                downloadFile(pdfBytes, "Merged_Juman.pdf", "application/pdf");
+                
+                status.innerHTML = "Success! PDF Downloaded.";
+            } catch (e) {
+                alert("Error merging PDFs. File might be encrypted.");
+            }
+            btn.disabled = false;
+        }
+
+        // --- 2. SPLIT PDF (Extract First Page) ---
+        async function splitPDF() {
+            const file = document.getElementById('splitFile').files[0];
+            const status = document.getElementById('statusSplit');
+            const btn = document.getElementById('btnSplit');
+
+            if (!file) return alert("Please select a PDF file!");
+
+            btn.disabled = true; status.style.display = "block";
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const originalPdf = await PDFDocument.load(arrayBuffer);
+                
+                // Create new PDF
+                const newPdf = await PDFDocument.create();
+                
+                // Copy ONLY the first page (index 0)
+                const [firstPage] = await newPdf.copyPages(originalPdf, [0]);
+                newPdf.addPage(firstPage);
+
+                const pdfBytes = await newPdf.save();
+                downloadFile(pdfBytes, "Split_Page1.pdf", "application/pdf");
+
+                status.innerHTML = "Success! Page 1 Extracted.";
+            } catch (e) {
+                alert("Error splitting PDF.");
+            }
+            btn.disabled = false;
+        }
+
+        // --- 3. ADD WATERMARK ---
+        async function addWatermark() {
+            const file = document.getElementById('watermarkFile').files[0];
+            const text = document.getElementById('watermarkText').value;
+            const status = document.getElementById('statusWatermark');
+            const btn = document.getElementById('btnWatermark');
+
+            if (!file) return alert("Please select a PDF file!");
+            if (!text) return alert("Please enter watermark text!");
+
+            btn.disabled = true; status.style.display = "block";
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdfDoc = await PDFDocument.load(arrayBuffer);
+                const pages = pdfDoc.getPages();
+
+                // Loop through all pages and add watermark
+                pages.forEach(page => {
+                    const { width, height } = page.getSize();
+                    page.drawText(text, {
+                        x: width / 4,
+                        y: height / 2,
+                        size: 50,
+                        color: rgb(0.9, 0.2, 0.2), // Red Color
+                        opacity: 0.3, // Make it transparent
+                        rotate: degrees(45) // Diagonal text
+                    });
+                });
+
+                const pdfBytes = await pdfDoc.save();
+                downloadFile(pdfBytes, "Watermarked_Juman.pdf", "application/pdf");
+
+                status.innerHTML = "Success! Watermark added.";
+            } catch (e) {
+                alert("Error adding watermark.");
+            }
+            btn.disabled = false;
+        }
+
+        // --- 4. JPG TO PDF ---
+        function convertToPDF() {
+            const file = document.getElementById('jpgInput').files[0];
+            if(!file) return alert("Please select an image first!");
+            
+            const r = new FileReader();
+            r.onload = function(e) {
+                const doc = new window.jspdf.jsPDF();
+                doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); 
+                doc.save("Juman_Converted.pdf");
+            };
+            r.readAsDataURL(file);
+        }
+
+        // --- Helper Function to Download ---
+        function downloadFile(byteData, fileName, mimeType) {
+            const blob = new Blob([byteData], { type: mimeType });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+        }
+    </script>
+</body>
+</html>
