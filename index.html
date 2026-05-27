@@ -4,248 +4,380 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Technical Juman - Premium Tools</title>
-    <!-- Tailwind CSS for Styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- QR Code Library -->
+    <!-- QR Code & PDF Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <!-- jsPDF Library for JPG to PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-</head>
-<body class="bg-gray-50 font-sans">
 
-    <!-- Header Section -->
-    <nav class="flex flex-wrap justify-between items-center py-4 px-4 md:px-8 bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div class="flex items-center gap-3">
-            <div class="bg-red-600 text-white p-2 rounded-lg"><i class="fa-brands fa-youtube text-xl"></i></div>
-            <div>
-                <h1 class="text-xl font-bold text-gray-800 leading-tight">Technical Juman</h1>
-                <p class="text-xs text-gray-500">All In One Premium Tools</p>
+    <style>
+        /* CSS Reset & Basic Styling */
+        :root {
+            --primary: #1a8047;
+            --primary-hover: #126335;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --border-color: #e5e7eb;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-dark); line-height: 1.6; }
+
+        /* Navbar */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: var(--card-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .logo-sec { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { background: red; color: white; padding: 5px 10px; border-radius: 8px; font-size: 20px; }
+        .logo-text h1 { font-size: 20px; margin: 0; color: #000; }
+        .logo-text p { font-size: 12px; margin: 0; color: var(--text-light); }
+        .nav-links { display: flex; gap: 20px; font-size: 14px; font-weight: 500; }
+        .nav-links a { text-decoration: none; color: var(--text-light); transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); }
+        .new-badge { background: red; color: white; font-size: 10px; padding: 2px 5px; border-radius: 4px; margin-left: 5px; vertical-align: top; }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 40px 20px 20px; }
+        .hero h2 { font-size: 28px; margin-bottom: 5px; }
+        .hero p { color: var(--text-light); font-size: 15px; }
+
+        /* Tools Grid */
+        .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+
+        /* Card Styling */
+        .card { background: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease; }
+        .card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .card-top { text-align: center; margin-bottom: 15px; }
+        .card-icon { font-size: 35px; margin-bottom: 10px; }
+        .card-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; }
+        .card-desc { font-size: 11px; color: var(--text-light); margin-bottom: 15px; min-height: 15px; }
+        
+        /* Inputs */
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 12px; color: var(--text-light); margin-bottom: 5px; }
+        .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; outline: none; }
+        .input-group input[type="file"] { padding: 5px; font-size: 11px; }
+        .input-group input:focus, .input-group textarea:focus { border-color: var(--primary); }
+        .qr-output { display: flex; justify-content: center; margin-top: 10px; }
+
+        /* Buttons */
+        .btn { width: 100%; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: var(--primary-hover); }
+        .btn-disabled { background: #9ca3af; cursor: not-allowed; }
+
+        /* Color Classes for Icons */
+        .text-green { color: var(--primary); }
+        .text-blue { color: #2563eb; }
+        .text-orange { color: #f97316; }
+        .text-red { color: #ef4444; }
+        .text-purple { color: #8b5cf6; }
+        .text-cyan { color: #06b6d4; }
+        .text-yellow { color: #eab308; }
+
+        /* About Section */
+        .about-sec { background: white; padding: 40px 20px; border-top: 1px solid var(--border-color); margin-top: 50px; }
+        .about-container { max-width: 800px; margin: auto; }
+        .about-box { background: var(--bg-color); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-top: 20px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <div class="logo-sec">
+            <div class="logo-icon"><i class="fa-brands fa-youtube"></i></div>
+            <div class="logo-text">
+                <h1>Technical Juman</h1>
+                <p>All In One Premium Tools</p>
             </div>
         </div>
-        <div class="hidden lg:flex gap-6 text-sm font-medium text-gray-600 mt-4 md:mt-0">
-            <a href="#" class="hover:text-green-600">Advance PDF Tools</a>
-            <a href="#" class="hover:text-green-600">Document Resizer</a>
-            <a href="#" class="hover:text-green-600">Age Calculator</a>
-            <a href="#" class="hover:text-green-600">Passbook Maker</a>
-            <a href="#" class="text-green-600 flex items-center gap-1">New Tools <span class="bg-red-500 text-white text-[10px] px-1 py-0.5 rounded">NEW</span></a>
+        <div class="nav-links">
+            <a href="#">Advance PDF Tools</a>
+            <a href="#">Document Resizer</a>
+            <a href="#">Age Calculator</a>
+            <a href="#">Passbook Maker</a>
+            <a href="#" style="color: var(--primary);">New Tools <span class="new-badge">NEW</span></a>
         </div>
     </nav>
 
-    <!-- Main Dashboard -->
-    <main class="max-w-7xl mx-auto p-4 md:p-8">
-        
-        <div class="text-center mb-10 mt-4">
-            <h2 class="text-3xl font-bold text-gray-800">All In One Premium Tools</h2>
-            <p class="text-gray-500 mt-2">Sabhi tools ek jagah - Fast, Easy & 100% Secure</p>
-        </div>
+    <!-- Main Content -->
+    <div class="hero">
+        <h2>All In One Premium Tools</h2>
+        <p>Sabhi tools ek jagah - Fast, Easy & 100% Secure</p>
+    </div>
 
-        <!-- Tools Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div class="container">
+        <div class="grid">
 
-            <!-- 1. WORKING: Age Calculator -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
-                <div>
-                    <div class="flex justify-center mb-3 text-4xl text-orange-500"><i class="fa-solid fa-calendar-days"></i></div>
-                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">Age Calculator</h3>
-                    <div class="space-y-2 mb-4">
-                        <label class="text-xs text-gray-500">Date of Birth</label>
-                        <input type="date" id="dobInput" class="w-full border rounded p-2 text-sm text-gray-700 bg-gray-50 outline-none focus:border-green-500" />
+            <!-- 1. Smart PDF Editor (UI Only) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-green"><i class="fa-solid fa-file-pen"></i></div>
+                    <div class="card-title">Smart PDF Editor</div>
+                    <div class="card-desc">Edit, merge, split, rotate, compress PDF</div>
+                    <div class="input-group">
+                        <input type="file" disabled>
                     </div>
                 </div>
-                <button onclick="calculateAge()" class="w-full bg-[#1a8047] hover:bg-green-800 text-white py-2 rounded text-sm font-medium transition">Calculate Age</button>
+                <button class="btn" onclick="alert('Coming soon!')">Edit PDF</button>
             </div>
 
-            <!-- 2. WORKING: QR Code Generator -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
-                <div>
-                    <div class="flex justify-center mb-3 text-4xl text-yellow-600"><i class="fa-solid fa-qrcode"></i></div>
-                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">QR Code Generator</h3>
-                    <div class="space-y-2 mb-4">
-                        <input type="text" id="qrText" placeholder="Enter text or URL" class="w-full border rounded p-2 text-sm text-gray-700 bg-gray-50 outline-none focus:border-green-500" />
-                        <div id="qrCodeOutput" class="flex justify-center mt-2"></div>
+            <!-- 2. Bank Passbook Maker (UI Only) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-blue"><i class="fa-solid fa-building-columns"></i></div>
+                    <div class="card-title">Bank Passbook Maker</div>
+                    <div class="card-desc"></div>
+                    <div class="input-group">
+                        <input type="text" placeholder="Bank Name" disabled style="margin-bottom: 5px;">
+                        <input type="text" placeholder="Customer Name" disabled>
                     </div>
                 </div>
-                <button onclick="generateQR()" class="w-full bg-[#1a8047] hover:bg-green-800 text-white py-2 rounded text-sm font-medium transition">Generate QR</button>
+                <button class="btn" onclick="alert('Coming soon!')">Generate Passbook</button>
             </div>
 
-            <!-- 3. WORKING: Text To Speech -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
-                <div>
-                    <div class="flex justify-center mb-3 text-4xl text-green-500"><i class="fa-solid fa-microphone"></i></div>
-                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">Text to Speech</h3>
-                    <div class="space-y-2 mb-4">
-                        <textarea id="ttsInput" rows="3" placeholder="Type text here..." class="w-full border rounded p-2 text-sm text-gray-700 bg-gray-50 outline-none focus:border-green-500"></textarea>
+            <!-- 3. Age Calculator (WORKING) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-orange"><i class="fa-solid fa-calendar-days"></i></div>
+                    <div class="card-title">Age Calculator</div>
+                    <div class="card-desc"></div>
+                    <div class="input-group">
+                        <label>Date of Birth</label>
+                        <input type="date" id="dobInput">
                     </div>
                 </div>
-                <button onclick="speakText()" class="w-full bg-[#1a8047] hover:bg-green-800 text-white py-2 rounded text-sm font-medium transition">Convert and Listen</button>
+                <button class="btn" onclick="calculateAge()">Calculate Age</button>
             </div>
 
-            <!-- 4. WORKING: JPG to PDF -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md transition">
-                <div>
-                    <div class="flex justify-center mb-3 text-4xl text-emerald-500"><i class="fa-solid fa-file-image"></i></div>
-                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">JPG to PDF</h3>
-                    <div class="space-y-2 mb-4">
-                        <input type="file" id="jpgInput" accept="image/jpeg, image/png" class="w-full border rounded p-1 text-xs text-gray-700 bg-gray-50" />
+            <!-- 4. Image to PDF (WORKING) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-red"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="card-title">Image to PDF</div>
+                    <div class="card-desc"></div>
+                    <div class="input-group">
+                        <label>Choose Image</label>
+                        <input type="file" id="jpgInput" accept="image/jpeg, image/png">
                     </div>
                 </div>
-                <button onclick="convertToPDF()" class="w-full bg-[#1a8047] hover:bg-green-800 text-white py-2 rounded text-sm font-medium transition">Convert to PDF</button>
+                <button class="btn" onclick="convertToPDF()">Merge and Convert</button>
             </div>
 
-            <!-- 5. UI ONLY: Smart PDF Editor -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md opacity-80">
-                <div>
-                    <div class="flex justify-center mb-3 text-4xl text-green-700"><i class="fa-solid fa-file-pen"></i></div>
-                    <h3 class="text-center font-bold text-gray-800 mb-2 text-sm">Smart PDF Editor</h3>
-                    <p class="text-[10px] text-center text-gray-500 mb-3">Edit, merge, split, rotate PDF</p>
-                    <input type="file" disabled class="w-full border rounded p-1 text-xs text-gray-400 bg-gray-100 mb-4" />
-                </div>
-                <button onclick="alert('PDF Editor is coming soon!')" class="w-full bg-[#1a8047] text-white py-2 rounded text-sm font-medium">Edit PDF</button>
-            </div>
-
-            <!-- 6. UI ONLY: Remove Background -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md opacity-80">
-                <div>
-                    <div class="flex justify-center mb-3 text-4xl text-red-500"><i class="fa-solid fa-user-xmark"></i></div>
-                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">Remove Background</h3>
-                    <input type="file" disabled class="w-full border rounded p-1 text-xs text-gray-400 bg-gray-100 mb-4" />
-                </div>
-                <button onclick="alert('AI Background Remover is coming soon!')" class="w-full bg-[#1a8047] text-white py-2 rounded text-sm font-medium">Remove Background</button>
-            </div>
-
-             <!-- 7. UI ONLY: Bank Passbook Maker -->
-             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md opacity-80">
-                <div>
-                    <div class="flex justify-center mb-3 text-4xl text-blue-600"><i class="fa-solid fa-building-columns"></i></div>
-                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">Bank Passbook Maker</h3>
-                    <div class="space-y-1 mb-4">
-                        <input type="text" placeholder="Bank Name" disabled class="w-full border rounded p-1.5 text-xs text-gray-400 bg-gray-100" />
-                        <input type="text" placeholder="Customer Name" disabled class="w-full border rounded p-1.5 text-xs text-gray-400 bg-gray-100" />
+            <!-- 5. ID Card Resizer (UI Only) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-purple"><i class="fa-solid fa-id-card"></i></div>
+                    <div class="card-title">ID Card Resizer</div>
+                    <div class="card-desc">Output: 8.5cm x 5.5cm</div>
+                    <div class="input-group">
+                        <input type="file" disabled>
                     </div>
                 </div>
-                <button onclick="alert('Passbook Maker is coming soon!')" class="w-full bg-[#1a8047] text-white py-2 rounded text-sm font-medium">Generate Passbook</button>
+                <button class="btn" onclick="alert('Coming soon!')">Resize ID</button>
             </div>
 
-             <!-- 8. UI ONLY: Compress Image -->
-             <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between hover:shadow-md opacity-80">
-                <div>
-                    <div class="flex justify-center mb-3 text-4xl text-orange-400"><i class="fa-solid fa-compress"></i></div>
-                    <h3 class="text-center font-bold text-gray-800 mb-4 text-sm">Compress Image</h3>
-                    <input type="file" disabled class="w-full border rounded p-1 text-xs text-gray-400 bg-gray-100 mb-4" />
+            <!-- 6. Text to Speech (WORKING) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-green"><i class="fa-solid fa-microphone"></i></div>
+                    <div class="card-title">Text to Speech</div>
+                    <div class="card-desc"></div>
+                    <div class="input-group">
+                        <textarea id="ttsInput" rows="3" placeholder="Type text here..."></textarea>
+                    </div>
                 </div>
-                <button onclick="alert('Image Compressor is coming soon!')" class="w-full bg-[#1a8047] text-white py-2 rounded text-sm font-medium">Compress Image</button>
+                <button class="btn" onclick="speakText()">Convert and Listen</button>
             </div>
 
-        </div>
-
-        <div class="text-center mt-12 mb-4">
-            <span class="bg-gray-200 text-gray-700 text-sm py-2 px-6 rounded-full font-medium">Aur bhi naye tools jaldi hi add kiye jayenge... 🚀</span>
-        </div>
-
-    </main>
-
-    <!-- About Section with WhatsApp -->
-    <div class="bg-white p-8 md:p-12 mt-8 border-t border-gray-200">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">About Technical Juman Tools</h2>
-            <p class="text-gray-600 mb-4 leading-relaxed text-sm md:text-base">
-                Welcome to <span class="font-semibold text-gray-800">Technical Juman</span> – your ultimate destination for all-in-one premium digital utilities. We understand that in today’s fast-paced digital world, time is money. That is why we have built a comprehensive dashboard that brings all your essential everyday tools into one single place.
-            </p>
-            
-            <h3 class="text-lg font-bold text-gray-800 mb-2 mt-6">Why Choose Us?</h3>
-            <ul class="list-disc list-inside text-gray-600 mb-6 space-y-1 text-sm md:text-base">
-                <li><strong class="text-gray-800">Fast & Easy:</strong> No complex software installation required.</li>
-                <li><strong class="text-gray-800">100% Secure & Private:</strong> Most of our tools process files locally in your browser.</li>
-                <li><strong class="text-gray-800">Premium Quality:</strong> Enjoy high-quality outputs without hidden charges.</li>
-            </ul>
-
-            <!-- Contact Box -->
-            <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 mt-6 shadow-sm">
-                <h3 class="text-lg font-bold text-gray-800 mb-3">Get in Touch With Us:</h3>
-                <p class="text-gray-600 mb-4 text-sm">Have a suggestion, found a bug, or need business support? We’d love to hear from you!</p>
-                <div class="space-y-3">
-                    <p class="text-gray-700 flex items-center">
-                        <i class="fa-solid fa-envelope text-gray-500 mr-3 text-lg"></i>
-                        <strong>Email: &nbsp;</strong> support@technicaljuman.com
-                    </p>
-                    <p class="text-gray-700 flex items-center">
-                        <i class="fa-brands fa-whatsapp text-green-600 mr-3 text-lg"></i>
-                        <strong>WhatsApp Support: &nbsp;</strong> 
-                        <a href="https://wa.me/919471367125" target="_blank" class="text-green-700 hover:underline font-bold">+91 9471367125</a>
-                    </p>
-                    <p class="text-gray-700 flex items-center">
-                        <i class="fa-brands fa-youtube text-red-600 mr-3 text-lg"></i>
-                        <strong>YouTube: &nbsp;</strong> <a href="#" class="text-blue-600 hover:underline">Technical Juman</a>
-                    </p>
+            <!-- 7. Signature Cropper (UI Only) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-blue"><i class="fa-solid fa-crop-simple"></i></div>
+                    <div class="card-title">Signature Cropper</div>
+                    <div class="card-desc">Dimensions: 35x20mm</div>
+                    <div class="input-group">
+                        <input type="file" disabled>
+                    </div>
                 </div>
+                <button class="btn" onclick="alert('Coming soon!')">Crop Signature</button>
             </div>
-            <p class="text-center text-xs text-gray-400 mt-8">© 2024 Technical Juman. All rights reserved.</p>
+
+            <!-- 8. PDF to JPG (UI Only) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-purple"><i class="fa-solid fa-file-image"></i></div>
+                    <div class="card-title">PDF to JPG</div>
+                    <div class="card-desc"></div>
+                    <div class="input-group">
+                        <input type="file" disabled style="margin-bottom: 5px;">
+                        <select disabled><option>High Quality</option></select>
+                    </div>
+                </div>
+                <button class="btn" onclick="alert('Coming soon!')">Convert to JPG</button>
+            </div>
+
+             <!-- 9. Remove Background (UI Only) -->
+             <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-red"><i class="fa-solid fa-user-xmark"></i></div>
+                    <div class="card-title">Remove Background</div>
+                    <div class="card-desc"></div>
+                    <div class="input-group">
+                        <input type="file" disabled>
+                    </div>
+                </div>
+                <button class="btn" onclick="alert('Coming soon!')">Remove Background</button>
+            </div>
+
+            <!-- 10. QR Code Generator (WORKING) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-yellow"><i class="fa-solid fa-qrcode"></i></div>
+                    <div class="card-title">QR Code Generator</div>
+                    <div class="card-desc"></div>
+                    <div class="input-group">
+                        <input type="text" id="qrText" placeholder="Enter text or URL">
+                        <div id="qrCodeOutput" class="qr-output"></div>
+                    </div>
+                </div>
+                <button class="btn" onclick="generateQR()">Generate QR Code</button>
+            </div>
+
+            <!-- 11. Image Scanner (UI Only) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-cyan"><i class="fa-solid fa-camera"></i></div>
+                    <div class="card-title">Image Scanner</div>
+                    <div class="card-desc">Scan & Enhance</div>
+                    <div class="input-group"><input type="file" disabled></div>
+                </div>
+                <button class="btn" onclick="alert('Coming soon!')">Scan & Enhance</button>
+            </div>
+
+             <!-- 12. Compress Image (UI Only) -->
+             <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-orange"><i class="fa-solid fa-compress"></i></div>
+                    <div class="card-title">Compress Image</div>
+                    <div class="card-desc"></div>
+                    <div class="input-group">
+                        <input type="file" disabled style="margin-bottom: 5px;">
+                        <select disabled><option>Medium Quality</option></select>
+                    </div>
+                </div>
+                <button class="btn" onclick="alert('Coming soon!')">Compress Image</button>
+            </div>
+
+            <!-- 13. Password Protect PDF (UI Only) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-green"><i class="fa-solid fa-lock"></i></div>
+                    <div class="card-title">Password Protect PDF</div>
+                    <div class="card-desc"></div>
+                    <div class="input-group">
+                        <input type="file" disabled style="margin-bottom: 5px;">
+                        <input type="password" placeholder="Enter Password" disabled>
+                    </div>
+                </div>
+                <button class="btn" onclick="alert('Coming soon!')">Protect PDF</button>
+            </div>
+
+            <!-- 14. Split PDF (UI Only) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-blue"><i class="fa-solid fa-file-export"></i></div>
+                    <div class="card-title">Split PDF</div>
+                    <div class="card-desc"></div>
+                    <div class="input-group">
+                        <input type="file" disabled style="margin-bottom: 5px;">
+                        <select disabled><option>Every Page</option></select>
+                    </div>
+                </div>
+                <button class="btn" onclick="alert('Coming soon!')">Split PDF</button>
+            </div>
+
         </div>
     </div>
 
-    <!-- JavaScript Logic for Working Tools -->
+    <!-- About Section -->
+    <div class="about-sec">
+        <div class="about-container">
+            <h2 style="font-size: 24px; margin-bottom: 15px;">About Technical Juman Tools</h2>
+            <p style="color: var(--text-light); margin-bottom: 15px;">Welcome to <b>Technical Juman</b> – your ultimate destination for all-in-one premium digital utilities. We have built a comprehensive dashboard that brings all your essential everyday tools into one single place.</p>
+            
+            <h3 style="margin: 20px 0 10px;">Why Choose Us?</h3>
+            <ul style="color: var(--text-light); margin-left: 20px; margin-bottom: 20px;">
+                <li><b>Fast & Easy:</b> No complex software required.</li>
+                <li><b>100% Secure & Private:</b> Processes locally in your browser.</li>
+                <li><b>Premium Quality:</b> Enjoy high-quality outputs.</li>
+            </ul>
+
+            <div class="about-box">
+                <h3 style="margin-bottom: 10px;">Get in Touch With Us:</h3>
+                <p style="margin-bottom: 15px; font-size: 14px; color: var(--text-light);">Have a suggestion, found a bug, or need support? We’d love to hear from you!</p>
+                
+                <p style="margin-bottom: 8px;"><i class="fa-solid fa-envelope" style="color: gray; margin-right: 10px;"></i> <b>Email:</b> support@technicaljuman.com</p>
+                <p style="margin-bottom: 8px;"><i class="fa-brands fa-whatsapp" style="color: #25D366; margin-right: 10px;"></i> <b>WhatsApp:</b> <a href="https://wa.me/919471367125" style="color: var(--primary); text-decoration: none; font-weight: bold;">+91 9471367125</a></p>
+                <p><i class="fa-brands fa-youtube" style="color: red; margin-right: 10px;"></i> <b>YouTube:</b> Technical Juman</p>
+            </div>
+            <p style="text-align: center; font-size: 12px; color: gray; margin-top: 20px;">© 2024 Technical Juman. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- Scripts for Working Tools -->
     <script>
-        // 1. Age Calculator Logic
+        // 1. Age Calculator
         function calculateAge() {
             const dobInput = document.getElementById('dobInput').value;
             if (!dobInput) return alert("Please select your Date of Birth!");
-            
             const dob = new Date(dobInput);
             const today = new Date();
             let age = today.getFullYear() - dob.getFullYear();
             const m = today.getMonth() - dob.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
-                age--;
-            }
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) { age--; }
             alert(`Your age is: ${age} years old.`);
         }
 
-        // 2. QR Code Generator Logic
-        let qrcode = null;
-        function generateQR() {
-            const text = document.getElementById('qrText').value;
-            if (!text) return alert("Please enter text or URL!");
-            
-            const container = document.getElementById("qrCodeOutput");
-            container.innerHTML = ""; // clear previous
-            
-            qrcode = new QRCode(container, {
-                text: text,
-                width: 128,
-                height: 128,
-            });
+        // 2. Image to PDF
+        function convertToPDF() {
+            const fileInput = document.getElementById('jpgInput');
+            if (fileInput.files.length === 0) return alert("Please select an image first!");
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imgData = e.target.result;
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                doc.addImage(imgData, 'JPEG', 10, 10, 190, 0); 
+                doc.save("Technical_Juman_Converted.pdf");
+            }
+            reader.readAsDataURL(file);
         }
 
-        // 3. Text to Speech Logic
+        // 3. Text to Speech
         function speakText() {
             const text = document.getElementById('ttsInput').value;
             if (!text) return alert("Please type some text first!");
-            
             const msg = new SpeechSynthesisUtterance();
             msg.text = text;
             window.speechSynthesis.speak(msg);
         }
 
-        // 4. JPG to PDF Logic
-        async function convertToPDF() {
-            const fileInput = document.getElementById('jpgInput');
-            if (fileInput.files.length === 0) return alert("Please select an image first!");
-            
-            const file = fileInput.files[0];
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                const imgData = e.target.result;
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                
-                // Add image to PDF (sizing it to fit standard page)
-                doc.addImage(imgData, 'JPEG', 10, 10, 190, 0); 
-                doc.save("Technical_Juman_Converted.pdf");
-            }
-            reader.readAsDataURL(file);
+        // 4. QR Code Generator
+        let qrcode = null;
+        function generateQR() {
+            const text = document.getElementById('qrText').value;
+            if (!text) return alert("Please enter text or URL!");
+            const container = document.getElementById("qrCodeOutput");
+            container.innerHTML = ""; 
+            qrcode = new QRCode(container, { text: text, width: 100, height: 100 });
         }
     </script>
 </body>
