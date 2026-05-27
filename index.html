@@ -7,6 +7,13 @@
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  
+  <!-- LIBRARIES FOR ALL PDF TOOLS TO WORK 100% -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <!-- Nayi library PDF to JPG aur Compress ke liye -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
 
   <style>
     :root {
@@ -114,6 +121,10 @@
     .action-btn.btn-purple:hover { background: #4f46e5; }
     .action-btn.btn-orange { background: var(--calc-orange); }
     .action-btn.btn-orange:hover { background: #ea580c; }
+    .action-btn.btn-blue { background: #3b82f6; }
+    .action-btn.btn-blue:hover { background: #2563eb; }
+    .action-btn.btn-cyan { background: #06b6d4; color: white;}
+    .action-btn.btn-cyan:hover { background: #0891b2; }
 
     /* AGE CALCULATOR SHOWCASE TILES */
     .calc-result-box { display: none; margin-top: 20px; background: #fff7ed; border: 1px solid #ffedd5; border-radius: 8px; padding: 20px; text-align: center; }
@@ -160,7 +171,6 @@
     .pb-details td.label-col { width: 160px; white-space: nowrap; }
     .pb-details td.separator-col { width: 15px; text-align: center; }
 
-    /* CUSTOMER PHOTO SLOT - OPTIMIZED PASSPORT RATIO SIZE */
     .pb-photo-slot {
       width: 120px; height: 150px; border: 2px solid #000; background: #fff;
       display: flex; justify-content: center; align-items: center; text-align: center;
@@ -184,10 +194,16 @@
     }
     .passport-blank-state i { font-size: 44px; color: var(--studio-purple); }
 
-    /* AUDIO PLAYBACK BOX STYLE */
     .audio-controls-box { margin-top: 15px; padding: 20px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; display: none; }
     .player-row { display: flex; align-items: center; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
     .native-audio-player { flex: 1; min-width: 260px; height: 40px; outline: none; }
+    
+    /* MERGE PDF SPECIFIC STYLES */
+    .merge-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 8px; transition: 0.2s; }
+    .merge-item:hover { border-color: #a855f7; background: #faf5ff; }
+    .merge-item-title { font-size: 14px; font-weight: 600; color: #334155; display: flex; align-items: center; gap: 10px; }
+    .remove-pdf-btn { background: #fee2e2; color: #b91c1c; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+    .remove-pdf-btn:hover { background: #fecaca; }
   </style>
 </head>
 <body>
@@ -220,22 +236,22 @@
   </div>
 
   <div class="tools-grid">
-    <div class="tool-card">
+    <div class="tool-card" onclick="openTool('jpg-to-pdf-module')">
       <div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-pdf"></i></div>
       <h4>JPG to PDF</h4>
       <p>Convert custom photo frames into continuous high resolution PDFs.</p>
     </div>
-    <div class="tool-card">
+    <div class="tool-card" onclick="openTool('pdf-to-jpg-module')">
       <div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-file-image"></i></div>
       <h4>PDF to JPG</h4>
       <p>Extract separate high fidelity JPEG images directly from PDF documents.</p>
     </div>
-    <div class="tool-card">
+    <div class="tool-card" onclick="openTool('compress-pdf-module')">
       <div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-file-shield"></i></div>
       <h4>Compress PDF</h4>
       <p>Reduce document file size scales instantly without losing layout text layers.</p>
     </div>
-    <div class="tool-card">
+    <div class="tool-card" onclick="openTool('merge-pdf-module')">
       <div class="tool-icon-wrapper icon-purple"><i class="fa-solid fa-layer-group"></i></div>
       <h4>Merge PDF</h4>
       <p>Combine multiple separate data files into a single master document.</p>
@@ -252,6 +268,64 @@
     </div>
   </div>
 
+  <!-- TOOL 1: JPG to PDF Module -->
+  <div id="jpg-to-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #3b82f6;">
+    <h3><i class="fa-solid fa-file-pdf" style="color: #3b82f6;"></i> JPG to PDF Converter</h3>
+    <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Upload image and convert it into a standard PDF document instantly.</p>
+    <div class="form-row">
+        <div class="field-group">
+            <label>Upload Image (JPG/PNG):</label>
+            <input type="file" id="jpgToPdfInput" accept="image/jpeg, image/png">
+        </div>
+    </div>
+    <button class="action-btn btn-blue" onclick="processJpgToPdf()">Convert to PDF & Download</button>
+    <div id="jpgToPdfLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#16a34a;"></div>
+  </div>
+
+  <!-- TOOL 2: PDF to JPG Module (NOW 100% WORKING) -->
+  <div id="pdf-to-jpg-module" class="tool-workspace" style="display: none; border-top: 4px solid #ea580c;">
+    <h3><i class="fa-solid fa-file-image" style="color: #ea580c;"></i> PDF to JPG Extractor</h3>
+    <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Upload PDF file to extract the page as a High-Quality JPG Image.</p>
+    <div class="form-row">
+        <div class="field-group">
+            <label>Upload PDF Document:</label>
+            <input type="file" id="pdfToJpgInput" accept=".pdf">
+        </div>
+    </div>
+    <button class="action-btn btn-orange" onclick="processPdfToJpg()">Extract to JPG & Download</button>
+    <div id="pdfToJpgLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#16a34a;"></div>
+  </div>
+
+  <!-- TOOL 3: Compress PDF Module (NOW 100% WORKING) -->
+  <div id="compress-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #06b6d4;">
+    <h3><i class="fa-solid fa-file-shield" style="color: #06b6d4;"></i> Compress PDF File</h3>
+    <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Upload a PDF to reduce its file size locally in your browser.</p>
+    <div class="form-row">
+        <div class="field-group">
+            <label>Upload PDF Document:</label>
+            <input type="file" id="compressPdfInput" accept=".pdf">
+        </div>
+    </div>
+    <button class="action-btn btn-cyan" onclick="processCompressPdf()">Compress PDF & Download</button>
+    <div id="compressPdfLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#06b6d4;"></div>
+  </div>
+
+  <!-- TOOL 4: Merge PDF Module (Dynamic + & - Feature) -->
+  <div id="merge-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #a855f7;">
+    <h3><i class="fa-solid fa-layer-group" style="color: #a855f7;"></i> Merge Multiple PDFs</h3>
+    <p style="font-size:13px; color:var(--text-muted); margin-bottom:15px;">Click the plus button to select PDFs. You can add as many PDFs as you want and merge them all into one file.</p>
+    
+    <div id="mergePdfListContainer" style="margin-bottom: 15px;"></div>
+    <input type="file" id="mergeHiddenInput" accept=".pdf" multiple style="display: none;" onchange="handleNewMergeFiles(event)">
+    <button class="action-btn" style="background:#f3e8ff; color:#a855f7; border: 2px dashed #a855f7; width:100%; justify-content:center; margin-bottom:20px;" onclick="document.getElementById('mergeHiddenInput').click()">
+        <i class="fa-solid fa-plus"></i> Choice PDF File
+    </button>
+    <button class="action-btn btn-purple" onclick="processDynamicMergePdf()">Merge All PDFs & Download</button>
+    <div id="mergePdfLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold;"></div>
+  </div>
+
+
+  <!-- BAAKI PURANE SARE TOOLS EXACT WAISE HI HAIN (No changes below) -->
   <div id="document-resizer-module" class="tool-workspace" style="display: none; border-top: 4px solid var(--resizer-purple);">
       <h3><i class="fa-solid fa-scissors" style="color: var(--resizer-purple);"></i> Document Resizer & Dimension Fixer</h3>
       <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Upload image structures to dynamically lock parameters into localized limits standard presets.</p>
@@ -556,9 +630,186 @@
 
   /* 1. Tool Toggle Navigation Setup */
   function openTool(moduleId) {
+      const allWorkspaces = document.querySelectorAll('.tool-workspace, .engine-container');
+      allWorkspaces.forEach(el => el.style.display = 'none');
       document.getElementById(moduleId).style.display = 'block';
       document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' });
   }
+
+  /* --- ALL PDF TOOLS 100% WORKING LOGIC --- */
+  
+  // 1. JPG TO PDF LOGIC
+  function processJpgToPdf() {
+      const fileInput = document.getElementById('jpgToPdfInput');
+      const log = document.getElementById('jpgToPdfLog');
+      if (fileInput.files.length === 0) return alert("Please upload an image first!");
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+          try {
+              const { jsPDF } = window.jspdf;
+              const doc = new jsPDF();
+              doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); 
+              doc.save("Technical_Juman_Converted.pdf");
+              log.innerText = "✅ PDF Created and Downloaded Successfully!";
+              log.style.display = "block";
+          } catch(err) { alert("Error converting to PDF."); }
+      }
+      reader.readAsDataURL(fileInput.files[0]);
+  }
+
+  // 2. PDF TO JPG LOGIC (New Working Code)
+  async function processPdfToJpg() {
+      const fileInput = document.getElementById('pdfToJpgInput');
+      const log = document.getElementById('pdfToJpgLog');
+      if (fileInput.files.length === 0) return alert("Please upload a PDF document first!");
+
+      log.style.display = "block";
+      log.style.color = "#ea580c";
+      log.innerText = "🔄 Processing PDF to Image... Please wait.";
+
+      const fileReader = new FileReader();
+      fileReader.onload = async function() {
+          try {
+              const typedarray = new Uint8Array(this.result);
+              // PDF.js ka use karke document load karein
+              const pdf = await pdfjsLib.getDocument(typedarray).promise;
+              const page = await pdf.getPage(1); // Pehla page extract karna
+              
+              const viewport = page.getViewport({scale: 2.0}); // High Quality ke liye scale 2.0
+              const canvas = document.createElement('canvas');
+              const ctx = canvas.getContext('2d');
+              canvas.height = viewport.height;
+              canvas.width = viewport.width;
+
+              await page.render({canvasContext: ctx, viewport: viewport}).promise;
+
+              // Image format me save aur download
+              const link = document.createElement('a');
+              link.href = canvas.toDataURL('image/jpeg', 0.9);
+              link.download = "Extracted_Image.jpg";
+              link.click();
+
+              log.style.color = "#16a34a";
+              log.innerText = "✅ JPG Extracted and Downloaded Successfully!";
+          } catch(err) {
+              log.style.color = "#dc2626";
+              log.innerText = "❌ Error: Could not extract image. PDF might be secured.";
+          }
+      };
+      fileReader.readAsArrayBuffer(fileInput.files[0]);
+  }
+
+  // 3. COMPRESS PDF LOGIC (New Working Code)
+  async function processCompressPdf() {
+      const fileInput = document.getElementById('compressPdfInput');
+      const log = document.getElementById('compressPdfLog');
+      if (fileInput.files.length === 0) return alert("Please upload a PDF document first!");
+
+      log.style.display = "block";
+      log.style.color = "#06b6d4";
+      log.innerText = "🔄 Compressing PDF... (This may take a few seconds)";
+
+      const file = fileInput.files[0];
+      const fileReader = new FileReader();
+      
+      fileReader.onload = async function() {
+          try {
+              const typedarray = new Uint8Array(this.result);
+              const pdf = await pdfjsLib.getDocument(typedarray).promise;
+              const newPdf = new window.jspdf.jsPDF();
+
+              for(let i = 1; i <= pdf.numPages; i++) {
+                  const page = await pdf.getPage(i);
+                  // Scale ko 1.0 rakh kar compress karna (Low quality)
+                  const viewport = page.getViewport({scale: 1.0}); 
+                  const canvas = document.createElement('canvas');
+                  const ctx = canvas.getContext('2d');
+                  canvas.height = viewport.height;
+                  canvas.width = viewport.width;
+                  
+                  await page.render({canvasContext: ctx, viewport: viewport}).promise;
+                  
+                  // Canvas ko heavily compress karke (0.5 quality) Jpeg banana
+                  const imgData = canvas.toDataURL('image/jpeg', 0.5); 
+                  
+                  if(i > 1) newPdf.addPage();
+                  // Wapas Image ko naye PDF me fit karna
+                  newPdf.addImage(imgData, 'JPEG', 0, 0, newPdf.internal.pageSize.getWidth(), newPdf.internal.pageSize.getHeight());
+              }
+
+              newPdf.save("Compressed_Juman_" + file.name);
+              
+              log.style.color = "#16a34a";
+              log.innerText = "✅ PDF Compressed and Downloaded Successfully!";
+          } catch(err) {
+              log.style.color = "#dc2626";
+              log.innerText = "❌ Error: Could not compress PDF. File might be too large.";
+          }
+      };
+      fileReader.readAsArrayBuffer(fileInput.files[0]);
+  }
+
+  // 4. MERGE PDF LOGIC (+ & - Feature)
+  let mergePdfFilesArray = [];
+  function handleNewMergeFiles(event) {
+      const files = event.target.files;
+      if (!files) return;
+      for (let i = 0; i < files.length; i++) { mergePdfFilesArray.push(files[i]); }
+      event.target.value = ''; 
+      updateMergePdfUI(); 
+  }
+
+  function removeMergeFile(index) {
+      mergePdfFilesArray.splice(index, 1);
+      updateMergePdfUI();
+  }
+
+  function updateMergePdfUI() {
+      const container = document.getElementById('mergePdfListContainer');
+      container.innerHTML = ''; 
+      mergePdfFilesArray.forEach((file, index) => {
+          const item = document.createElement('div');
+          item.className = 'merge-item';
+          item.innerHTML = `
+              <div class="merge-item-title"><i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i> ${file.name}</div>
+              <button class="remove-pdf-btn" onclick="removeMergeFile(${index})" title="Remove"><i class="fa-solid fa-minus"></i></button>
+          `;
+          container.appendChild(item);
+      });
+  }
+
+  async function processDynamicMergePdf() {
+      const log = document.getElementById('mergePdfLog');
+      if (mergePdfFilesArray.length < 2) return alert("Merge karne ke liye kam se kam DO (2) PDF files select kijiye!");
+
+      log.style.display = "block"; log.style.color = "#3b82f6";
+      log.innerText = "🔄 Please Wait... PDFs merge ho rahe hain.";
+
+      try {
+          const mergedPdf = await PDFLib.PDFDocument.create();
+          for (let i = 0; i < mergePdfFilesArray.length; i++) {
+              const fileBytes = await mergePdfFilesArray[i].arrayBuffer();
+              const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
+              const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+              copiedPages.forEach((page) => mergedPdf.addPage(page));
+          }
+          const mergedPdfBytes = await mergedPdf.save();
+          const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = "Technical_Juman_Merged_All.pdf";
+          link.click();
+          
+          log.style.color = "#16a34a";
+          log.innerText = "✅ Success! Sabhi PDFs mila kar Download ho chuke hain.";
+      } catch (e) {
+          log.style.color = "#dc2626";
+          log.innerText = "❌ Error: Kisi ek PDF me password laga hua hai ya file kharab hai.";
+      }
+  }
+
+  // --- BELOW THIS LINE: EXISTING UNCHANGED LOGIC FOR OTHER TOOLS ---
 
   /* 2. Dropdown Presets Manager Engine */
   function applyResizerPreset(presetVal) {
