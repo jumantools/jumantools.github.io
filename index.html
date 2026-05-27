@@ -6,19 +6,20 @@
     <title>Technical Juman - Premium Tools</title>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- QR Code & PDF Libraries -->
+    
+    <!-- LIBRARIES (All Free & Client-Side) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <!-- AI Background Removal Library -->
+    <script src="https://unpkg.com/@imgly/background-removal@1.4.3/dist/browser/imgly-background-removal.js"></script>
 
     <style>
         /* CSS Reset & Basic Styling */
         :root {
-            --primary: #1a8047;
-            --primary-hover: #126335;
-            --bg-color: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-dark: #333333;
-            --text-light: #666666;
+            --primary: #1a8047; --primary-hover: #126335;
+            --bg-color: #f8f9fa; --card-bg: #ffffff;
+            --text-dark: #333333; --text-light: #666666;
             --border-color: #e5e7eb;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -42,7 +43,7 @@
 
         /* Tools Grid */
         .container { max-width: 1300px; margin: 0 auto; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
 
         /* Card Styling */
         .card { background: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease; }
@@ -52,38 +53,27 @@
         .card-title { font-size: 16px; font-weight: bold; margin-bottom: 5px; }
         .card-desc { font-size: 11px; color: var(--text-light); margin-bottom: 15px; min-height: 15px; }
         
-        /* Inputs */
+        /* Inputs & Canvas */
         .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 12px; color: var(--text-light); margin-bottom: 5px; }
+        .input-group label { display: block; font-size: 12px; color: var(--text-light); margin-bottom: 5px; font-weight: bold;}
         .input-group input, .input-group select, .input-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 13px; outline: none; }
-        .input-group input[type="file"] { padding: 5px; font-size: 11px; }
-        .input-group input:focus, .input-group textarea:focus { border-color: var(--primary); }
-        .qr-output { display: flex; justify-content: center; margin-top: 10px; }
+        .input-group input[type="file"] { padding: 5px; font-size: 11px; background: #f9fafb;}
+        .color-picker { height: 35px; cursor: pointer; padding: 2px !important; }
+        .signature-pad { border: 1px dashed #ccc; background: #fafafa; cursor: crosshair; touch-action: none; border-radius: 6px; }
 
         /* Buttons */
-        .btn { width: 100%; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn { width: 100%; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 6px; font-size: 14px; font-weight: bold; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; gap: 8px;}
         .btn:hover { background: var(--primary-hover); }
-        .btn-disabled { background: #9ca3af; cursor: not-allowed; }
 
-        /* Color Classes for Icons */
-        .text-green { color: var(--primary); }
-        .text-blue { color: #2563eb; }
-        .text-orange { color: #f97316; }
-        .text-red { color: #ef4444; }
-        .text-purple { color: #8b5cf6; }
-        .text-cyan { color: #06b6d4; }
-        .text-yellow { color: #eab308; }
+        /* Color Classes */
+        .text-green { color: var(--primary); } .text-blue { color: #2563eb; } .text-orange { color: #f97316; } .text-red { color: #ef4444; } .text-purple { color: #8b5cf6; } .text-cyan { color: #06b6d4; } .text-yellow { color: #eab308; }
 
         /* About Section */
         .about-sec { background: white; padding: 40px 20px; border-top: 1px solid var(--border-color); margin-top: 50px; }
         .about-container { max-width: 800px; margin: auto; }
         .about-box { background: var(--bg-color); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-top: 20px; }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); }
-        }
+        @media (max-width: 768px) { .nav-links { display: none; } .grid { grid-template-columns: repeat(auto-fill, minmax(100%, 1fr)); } }
     </style>
 </head>
 <body>
@@ -106,7 +96,6 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="hero">
         <h2>All In One Premium Tools</h2>
         <p>Sabhi tools ek jagah - Fast, Easy & 100% Secure</p>
@@ -115,39 +104,86 @@
     <div class="container">
         <div class="grid">
 
-            <!-- 1. Smart PDF Editor (UI Only) -->
-            <div class="card">
+            <!-- 1. NEW: Passport Photo Studio (WORKING) -->
+            <div class="card" style="border: 2px solid var(--primary);">
                 <div class="card-top">
-                    <div class="card-icon text-green"><i class="fa-solid fa-file-pen"></i></div>
-                    <div class="card-title">Smart PDF Editor</div>
-                    <div class="card-desc">Edit, merge, split, rotate, compress PDF</div>
+                    <div class="card-icon text-blue"><i class="fa-solid fa-camera-retro"></i></div>
+                    <div class="card-title">Passport Photo Studio <span class="new-badge">NEW</span></div>
+                    <div class="card-desc">Auto Remove BG & Add Color</div>
                     <div class="input-group">
-                        <input type="file" disabled>
+                        <label>Upload Photo</label>
+                        <input type="file" id="passportImg" accept="image/*">
+                    </div>
+                    <div class="input-group" style="display:flex; gap:10px; align-items:center;">
+                        <label style="margin-bottom:0;">Background Color:</label>
+                        <input type="color" id="passportColor" value="#0055ff" class="color-picker" style="width: 50px;">
                     </div>
                 </div>
-                <button class="btn" onclick="alert('Coming soon!')">Edit PDF</button>
+                <button class="btn" id="btnPassport" onclick="makePassport()">
+                    <i class="fa-solid fa-magic"></i> Generate Photo
+                </button>
             </div>
 
-            <!-- 2. Bank Passbook Maker (UI Only) -->
-            <div class="card">
+            <!-- 2. NEW: Quick PDF Editor (WORKING) -->
+            <div class="card" style="border: 2px solid var(--primary);">
                 <div class="card-top">
-                    <div class="card-icon text-blue"><i class="fa-solid fa-building-columns"></i></div>
-                    <div class="card-title">Bank Passbook Maker</div>
-                    <div class="card-desc"></div>
+                    <div class="card-icon text-red"><i class="fa-solid fa-file-signature"></i></div>
+                    <div class="card-title">Quick PDF Editor <span class="new-badge">NEW</span></div>
+                    <div class="card-desc">Add Text to your PDF easily</div>
                     <div class="input-group">
-                        <input type="text" placeholder="Bank Name" disabled style="margin-bottom: 5px;">
-                        <input type="text" placeholder="Customer Name" disabled>
+                        <label>Upload PDF</label>
+                        <input type="file" id="pdfEditFile" accept="application/pdf">
+                    </div>
+                    <div class="input-group">
+                        <label>Text to Add (Top-Left corner)</label>
+                        <input type="text" id="pdfText" placeholder="E.g., Approved / Name">
                     </div>
                 </div>
-                <button class="btn" onclick="alert('Coming soon!')">Generate Passbook</button>
+                <button class="btn" onclick="addTextToPDF()">
+                    <i class="fa-solid fa-download"></i> Save & Download
+                </button>
             </div>
 
-            <!-- 3. Age Calculator (WORKING) -->
+            <!-- 3. NEW: Draw Signature (WORKING) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-purple"><i class="fa-solid fa-pen-nib"></i></div>
+                    <div class="card-title">Signature Maker</div>
+                    <div class="card-desc">Draw and save as PNG</div>
+                    <div class="input-group">
+                        <canvas id="sigCanvas" width="200" height="100" class="signature-pad"></canvas>
+                    </div>
+                    <div style="text-align: right; margin-top: -10px; margin-bottom: 10px;">
+                        <a href="#" onclick="clearCanvas()" style="font-size: 11px; color: red;">Clear Box</a>
+                    </div>
+                </div>
+                <button class="btn" onclick="downloadSignature()">Download Signature</button>
+            </div>
+
+            <!-- 4. Image Compressor (WORKING) -->
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-icon text-orange"><i class="fa-solid fa-compress"></i></div>
+                    <div class="card-title">Image Compressor</div>
+                    <div class="card-desc">Reduce KB size easily</div>
+                    <div class="input-group">
+                        <input type="file" id="compressImg" accept="image/*" style="margin-bottom: 5px;">
+                        <select id="compressQuality">
+                            <option value="0.9">High Quality (Large KB)</option>
+                            <option value="0.6">Medium Quality (Medium KB)</option>
+                            <option value="0.3">Low Quality (Small KB)</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn" onclick="compressImage()">Compress & Download</button>
+            </div>
+
+            <!-- 5. Age Calculator (WORKING) -->
             <div class="card">
                 <div class="card-top">
                     <div class="card-icon text-orange"><i class="fa-solid fa-calendar-days"></i></div>
                     <div class="card-title">Age Calculator</div>
-                    <div class="card-desc"></div>
+                    <div class="card-desc">Find exact age in years/months</div>
                     <div class="input-group">
                         <label>Date of Birth</label>
                         <input type="date" id="dobInput">
@@ -156,92 +192,12 @@
                 <button class="btn" onclick="calculateAge()">Calculate Age</button>
             </div>
 
-            <!-- 4. Image to PDF (WORKING) -->
-            <div class="card">
-                <div class="card-top">
-                    <div class="card-icon text-red"><i class="fa-solid fa-file-pdf"></i></div>
-                    <div class="card-title">Image to PDF</div>
-                    <div class="card-desc"></div>
-                    <div class="input-group">
-                        <label>Choose Image</label>
-                        <input type="file" id="jpgInput" accept="image/jpeg, image/png">
-                    </div>
-                </div>
-                <button class="btn" onclick="convertToPDF()">Merge and Convert</button>
-            </div>
-
-            <!-- 5. ID Card Resizer (UI Only) -->
-            <div class="card">
-                <div class="card-top">
-                    <div class="card-icon text-purple"><i class="fa-solid fa-id-card"></i></div>
-                    <div class="card-title">ID Card Resizer</div>
-                    <div class="card-desc">Output: 8.5cm x 5.5cm</div>
-                    <div class="input-group">
-                        <input type="file" disabled>
-                    </div>
-                </div>
-                <button class="btn" onclick="alert('Coming soon!')">Resize ID</button>
-            </div>
-
-            <!-- 6. Text to Speech (WORKING) -->
-            <div class="card">
-                <div class="card-top">
-                    <div class="card-icon text-green"><i class="fa-solid fa-microphone"></i></div>
-                    <div class="card-title">Text to Speech</div>
-                    <div class="card-desc"></div>
-                    <div class="input-group">
-                        <textarea id="ttsInput" rows="3" placeholder="Type text here..."></textarea>
-                    </div>
-                </div>
-                <button class="btn" onclick="speakText()">Convert and Listen</button>
-            </div>
-
-            <!-- 7. Signature Cropper (UI Only) -->
-            <div class="card">
-                <div class="card-top">
-                    <div class="card-icon text-blue"><i class="fa-solid fa-crop-simple"></i></div>
-                    <div class="card-title">Signature Cropper</div>
-                    <div class="card-desc">Dimensions: 35x20mm</div>
-                    <div class="input-group">
-                        <input type="file" disabled>
-                    </div>
-                </div>
-                <button class="btn" onclick="alert('Coming soon!')">Crop Signature</button>
-            </div>
-
-            <!-- 8. PDF to JPG (UI Only) -->
-            <div class="card">
-                <div class="card-top">
-                    <div class="card-icon text-purple"><i class="fa-solid fa-file-image"></i></div>
-                    <div class="card-title">PDF to JPG</div>
-                    <div class="card-desc"></div>
-                    <div class="input-group">
-                        <input type="file" disabled style="margin-bottom: 5px;">
-                        <select disabled><option>High Quality</option></select>
-                    </div>
-                </div>
-                <button class="btn" onclick="alert('Coming soon!')">Convert to JPG</button>
-            </div>
-
-             <!-- 9. Remove Background (UI Only) -->
-             <div class="card">
-                <div class="card-top">
-                    <div class="card-icon text-red"><i class="fa-solid fa-user-xmark"></i></div>
-                    <div class="card-title">Remove Background</div>
-                    <div class="card-desc"></div>
-                    <div class="input-group">
-                        <input type="file" disabled>
-                    </div>
-                </div>
-                <button class="btn" onclick="alert('Coming soon!')">Remove Background</button>
-            </div>
-
-            <!-- 10. QR Code Generator (WORKING) -->
+            <!-- 6. QR Code Generator (WORKING) -->
             <div class="card">
                 <div class="card-top">
                     <div class="card-icon text-yellow"><i class="fa-solid fa-qrcode"></i></div>
                     <div class="card-title">QR Code Generator</div>
-                    <div class="card-desc"></div>
+                    <div class="card-desc">Create QR from Text/Link</div>
                     <div class="input-group">
                         <input type="text" id="qrText" placeholder="Enter text or URL">
                         <div id="qrCodeOutput" class="qr-output"></div>
@@ -250,63 +206,37 @@
                 <button class="btn" onclick="generateQR()">Generate QR Code</button>
             </div>
 
-            <!-- 11. Image Scanner (UI Only) -->
+            <!-- 7. Text to Speech (WORKING) -->
             <div class="card">
                 <div class="card-top">
-                    <div class="card-icon text-cyan"><i class="fa-solid fa-camera"></i></div>
-                    <div class="card-title">Image Scanner</div>
-                    <div class="card-desc">Scan & Enhance</div>
-                    <div class="input-group"><input type="file" disabled></div>
-                </div>
-                <button class="btn" onclick="alert('Coming soon!')">Scan & Enhance</button>
-            </div>
-
-             <!-- 12. Compress Image (UI Only) -->
-             <div class="card">
-                <div class="card-top">
-                    <div class="card-icon text-orange"><i class="fa-solid fa-compress"></i></div>
-                    <div class="card-title">Compress Image</div>
-                    <div class="card-desc"></div>
+                    <div class="card-icon text-green"><i class="fa-solid fa-microphone"></i></div>
+                    <div class="card-title">Text to Speech</div>
+                    <div class="card-desc">Convert typed text to voice</div>
                     <div class="input-group">
-                        <input type="file" disabled style="margin-bottom: 5px;">
-                        <select disabled><option>Medium Quality</option></select>
+                        <textarea id="ttsInput" rows="3" placeholder="Type text here..."></textarea>
                     </div>
                 </div>
-                <button class="btn" onclick="alert('Coming soon!')">Compress Image</button>
+                <button class="btn" onclick="speakText()">Listen Voice</button>
             </div>
 
-            <!-- 13. Password Protect PDF (UI Only) -->
+            <!-- 8. Image to PDF (WORKING) -->
             <div class="card">
                 <div class="card-top">
-                    <div class="card-icon text-green"><i class="fa-solid fa-lock"></i></div>
-                    <div class="card-title">Password Protect PDF</div>
-                    <div class="card-desc"></div>
+                    <div class="card-icon text-red"><i class="fa-solid fa-file-pdf"></i></div>
+                    <div class="card-title">Image to PDF</div>
+                    <div class="card-desc">Convert JPG/PNG to PDF</div>
                     <div class="input-group">
-                        <input type="file" disabled style="margin-bottom: 5px;">
-                        <input type="password" placeholder="Enter Password" disabled>
+                        <label>Choose Image</label>
+                        <input type="file" id="jpgInput" accept="image/*">
                     </div>
                 </div>
-                <button class="btn" onclick="alert('Coming soon!')">Protect PDF</button>
-            </div>
-
-            <!-- 14. Split PDF (UI Only) -->
-            <div class="card">
-                <div class="card-top">
-                    <div class="card-icon text-blue"><i class="fa-solid fa-file-export"></i></div>
-                    <div class="card-title">Split PDF</div>
-                    <div class="card-desc"></div>
-                    <div class="input-group">
-                        <input type="file" disabled style="margin-bottom: 5px;">
-                        <select disabled><option>Every Page</option></select>
-                    </div>
-                </div>
-                <button class="btn" onclick="alert('Coming soon!')">Split PDF</button>
+                <button class="btn" onclick="convertToPDF()">Convert to PDF</button>
             </div>
 
         </div>
     </div>
 
-    <!-- About Section -->
+    <!-- About Section (Unchanged as requested) -->
     <div class="about-sec">
         <div class="about-container">
             <h2 style="font-size: 24px; margin-bottom: 15px;">About Technical Juman Tools</h2>
@@ -322,7 +252,6 @@
             <div class="about-box">
                 <h3 style="margin-bottom: 10px;">Get in Touch With Us:</h3>
                 <p style="margin-bottom: 15px; font-size: 14px; color: var(--text-light);">Have a suggestion, found a bug, or need support? We’d love to hear from you!</p>
-                
                 <p style="margin-bottom: 8px;"><i class="fa-solid fa-envelope" style="color: gray; margin-right: 10px;"></i> <b>Email:</b> support@technicaljuman.com</p>
                 <p style="margin-bottom: 8px;"><i class="fa-brands fa-whatsapp" style="color: #25D366; margin-right: 10px;"></i> <b>WhatsApp:</b> <a href="https://wa.me/919471367125" style="color: var(--primary); text-decoration: none; font-weight: bold;">+91 9471367125</a></p>
                 <p><i class="fa-brands fa-youtube" style="color: red; margin-right: 10px;"></i> <b>YouTube:</b> Technical Juman</p>
@@ -331,53 +260,177 @@
         </div>
     </div>
 
-    <!-- Scripts for Working Tools -->
+    <!-- MAIN LOGIC (DO NOT EDIT) -->
     <script>
-        // 1. Age Calculator
-        function calculateAge() {
-            const dobInput = document.getElementById('dobInput').value;
-            if (!dobInput) return alert("Please select your Date of Birth!");
-            const dob = new Date(dobInput);
-            const today = new Date();
-            let age = today.getFullYear() - dob.getFullYear();
-            const m = today.getMonth() - dob.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) { age--; }
-            alert(`Your age is: ${age} years old.`);
+        // --- 1. PASSPORT PHOTO STUDIO (AI Background Removal) ---
+        async function makePassport() {
+            const fileInput = document.getElementById('passportImg');
+            const bgColor = document.getElementById('passportColor').value;
+            const btn = document.getElementById('btnPassport');
+
+            if (fileInput.files.length === 0) return alert("Bhai, pehle photo upload karein!");
+            
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing AI (Wait...)';
+            btn.classList.add('btn-disabled');
+
+            try {
+                // Remove BG using Imgly (Runs in browser!)
+                const imageBlob = await imglyRemoveBackground(fileInput.files[0]);
+                const imageUrl = URL.createObjectURL(imageBlob);
+                
+                // Draw on canvas with new background
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = img.width; canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Fill background color
+                    ctx.fillStyle = bgColor;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    // Draw person over it
+                    ctx.drawImage(img, 0, 0);
+
+                    // Download
+                    const link = document.createElement('a');
+                    link.download = 'Passport_Photo_Juman.jpg';
+                    link.href = canvas.toDataURL('image/jpeg', 1.0);
+                    link.click();
+                    
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Done! Downloaded';
+                    setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-magic"></i> Generate Photo'; btn.classList.remove('btn-disabled'); }, 3000);
+                }
+                img.src = imageUrl;
+            } catch (error) {
+                console.error(error);
+                alert("Processing me error aayi. Chhoti size ki photo try karein.");
+                btn.innerHTML = '<i class="fa-solid fa-magic"></i> Generate Photo';
+                btn.classList.remove('btn-disabled');
+            }
         }
 
-        // 2. Image to PDF
-        function convertToPDF() {
-            const fileInput = document.getElementById('jpgInput');
-            if (fileInput.files.length === 0) return alert("Please select an image first!");
+        // --- 2. QUICK PDF EDITOR (Add Text) ---
+        async function addTextToPDF() {
+            const fileInput = document.getElementById('pdfEditFile');
+            const textToAdd = document.getElementById('pdfText').value;
+
+            if (fileInput.files.length === 0) return alert("Pehle PDF select karein!");
+            if (!textToAdd) return alert("Kya text likhna hai, wo box me daalein!");
+
             const file = fileInput.files[0];
+            const fileReader = new FileReader();
+
+            fileReader.onload = async function() {
+                const typedarray = new Uint8Array(this.result);
+                
+                // Load existing PDF
+                const pdfDoc = await PDFLib.PDFDocument.load(typedarray);
+                const pages = pdfDoc.getPages();
+                const firstPage = pages[0];
+
+                // Draw Text
+                const { height } = firstPage.getSize();
+                firstPage.drawText(textToAdd, {
+                    x: 50,
+                    y: height - 50, // Top-left position
+                    size: 20,
+                    color: PDFLib.rgb(0.95, 0.1, 0.1), // Red color text
+                });
+
+                // Serialize & Download
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = "Edited_" + file.name;
+                link.click();
+            };
+            fileReader.readAsArrayBuffer(file);
+        }
+
+        // --- 3. SIGNATURE MAKER ---
+        const canvas = document.getElementById('sigCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        
+        // Mouse Events
+        canvas.addEventListener('mousedown', (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
+        canvas.addEventListener('mousemove', (e) => { if(isDrawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } });
+        canvas.addEventListener('mouseup', () => isDrawing = false);
+        canvas.addEventListener('mouseout', () => isDrawing = false);
+        // Touch Events for Mobile
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault(); const touch = e.touches[0]; const rect = canvas.getBoundingClientRect();
+            isDrawing = true; ctx.beginPath(); ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        });
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault(); if(!isDrawing) return; const touch = e.touches[0]; const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top); ctx.stroke();
+        });
+        canvas.addEventListener('touchend', () => isDrawing = false);
+
+        function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+        function downloadSignature() {
+            const link = document.createElement('a');
+            link.download = 'My_Signature.png';
+            link.href = canvas.toDataURL('image/png'); // Transparent PNG
+            link.click();
+        }
+
+        // --- 4. IMAGE COMPRESSOR ---
+        function compressImage() {
+            const file = document.getElementById('compressImg').files[0];
+            const quality = parseFloat(document.getElementById('compressQuality').value);
+            if(!file) return alert("Photo select karein!");
+
             const reader = new FileReader();
             reader.onload = function(e) {
-                const imgData = e.target.result;
-                const { jsPDF } = window.jspdf;
-                const doc = new jsPDF();
-                doc.addImage(imgData, 'JPEG', 10, 10, 190, 0); 
-                doc.save("Technical_Juman_Converted.pdf");
+                const img = new Image();
+                img.onload = function() {
+                    const cvs = document.createElement('canvas');
+                    cvs.width = img.width; cvs.height = img.height;
+                    const ctxCvs = cvs.getContext('2d');
+                    ctxCvs.drawImage(img, 0, 0, cvs.width, cvs.height);
+                    
+                    const link = document.createElement('a');
+                    link.download = "Compressed_" + file.name;
+                    link.href = cvs.toDataURL('image/jpeg', quality);
+                    link.click();
+                }
+                img.src = e.target.result;
             }
             reader.readAsDataURL(file);
         }
 
-        // 3. Text to Speech
-        function speakText() {
-            const text = document.getElementById('ttsInput').value;
-            if (!text) return alert("Please type some text first!");
-            const msg = new SpeechSynthesisUtterance();
-            msg.text = text;
-            window.speechSynthesis.speak(msg);
+        // --- Basic Tools (Age, QR, TTS, PDF) ---
+        function calculateAge() {
+            const d = document.getElementById('dobInput').value;
+            if(!d) return alert("DOB daalein");
+            const dob = new Date(d); const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            if(today.getMonth() < dob.getMonth() || (today.getMonth()===dob.getMonth() && today.getDate() < dob.getDate())) age--;
+            alert(`Your Age is: ${age} Years`);
         }
-
-        // 4. QR Code Generator
-        let qrcode = null;
         function generateQR() {
-            const text = document.getElementById('qrText').value;
-            if (!text) return alert("Please enter text or URL!");
-            const container = document.getElementById("qrCodeOutput");
-            container.innerHTML = ""; 
-            qrcode = new QRCode(container, { text: text, width: 100, height: 100 });
+            const t = document.getElementById('qrText').value;
+            if(!t) return;
+            document.getElementById("qrCodeOutput").innerHTML = "";
+            new QRCode(document.getElementById("qrCodeOutput"), { text: t, width: 100, height: 100 });
+        }
+        function speakText() {
+            const t = document.getElementById('ttsInput').value;
+            if(t) window.speechSynthesis.speak(new SpeechSynthesisUtterance(t));
+        }
+        function convertToPDF() {
+            const file = document.getElementById('jpgInput').files[0];
+            if(!file) return;
+            const r = new FileReader();
+            r.onload = function(e) {
+                const doc = new window.jspdf.jsPDF();
+                doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); 
+                doc.save("Converted_Image.pdf");
+            };
+            r.readAsDataURL(file);
         }
     </script>
 </body>
