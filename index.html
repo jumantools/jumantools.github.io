@@ -390,3 +390,39 @@
       </div>
       
       <div class="identity-strip">IDENTITY CARD</div>
+      
+      <div class="passbook-body-grid">
+        <table class="passbook-data-table">
+          <tr><td class="label-cell">CIF No</td><td class="separator-cell">:</td><td id="cardCifNo" class="dynamic-value-cell">------</td></tr>
+          <tr><td class="label-cell">Account No</td><td class="separator-cell">:</td><td id="cardAccNo" class="dynamic-value-cell">------</td></tr>
+          <tr><td class="label-cell">IFSC Code</td><td class="separator-cell">:</td><td id="cardIfsc" class="dynamic-value-cell">------</td></tr>
+          <tr><td class="label-cell">Account Type</td><td class="separator-cell">:</td><td id="cardAccType" class="dynamic-value-cell">------</td></tr>
+          <tr><td class="label-cell">Account Holder Name</td><td class="separator-cell">:</td><td id="cardHolderName" class="dynamic-value-cell">------</td></tr>
+          <tr><td class="label-cell">Address</td><td class="separator-cell">:</td><td id="cardAddress" class="dynamic-value-cell">------</td></tr>
+          <tr><td class="label-cell">Village</td><td class="separator-cell">:</td><td id="cardVillage" class="dynamic-value-cell">------</td></tr>
+          <tr><td class="label-cell">Pin Code</td><td class="separator-cell">:</td><td id="cardPin" class="dynamic-value-cell">------</td></tr>
+          <tr><td class="label-cell">CSP Name</td><td class="separator-cell">:</td><td id="cardCspName" class="dynamic-value-cell">------</td></tr>
+          <tr><td class="label-cell">CSP Location</td><td class="separator-cell">:</td><td id="cardCspLoc" class="dynamic-value-cell">------</td></tr>
+        </table>
+        
+        <div class="passbook-photo-box" id="cardPhotoCanvas">CUSTOMER PHOTO</div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top:25px;">
+       <button type="button" class="action-btn btn-blue" onclick="generateAndSavePassbookCardPNG()"><i class="fa-solid fa-cloud-arrow-down"></i> Download Passbook (PNG Image File)</button>
+       <button type="button" class="action-btn btn-dark" onclick="window.print()"><i class="fa-solid fa-print"></i> Print Structural Card</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-wrapper">
+    <div class="footer-box">
+      <h4>About Technical Juman Studio</h4>
+      <p>Technical Juman is a client-side premium compilation portal built for automatic structural passport generation, dynamic canvas card rendering, and asset processing. No data footprints leave your physical device layer.</p>
+    </div>
+
+    <div class="footer-box">
+      <h4>Quick Platform
