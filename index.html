@@ -35,17 +35,32 @@
     .header-search input { border: none; background: transparent; outline: none; width: 100%; font-size: 14px; color: #334155; }
     
     .header-auth { display: flex; gap: 10px; align-items: center; }
-    .auth-btn { text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 600; transition: 0.2s; }
+    .auth-btn { text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 600; transition: 0.2s; cursor: pointer; border: none; }
     .sign-in { color: var(--text-main); background: #e2e8f0; }
     .sign-in:hover { background: #cbd5e1; }
     .sign-up { color: #fff; background: var(--primary-color); }
     .sign-up:hover { background: var(--primary-hover); }
 
+    /* AUTH MODAL */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(3px); }
+    .modal-content { background: #fff; padding: 30px; border-radius: 12px; width: 90%; max-width: 380px; text-align: center; position: relative; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+    .close-modal { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; transition: 0.2s; }
+    .close-modal:hover { color: #0f172a; }
+    .modal-content h3 { margin-bottom: 20px; color: #0f172a; font-size: 22px; }
+    .social-btn { width: 100%; padding: 12px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; border: none; color: #fff; font-size: 15px; transition: 0.2s; }
+    .btn-google { background: #db4437; } .btn-google:hover { background: #c23321; }
+    .btn-facebook { background: #4267B2; } .btn-facebook:hover { background: #365899; }
+    .modal-divider { margin: 20px 0; color: #94a3b8; font-size: 12px; position: relative; }
+    .modal-divider::before, .modal-divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: #cbd5e1; }
+    .modal-divider::before { left: 0; } .modal-divider::after { right: 0; }
+    .modal-input { width: 100%; padding: 10px 15px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 15px; font-size: 14px; outline: none; }
+    .modal-input:focus { border-color: var(--sbi-blue); }
+
     .main-container { max-width: 1200px; margin: 30px auto; padding: 0 20px 40px; }
     .section-title { text-align: center; margin-bottom: 30px; }
     .section-title h2 { font-size: 32px; color: var(--text-main); }
     .section-title h2 span { color: var(--primary-color); }
-    .section-title p { color: var(--text-muted); margin-top: 6px; font-size: 15px; }
+    .section-title p { color: var(--text-muted); margin-top: 6px; font-size: 16px; font-weight: 500; }
 
     /* GRID CONTROLS */
     .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-bottom: 35px; }
@@ -102,13 +117,16 @@
     .footer-bottom a:hover { color: #ffffff; }
 
     /* SPECIFIC TOOLS UI */
+    .counter-btn-container { display: flex; gap: 10px; align-items: center; margin-top: 5px; }
+    .counter-btn { background: #e2e8f0; color: #0f172a; border: 1px solid #cbd5e1; width: 40px; height: 40px; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; transition: 0.2s; }
+    .counter-btn:hover { background: #cbd5e1; color: #000; }
+    .counter-btn.add { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+    .counter-btn.add:hover { background: #bbf7d0; }
+    .counter-btn.remove { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+    .counter-btn.remove:hover { background: #fecaca; }
+
     .merge-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 8px; }
     .remove-pdf-btn { background: #fee2e2; color: #b91c1c; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
-    .calc-result-box { display: none; margin-top: 20px; background: #fff7ed; border: 1px solid #ffedd5; border-radius: 8px; padding: 20px; text-align: center; }
-    .calc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
-    .calc-tile { background: white; border: 1px solid #fed7aa; border-radius: 8px; padding: 15px; }
-    .calc-tile h4 { font-size: 28px; color: var(--calc-orange); font-weight: 800; }
-    .calc-tile p { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-top: 2px; }
     
     .passport-sheet-preview { display: grid; grid-template-columns: repeat(auto-fill, 3.5cm); gap: 12px; padding: 15px; background: white; border: 1px dashed #94a3b8; min-height: 150px; }
     .passport-photo-item { width: 3.5cm; height: 4.5cm; border: 1px solid #000; overflow: hidden; background: #e2e8f0; position: relative; }
@@ -136,17 +154,32 @@
     .pb-photo-slot { width: 120px; height: 150px; border: 2px solid #000; background: #fff; display: flex; justify-content: center; align-items: center; text-align: center; font-size: 11px; font-weight: bold; color: #777; overflow: hidden; }
     .pb-photo-slot img { width: 100%; height: 100%; object-fit: cover; }
     
-    .audio-controls-box { margin-top: 15px; padding: 20px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; display: none; }
-    .native-audio-player { flex: 1; min-width: 260px; height: 40px; outline: none; margin-top: 10px; width: 100%; }
-
     @media (max-width: 768px) {
         header { flex-direction: column; gap: 15px; }
         .header-search { max-width: 100%; order: 3; }
-        .header-auth { order: 2; }
+        .header-auth { order: 2; width: 100%; justify-content: space-between;}
     }
   </style>
 </head>
 <body>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+    <div class="modal-content">
+        <i class="fa-solid fa-xmark close-modal" onclick="closeAuthModal()"></i>
+        <h3 id="modalTitle">Welcome Back</h3>
+        <p style="font-size:13px; color:#64748b; margin-bottom:20px;">Please login to continue using Premium Tools.</p>
+        
+        <button class="social-btn btn-google" onclick="alert('Connecting to Google Servers...')"><i class="fa-brands fa-google"></i> Login with Google</button>
+        <button class="social-btn btn-facebook" onclick="alert('Connecting to Facebook Servers...')"><i class="fa-brands fa-facebook-f"></i> Login with Facebook</button>
+        
+        <div class="modal-divider">OR</div>
+        
+        <input type="email" class="modal-input" placeholder="Email Address">
+        <input type="password" class="modal-input" placeholder="Password">
+        <button class="action-btn" style="width:100%; justify-content:center;" onclick="closeAuthModal()">Continue</button>
+    </div>
+</div>
 
 <header>
   <div class="logo-area">
@@ -163,8 +196,8 @@
   </div>
 
   <div class="header-auth">
-    <a href="#" class="auth-btn sign-in">Sign In</a>
-    <a href="#" class="auth-btn sign-up">Sign Up</a>
+    <button class="auth-btn sign-in" onclick="openAuthModal('Login')">Login</button>
+    <button class="auth-btn sign-up" onclick="openAuthModal('Sign Up')">Sign Up</button>
   </div>
 </header>
 
@@ -172,7 +205,7 @@
 
   <div class="section-title" id="pdf-section-anchor">
     <h2>All In One <span> Automatic Document Tools</span></h2>
-    <p>Select any process module framework below to handle instantly and download standard production files.</p>
+    <p>Select a Tools Below to Get Your Work Done Instantly</p>
   </div>
 
   <div class="tools-grid" id="toolsGridBox">
@@ -192,7 +225,7 @@
     <div class="tool-card" onclick="openTool('passport-studio-anchor')"><div class="tool-icon-wrapper icon-purple"><i class="fa-solid fa-camera-retro"></i></div><h4>Passport Studio</h4><p>A4 size photo sheet.</p></div>
     <div class="tool-card" onclick="openTool('passbook-engine-anchor')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-id-card"></i></div><h4>Passbook Maker</h4><p>Bank passbook generator.</p></div>
     <div class="tool-card" onclick="openTool('tts-engine-anchor')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-volume-high"></i></div><h4>Text To Speech</h4><p>Multi-language audio.</p></div>
-    <div class="tool-card" onclick="openTool('edit-pdf-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-pen-to-square"></i></div><h4>Edit PDF</h4><p>Add text to PDF file.</p></div>
+    <div class="tool-card" onclick="openTool('edit-pdf-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-pen-to-square"></i></div><h4>Edit PDF</h4><p>Add & remove text on PDF.</p></div>
     <div class="tool-card" onclick="openTool('sign-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-signature"></i></div><h4>Sign PDF</h4><p>Draw & add signature.</p></div>
     <div class="tool-card" onclick="openTool('page-numbers-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-list-ol"></i></div><h4>Page Numbers</h4><p>Add numbers to pages.</p></div>
     <div class="tool-card" onclick="openTool('scan-to-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-scanner-image"></i></div><h4>Scan to PDF</h4><p>Convert scans to PDF.</p></div>
@@ -216,7 +249,7 @@
 
   <!-- WORKSPACES -->
   
-  <!-- 1. Background Remover -->
+  <!-- 1. Background Remover (Fixed Error & Added Color) -->
   <div id="bg-remover-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444;">
     <h3><i class="fa-solid fa-user-slash" style="color: #ef4444;"></i> Photo Background Remover</h3>
     <div class="form-row">
@@ -243,11 +276,28 @@
         <div class="field-group"><label>Upload PDF Document:</label><input type="file" id="protectPdfInput" accept=".pdf"></div>
         <div class="field-group"><label>Set New Password:</label><input type="password" id="protectPdfPassword" placeholder="Create a password"></div>
     </div>
-    <p style="font-size: 12px; color: #dc2626; margin-bottom: 10px;">* Note: Advanced 256-bit AES encryption cannot run purely in the browser. This tool simulates locking for display purposes.</p>
+    <p style="font-size: 12px; color: #dc2626; margin-bottom: 10px;">* Note: Advanced encryption requires a server. This simulates locking for display purposes.</p>
     <button class="action-btn btn-red" onclick="alertSimulateProtection()">Lock PDF & Download</button>
   </div>
 
-  <!-- Passport Studio (UPDATED WITH DROPDOWN AND LIVE PREVIEW) -->
+  <!-- 3. Edit PDF (With Replace Text logic via Whiteout) -->
+  <div id="edit-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #334155;">
+    <h3><i class="fa-solid fa-pen-to-square" style="color: #334155;"></i> Edit PDF (Replace / Add Text)</h3>
+    <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Browsers cannot directly delete PDF source code. To "remove" old text, we paint a white box over it, and then write your New Text on top!</p>
+    <div class="form-row">
+        <div class="field-group"><label>1. Upload PDF:</label><input type="file" id="editPdfInput" accept=".pdf"></div>
+        <div class="field-group">
+            <label>2. Whiteout (Erase) Old Text?</label>
+            <select id="editEraseOption"><option value="no">No, Just add new text</option><option value="yes">Yes, Erase old text (Top-Left Area)</option></select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="field-group"><label>3. New Text to Add:</label><input type="text" id="editPdfText" placeholder="Write new text here..."></div>
+    </div>
+    <button class="action-btn btn-secondary" onclick="processEditPdf()">Update PDF & Download</button>
+  </div>
+
+  <!-- Passport Studio (UPDATED WITH DROPDOWN, +/- AND LIVE PREVIEW) -->
   <div class="engine-container" id="passport-studio-anchor" style="display:none; border-top: 4px solid var(--studio-purple);">
     <h3><i class="fa-solid fa-camera-retro" style="color:var(--studio-purple);"></i> Passport Size Photo Studio</h3>
     <div class="form-row">
@@ -264,32 +314,40 @@
             <option value="30">30 Photos Layout</option>
           </select>
       </div>
+      <div class="field-group">
+          <label>Manual Adjust (Add/Remove)</label>
+          <div class="counter-btn-container">
+            <button class="counter-btn remove" onclick="adjustPassportCountManual(-1)"><i class="fa-solid fa-minus"></i></button>
+            <span id="manualCountDisplay" style="font-weight:bold; font-size:16px; width:30px; text-align:center;">12</span>
+            <button class="counter-btn add" onclick="adjustPassportCountManual(1)"><i class="fa-solid fa-plus"></i></button>
+          </div>
+      </div>
     </div>
     <button class="action-btn btn-purple" onclick="downloadPassportStudioSheet()">Download A4 Photo Sheet</button>
     <div id="passportSheetAreaToPrint" style="margin-top:20px;">
         <div class="passport-sheet-preview" id="passportGridContainer">
-            <div class="passport-blank-state"><i class="fa-regular fa-images"></i><p>Upload a photo to see live grid preview instantly.</p></div>
+            <div class="passport-blank-state"><i class="fa-regular fa-images" style="font-size:40px; color:#cbd5e1;"></i><p>Upload a photo to see live grid preview instantly.</p></div>
         </div>
     </div>
   </div>
 
-  <!-- Passbook Maker (RESTORED FULLY) -->
+  <!-- Passbook Maker (UPDATED FIELDS: FIRST/LAST NAME, KO NAME, KO LOCATION) -->
   <div class="engine-container" id="passbook-engine-anchor" style="display:none; border-top: 4px solid var(--sbi-blue);">
     <h3><i class="fa-solid fa-id-card" style="color:var(--sbi-blue);"></i> CSP Bank Passbook Generate</h3>
     <div class="form-row">
       <div class="field-group"><label>Bank English Title</label><input type="text" id="inputBankName" placeholder="e.g. STATE BANK OF INDIA" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Account Holder Name</label><input type="text" id="inputHolderName" placeholder="Enter Name" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>First Name</label><input type="text" id="inputFirstName" placeholder="Enter First Name" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Last Name</label><input type="text" id="inputLastName" placeholder="Enter Last Name" oninput="syncCardCanvasData()"></div>
+    </div>
+    <div class="form-row">
+      <div class="field-group"><label>Ko Name (C/O)</label><input type="text" id="inputKoName" placeholder="Enter Ko Name" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Ko Location</label><input type="text" id="inputKoLocation" placeholder="Enter Ko Location" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>Account Type</label><select id="inputAccountType" onchange="syncCardCanvasData()"><option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option><option value="CURRENT ACCOUNT">CURRENT ACCOUNT</option></select></div>
     </div>
     <div class="form-row">
       <div class="field-group"><label>CIF Number</label><input type="text" id="inputCifId" placeholder="Enter CIF No" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" placeholder="Enter Account No" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" placeholder="Enter IFSC Code" oninput="syncCardCanvasData()"></div>
-    </div>
-    <div class="form-row">
-      <div class="field-group"><label>Address Info</label><input type="text" id="inputAddress" placeholder="Address" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Village Name</label><input type="text" id="inputVillage" placeholder="Village" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" placeholder="Pin" oninput="syncCardCanvasData()"></div>
     </div>
     <div class="form-row">
       <div class="field-group"><label>Upload Bank Logo</label><input type="file" accept="image/*" onchange="uploadLeftBankLogo(event)"></div>
@@ -312,24 +370,13 @@
             <tr><td class="label-col">IFSC Code</td><td class="separator-col">:</td><td id="cardIfsc"></td></tr>
             <tr><td class="label-col">Account Type</td><td class="separator-col">:</td><td id="cardAccountType" style="font-weight: 800;">SAVING ACCOUNT</td></tr>
             <tr><td class="label-col">Account Holder Name</td><td class="separator-col">:</td><td id="cardHolderName" style="font-weight: 800;"></td></tr>
-            <tr><td class="label-col">Address</td><td class="separator-col">:</td><td id="cardAddress"></td></tr>
-            <tr><td class="label-col">Village</td><td class="separator-col">:</td><td id="cardVillage"></td></tr>
-            <tr><td class="label-col">Pin Code</td><td class="separator-col">:</td><td id="cardPinCode"></td></tr>
+            <tr><td class="label-col">Ko Name</td><td class="separator-col">:</td><td id="cardKoName"></td></tr>
+            <tr><td class="label-col">Ko Location</td><td class="separator-col">:</td><td id="cardKoLocation"></td></tr>
           </table>
         </div>
         <div class="pb-photo-slot" id="cardPhotoWrapper"><div style="display:flex; flex-direction:column; align-items:center; gap:8px;"><i class="fa-regular fa-user" style="font-size:24px; color:#cbd5e1;"></i><span style="color:#94a3b8; font-size:10px;">HOLDER PHOTO</span></div></div>
       </div>
     </div>
-  </div>
-
-  <!-- Edit PDF -->
-  <div id="edit-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #334155;">
-    <h3><i class="fa-solid fa-pen-to-square" style="color: #334155;"></i> Edit PDF (Add Text)</h3>
-    <div class="form-row">
-        <div class="field-group"><label>Upload PDF:</label><input type="file" id="editPdfInput" accept=".pdf"></div>
-        <div class="field-group"><label>Text to Add:</label><input type="text" id="editPdfText" placeholder="Write text here..."></div>
-    </div>
-    <button class="action-btn btn-secondary" onclick="processEditPdf()">Add Text & Download</button>
   </div>
 
   <!-- Sign PDF -->
@@ -361,7 +408,7 @@
     <i class="fa-solid fa-server" style="font-size: 50px; color: #cbd5e1; margin-bottom: 20px;"></i>
     <h3>Advanced Server Processing Required</h3>
     <p style="color: #64748b; font-size: 15px; max-width: 600px; margin: 0 auto;">
-        Features like Word/Excel to PDF, OCR, AI Summarization, and HTML to PDF require high-end backend servers and paid APIs. Since this platform runs locally in your browser for privacy, these heavy conversions are currently unavailable. Please use the other 15+ working tools!
+        Features like Word/Excel to PDF, OCR, AI Summarization, and HTML to PDF require high-end backend servers and paid APIs. Since this platform runs locally in your browser for privacy, these heavy conversions are currently unavailable. Please use the other fully working tools!
     </p>
   </div>
 
@@ -430,7 +477,7 @@
     <button class="action-btn btn-orange" onclick="processRotatePdf()">Rotate PDF</button>
   </div>
 
-  <!-- Document Resizer (RESTORED FULLY) -->
+  <!-- Document Resizer -->
   <div id="document-resizer-module" class="tool-workspace" style="display: none; border-top: 4px solid var(--resizer-purple);">
     <h3><i class="fa-solid fa-scissors" style="color: var(--resizer-purple);"></i> Document Resizer & Dimension Fixer</h3>
     <div class="resizer-grid">
@@ -447,7 +494,7 @@
     <div id="resizerStatusLogs" style="margin-top: 15px; font-size: 13px; text-align: center; display: none;"></div>
   </div>
 
-  <!-- Age Calculator (RESTORED FULLY) -->
+  <!-- Age Calculator -->
   <div class="engine-container" id="age-calculator-anchor" style="display:none; border-top: 4px solid var(--calc-orange);">
     <h3><i class="fa-solid fa-calculator" style="color:var(--calc-orange);"></i> High-Precision Age Calculator</h3>
     <div class="form-row">
@@ -458,7 +505,7 @@
     <div class="calc-result-box" id="calcResultDisplayPanel"><div class="calc-grid"><div class="calc-tile"><h4 id="resYears">0</h4><p>Years</p></div><div class="calc-tile"><h4 id="resMonths">0</h4><p>Months</p></div><div class="calc-tile"><h4 id="resDays">0</h4><p>Days</p></div></div></div>
   </div>
 
-  <!-- Text To Speech (RESTORED FULLY) -->
+  <!-- Text To Speech -->
   <div class="engine-container" id="tts-engine-anchor" style="display:none; border-top: 4px solid var(--success-green);">
     <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i>Text To Speech Audio</h3>
     <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4"></textarea></div></div>
@@ -512,6 +559,13 @@
 </footer>
 
 <script>
+  // Auth Modal Logic
+  function openAuthModal(title) {
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('authModal').style.display = 'flex';
+  }
+  function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
+
   // Search Functionality
   function searchTools() {
       let input = document.getElementById('toolSearchBox').value.toLowerCase();
@@ -530,7 +584,7 @@
       document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' });
   }
 
-  // 1. BG REMOVER (Fixed Error & Color)
+  // 1. BG REMOVER (Fixed Error by Resizing Large Images before AI)
   async function processBgRemover() {
       const fileInput = document.getElementById('bgRemoveInput');
       const log = document.getElementById('bgRemoveLog');
@@ -543,7 +597,22 @@
       btn.disabled = true;
 
       try {
-          const imageBlob = await imglyRemoveBackground(fileInput.files[0]);
+          // Pre-resize image if it's too large to prevent crash
+          const imgRaw = new Image();
+          imgRaw.src = URL.createObjectURL(fileInput.files[0]);
+          await new Promise(r => imgRaw.onload = r);
+          
+          let w = imgRaw.width, h = imgRaw.height;
+          if (w > 1200 || h > 1200) {
+              const ratio = Math.min(1200/w, 1200/h);
+              w *= ratio; h *= ratio;
+          }
+          const tempCanvas = document.createElement('canvas');
+          tempCanvas.width = w; tempCanvas.height = h;
+          tempCanvas.getContext('2d').drawImage(imgRaw, 0, 0, w, h);
+          const resizedBlob = await new Promise(r => tempCanvas.toBlob(r, 'image/jpeg', 0.9));
+
+          const imageBlob = await imglyRemoveBackground(resizedBlob);
           const url = URL.createObjectURL(imageBlob);
           const img = new Image();
           img.onload = function() {
@@ -557,7 +626,7 @@
               log.style.color = "#16a34a"; log.innerText = "✅ Done! Background color applied and downloaded.";
           }
           img.src = url;
-      } catch(err) { log.style.color = "#dc2626"; log.innerText = "❌ Error. Image too large."; }
+      } catch(err) { log.style.color = "#dc2626"; log.innerText = "❌ Error processing. Try refreshing the page."; }
       btn.disabled = false;
   }
 
@@ -567,19 +636,26 @@
       const pwd = document.getElementById('protectPdfPassword').value;
       if(!file || !pwd) return alert("Upload file and enter password.");
       const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = "Locked_" + file.name; a.click();
-      alert("Note: File downloaded. (Real AES encryption needs a server).");
   }
 
-  // 3. EDIT PDF
+  // 3. EDIT PDF (Whiteout + Replace Text)
   async function processEditPdf() {
       const fileInput = document.getElementById('editPdfInput');
       const text = document.getElementById('editPdfText').value;
-      if (fileInput.files.length === 0 || !text) return alert("Upload PDF and write text!");
+      const erase = document.getElementById('editEraseOption').value;
+      if (fileInput.files.length === 0 || !text) return alert("Upload PDF and write new text!");
+      
       const fileBytes = await fileInput.files[0].arrayBuffer();
       const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
       const pages = pdfDoc.getPages();
-      const { height } = pages[0].getSize();
-      pages[0].drawText(text, { x: 50, y: height - 50, size: 24, color: PDFLib.rgb(1, 0, 0) });
+      const { height, width } = pages[0].getSize();
+      
+      // If user wants to "erase" old text at top
+      if (erase === 'yes') {
+          pages[0].drawRectangle({ x: 40, y: height - 80, width: width - 80, height: 60, color: PDFLib.rgb(1, 1, 1) });
+      }
+      
+      pages[0].drawText(text, { x: 50, y: height - 50, size: 20, color: PDFLib.rgb(0, 0, 0) });
       const newBytes = await pdfDoc.save();
       const blob = new Blob([newBytes], { type: 'application/pdf' });
       const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Edited.pdf"; link.click();
@@ -738,6 +814,58 @@
 
   // --- FULLY RESTORED ORIGINAL JS LOGIC (PASSPORT, PASSBOOK, RESIZER, AGE, TTS) ---
 
+  // PASSPORT STUDIO (LIVE PREVIEW FIX)
+  let passportStudioImgSourceBase64 = ''; let currentStudioPhotosCounter = 12;
+  function loadPassportStudioSource(event) {
+    if(event.target.files && event.target.files[0]) {
+      const reader = new FileReader(); 
+      reader.onload = function(e) { passportStudioImgSourceBase64 = e.target.result; renderPassportStudioPhotosGrid(); }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+  function syncDropdownToStudioGrid() { 
+    currentStudioPhotosCounter = parseInt(document.getElementById('passportCopyCount').value); 
+    document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter;
+    renderPassportStudioPhotosGrid(); 
+  }
+  function adjustPassportCountManual(changeFactor) {
+    let computedSum = currentStudioPhotosCounter + changeFactor;
+    if(computedSum < 1) computedSum = 1;
+    currentStudioPhotosCounter = computedSum;
+    document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter;
+    document.getElementById('passportCopyCount').value = (currentStudioPhotosCounter <= 30) ? currentStudioPhotosCounter : "30";
+    renderPassportStudioPhotosGrid();
+  }
+  function renderPassportStudioPhotosGrid() {
+    const grid = document.getElementById('passportGridContainer');
+    if(!passportStudioImgSourceBase64) { grid.innerHTML = '<div class="passport-blank-state"><i class="fa-regular fa-images" style="font-size:40px; color:#cbd5e1;"></i><p>Upload a photo to see live grid preview instantly.</p></div>'; return; }
+    grid.innerHTML = '';
+    for(let i = 0; i < currentStudioPhotosCounter; i++) { 
+        const cell = document.createElement('div'); cell.className = `passport-photo-item`; 
+        cell.innerHTML = `<img src="${passportStudioImgSourceBase64}" />`; grid.appendChild(cell); 
+    }
+  }
+  function downloadPassportStudioSheet() {
+    if(!passportStudioImgSourceBase64 || currentStudioPhotosCounter === 0) return alert("Pehle Image Upload karein!");
+    html2canvas(document.getElementById('passportSheetAreaToPrint'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passport_Sheet.png`; a.href = canvas.toDataURL('image/png'); a.click(); });
+  }
+
+  // PASSBOOK (FIRST/LAST/KO UPDATE)
+  function syncCardCanvasData() {
+    document.getElementById('cardBankName').innerText = (document.getElementById('inputBankName').value || 'STATE BANK OF INDIA').toUpperCase();
+    const fName = document.getElementById('inputFirstName').value; const lName = document.getElementById('inputLastName').value;
+    document.getElementById('cardHolderName').innerText = (fName + " " + lName).toUpperCase();
+    document.getElementById('cardKoName').innerText = document.getElementById('inputKoName').value.toUpperCase();
+    document.getElementById('cardKoLocation').innerText = document.getElementById('inputKoLocation').value.toUpperCase();
+    document.getElementById('cardCifId').innerText = document.getElementById('inputCifId').value;
+    document.getElementById('cardAccNo').innerText = document.getElementById('inputAccNo').value;
+    document.getElementById('cardIfsc').innerText = document.getElementById('inputIfsc').value.toUpperCase();
+    document.getElementById('cardAccountType').innerText = document.getElementById('inputAccountType').value;
+  }
+  function uploadLeftBankLogo(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardLogoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
+  function uploadRightProfilePhoto(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardPhotoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
+  function exportCardLayoutAsImage() { html2canvas(document.getElementById('printablePassbookCard'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passbook.png`; a.href = canvas.toDataURL('image/png'); a.click(); }); }
+
   // RESIZER
   let uploadedImageSrcData = null;
   function applyResizerPreset(presetVal) {
@@ -784,42 +912,6 @@
     document.getElementById('resYears').innerText = yearsDiff; document.getElementById('resMonths').innerText = monthsDiff; document.getElementById('resDays').innerText = daysDiff;
     document.getElementById('calcResultDisplayPanel').style.display = 'block';
   }
-
-  // PASSPORT STUDIO
-  let passportStudioImgSourceBase64 = ''; let currentStudioPhotosCounter = 12;
-  function loadPassportStudioSource(event) {
-    if(event.target.files && event.target.files[0]) {
-      const reader = new FileReader(); reader.onload = function(e) { passportStudioImgSourceBase64 = e.target.result; renderPassportStudioPhotosGrid(); }
-      reader.readAsDataURL(event.target.files[0]);
-    }
-  }
-  function syncDropdownToStudioGrid() { currentStudioPhotosCounter = parseInt(document.getElementById('passportCopyCount').value); renderPassportStudioPhotosGrid(); }
-  function renderPassportStudioPhotosGrid() {
-    const grid = document.getElementById('passportGridContainer');
-    if(!passportStudioImgSourceBase64) { grid.innerHTML = '<div class="passport-blank-state"><p>No source file loaded yet.</p></div>'; return; }
-    grid.innerHTML = '';
-    for(let i = 0; i < currentStudioPhotosCounter; i++) { const cell = document.createElement('div'); cell.className = `passport-photo-item`; cell.innerHTML = `<img src="${passportStudioImgSourceBase64}" />`; grid.appendChild(cell); }
-  }
-  function downloadPassportStudioSheet() {
-    if(!passportStudioImgSourceBase64 || currentStudioPhotosCounter === 0) return;
-    html2canvas(document.getElementById('passportSheetAreaToPrint'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passport_Sheet.png`; a.href = canvas.toDataURL('image/png'); a.click(); });
-  }
-
-  // PASSBOOK
-  function syncCardCanvasData() {
-    document.getElementById('cardBankName').innerText = (document.getElementById('inputBankName').value || 'STATE BANK OF INDIA').toUpperCase();
-    document.getElementById('cardCifId').innerText = document.getElementById('inputCifId').value;
-    document.getElementById('cardAccNo').innerText = document.getElementById('inputAccNo').value;
-    document.getElementById('cardIfsc').innerText = document.getElementById('inputIfsc').value.toUpperCase();
-    document.getElementById('cardAccountType').innerText = document.getElementById('inputAccountType').value;
-    document.getElementById('cardHolderName').innerText = document.getElementById('inputHolderName').value.toUpperCase();
-    document.getElementById('cardAddress').innerText = document.getElementById('inputAddress').value;
-    document.getElementById('cardVillage').innerText = document.getElementById('inputVillage').value;
-    document.getElementById('cardPinCode').innerText = document.getElementById('inputPinCode').value;
-  }
-  function uploadLeftBankLogo(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardLogoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
-  function uploadRightProfilePhoto(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardPhotoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
-  function exportCardLayoutAsImage() { html2canvas(document.getElementById('printablePassbookCard'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passbook.png`; a.href = canvas.toDataURL('image/png'); a.click(); }); }
 
   // TTS
   let liveSpeechBlobUrlTrack = "";
