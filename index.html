@@ -254,21 +254,50 @@
                 <button class="btn" onclick="alert('Feature coming in next update!')">Resize & Print</button>
             </div>
 
-            <!-- 10. Passbook Maker (UI Placeholder) -->
-            <div class="card" style="opacity: 0.8;">
-                <div class="card-top">
-                    <div class="card-icon text-blue"><i class="fa-solid fa-building-columns"></i></div>
-                    <div class="card-title">Passbook Maker</div>
-                    <div class="card-desc">Bank Passbook Format</div>
-                    <div class="input-group">
-                        <input type="text" placeholder="Bank Name" disabled style="margin-bottom: 5px;">
-                        <input type="text" placeholder="A/C Number" disabled>
-                    </div>
-                </div>
-                <button class="btn" onclick="alert('Feature coming in next update!')">Generate Passbook</button>
-            </div>
+            <!-- 10. Passbook Maker  function syncCardCanvasData() {
+    const rawBankName = document.getElementById('inputBankName').value || 'STATE BANK OF INDIA';
+    document.getElementById('cardBankName').innerText = rawBankName.toUpperCase();
+    document.getElementById('cardCifId').innerText = document.getElementById('inputCifId').value;
+    document.getElementById('cardAccNo').innerText = document.getElementById('inputAccNo').value;
+    document.getElementById('cardIfsc').innerText = document.getElementById('inputIfsc').value.toUpperCase();
+    document.getElementById('cardAccountType').innerText = document.getElementById('inputAccountType').value;
+    document.getElementById('cardHolderName').innerText = document.getElementById('inputHolderName').value.toUpperCase();
+    document.getElementById('cardAddress').innerText = document.getElementById('inputAddress').value;
+    document.getElementById('cardVillage').innerText = document.getElementById('inputVillage').value;
+    document.getElementById('cardPinCode').innerText = document.getElementById('inputPinCode').value;
+    document.getElementById('cardCspName').innerText = document.getElementById('inputCspName').value;
+    document.getElementById('cardCspLoc').innerText = document.getElementById('inputCspLoc').value;
+  }
 
-        </div>
+  function uploadLeftBankLogo(event) {
+    if(event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('cardLogoWrapper').innerHTML = <img src="${e.target.result}" />;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  function uploadRightProfilePhoto(event) {
+    if(event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('cardPhotoWrapper').innerHTML = <img src="${e.target.result}" />;
+      }
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
+
+  function exportCardLayoutAsImage() {
+    const targetElement = document.getElementById('printablePassbookCard');
+    html2canvas(targetElement, { scale: 2 }).then(canvas => {
+      const downloader = document.createElement('a');
+      downloader.download = Bank_Passbook_${Date.now()}.png;
+      downloader.href = canvas.toDataURL('image/png');
+      downloader.click();
+    });
+  } </div>
     </div>
 
     <!-- About Section (UNCHANGED) -->
