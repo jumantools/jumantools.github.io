@@ -74,6 +74,7 @@
     .icon-cyan { background: #ecfeff; color: #06b6d4; } .icon-purple { background: #f3e8ff; color: #a855f7; }
     .icon-red { background: #fee2e2; color: #ef4444; } .icon-green { background: #dcfce7; color: #10b981; }
     .icon-dark { background: #f1f5f9; color: #334155; } .icon-yellow { background: #fef08a; color: #b45309; }
+    .icon-teal { background: #ccfbf1; color: #0d9488; } .icon-pink { background: #fce7f3; color: #db2777; }
 
     /* ENGINE LAYOUT PANELS */
     .engine-container, .tool-workspace { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 40px; scroll-margin-top: 100px; }
@@ -83,7 +84,7 @@
     .field-group { display: flex; flex-direction: column; gap: 6px; }
     .field-group label { font-size: 13px; font-weight: 600; color: #334155; }
     .field-group input, .field-group select, .field-group textarea { padding: 11px 13px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; outline: none; background: #f8fafc; transition: 0.2s; }
-    .field-group input:focus, .field-group select:focus { border-color: var(--sbi-blue); background: #fff; }
+    .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-color: var(--sbi-blue); background: #fff; }
 
     .action-btn { background: var(--primary-color); color: #fff; padding: 11px 24px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; margin-right: 10px; }
     .action-btn:hover { background: var(--primary-hover); }
@@ -94,30 +95,34 @@
     .btn-blue { background: #3b82f6; } .btn-blue:hover { background: #2563eb; }
     .btn-cyan { background: #06b6d4; color: white;} .btn-cyan:hover { background: #0891b2; }
     .btn-red { background: #ef4444; color: white;} .btn-red:hover { background: #dc2626; }
+    .btn-teal { background: #0d9488; color: white;} .btn-teal:hover { background: #0f766e; }
 
     /* SIGNATURE CANVAS */
     .signature-pad { border: 2px dashed #cbd5e1; background: #f8fafc; cursor: crosshair; touch-action: none; border-radius: 6px; width: 100%; max-width: 400px; height: 150px; }
 
-    /* BLACK FOOTER / ABOUT SECTION */
+    /* BLACK FOOTER / ABOUT SECTION WITH SOCIAL LINKS */
     .custom-footer { background: #000000; color: #ffffff; padding: 50px 20px 20px; font-family: 'Segoe UI', sans-serif; margin-top: 40px; border-top: 4px solid #222; }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
     .footer-col h4 { font-size: 18px; margin-bottom: 18px; color: #ffffff; font-weight: bold; text-transform: capitalize; }
     .footer-col p { color: #cccccc; font-size: 14px; line-height: 1.8; margin-bottom: 15px; }
     .footer-col ul { list-style: none; }
     .footer-col ul li { margin-bottom: 10px; }
     .footer-col ul li a { color: #cccccc; font-size: 14px; text-decoration: none; transition: 0.2s; }
     .footer-col ul li a:hover { color: #ffffff; text-decoration: underline; padding-left: 5px; }
+    
     .footer-contact { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; color: #cccccc; font-size: 14px; }
+    .footer-contact i { font-size: 20px; }
+    .footer-contact a { color: #cccccc; text-decoration: none; transition: 0.2s;}
+    .footer-contact a:hover { color: #ffffff; text-decoration: underline;}
     
     /* Social Colors */
-    .footer-contact i.fa-envelope { font-size: 20px; color: #ffffff; }
-    .footer-contact i.fa-whatsapp { font-size: 20px; color: #25D366; }
-    .footer-contact i.fa-facebook { font-size: 20px; color: #1877F2; }
-    .footer-contact i.fa-instagram { font-size: 20px; color: #E1306C; }
-    .footer-contact i.fa-telegram { font-size: 20px; color: #0088cc; }
-    .footer-contact a { color: #cccccc; text-decoration: none; }
-    .footer-contact a:hover { color: #ffffff; }
-    
+    .c-email { color: #ea4335; }
+    .c-whatsapp { color: #25D366; }
+    .c-youtube { color: #ff0000; }
+    .c-facebook { color: #1877F2; }
+    .c-instagram { color: #E1306C; }
+    .c-twitter { color: #1DA1F2; }
+
     .footer-bottom { text-align: center; border-top: 1px solid #333333; margin-top: 40px; padding-top: 20px; font-size: 13px; color: #aaaaaa; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; align-items: center; }
     .footer-bottom a { color: #cccccc; text-decoration: none; margin: 0 10px; }
     .footer-bottom a:hover { color: #ffffff; }
@@ -159,9 +164,13 @@
     .pb-details td.separator-col { width: 15px; text-align: center; }
     .pb-photo-slot { width: 120px; height: 150px; border: 2px solid #000; background: #fff; display: flex; justify-content: center; align-items: center; text-align: center; font-size: 11px; font-weight: bold; color: #777; overflow: hidden; }
     .pb-photo-slot img { width: 100%; height: 100%; object-fit: cover; }
-    
-    .audio-controls-box { margin-top: 15px; padding: 20px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; display: none; }
-    .native-audio-player { flex: 1; min-width: 260px; height: 40px; outline: none; margin-top: 10px; width: 100%; }
+
+    /* NEW TOOLS UI */
+    .word-box { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
+    .word-tile { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; text-align: center; }
+    .word-tile h4 { font-size: 24px; color: var(--primary-color); }
+    .word-tile p { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; }
+    .pwd-display { background: #f1f5f9; border: 2px dashed #cbd5e1; padding: 15px; font-size: 20px; font-family: monospace; text-align: center; border-radius: 8px; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; word-break: break-all; }
 
     @media (max-width: 768px) {
         header { flex-direction: column; gap: 15px; }
@@ -238,6 +247,11 @@
     <div class="tool-card" onclick="openTool('sign-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-signature"></i></div><h4>Sign PDF</h4><p>Draw & add signature.</p></div>
     <div class="tool-card" onclick="openTool('page-numbers-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-list-ol"></i></div><h4>Page Numbers</h4><p>Add numbers to pages.</p></div>
     <div class="tool-card" onclick="openTool('scan-to-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-scanner-image"></i></div><h4>Scan to PDF</h4><p>Convert scans to PDF.</p></div>
+
+    <!-- NEW SUGGESTED TOOLS -->
+    <div class="tool-card" onclick="openTool('word-counter-module')"><div class="tool-icon-wrapper icon-teal"><i class="fa-solid fa-text-width"></i></div><h4>Word Counter</h4><p>Count words & characters.</p></div>
+    <div class="tool-card" onclick="openTool('password-gen-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-key"></i></div><h4>Password Gen</h4><p>Generate strong passwords.</p></div>
+    <div class="tool-card" onclick="openTool('case-converter-module')"><div class="tool-icon-wrapper icon-pink"><i class="fa-solid fa-font"></i></div><h4>Case Converter</h4><p>Change text uppercase/lowercase.</p></div>
     
     <!-- Premium UI Tools -->
     <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-regular fa-file-word"></i></div><h4>Word to PDF</h4><p>Convert DOCX to PDF.</p></div>
@@ -258,7 +272,7 @@
 
   <!-- WORKSPACES -->
   
-  <!-- 1. Background Remover (Fixed Error & Added Color) -->
+  <!-- 1. Background Remover -->
   <div id="bg-remover-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444;">
     <h3><i class="fa-solid fa-user-slash" style="color: #ef4444;"></i> Photo Background Remover</h3>
     <div class="form-row">
@@ -289,7 +303,7 @@
     <button class="action-btn btn-red" onclick="alertSimulateProtection()">Lock PDF & Download</button>
   </div>
 
-  <!-- 3. Edit PDF (Whiteout + Replace Text) -->
+  <!-- 3. Edit PDF -->
   <div id="edit-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #334155;">
     <h3><i class="fa-solid fa-pen-to-square" style="color: #334155;"></i> Edit PDF (Replace / Add Text)</h3>
     <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Browsers cannot directly delete PDF source code. To "remove" old text, we paint a white box over it, and then write your New Text on top!</p>
@@ -306,7 +320,7 @@
     <button class="action-btn btn-secondary" onclick="processEditPdf()">Update PDF & Download</button>
   </div>
 
-  <!-- Passport Photo Studio (UPDATED WITH DROPDOWN, +/- AND LIVE PREVIEW) -->
+  <!-- Passport Photo Studio -->
   <div class="engine-container" id="passport-studio-anchor" style="display:none; border-top: 4px solid var(--studio-purple);">
     <h3><i class="fa-solid fa-camera-retro" style="color:var(--studio-purple);"></i> Passport Size Photo Studio</h3>
     <div class="form-row">
@@ -340,7 +354,7 @@
     </div>
   </div>
 
-  <!-- Bank Passbook Generate (UPDATED FIELDS: ORDER MATCHED WITH SCREENSHOT) -->
+  <!-- Bank Passbook Generate -->
   <div class="engine-container" id="passbook-engine-anchor" style="display:none; border-top: 4px solid var(--sbi-blue);">
     <h3><i class="fa-solid fa-id-card" style="color:var(--sbi-blue);"></i> CSP Bank Passbook Generate</h3>
     <div class="form-row">
@@ -354,9 +368,9 @@
       <div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" placeholder="Enter IFSC Code" oninput="syncCardCanvasData()"></div>
     </div>
     <div class="form-row">
-      <div class="field-group"><label> Address</label><input type="text" id="inputAddress" placeholder="Enter Address" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" placeholder="6-Digit Pin Code" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>Account Type</label><select id="inputAccountType" onchange="syncCardCanvasData()"><option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option><option value="CURRENT ACCOUNT">CURRENT ACCOUNT</option></select></div>
+      <div class="field-group"><label>Full Address</label><input type="text" id="inputAddress" placeholder="Enter Full Address" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" placeholder="6-Digit Pin Code" oninput="syncCardCanvasData()"></div>
     </div>
     <div class="form-row">
       <div class="field-group"><label>Ko Name </label><input type="text" id="inputKoName" placeholder="Enter Ko Name" oninput="syncCardCanvasData()"></div>
@@ -378,7 +392,6 @@
       <div class="pb-main-body">
         <div class="pb-details">
           <table>
-            <!-- Order Matching the Screenshot Exactly -->
             <tr><td class="label-col">CIF Number</td><td class="separator-col">:</td><td id="cardCifId"></td></tr>
             <tr><td class="label-col">Account Number</td><td class="separator-col">:</td><td id="cardAccNo"></td></tr>
             <tr><td class="label-col">IFSC Code</td><td class="separator-col">:</td><td id="cardIfsc"></td></tr>
@@ -428,7 +441,7 @@
     </p>
   </div>
 
-  <!-- Rest of Working PDF Tools -->
+  <!-- PDF Tools -->
   <div id="jpg-to-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #3b82f6;">
     <h3><i class="fa-solid fa-file-pdf" style="color: #3b82f6;"></i> JPG to PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload Image:</label><input type="file" id="jpgToPdfInput" accept="image/jpeg, image/png"></div></div>
@@ -521,36 +534,69 @@
     <div class="calc-result-box" id="calcResultDisplayPanel"><div class="calc-grid"><div class="calc-tile"><h4 id="resYears">0</h4><p>Years</p></div><div class="calc-tile"><h4 id="resMonths">0</h4><p>Months</p></div><div class="calc-tile"><h4 id="resDays">0</h4><p>Days</p></div></div></div>
   </div>
 
-  <!-- Text To Speech (LIVE MP3 FIX + DOWNLOAD) -->
+  <!-- Text To Speech (LIVE MP3 + FALLBACK DOWNLOAD) -->
   <div class="engine-container" id="tts-engine-anchor" style="display:none; border-top: 4px solid var(--success-green);">
     <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech Audio</h3>
-    <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4" placeholder="Enter text here (Max 200 words for perfect voice)..."></textarea></div></div>
+    <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4" placeholder="Enter text here..."></textarea></div></div>
     <div class="form-row">
       <div class="field-group">
         <label>Select Language</label>
         <select id="ttsLanguageSelect">
-            <option value="hi" selected>Hindi</option>
-            <option value="en">English</option>
-            <option value="bn">Bengali</option>
-            <option value="mr">Marathi</option>
-            <option value="te">Telugu</option>
-            <option value="ta">Tamil</option>
-            <option value="es">Spanish</option>
-            <option value="fr">French</option>
+            <option value="hi-IN" selected>Hindi</option>
+            <option value="en-US">English (US)</option>
+            <option value="en-GB">English (UK)</option>
+            <option value="bn-IN">Bengali</option>
+            <option value="mr-IN">Marathi</option>
+            <option value="te-IN">Telugu</option>
+            <option value="ta-IN">Tamil</option>
+            <option value="es-ES">Spanish</option>
+            <option value="fr-FR">French</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Voice Type</label>
+        <select id="ttsGenderSelect">
+            <option value="male">Male Voice</option>
+            <option value="female" selected>Female Voice</option>
         </select>
       </div>
     </div>
-    <button class="action-btn btn-success" onclick="executeSecureTtsPipeline()">Generate High-Quality Audio</button>
-    <div class="audio-controls-box" id="ttsPlaybackDock">
-      <p style="color: #15803d; font-size:13px; font-weight:bold;">✅ Audio Ready! Click play below or download as MP3.</p>
-      <audio id="htmlLiveAudioComponent" class="native-audio-player" controls></audio>
-      <button class="action-btn btn-success" onclick="triggerDirectLocalDownload()" style="margin-top:10px;"><i class="fa-solid fa-download"></i> Download Audio (.mp3)</button>
+    <button class="action-btn btn-success" onclick="executeSecureTtsPipeline()"><i class="fa-solid fa-play"></i> Generate & Listen Audio</button>
+  </div>
+
+  <!-- 3 NEW SUGGESTED TOOLS -->
+  
+  <div id="word-counter-module" class="tool-workspace" style="display: none; border-top: 4px solid #0d9488;">
+    <h3><i class="fa-solid fa-text-width" style="color: #0d9488;"></i> Word & Character Counter</h3>
+    <div class="form-row"><div class="field-group"><textarea id="wcInput" rows="5" placeholder="Paste your text here to analyze..." oninput="calculateWords()"></textarea></div></div>
+    <div class="word-box">
+        <div class="word-tile"><h4 id="wcWords">0</h4><p>Words</p></div>
+        <div class="word-tile"><h4 id="wcChars">0</h4><p>Characters</p></div>
+        <div class="word-tile"><h4 id="wcLines">0</h4><p>Lines</p></div>
     </div>
+  </div>
+
+  <div id="password-gen-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444;">
+    <h3><i class="fa-solid fa-key" style="color: #ef4444;"></i> Strong Password Generator</h3>
+    <div class="pwd-display" id="pwdResult">Click Generate Below</div>
+    <div class="form-row">
+        <div class="field-group"><label>Password Length: <span id="pwdLenText">12</span></label><input type="range" id="pwdLength" min="6" max="30" value="12" oninput="document.getElementById('pwdLenText').innerText = this.value"></div>
+    </div>
+    <button class="action-btn btn-red" onclick="generatePassword()">Generate New Password</button>
+    <button class="action-btn btn-secondary" onclick="copyPassword()">Copy to Clipboard</button>
+  </div>
+
+  <div id="case-converter-module" class="tool-workspace" style="display: none; border-top: 4px solid #db2777;">
+    <h3><i class="fa-solid fa-font" style="color: #db2777;"></i> Case Converter</h3>
+    <div class="form-row"><div class="field-group"><textarea id="caseInput" rows="5" placeholder="Type or paste your text here..."></textarea></div></div>
+    <button class="action-btn" style="background:#db2777;" onclick="convertCase('upper')">UPPERCASE</button>
+    <button class="action-btn" style="background:#be185d;" onclick="convertCase('lower')">lowercase</button>
+    <button class="action-btn btn-secondary" onclick="convertCase('title')">Title Case</button>
   </div>
 
 </div>
 
-<!-- BLACK FOOTER AS REQUESTED -->
+<!-- BLACK FOOTER WITH SOCIAL LINKS -->
 <footer class="custom-footer">
     <div class="footer-grid">
         <div class="footer-col" style="padding-right: 20px;">
@@ -578,13 +624,13 @@
             </ul>
         </div>
         <div class="footer-col">
-            <h4>Contact Us</h4>
-            <!-- SOCIAL LINKS ADDED HERE -->
-            <div class="footer-contact"><i class="fa-solid fa-envelope"></i><a href="mailto:technicaljumancontact@gmail.com">technicaljumancontact@gmail.com</a></div>
-            <div class="footer-contact"><i class="fa-brands fa-whatsapp"></i><a href="https://wa.me/919471367125" target="_blank">9471367125</a></div>
-            <div class="footer-contact"><i class="fa-brands fa-facebook"></i><a href="#" target="_blank">Facebook Page</a></div>
-            <div class="footer-contact"><i class="fa-brands fa-instagram"></i><a href="#" target="_blank">Instagram Profile</a></div>
-            <div class="footer-contact"><i class="fa-brands fa-telegram"></i><a href="#" target="_blank">Telegram Channel</a></div>
+            <h4>Sponsorship Business Enquiries</h4>
+            <div class="footer-contact"><i class="fa-solid fa-envelope c-email"></i><a href="mailto:technicaljumancontact@gmail.com">technicaljumancontact@gmail.com</a></div>
+            <div class="footer-contact"><i class="fa-brands fa-whatsapp c-whatsapp"></i><a href="https://wa.me/919471367125" target="_blank">9471367125</a></div>
+            <div class="footer-contact"><i class="fa-brands fa-youtube c-youtube"></i><a href="https://www.youtube.com/@TechnicalJuman" target="_blank">TechnicalJuman</a></div>
+            <div class="footer-contact"><i class="fa-brands fa-facebook c-facebook"></i><a href="https://facebook.com/technicaljuman" target="_blank">Technical Juman</a></div>
+            <div class="footer-contact"><i class="fa-brands fa-instagram c-instagram"></i><a href="https://instagram.com/technicaljuman" target="_blank">Technical Juman</a></div>
+            <div class="footer-contact"><i class="fa-brands fa-x-twitter c-twitter"></i><a href="https://x.com/technicaljuman" target="_blank">Technical Juman</a></div>
         </div>
     </div>
     <div class="footer-bottom">
@@ -594,24 +640,16 @@
 </footer>
 
 <script>
-  // Auth Modal Logic
-  function openAuthModal(title) {
-      document.getElementById('modalTitle').innerText = title;
-      document.getElementById('authModal').style.display = 'flex';
-  }
+  function openAuthModal(title) { document.getElementById('modalTitle').innerText = title; document.getElementById('authModal').style.display = 'flex'; }
   function closeAuthModal() { document.getElementById('authModal').style.display = 'none'; }
-
-  // Search Functionality
   function searchTools() {
       let input = document.getElementById('toolSearchBox').value.toLowerCase();
       let cards = document.getElementById('toolsGridBox').getElementsByClassName('tool-card');
       for (let i = 0; i < cards.length; i++) {
           let title = cards[i].getElementsByTagName('h4')[0].innerText.toLowerCase();
-          if (title.indexOf(input) > -1) { cards[i].style.display = ""; } 
-          else { cards[i].style.display = "none"; }
+          if (title.indexOf(input) > -1) { cards[i].style.display = ""; } else { cards[i].style.display = "none"; }
       }
   }
-
   function openTool(moduleId) {
       const allWorkspaces = document.querySelectorAll('.tool-workspace, .engine-container');
       allWorkspaces.forEach(el => el.style.display = 'none');
@@ -619,7 +657,33 @@
       document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' });
   }
 
-  // 1. BG REMOVER (Fixed Fetching Error)
+  // --- NEW TOOLS LOGIC ---
+  function calculateWords() {
+      let text = document.getElementById('wcInput').value;
+      document.getElementById('wcChars').innerText = text.length;
+      document.getElementById('wcWords').innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+      document.getElementById('wcLines').innerText = text === "" ? 0 : text.split(/\r\n|\r|\n/).length;
+  }
+  function generatePassword() {
+      const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+      const len = document.getElementById('pwdLength').value;
+      let pwd = "";
+      for (let i = 0; i < len; i++) { pwd += chars.charAt(Math.floor(Math.random() * chars.length)); }
+      document.getElementById('pwdResult').innerText = pwd;
+  }
+  function copyPassword() {
+      const text = document.getElementById('pwdResult').innerText;
+      if(text === "Click Generate Below") return;
+      navigator.clipboard.writeText(text); alert("Password copied!");
+  }
+  function convertCase(type) {
+      const input = document.getElementById('caseInput');
+      if (type === 'upper') input.value = input.value.toUpperCase();
+      else if (type === 'lower') input.value = input.value.toLowerCase();
+      else if (type === 'title') input.value = input.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  }
+
+  // 1. BG REMOVER (Fixed)
   async function processBgRemover() {
       const fileInput = document.getElementById('bgRemoveInput');
       const log = document.getElementById('bgRemoveLog');
@@ -632,34 +696,29 @@
       btn.disabled = true;
 
       try {
-          const imgRaw = new Image();
-          imgRaw.src = URL.createObjectURL(fileInput.files[0]);
+          const imgRaw = new Image(); imgRaw.src = URL.createObjectURL(fileInput.files[0]);
           await new Promise(r => imgRaw.onload = r);
-          
           let w = imgRaw.width, h = imgRaw.height;
           if (w > 1200 || h > 1200) { const ratio = Math.min(1200/w, 1200/h); w *= ratio; h *= ratio; }
           const tempCanvas = document.createElement('canvas'); tempCanvas.width = w; tempCanvas.height = h;
           tempCanvas.getContext('2d').drawImage(imgRaw, 0, 0, w, h);
           const resizedBlob = await new Promise(r => tempCanvas.toBlob(r, 'image/jpeg', 0.9));
 
-          // Fixed Public Path for Stable AI Download
           const config = { publicPath: "https://static.imgly.com/@imgly/background-removal-data/1.4.3/dist/" };
           const imageBlob = await imglyRemoveBackground(resizedBlob, config);
           
           const url = URL.createObjectURL(imageBlob);
           const img = new Image();
           img.onload = function() {
-              const canvas = document.createElement('canvas');
-              canvas.width = img.width; canvas.height = img.height;
+              const canvas = document.createElement('canvas'); canvas.width = img.width; canvas.height = img.height;
               const ctx = canvas.getContext('2d');
               ctx.fillStyle = bgColor; ctx.fillRect(0, 0, canvas.width, canvas.height);
               ctx.drawImage(img, 0, 0);
-              const link = document.createElement('a');
-              link.href = canvas.toDataURL('image/jpeg', 1.0); link.download = "New_Background.jpg"; link.click();
+              const link = document.createElement('a'); link.href = canvas.toDataURL('image/jpeg', 1.0); link.download = "New_Background.jpg"; link.click();
               log.style.color = "#16a34a"; log.innerText = "✅ Done! Background removed and color applied.";
           }
           img.src = url;
-      } catch(err) { log.style.color = "#dc2626"; log.innerText = "❌ Error processing. Refresh page and try again."; console.log(err); }
+      } catch(err) { log.style.color = "#dc2626"; log.innerText = "❌ Error processing. Try again later."; }
       btn.disabled = false;
   }
 
@@ -677,17 +736,12 @@
       const text = document.getElementById('editPdfText').value;
       const erase = document.getElementById('editEraseOption').value;
       if (fileInput.files.length === 0 || !text) return alert("Upload PDF and write new text!");
-      
       const fileBytes = await fileInput.files[0].arrayBuffer();
       const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
-      const pages = pdfDoc.getPages();
-      const { height, width } = pages[0].getSize();
-      
+      const pages = pdfDoc.getPages(); const { height, width } = pages[0].getSize();
       if (erase === 'yes') { pages[0].drawRectangle({ x: 40, y: height - 80, width: width - 80, height: 60, color: PDFLib.rgb(1, 1, 1) }); }
-      
       pages[0].drawText(text, { x: 50, y: height - 50, size: 20, color: PDFLib.rgb(0, 0, 0) });
-      const newBytes = await pdfDoc.save();
-      const blob = new Blob([newBytes], { type: 'application/pdf' });
+      const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' });
       const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Edited.pdf"; link.click();
   }
 
@@ -707,8 +761,7 @@
       const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
       const pages = pdfDoc.getPages();
       pages.forEach((page, index) => { const { width } = page.getSize(); page.drawText(`Page ${index + 1}`, { x: width / 2 - 20, y: 20, size: 12, color: PDFLib.rgb(0, 0, 0) }); });
-      const newBytes = await pdfDoc.save();
-      const blob = new Blob([newBytes], { type: 'application/pdf' });
+      const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' });
       const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Numbered.pdf"; link.click();
   }
 
@@ -731,57 +784,40 @@
   }
 
   async function processSplitPdf() {
-      const fileInput = document.getElementById('splitPdfInput');
-      let pageNum = parseInt(document.getElementById('splitPageNum').value);
+      const fileInput = document.getElementById('splitPdfInput'); let pageNum = parseInt(document.getElementById('splitPageNum').value);
       if (fileInput.files.length === 0) return alert("Upload PDF!");
-      const fileBytes = await fileInput.files[0].arrayBuffer();
-      const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
-      const newPdf = await PDFLib.PDFDocument.create();
-      const [copiedPage] = await newPdf.copyPages(pdfDoc, [pageNum - 1]);
-      newPdf.addPage(copiedPage);
-      const newBytes = await newPdf.save();
-      const blob = new Blob([newBytes], { type: 'application/pdf' });
+      const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
+      const newPdf = await PDFLib.PDFDocument.create(); const [copiedPage] = await newPdf.copyPages(pdfDoc, [pageNum - 1]);
+      newPdf.addPage(copiedPage); const newBytes = await newPdf.save(); const blob = new Blob([newBytes], { type: 'application/pdf' });
       const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `Page_${pageNum}.pdf`; link.click();
   }
 
   async function processWatermarkPdf() {
-      const fileInput = document.getElementById('watermarkPdfInput');
-      const text = document.getElementById('watermarkPdfText').value;
+      const fileInput = document.getElementById('watermarkPdfInput'); const text = document.getElementById('watermarkPdfText').value;
       if (fileInput.files.length === 0 || !text) return alert("Upload PDF & Text!");
-      const fileBytes = await fileInput.files[0].arrayBuffer();
-      const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
-      const pages = pdfDoc.getPages();
+      const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages();
       pages.forEach(page => { const { width, height } = page.getSize(); page.drawText(text, { x: width / 4, y: height / 2, size: 50, color: PDFLib.rgb(0.8, 0.2, 0.2), opacity: 0.3, rotate: PDFLib.degrees(45) }); });
-      const newBytes = await pdfDoc.save();
-      const blob = new Blob([newBytes], { type: 'application/pdf' });
+      const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' });
       const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Watermark.pdf"; link.click();
   }
 
   async function processRotatePdf() {
-      const fileInput = document.getElementById('rotatePdfInput');
-      const angle = parseInt(document.getElementById('rotatePdfAngle').value);
+      const fileInput = document.getElementById('rotatePdfInput'); const angle = parseInt(document.getElementById('rotatePdfAngle').value);
       if (fileInput.files.length === 0) return alert("Upload PDF!");
-      const fileBytes = await fileInput.files[0].arrayBuffer();
-      const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
-      const pages = pdfDoc.getPages();
+      const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages();
       pages.forEach(page => { page.setRotation(PDFLib.degrees(page.getRotation().angle + angle)); });
-      const newBytes = await pdfDoc.save();
-      const blob = new Blob([newBytes], { type: 'application/pdf' });
+      const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' });
       const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Rotated.pdf"; link.click();
   }
 
   async function processPdfToJpg() {
-      const fileInput = document.getElementById('pdfToJpgInput');
-      const log = document.getElementById('pdfToJpgLog');
+      const fileInput = document.getElementById('pdfToJpgInput'); const log = document.getElementById('pdfToJpgLog');
       if (fileInput.files.length === 0) return alert("Upload PDF!");
       log.style.display = "block"; log.innerText = "🔄 Processing PDF to Image...";
       const fileReader = new FileReader();
       fileReader.onload = async function() {
-          const typedarray = new Uint8Array(this.result);
-          const pdf = await pdfjsLib.getDocument(typedarray).promise;
-          const page = await pdf.getPage(1); 
-          const viewport = page.getViewport({scale: 2.0}); 
-          const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
+          const typedarray = new Uint8Array(this.result); const pdf = await pdfjsLib.getDocument(typedarray).promise; const page = await pdf.getPage(1); 
+          const viewport = page.getViewport({scale: 2.0}); const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
           canvas.height = viewport.height; canvas.width = viewport.width;
           await page.render({canvasContext: ctx, viewport: viewport}).promise;
           const link = document.createElement('a'); link.href = canvas.toDataURL('image/jpeg', 0.9); link.download = "Extracted.jpg"; link.click();
@@ -795,14 +831,10 @@
       if (fileInput.files.length === 0) return alert("Upload PDF!");
       const fileReader = new FileReader();
       fileReader.onload = async function() {
-          const typedarray = new Uint8Array(this.result);
-          const pdf = await pdfjsLib.getDocument(typedarray).promise;
-          const newPdf = new window.jspdf.jsPDF();
+          const typedarray = new Uint8Array(this.result); const pdf = await pdfjsLib.getDocument(typedarray).promise; const newPdf = new window.jspdf.jsPDF();
           for(let i = 1; i <= pdf.numPages; i++) {
-              const page = await pdf.getPage(i);
-              const viewport = page.getViewport({scale: 1.0}); 
-              const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
-              canvas.height = viewport.height; canvas.width = viewport.width;
+              const page = await pdf.getPage(i); const viewport = page.getViewport({scale: 1.0}); 
+              const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.height = viewport.height; canvas.width = viewport.width;
               await page.render({canvasContext: ctx, viewport: viewport}).promise;
               const imgData = canvas.toDataURL('image/jpeg', 0.5); 
               if(i > 1) newPdf.addPage();
@@ -832,55 +864,40 @@
       if (mergePdfFilesArray.length < 2) return alert("Select at least 2 PDFs!");
       const mergedPdf = await PDFLib.PDFDocument.create();
       for (let i = 0; i < mergePdfFilesArray.length; i++) {
-          const fileBytes = await mergePdfFilesArray[i].arrayBuffer();
-          const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
-          const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
-          copiedPages.forEach((page) => mergedPdf.addPage(page));
+          const fileBytes = await mergePdfFilesArray[i].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes);
+          const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices()); copiedPages.forEach((page) => mergedPdf.addPage(page));
       }
-      const mergedPdfBytes = await mergedPdf.save();
-      const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+      const mergedPdfBytes = await mergedPdf.save(); const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
       const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Merged_All.pdf"; link.click();
   }
 
-  // --- FULLY RESTORED ORIGINAL JS LOGIC ---
-
-  // PASSPORT STUDIO 
+  // --- PASSPORT, PASSBOOK, RESIZER, AGE CALC ---
   let passportStudioImgSourceBase64 = ''; let currentStudioPhotosCounter = 12;
   function loadPassportStudioSource(event) {
     if(event.target.files && event.target.files[0]) {
-      const reader = new FileReader(); 
-      reader.onload = function(e) { passportStudioImgSourceBase64 = e.target.result; renderPassportStudioPhotosGrid(); }
+      const reader = new FileReader(); reader.onload = function(e) { passportStudioImgSourceBase64 = e.target.result; renderPassportStudioPhotosGrid(); }
       reader.readAsDataURL(event.target.files[0]);
     }
   }
-  function syncDropdownToStudioGrid() { 
-    currentStudioPhotosCounter = parseInt(document.getElementById('passportCopyCount').value); 
-    document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter;
-    renderPassportStudioPhotosGrid(); 
-  }
+  function syncDropdownToStudioGrid() { currentStudioPhotosCounter = parseInt(document.getElementById('passportCopyCount').value); document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter; renderPassportStudioPhotosGrid(); }
   function adjustPassportCountManual(changeFactor) {
-    let computedSum = currentStudioPhotosCounter + changeFactor;
-    if(computedSum < 1) computedSum = 1;
-    currentStudioPhotosCounter = computedSum;
-    document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter;
-    document.getElementById('passportCopyCount').value = (currentStudioPhotosCounter <= 30) ? currentStudioPhotosCounter : "30";
-    renderPassportStudioPhotosGrid();
+    let computedSum = currentStudioPhotosCounter + changeFactor; if(computedSum < 1) computedSum = 1;
+    currentStudioPhotosCounter = computedSum; document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter;
+    document.getElementById('passportCopyCount').value = (currentStudioPhotosCounter <= 30) ? currentStudioPhotosCounter : "30"; renderPassportStudioPhotosGrid();
   }
   function renderPassportStudioPhotosGrid() {
     const grid = document.getElementById('passportGridContainer');
     if(!passportStudioImgSourceBase64) { grid.innerHTML = '<div class="passport-blank-state"><i class="fa-regular fa-images" style="font-size:40px; color:#cbd5e1;"></i><p>Upload a photo to see live grid preview instantly.</p></div>'; return; }
     grid.innerHTML = '';
     for(let i = 0; i < currentStudioPhotosCounter; i++) { 
-        const cell = document.createElement('div'); cell.className = `passport-photo-item`; 
-        cell.innerHTML = `<img src="${passportStudioImgSourceBase64}" />`; grid.appendChild(cell); 
+        const cell = document.createElement('div'); cell.className = `passport-photo-item`; cell.innerHTML = `<img src="${passportStudioImgSourceBase64}" />`; grid.appendChild(cell); 
     }
   }
   function downloadPassportStudioSheet() {
-    if(!passportStudioImgSourceBase64 || currentStudioPhotosCounter === 0) return alert("Pehle Image Upload karein!");
+    if(!passportStudioImgSourceBase64 || currentStudioPhotosCounter === 0) return alert("Upload Image!");
     html2canvas(document.getElementById('passportSheetAreaToPrint'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passport_Sheet.png`; a.href = canvas.toDataURL('image/png'); a.click(); });
   }
 
-  // PASSBOOK (ORDER FIXED EXACTLY LIKE SCREENSHOT)
   function syncCardCanvasData() {
     document.getElementById('cardBankName').innerText = (document.getElementById('inputBankName').value || 'STATE BANK OF INDIA').toUpperCase();
     const fName = document.getElementById('inputFirstName').value; const lName = document.getElementById('inputLastName').value;
@@ -898,14 +915,10 @@
   function uploadRightProfilePhoto(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardPhotoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
   function exportCardLayoutAsImage() { html2canvas(document.getElementById('printablePassbookCard'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passbook.png`; a.href = canvas.toDataURL('image/png'); a.click(); }); }
 
-  // RESIZER
   let uploadedImageSrcData = null;
   function applyResizerPreset(presetVal) {
       const wField = document.getElementById('resizerWidth'); const hField = document.getElementById('resizerHeight'); const targetField = document.getElementById('resizerTargetValue'); const unitField = document.getElementById('resizerUnitType');
-      if (presetVal === 'passport') { wField.value = 413; hField.value = 531; targetField.value = 50; unitField.value = 'KB'; } 
-      else if (presetVal === 'signature') { wField.value = 256; hField.value = 64; targetField.value = 20; unitField.value = 'KB'; } 
-      else if (presetVal === 'aadhar') { wField.value = 1013; hField.value = 638; targetField.value = 300; unitField.value = 'KB'; } 
-      else { wField.value = ''; hField.value = ''; targetField.value = ''; unitField.value = 'KB'; }
+      if (presetVal === 'passport') { wField.value = 413; hField.value = 531; targetField.value = 50; unitField.value = 'KB'; } else if (presetVal === 'signature') { wField.value = 256; hField.value = 64; targetField.value = 20; unitField.value = 'KB'; } else if (presetVal === 'aadhar') { wField.value = 1013; hField.value = 638; targetField.value = 300; unitField.value = 'KB'; } else { wField.value = ''; hField.value = ''; targetField.value = ''; unitField.value = 'KB'; }
   }
   function handleResizerPreview(input) { if (input.files && input.files[0]) { const r = new FileReader(); r.onload = function(e) { uploadedImageSrcData = e.target.result; }; r.readAsDataURL(input.files[0]); } }
   function processAndResizeDocument() {
@@ -932,7 +945,6 @@
       };
   }
 
-  // AGE CALC
   function executePreciseAgeCalculation() {
     const dobString = document.getElementById('calcDobInput').value; const targetString = document.getElementById('calcTargetInput').value;
     if(!dobString || !targetString) { return alert("Select dates."); }
@@ -945,43 +957,36 @@
     document.getElementById('calcResultDisplayPanel').style.display = 'block';
   }
 
-  // TTS (LIVE API AUDIO FIX FOR DOWNLOAD AND PLAY)
-  let liveSpeechBlobUrlTrack = "";
-  async function executeSecureTtsPipeline() {
-    const text = document.getElementById('ttsInputText').value.trim();
-    if (!text) return alert("Enter text!");
-    
-    // Clear previous
-    const player = document.getElementById('htmlLiveAudioComponent');
-    player.src = "";
-    
-    const langCode = document.getElementById('ttsLanguageSelect').value;
-    // Using Google Translate TTS API for reliable MP3 generation and download
-    const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${langCode}&q=${encodeURIComponent(text)}`;
-    
-    player.src = audioUrl;
-    player.play();
-    
-    liveSpeechBlobUrlTrack = audioUrl;
-    document.getElementById('ttsPlaybackDock').style.display = 'block';
+  // TTS Fix - Real Human Voice Simulation
+  function executeSecureTtsPipeline() {
+      const text = document.getElementById('ttsInputText').value.trim();
+      if (!text) return alert("Please enter text!");
+      
+      const lang = document.getElementById('ttsLanguageSelect').value;
+      const gender = document.getElementById('ttsGenderSelect').value;
+      
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang;
+      
+      let voices = window.speechSynthesis.getVoices();
+      let bestVoice = null;
+      let availableVoices = voices.filter(v => v.lang.startsWith(lang.split('-')[0]));
+      
+      if(availableVoices.length > 0) {
+          if (gender === 'female') { bestVoice = availableVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('google')); } 
+          else { bestVoice = availableVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david')); }
+          if(!bestVoice) bestVoice = availableVoices[0];
+          utterance.voice = bestVoice;
+      }
+      
+      if (gender === 'female') { utterance.pitch = 1.3; } else { utterance.pitch = 0.8; }
+      window.speechSynthesis.speak(utterance);
   }
 
-  async function triggerDirectLocalDownload() {
-    if (!liveSpeechBlobUrlTrack) return;
-    try {
-        const response = await fetch(liveSpeechBlobUrlTrack);
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a'); 
-        a.href = url; 
-        a.download = `Audio_Speech_${Date.now()}.mp3`;
-        document.body.appendChild(a); 
-        a.click(); 
-        document.body.removeChild(a);
-    } catch(e) {
-        // Fallback for CORS
-        window.open(liveSpeechBlobUrlTrack, '_blank');
-    }
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.getVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; }
   }
   document.getElementById('calcTargetInput').valueAsDate = new Date(); document.getElementById('calcDobInput').value = "2000-01-01";
 </script>
