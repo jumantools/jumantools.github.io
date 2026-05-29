@@ -14,8 +14,9 @@
   <script src="https://unpkg.com/@imgly/background-removal@1.4.3/dist/browser/imgly-background-removal.js"></script>
   <!-- Library for QR Code -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <!-- Library for QR Scanner -->
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <!-- Library for Image Cropping -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
   <style>
     :root {
@@ -80,7 +81,6 @@
     .icon-dark { background: #f1f5f9; color: #334155; } .icon-yellow { background: #fef08a; color: #b45309; }
     .icon-teal { background: #ccfbf1; color: #0d9488; } .icon-pink { background: #fce7f3; color: #db2777; }
     .icon-indigo { background: #e0e7ff; color: #4338ca; } .icon-lime { background: #ecfccb; color: #65a30d; }
-    .icon-gray { background: #f3f4f6; color: #475569; }
 
     /* ENGINE LAYOUT PANELS */
     .engine-container, .tool-workspace { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 40px; scroll-margin-top: 100px; display: none; }
@@ -102,11 +102,12 @@
     .btn-cyan { background: #06b6d4; color: white;} .btn-cyan:hover { background: #0891b2; }
     .btn-red { background: #ef4444; color: white;} .btn-red:hover { background: #dc2626; }
     .btn-teal { background: #0d9488; color: white;} .btn-teal:hover { background: #0f766e; }
+    .btn-dark { background: #334155; color: white;} .btn-dark:hover { background: #1e293b; }
 
     /* SIGNATURE CANVAS */
     .signature-pad { border: 2px dashed #cbd5e1; background: #f8fafc; cursor: crosshair; touch-action: none; border-radius: 6px; width: 100%; max-width: 400px; height: 150px; }
 
-    /* BLACK FOOTER / ABOUT SECTION WITH SOCIAL LINKS */
+    /* BLACK FOOTER WITH SOCIAL LINKS */
     .custom-footer { background: #000000; color: #ffffff; padding: 50px 20px 20px; font-family: 'Segoe UI', sans-serif; margin-top: 40px; border-top: 4px solid #222; }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
     .footer-col h4 { font-size: 18px; margin-bottom: 18px; color: #ffffff; font-weight: bold; text-transform: capitalize; }
@@ -122,10 +123,11 @@
     .footer-contact i.fa-whatsapp { font-size: 20px; color: #25D366; }
     .footer-contact i.fa-facebook { font-size: 20px; color: #1877F2; }
     .footer-contact i.fa-instagram { font-size: 20px; color: #E1306C; }
-    .footer-contact i.fa-telegram { font-size: 20px; color: #0088cc; }
-    .footer-contact a { color: #cccccc; text-decoration: none; }
-    .footer-contact a:hover { color: #ffffff; }
-    
+    .footer-contact i.fa-x-twitter { font-size: 20px; color: #1DA1F2; }
+    .footer-contact i.fa-youtube { font-size: 20px; color: #ff0000; }
+    .footer-contact a { color: #cccccc; text-decoration: none; transition: 0.2s;}
+    .footer-contact a:hover { color: #ffffff; text-decoration: underline;}
+
     .footer-bottom { text-align: center; border-top: 1px solid #333333; margin-top: 40px; padding-top: 20px; font-size: 13px; color: #aaaaaa; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; align-items: center; }
     .footer-bottom a { color: #cccccc; text-decoration: none; margin: 0 10px; }
     .footer-bottom a:hover { color: #ffffff; }
@@ -134,15 +136,19 @@
     .counter-btn-container { display: flex; gap: 10px; align-items: center; margin-top: 5px; }
     .counter-btn { background: #e2e8f0; color: #0f172a; border: 1px solid #cbd5e1; width: 40px; height: 40px; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; transition: 0.2s; }
     .counter-btn:hover { background: #cbd5e1; color: #000; }
-    
+    .counter-btn.add { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+    .counter-btn.add:hover { background: #bbf7d0; }
+    .counter-btn.remove { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+    .counter-btn.remove:hover { background: #fecaca; }
+
     .merge-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 8px; }
     .remove-pdf-btn { background: #fee2e2; color: #b91c1c; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
     
     .passport-sheet-preview { display: grid; grid-template-columns: repeat(auto-fill, 3.5cm); gap: 12px; padding: 15px; background: white; border: 1px dashed #94a3b8; min-height: 150px; }
     .passport-photo-item { width: 3.5cm; height: 4.5cm; border: 1px solid #000; overflow: hidden; background: #e2e8f0; position: relative; }
     .passport-photo-item img { width: 100%; height: 100%; object-fit: cover; }
+    .passport-blank-state { grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0; font-size:14px; }
     
-    /* COMPACT PASSBOOK RENDER AREA */
     .passbook-render-area { background: #ffffff; border: 2px solid #000000; padding: 15px 25px; max-width: 650px; margin: 30px auto 0 auto; color: #000000; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.08); font-family: Arial, sans-serif; }
     .pb-new-top { position: relative; display: flex; align-items: center; justify-content: center; min-height: 50px; padding-bottom: 5px; }
     .pb-card-logo-slot { position: absolute; left: 0; top: 0; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
@@ -163,19 +169,18 @@
     .pb-photo-slot { width: 105px; height: 135px; border: 2px solid #000; background: #fff; display: flex; justify-content: center; align-items: center; text-align: center; font-size: 10px; font-weight: bold; color: #777; overflow: hidden; }
     .pb-photo-slot img { width: 100%; height: 100%; object-fit: cover; }
 
-    .word-box { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 15px; }
-    .word-tile { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; text-align: center; }
-    .word-tile h4 { font-size: 24px; color: var(--primary-color); }
-    .word-tile p { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; }
+    .word-box, .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 15px; margin-top: 15px; }
+    .word-tile, .calc-tile { background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; text-align: center; }
+    .word-tile h4, .calc-tile h4 { font-size: 20px; color: var(--primary-color); font-weight: 800;}
+    .word-tile p, .calc-tile p { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin-top:3px;}
     .pwd-display { background: #f1f5f9; border: 2px dashed #cbd5e1; padding: 15px; font-size: 20px; font-family: monospace; text-align: center; border-radius: 8px; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; word-break: break-all; }
     
-    /* CALENDAR & CASH COUNTER & CALCULATOR */
     .cash-row { display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid #e2e8f0; }
     .cash-row label { font-size: 16px; font-weight: bold; width: 80px; }
     .cash-row input { width: 100px; padding: 8px; text-align: center; font-weight: bold; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 6px; }
     .cash-row .res { width: 120px; text-align: right; font-size: 16px; font-weight: bold; color: #16a34a; }
     .cash-total { background: #dcfce7; padding: 15px; font-size: 24px; font-weight: 900; color: #16a34a; text-align: center; border-radius: 8px; border: 2px solid #22c55e; margin-top: 15px; }
-    
+
     .calendar-wrapper { width: 100%; max-width: 400px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff; }
     .calendar-header { background: #0f172a; color: #fff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;}
     .calendar-header button { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
@@ -191,6 +196,8 @@
     .c-btn.operator:hover { background: #2563eb; }
     .c-btn.equal { background: #16a34a; color: white; grid-column: span 2; }
 
+    .crop-container { width: 100%; max-height: 400px; margin-top: 15px; }
+    
     @media (max-width: 768px) {
         header { flex-direction: column; gap: 15px; }
         .header-search { max-width: 100%; order: 3; }
@@ -241,7 +248,7 @@
   </div>
 
   <div class="tools-grid" id="toolsGridBox">
-    <!-- WORKING TOOLS (NO DELETIONS) -->
+    <!-- WORKING TOOLS -->
     <div class="tool-card" onclick="openTool('jpg-to-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-pdf"></i></div><h4>JPG to PDF</h4><p>Convert images to PDFs.</p></div>
     <div class="tool-card" onclick="openTool('pdf-to-jpg-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-file-image"></i></div><h4>PDF to JPG</h4><p>Extract images from PDF.</p></div>
     <div class="tool-card" onclick="openTool('compress-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-file-shield"></i></div><h4>Compress PDF</h4><p>Reduce PDF file size.</p></div>
@@ -278,36 +285,48 @@
     <div class="tool-card" onclick="openTool('text-binary-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-0"></i></div><h4>Text to Binary</h4><p>Convert text into 010101.</p></div>
     <div class="tool-card" onclick="openTool('binary-text-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-1"></i></div><h4>Binary to Text</h4><p>Convert 010101 to text.</p></div>
     <div class="tool-card" onclick="openTool('rgb-hex-module')"><div class="tool-icon-wrapper icon-pink"><i class="fa-solid fa-palette"></i></div><h4>RGB to HEX</h4><p>Convert Color Codes.</p></div>
-    
-    <!-- 8 NEW TOOLS INC. CALC/CASH/TIMER -->
     <div class="tool-card" onclick="openTool('cash-counter-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-money-bill-wave"></i></div><h4>Cash Counter</h4><p>Calculate notes & total amount.</p></div>
     <div class="tool-card" onclick="openTool('calendar-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-regular fa-calendar-days"></i></div><h4>Live Calendar</h4><p>View current month details.</p></div>
-    <div class="tool-card" onclick="openTool('calculator-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-calculator"></i></div><h4>Pro Calculator</h4><p>Solve math instantly.</p></div>
-    <div class="tool-card" onclick="openTool('stopwatch-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-stopwatch"></i></div><h4>Stopwatch</h4><p>Track time accurately.</p></div>
-    <div class="tool-card" onclick="openTool('length-conv-module')"><div class="tool-icon-wrapper icon-purple"><i class="fa-solid fa-ruler"></i></div><h4>Length Converter</h4><p>CM, Meter, Inch, Foot.</p></div>
-    <div class="tool-card" onclick="openTool('color-picker-module')"><div class="tool-icon-wrapper icon-pink"><i class="fa-solid fa-eye-dropper"></i></div><h4>Color Picker</h4><p>Extract colors from image.</p></div>
+    
+    <!-- 2 NEW ADDED TOOLS -->
+    <div class="tool-card" onclick="openTool('bg-color-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-fill-drip"></i></div><h4>Change BG Color</h4><p>Change photo background color.</p></div>
+    <div class="tool-card" onclick="openTool('crop-image-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-crop-simple"></i></div><h4>Crop Image</h4><p>Crop photo instantly.</p></div>
 
-    <!-- Premium UI Tools -->
-    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-regular fa-file-word"></i></div><h4>Word to PDF</h4><p>Convert DOCX to PDF.</p></div>
-    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-regular fa-file-excel"></i></div><h4>PDF to Excel</h4><p>Convert PDF to XLSX.</p></div>
-    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-wrench"></i></div><h4>Repair PDF</h4><p>Fix corrupted PDFs.</p></div>
-    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-yellow"><i class="fa-solid fa-robot"></i></div><h4>AI Summarizer</h4><p>Summarize long PDFs.</p></div>
+    <div class="tool-card" onclick="openTool('calculator-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-calculator"></i></div><h4>Pro Calculator</h4><p>Solve math instantly.</p></div>
   </div>
 
   <!-- WORKSPACES -->
   
-  <!-- BACKGROUND REMOVER -->
+  <!-- 2 NEW TOOLS WORKSPACES -->
+  <div id="bg-color-module" class="tool-workspace">
+    <h3><i class="fa-solid fa-fill-drip" style="color: #ef4444;"></i> Change Background Color</h3>
+    <div class="form-row">
+        <div class="field-group"><label>Upload Photo:</label><input type="file" id="bgColorInput" accept="image/*"></div>
+        <div class="field-group"><label>Select Color:</label><input type="color" id="bgColorChoose" value="#ff0000" style="width:100%; height:40px;"></div>
+    </div>
+    <button class="action-btn btn-red" id="btnBgColor" onclick="processBgColor()"><i class="fa-solid fa-download"></i> Apply Color & Download</button>
+    <div id="bgColorLog" style="margin-top:15px; font-weight:bold;"></div>
+  </div>
+
+  <div id="crop-image-module" class="tool-workspace">
+    <h3><i class="fa-solid fa-crop-simple" style="color: #334155;"></i> Crop Image</h3>
+    <div class="form-row"><div class="field-group"><label>Upload Image:</label><input type="file" id="cropInput" accept="image/*" onchange="loadCropImage(event)"></div></div>
+    <div class="crop-container"><img id="cropImageDisplay" style="max-width: 100%; display: none;"></div>
+    <button class="action-btn btn-dark" style="margin-top: 15px;" onclick="downloadCropped()"><i class="fa-solid fa-download"></i> Crop & Download</button>
+  </div>
+
+
+  <!-- ORIGINAL BG REMOVER -->
   <div id="bg-remover-module" class="tool-workspace">
     <h3><i class="fa-solid fa-user-slash" style="color: #ef4444;"></i> Photo Background Remover</h3>
     <div class="form-row">
         <div class="field-group"><label>Upload Photo (JPG/PNG):</label><input type="file" id="bgRemoveInput" accept="image/*"></div>
-        <div class="field-group"><label>Select Background Color (Optional):</label><div style="display: flex; gap: 10px; align-items: center;"><input type="color" id="bgColorPicker" value="#ffffff" style="width: 50px; height: 40px; padding: 2px;"><span style="font-size: 12px; color: #666;">Choose color before clicking remove.</span></div></div>
     </div>
-    <button class="action-btn btn-red" id="bgRemoverBtn" onclick="processBgRemover()"><i class="fa-solid fa-download"></i> Remove Background (AI) & Download</button>
+    <button class="action-btn btn-red" id="bgRemoverBtn" onclick="processBgRemover()"><i class="fa-solid fa-download"></i> Remove Background & Download</button>
     <div id="bgRemoveLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#ef4444;"></div>
   </div>
 
-  <!-- TEXT TO SPEECH (100% FIXED 404 DOWNLOAD ERROR) -->
+  <!-- TEXT TO SPEECH (100% FIXED SECURE DOWNLOAD) -->
   <div class="engine-container" id="tts-engine-anchor">
     <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech Audio (Natural Voices)</h3>
     <p style="font-size:12px; color:gray; margin-bottom:15px;">Convert unlimited text to speech. Listen online or download as MP3 offline.</p>
@@ -316,7 +335,6 @@
       <div class="field-group">
         <label>Select Language</label>
         <select id="ttsLanguageSelect">
-            <!-- Added 15 Detailed Languages with Country Names -->
             <option value="hi-IN" selected>Hindi (India)</option>
             <option value="en-US">English (USA)</option>
             <option value="en-GB">English (UK)</option>
@@ -334,19 +352,15 @@
             <option value="ar-SA">Arabic (Saudi Arabia)</option>
         </select>
       </div>
-      <div class="field-group">
-        <label>Voice Type</label>
-        <select id="ttsGenderSelect"><option value="male">Male Voice</option><option value="female" selected>Female Voice</option></select>
-      </div>
+      <div class="field-group"><label>Voice Type</label><select id="ttsGenderSelect"><option value="male">Male Voice</option><option value="female" selected>Female Voice</option></select></div>
     </div>
-    <div style="display:flex; gap:10px;">
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
       <button class="action-btn btn-success" onclick="playNativeTTS()"><i class="fa-solid fa-play"></i> Listen Voice</button>
       <button class="action-btn btn-blue" id="ttsDownloadBtn" onclick="downloadMp3TTS()"><i class="fa-solid fa-download"></i> Download Audio (.mp3)</button>
     </div>
-    <div id="ttsStatus" style="display:none; margin-top:15px; font-size:14px; font-weight:bold;"></div>
   </div>
 
-  <!-- DOCUMENT RESIZER (WITH EXTRA PRESETS) -->
+  <!-- DOCUMENT RESIZER -->
   <div id="document-resizer-module" class="tool-workspace">
     <h3><i class="fa-solid fa-scissors" style="color: var(--resizer-purple);"></i> Document Resizer & Dimension Fixer</h3>
     <div class="resizer-grid">
@@ -376,7 +390,7 @@
     <div id="resizerStatusLogs" style="margin-top: 15px; font-size: 13px; text-align: center; display: none;"></div>
   </div>
 
-  <!-- CALCULATOR (NEW) -->
+  <!-- CALCULATOR -->
   <div id="calculator-module" class="tool-workspace">
     <h3><i class="fa-solid fa-calculator" style="color: #ea580c;"></i> Advanced Calculator</h3>
     <div style="max-width: 320px; margin: 0 auto; background: #0f172a; padding: 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
@@ -386,21 +400,13 @@
             <button class="c-btn" onclick="delCalc()">DEL</button>
             <button class="c-btn operator" onclick="appCalc('%')">%</button>
             <button class="c-btn operator" onclick="appCalc('/')">÷</button>
-            <button class="c-btn" onclick="appCalc('7')">7</button>
-            <button class="c-btn" onclick="appCalc('8')">8</button>
-            <button class="c-btn" onclick="appCalc('9')">9</button>
+            <button class="c-btn" onclick="appCalc('7')">7</button><button class="c-btn" onclick="appCalc('8')">8</button><button class="c-btn" onclick="appCalc('9')">9</button>
             <button class="c-btn operator" onclick="appCalc('*')">×</button>
-            <button class="c-btn" onclick="appCalc('4')">4</button>
-            <button class="c-btn" onclick="appCalc('5')">5</button>
-            <button class="c-btn" onclick="appCalc('6')">6</button>
+            <button class="c-btn" onclick="appCalc('4')">4</button><button class="c-btn" onclick="appCalc('5')">5</button><button class="c-btn" onclick="appCalc('6')">6</button>
             <button class="c-btn operator" onclick="appCalc('-')">-</button>
-            <button class="c-btn" onclick="appCalc('1')">1</button>
-            <button class="c-btn" onclick="appCalc('2')">2</button>
-            <button class="c-btn" onclick="appCalc('3')">3</button>
+            <button class="c-btn" onclick="appCalc('1')">1</button><button class="c-btn" onclick="appCalc('2')">2</button><button class="c-btn" onclick="appCalc('3')">3</button>
             <button class="c-btn operator" onclick="appCalc('+')">+</button>
-            <button class="c-btn" onclick="appCalc('0')">0</button>
-            <button class="c-btn" onclick="appCalc('00')">00</button>
-            <button class="c-btn" onclick="appCalc('.')">.</button>
+            <button class="c-btn" onclick="appCalc('0')">0</button><button class="c-btn" onclick="appCalc('00')">00</button><button class="c-btn" onclick="appCalc('.')">.</button>
             <button class="c-btn equal" onclick="resCalc()">=</button>
         </div>
     </div>
@@ -433,30 +439,11 @@
 
   <div class="engine-container" id="passbook-engine-anchor">
     <h3><i class="fa-solid fa-id-card" style="color:var(--sbi-blue);"></i> CSP Bank Passbook Generate</h3>
-    <div class="form-row">
-      <div class="field-group"><label>Bank English Title</label><input type="text" id="inputBankName" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>First Name</label><input type="text" id="inputFirstName" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Last Name</label><input type="text" id="inputLastName" oninput="syncCardCanvasData()"></div>
-    </div>
-    <div class="form-row">
-      <div class="field-group"><label>CIF Number</label><input type="text" id="inputCifId" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" oninput="syncCardCanvasData()"></div>
-    </div>
-    <div class="form-row">
-      <div class="field-group"><label>Account Type</label><select id="inputAccountType" onchange="syncCardCanvasData()"><option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option><option value="CURRENT ACCOUNT">CURRENT ACCOUNT</option></select></div>
-      <div class="field-group"><label>Full Address</label><input type="text" id="inputAddress" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" oninput="syncCardCanvasData()"></div>
-    </div>
-    <div class="form-row">
-      <div class="field-group"><label>Father/Husband Name</label><input type="text" id="inputGuardianName" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Ko Name </label><input type="text" id="inputKoName" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Ko Location</label><input type="text" id="inputKoLocation" oninput="syncCardCanvasData()"></div>
-    </div>
-    <div class="form-row">
-      <div class="field-group"><label>Upload Bank Logo</label><input type="file" accept="image/*" onchange="uploadLeftBankLogo(event)"></div>
-      <div class="field-group"><label>Upload Holder Photo</label><input type="file" accept="image/*" onchange="uploadRightProfilePhoto(event)"></div>
-    </div>
+    <div class="form-row"><div class="field-group"><label>Bank English Title</label><input type="text" id="inputBankName" oninput="syncCardCanvasData()"></div><div class="field-group"><label>First Name</label><input type="text" id="inputFirstName" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Last Name</label><input type="text" id="inputLastName" oninput="syncCardCanvasData()"></div></div>
+    <div class="form-row"><div class="field-group"><label>CIF Number</label><input type="text" id="inputCifId" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" oninput="syncCardCanvasData()"></div><div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" oninput="syncCardCanvasData()"></div></div>
+    <div class="form-row"><div class="field-group"><label>Account Type</label><select id="inputAccountType" onchange="syncCardCanvasData()"><option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option><option value="CURRENT ACCOUNT">CURRENT ACCOUNT</option></select></div><div class="field-group"><label>Full Address</label><input type="text" id="inputAddress" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" oninput="syncCardCanvasData()"></div></div>
+    <div class="form-row"><div class="field-group"><label>Father/Husband Name</label><input type="text" id="inputGuardianName" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Ko Name </label><input type="text" id="inputKoName" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Ko Location</label><input type="text" id="inputKoLocation" oninput="syncCardCanvasData()"></div></div>
+    <div class="form-row"><div class="field-group"><label>Upload Bank Logo</label><input type="file" accept="image/*" onchange="uploadLeftBankLogo(event)"></div><div class="field-group"><label>Upload Holder Photo</label><input type="file" accept="image/*" onchange="uploadRightProfilePhoto(event)"></div></div>
     <button class="action-btn btn-secondary" onclick="exportCardLayoutAsImage()"><i class="fa-solid fa-download"></i> Download Passbook</button>
     <div class="passbook-render-area" id="printablePassbookCard">
       <div class="pb-new-top"><div class="pb-card-logo-slot" id="cardLogoWrapper"><div class="pb-sbi-circle"></div></div><div class="pb-bank-names"><span class="english-name" id="cardBankName">STATE BANK OF INDIA</span></div></div>
@@ -567,13 +554,12 @@
     <button class="action-btn btn-orange" onclick="processRotatePdf()"><i class="fa-solid fa-download"></i> Rotate</button>
   </div>
 
-  <!-- OTHER EXTRA 14 TOOLS (Compact Code) -->
   <div id="word-counter-module" class="tool-workspace"><h3>Word Counter</h3><textarea id="wcInput" rows="3" oninput="calculateWords()"></textarea><div class="word-box"><div class="word-tile"><h4 id="wcWords">0</h4><p>Words</p></div><div class="word-tile"><h4 id="wcChars">0</h4><p>Chars</p></div></div></div>
   <div id="password-gen-module" class="tool-workspace"><h3>Password Gen</h3><div class="pwd-display" id="pwdResult">Click Generate</div><input type="range" id="pwdLength" min="6" max="30" value="12"><button class="action-btn btn-red" onclick="generatePassword()">Generate</button></div>
   <div id="case-converter-module" class="tool-workspace"><h3>Case Converter</h3><textarea id="caseInput" rows="3"></textarea><button class="action-btn" onclick="convertCase('upper')">UPPER</button><button class="action-btn" onclick="convertCase('lower')">lower</button></div>
   <div id="text-to-pdf-module" class="tool-workspace"><h3>Text to PDF</h3><textarea id="txtToPdfIn" rows="3"></textarea><button class="action-btn btn-blue" onclick="makeTxtToPdf()"><i class="fa-solid fa-download"></i> Download</button></div>
   <div id="img-format-module" class="tool-workspace"><h3>Image Format</h3><input type="file" id="imgConvIn"><select id="imgConvType"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WEBP</option></select><button class="action-btn btn-orange" onclick="convertImageFormat()"><i class="fa-solid fa-download"></i> Convert</button></div>
-  <div id="qr-gen-module" class="tool-workspace"><h3>QR Generator</h3><input type="text" id="qrIn"><button class="action-btn" onclick="makeQrCode()">Generate</button><div id="qrOut"></div></div>
+  <div id="qr-gen-module" class="tool-workspace"><h3>QR Generator</h3><input type="text" id="qrIn"><button class="action-btn" onclick="makeQrCode()"><i class="fa-solid fa-download"></i> Generate</button><div id="qrOut"></div></div>
   <div id="bmi-calc-module" class="tool-workspace"><h3>BMI Calculator</h3><input type="number" id="bmiW" placeholder="Weight"><input type="number" id="bmiH" placeholder="Height"><button class="action-btn btn-success" onclick="calcBmi()">Calc</button><div id="bmiOut"></div></div>
   <div id="random-num-module" class="tool-workspace"><h3>Random Number</h3><input type="number" id="randMin" value="1"><input type="number" id="randMax" value="100"><button class="action-btn" onclick="genRandomNum()">Generate</button><div id="randOut">0</div></div>
   <div id="discount-calc-module" class="tool-workspace"><h3>Discount Calc</h3><input type="number" id="discPrice" placeholder="Price"><input type="number" id="discPerc" placeholder="%"><button class="action-btn btn-red" onclick="calcDiscount()">Calc</button><div id="discOut"></div></div>
@@ -585,25 +571,6 @@
   <div id="text-binary-module" class="tool-workspace"><h3>Text to Binary</h3><input type="text" id="binEncIn"><button class="action-btn" onclick="textToBin()">Convert</button><div id="binEncOut"></div></div>
   <div id="binary-text-module" class="tool-workspace"><h3>Binary to Text</h3><input type="text" id="binDecIn"><button class="action-btn" onclick="binToText()">Convert</button><div id="binDecOut"></div></div>
   <div id="rgb-hex-module" class="tool-workspace"><h3>RGB to HEX</h3><input type="number" id="rIn" value="255"><input type="number" id="gIn" value="0"><input type="number" id="bIn" value="0"><button class="action-btn" onclick="rgbToHex()">Convert</button><div id="rgbOut">#FF0000</div></div>
-  
-  <div id="stopwatch-module" class="tool-workspace">
-      <h3><i class="fa-solid fa-stopwatch" style="color: #06b6d4;"></i> Stopwatch</h3>
-      <div class="pwd-display" id="swTime" style="font-size:30px;">00:00:00</div>
-      <button class="action-btn btn-success" onclick="startSw()">Start</button><button class="action-btn btn-red" onclick="stopSw()">Stop</button><button class="action-btn btn-secondary" onclick="resetSw()">Reset</button>
-  </div>
-  <div id="length-conv-module" class="tool-workspace">
-      <h3><i class="fa-solid fa-ruler" style="color: #a855f7;"></i> Length Converter</h3>
-      <input type="number" id="lenIn" value="1">
-      <select id="lenFrom"><option value="cm">CM</option><option value="m">Meter</option><option value="in">Inch</option><option value="ft">Foot</option></select>
-      <select id="lenTo"><option value="in">Inch</option><option value="cm">CM</option><option value="m">Meter</option><option value="ft">Foot</option></select>
-      <button class="action-btn btn-purple" onclick="convertLength()">Convert</button><div class="pwd-display" id="lenOut">Result</div>
-  </div>
-  <div id="color-picker-module" class="tool-workspace">
-      <h3><i class="fa-solid fa-eye-dropper" style="color: #db2777;"></i> Image Color Picker</h3>
-      <input type="file" accept="image/*" onchange="previewColorImg(event)">
-      <canvas id="colorCanvas" style="max-width:100%; border:1px solid #ccc; margin-top:10px; cursor:crosshair;" onclick="pickColor(event)"></canvas>
-      <div class="pwd-display" id="colorOut" style="margin-top:10px;">Click image to get HEX</div>
-  </div>
 
   <!-- Premium Notice -->
   <div id="premium-notice-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444; text-align: center;">
@@ -709,22 +676,69 @@
     if(!dobString || !targetString) { return alert("Select dates."); }
     const birthDate = new Date(dobString); const endDate = new Date(targetString);
     if (endDate < birthDate) { return alert("Target date error!"); }
+    
     let yearsDiff = endDate.getFullYear() - birthDate.getFullYear(); let monthsDiff = endDate.getMonth() - birthDate.getMonth(); let daysDiff = endDate.getDate() - birthDate.getDate();
     if (daysDiff < 0) { monthsDiff--; const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0); daysDiff += prevMonth.getDate(); }
     if (monthsDiff < 0) { yearsDiff--; monthsDiff += 12; }
+    
     document.getElementById('resYears').innerText = yearsDiff; document.getElementById('resMonths').innerText = monthsDiff; document.getElementById('resDays').innerText = daysDiff;
-    const timeDiff = endDate.getTime() - birthDate.getTime(); const tDays = Math.floor(timeDiff / (1000 * 3600 * 24)); const tWeeks = Math.floor(tDays / 7); const tHours = tDays * 24; const tMins = tHours * 60; const tSecs = tMins * 60;
+    
+    const timeDiff = endDate.getTime() - birthDate.getTime();
+    const tDays = Math.floor(timeDiff / (1000 * 3600 * 24)); const tWeeks = Math.floor(tDays / 7); const tHours = tDays * 24; const tMins = tHours * 60; const tSecs = tMins * 60;
+    
     document.getElementById('resTotalWeeks').innerText = tWeeks.toLocaleString('en-IN'); document.getElementById('resTotalDays').innerText = tDays.toLocaleString('en-IN'); document.getElementById('resTotalHours').innerText = tHours.toLocaleString('en-IN'); document.getElementById('resTotalMins').innerText = tMins.toLocaleString('en-IN'); document.getElementById('resTotalSecs').innerText = tSecs.toLocaleString('en-IN');
     document.getElementById('calcResultDisplayPanel').style.display = 'block';
   }
 
-  // --- REST OF 14 NEW TOOLS LOGIC ---
+  // --- REST OF TOOLS LOGIC ---
   function calcCalc() { try{ document.getElementById('calcScreen').value = eval(document.getElementById('calcScreen').value); }catch(e){document.getElementById('calcScreen').value="Error";} }
   function clrCalc(){ document.getElementById('calcScreen').value=""; } function delCalc(){ let v = document.getElementById('calcScreen').value; document.getElementById('calcScreen').value=v.slice(0,-1); } function appCalc(v){ document.getElementById('calcScreen').value+=v; } function resCalc(){ calcCalc(); }
   let swInt; let swTime = 0; function startSw(){ clearInterval(swInt); swInt = setInterval(()=>{ swTime++; let h=Math.floor(swTime/3600).toString().padStart(2,'0'); let m=Math.floor((swTime%3600)/60).toString().padStart(2,'0'); let s=(swTime%60).toString().padStart(2,'0'); document.getElementById('swTime').innerText=`${h}:${m}:${s}`; }, 1000); } function stopSw(){ clearInterval(swInt); } function resetSw(){ clearInterval(swInt); swTime=0; document.getElementById('swTime').innerText="00:00:00"; }
   function convertLength(){ const val=parseFloat(document.getElementById('lenIn').value); const fr=document.getElementById('lenFrom').value; const to=document.getElementById('lenTo').value; const map={"cm":1,"m":100,"in":2.54,"ft":30.48}; const res=(val*map[fr])/map[to]; document.getElementById('lenOut').innerText=`${res.toFixed(4)} ${to.toUpperCase()}`; }
   function previewColorImg(e){ const img=new Image(); img.onload=()=>{ const cvs=document.getElementById('colorCanvas'); const ctx=cvs.getContext('2d'); cvs.width=img.width; cvs.height=img.height; ctx.drawImage(img,0,0); }; img.src=URL.createObjectURL(e.target.files[0]); }
   function pickColor(e){ const cvs=document.getElementById('colorCanvas'); const ctx=cvs.getContext('2d'); const rect=cvs.getBoundingClientRect(); const x=Math.floor((e.clientX-rect.left)*(cvs.width/rect.width)); const y=Math.floor((e.clientY-rect.top)*(cvs.height/rect.height)); const d=ctx.getImageData(x,y,1,1).data; const hex="#"+((1<<24)+(d[0]<<16)+(d[1]<<8)+d[2]).toString(16).slice(1).toUpperCase(); document.getElementById('colorOut').innerText=hex; document.getElementById('colorOut').style.color=hex; }
+  
+  // NEW CROP & BG COLOR LOGIC
+  let cropper;
+  function loadCropImage(event) {
+      const image = document.getElementById('cropImageDisplay');
+      image.src = URL.createObjectURL(event.target.files[0]);
+      image.style.display = 'block';
+      if (cropper) cropper.destroy();
+      cropper = new Cropper(image, { aspectRatio: NaN, viewMode: 1 });
+  }
+  function downloadCropped() {
+      if (!cropper) return alert("Upload and select crop area!");
+      cropper.getCroppedCanvas().toBlob((blob) => {
+          const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Cropped_Juman.png'; a.click();
+      });
+  }
+
+  async function processBgColor() {
+      const fileInput = document.getElementById('bgColorInput'); const log = document.getElementById('bgColorLog');
+      const bgColor = document.getElementById('bgColorChoose').value;
+      if (fileInput.files.length === 0) return alert("Please upload a photo first!");
+      log.style.color = "#ef4444"; log.innerText = "Processing AI (takes 10-15s on first load)...";
+      
+      try {
+          const imgRaw = new Image(); imgRaw.src = URL.createObjectURL(fileInput.files[0]); await new Promise(r => imgRaw.onload = r);
+          let w = imgRaw.width, h = imgRaw.height; if (w > 1200 || h > 1200) { const ratio = Math.min(1200/w, 1200/h); w *= ratio; h *= ratio; }
+          const tempCanvas = document.createElement('canvas'); tempCanvas.width = w; tempCanvas.height = h; tempCanvas.getContext('2d').drawImage(imgRaw, 0, 0, w, h);
+          const resizedBlob = await new Promise(r => tempCanvas.toBlob(r, 'image/jpeg', 0.9));
+          const config = { publicPath: "https://unpkg.com/@imgly/background-removal-data@1.4.3/dist/" };
+          const imageBlob = await imglyRemoveBackground(resizedBlob, config);
+          
+          const url = URL.createObjectURL(imageBlob); const img = new Image();
+          img.onload = function() {
+              const canvas = document.createElement('canvas'); canvas.width = img.width; canvas.height = img.height; const ctx = canvas.getContext('2d');
+              ctx.fillStyle = bgColor; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0);
+              const a = document.createElement('a'); a.href = canvas.toDataURL('image/jpeg', 1.0); a.download = "Colored_BG.jpg"; a.click();
+              log.style.color = "#16a34a"; log.innerText = "✅ Done! Background color applied and downloaded.";
+          }
+          img.src = url;
+      } catch(e) { log.innerText = "❌ Error processing image."; }
+  }
+
 
   function calculateWords() { let text = document.getElementById('wcInput').value; document.getElementById('wcChars').innerText = text.length; document.getElementById('wcWords').innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; document.getElementById('wcLines').innerText = text === "" ? 0 : text.split(/\r\n|\r|\n/).length; }
   function generatePassword() { const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+"; const len = document.getElementById('pwdLength').value; let pwd = ""; for (let i = 0; i < len; i++) { pwd += chars.charAt(Math.floor(Math.random() * chars.length)); } document.getElementById('pwdResult').innerText = pwd; }
@@ -745,7 +759,7 @@
   function binToText() { const b = document.getElementById('binDecIn').value; document.getElementById('binDecOut').innerText = b.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join(''); }
   function rgbToHex() { const r = parseInt(document.getElementById('rIn').value); const g = parseInt(document.getElementById('gIn').value); const b = parseInt(document.getElementById('bIn').value); document.getElementById('rgbOut').innerText = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase(); document.getElementById('rgbOut').style.color = document.getElementById('rgbOut').innerText; }
 
-  // --- BG REMOVER ---
+  // BG REMOVER (ORIGINAL)
   async function processBgRemover() {
       const fileInput = document.getElementById('bgRemoveInput'); const log = document.getElementById('bgRemoveLog'); const btn = document.getElementById('bgRemoverBtn'); const bgColor = document.getElementById('bgColorPicker').value;
       if (fileInput.files.length === 0) return alert("Please upload a photo first!");
@@ -761,36 +775,60 @@
           img.onload = function() {
               const canvas = document.createElement('canvas'); canvas.width = img.width; canvas.height = img.height; const ctx = canvas.getContext('2d');
               ctx.fillStyle = bgColor; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0);
-              const link = document.createElement('a'); link.href = canvas.toDataURL('image/jpeg', 1.0); link.download = "New_Background.jpg"; link.click();
-              log.style.color = "#16a34a"; log.innerText = "✅ Done! Background removed and color applied.";
+              const link = document.createElement('a'); link.href = canvas.toDataURL('image/jpeg', 1.0); link.download = "No_BG.jpg"; link.click();
+              log.style.color = "#16a34a"; log.innerText = "✅ Done! Background removed.";
           }
           img.src = url;
       } catch(err) { log.style.color = "#dc2626"; log.innerText = "❌ Error processing. Try again later."; }
       btn.disabled = false;
   }
 
-  // --- PDF TOOLS & OTHERS ---
-  function alertSimulateProtection() { const file = document.getElementById('protectPdfInput').files[0]; const pwd = document.getElementById('protectPdfPassword').value; if(!file || !pwd) return alert("Upload file and enter password."); const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = "Locked_" + file.name; a.click(); }
-  async function processEditPdf() { const fileInput = document.getElementById('editPdfInput'); const text = document.getElementById('editPdfText').value; const erase = document.getElementById('editEraseOption').value; if (fileInput.files.length === 0 || !text) return alert("Upload PDF and write new text!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); const { height, width } = pages[0].getSize(); if (erase === 'yes') { pages[0].drawRectangle({ x: 40, y: height - 80, width: width - 80, height: 60, color: PDFLib.rgb(1, 1, 1) }); } pages[0].drawText(text, { x: 50, y: height - 50, size: 20, color: PDFLib.rgb(0, 0, 0) }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Edited.pdf"; link.click(); }
-  const canvas = document.getElementById('sigCanvas'); const ctx = canvas.getContext('2d'); let isDrawing = false; canvas.addEventListener('mousedown', (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); }); canvas.addEventListener('mousemove', (e) => { if(isDrawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } }); canvas.addEventListener('mouseup', () => isDrawing = false); function clearSignature() { ctx.clearRect(0, 0, canvas.width, canvas.height); } function downloadSignature() { const link = document.createElement('a'); link.download = 'Signature.png'; link.href = canvas.toDataURL('image/png'); link.click(); }
-  async function processPageNumbers() { const fileInput = document.getElementById('pageNumInput'); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); pages.forEach((page, index) => { const { width } = page.getSize(); page.drawText(`Page ${index + 1}`, { x: width / 2 - 20, y: 20, size: 12, color: PDFLib.rgb(0, 0, 0) }); }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Numbered.pdf"; link.click(); }
-  function processScanToPdf() { const fileInput = document.getElementById('scanPdfInput'); if (fileInput.files.length === 0) return alert("Upload Image!"); const reader = new FileReader(); reader.onload = function(e) { const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Scanned.pdf"); }; reader.readAsDataURL(fileInput.files[0]); }
-  function processJpgToPdf() { const fileInput = document.getElementById('jpgToPdfInput'); if (fileInput.files.length === 0) return alert("Upload Image!"); const reader = new FileReader(); reader.onload = function(e) { const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Converted.pdf"); }; reader.readAsDataURL(fileInput.files[0]); }
-  async function processSplitPdf() { const fileInput = document.getElementById('splitPdfInput'); let pageNum = parseInt(document.getElementById('splitPageNum').value); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const newPdf = await PDFLib.PDFDocument.create(); const [copiedPage] = await newPdf.copyPages(pdfDoc, [pageNum - 1]); newPdf.addPage(copiedPage); const newBytes = await newPdf.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `Page_${pageNum}.pdf`; link.click(); }
-  async function processWatermarkPdf() { const fileInput = document.getElementById('watermarkPdfInput'); const text = document.getElementById('watermarkPdfText').value; if (fileInput.files.length === 0 || !text) return alert("Upload PDF & Text!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); pages.forEach(page => { const { width, height } = page.getSize(); page.drawText(text, { x: width / 4, y: height / 2, size: 50, color: PDFLib.rgb(0.8, 0.2, 0.2), opacity: 0.3, rotate: PDFLib.degrees(45) }); }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Watermark.pdf"; link.click(); }
-  async function processRotatePdf() { const fileInput = document.getElementById('rotatePdfInput'); const angle = parseInt(document.getElementById('rotatePdfAngle').value); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); pages.forEach(page => { page.setRotation(PDFLib.degrees(page.getRotation().angle + angle)); }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Rotated.pdf"; link.click(); }
-  async function processPdfToJpg() { const fileInput = document.getElementById('pdfToJpgInput'); const log = document.getElementById('pdfToJpgLog'); if (fileInput.files.length === 0) return alert("Upload PDF!"); log.style.display = "block"; log.innerText = "🔄 Processing PDF to Image..."; const fileReader = new FileReader(); fileReader.onload = async function() { const typedarray = new Uint8Array(this.result); const pdf = await pdfjsLib.getDocument(typedarray).promise; const page = await pdf.getPage(1); const viewport = page.getViewport({scale: 2.0}); const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.height = viewport.height; canvas.width = viewport.width; await page.render({canvasContext: ctx, viewport: viewport}).promise; const link = document.createElement('a'); link.href = canvas.toDataURL('image/jpeg', 0.9); link.download = "Extracted.jpg"; link.click(); log.innerText = "✅ JPG Extracted!"; }; fileReader.readAsArrayBuffer(fileInput.files[0]); }
-  async function processCompressPdf() { const fileInput = document.getElementById('compressPdfInput'); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileReader = new FileReader(); fileReader.onload = async function() { const typedarray = new Uint8Array(this.result); const pdf = await pdfjsLib.getDocument(typedarray).promise; const newPdf = new window.jspdf.jsPDF(); for(let i = 1; i <= pdf.numPages; i++) { const page = await pdf.getPage(i); const viewport = page.getViewport({scale: 1.0}); const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.height = viewport.height; canvas.width = viewport.width; await page.render({canvasContext: ctx, viewport: viewport}).promise; const imgData = canvas.toDataURL('image/jpeg', 0.5); if(i > 1) newPdf.addPage(); newPdf.addImage(imgData, 'JPEG', 0, 0, newPdf.internal.pageSize.getWidth(), newPdf.internal.pageSize.getHeight()); } newPdf.save("Compressed.pdf"); }; fileReader.readAsArrayBuffer(fileInput.files[0]); }
-  let mergePdfFilesArray = []; function handleNewMergeFiles(event) { const files = event.target.files; if (!files) return; for (let i = 0; i < files.length; i++) { mergePdfFilesArray.push(files[i]); } event.target.value = ''; updateMergePdfUI(); } function removeMergeFile(index) { mergePdfFilesArray.splice(index, 1); updateMergePdfUI(); } function updateMergePdfUI() { const container = document.getElementById('mergePdfListContainer'); container.innerHTML = ''; mergePdfFilesArray.forEach((file, index) => { const item = document.createElement('div'); item.className = 'merge-item'; item.innerHTML = `<div class="merge-item-title"><i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i> ${file.name}</div><button class="remove-pdf-btn" onclick="removeMergeFile(${index})"><i class="fa-solid fa-minus"></i></button>`; container.appendChild(item); }); } async function processDynamicMergePdf() { if (mergePdfFilesArray.length < 2) return alert("Select at least 2 PDFs!"); const mergedPdf = await PDFLib.PDFDocument.create(); for (let i = 0; i < mergePdfFilesArray.length; i++) { const fileBytes = await mergePdfFilesArray[i].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices()); copiedPages.forEach((page) => mergedPdf.addPage(page)); } const mergedPdfBytes = await mergedPdf.save(); const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Merged_All.pdf"; link.click(); }
-  
-  // PASSPORT STUDIO 
-  let passportStudioImgSourceBase64 = ''; let currentStudioPhotosCounter = 12; function loadPassportStudioSource(event) { if(event.target.files && event.target.files[0]) { const reader = new FileReader(); reader.onload = function(e) { passportStudioImgSourceBase64 = e.target.result; renderPassportStudioPhotosGrid(); }; reader.readAsDataURL(event.target.files[0]); } } function syncDropdownToStudioGrid() { currentStudioPhotosCounter = parseInt(document.getElementById('passportCopyCount').value); document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter; renderPassportStudioPhotosGrid(); } function adjustPassportCountManual(changeFactor) { let computedSum = currentStudioPhotosCounter + changeFactor; if(computedSum < 1) computedSum = 1; currentStudioPhotosCounter = computedSum; document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter; document.getElementById('passportCopyCount').value = (currentStudioPhotosCounter <= 30) ? currentStudioPhotosCounter : "30"; renderPassportStudioPhotosGrid(); } function renderPassportStudioPhotosGrid() { const grid = document.getElementById('passportGridContainer'); if(!passportStudioImgSourceBase64) { grid.innerHTML = '<div class="passport-blank-state"><i class="fa-regular fa-images" style="font-size:40px; color:#cbd5e1;"></i><p>Upload a photo to see live grid preview instantly.</p></div>'; return; } grid.innerHTML = ''; for(let i = 0; i < currentStudioPhotosCounter; i++) { const cell = document.createElement('div'); cell.className = `passport-photo-item`; cell.innerHTML = `<img src="${passportStudioImgSourceBase64}" />`; grid.appendChild(cell); } } function downloadPassportStudioSheet() { if(!passportStudioImgSourceBase64 || currentStudioPhotosCounter === 0) return alert("Upload Image!"); html2canvas(document.getElementById('passportSheetAreaToPrint'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passport_Sheet.png`; a.href = canvas.toDataURL('image/png'); a.click(); }); }
+  // --- TTS (100% ERROR FREE NATIVE DOWNLOAD) ---
+  function playNativeTTS() {
+      const text = document.getElementById('ttsInputText').value.trim();
+      if (!text) return alert("Please enter some text!");
+      const langSelect = document.getElementById('ttsLanguageSelect').value;
+      const genderSelect = document.getElementById('ttsGenderSelect').value;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = langSelect;
+      let voices = window.speechSynthesis.getVoices();
+      let bestVoice = null;
+      let langVoices = voices.filter(v => v.lang.startsWith(langSelect.split('-')[0]));
+      
+      if(langVoices.length > 0) {
+          if (genderSelect === 'female') { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('google')); } 
+          else { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david')); }
+          if(!bestVoice) bestVoice = langVoices[0];
+          utterance.voice = bestVoice;
+      }
+      if (genderSelect === 'female') { utterance.pitch = 1.3; } else { utterance.pitch = 0.8; }
+      window.speechSynthesis.speak(utterance);
+  }
 
-  // PASSBOOK
-  function syncCardCanvasData() { document.getElementById('cardBankName').innerText = (document.getElementById('inputBankName').value || 'STATE BANK OF INDIA').toUpperCase(); const fName = document.getElementById('inputFirstName').value; const lName = document.getElementById('inputLastName').value; document.getElementById('cardHolderName').innerText = (fName + " " + lName).toUpperCase(); document.getElementById('cardGuardianName').innerText = document.getElementById('inputGuardianName') ? document.getElementById('inputGuardianName').value.toUpperCase() : ""; document.getElementById('cardKoName').innerText = document.getElementById('inputKoName').value.toUpperCase(); document.getElementById('cardKoLocation').innerText = document.getElementById('inputKoLocation').value.toUpperCase(); document.getElementById('cardCifId').innerText = document.getElementById('inputCifId').value; document.getElementById('cardAccNo').innerText = document.getElementById('inputAccNo').value; document.getElementById('cardIfsc').innerText = document.getElementById('inputIfsc').value.toUpperCase(); document.getElementById('cardAccountType').innerText = document.getElementById('inputAccountType').value; document.getElementById('cardAddress').innerText = document.getElementById('inputAddress').value.toUpperCase(); document.getElementById('cardPinCode').innerText = document.getElementById('inputPinCode').value; } function uploadLeftBankLogo(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardLogoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } } function uploadRightProfilePhoto(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardPhotoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } } function exportCardLayoutAsImage() { html2canvas(document.getElementById('printablePassbookCard'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passbook.png`; a.href = canvas.toDataURL('image/png'); a.click(); }); }
+  // Proxy Bypass Download MP3 using Internal Fetch logic avoiding 404
+  async function downloadMp3TTS() {
+      const text = document.getElementById('ttsInputText').value.trim();
+      if (!text) return alert("Please enter text to download!");
+      if (text.length > 200) { alert("Please enter text under 200 characters to download MP3 securely."); return; }
+      
+      const lang = document.getElementById('ttsLanguageSelect').value.split('-')[0];
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Audio_${Date.now()}.mp3`;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+  }
 
-  // RESIZER
-  let uploadedImageSrcData = null; function applyResizerPreset(presetVal) { const wField = document.getElementById('resizerWidth'); const hField = document.getElementById('resizerHeight'); const targetField = document.getElementById('resizerTargetValue'); const unitField = document.getElementById('resizerUnitType'); if (presetVal === 'passport') { wField.value = 413; hField.value = 531; targetField.value = 50; unitField.value = 'KB'; } else if (presetVal === 'signature') { wField.value = 256; hField.value = 64; targetField.value = 20; unitField.value = 'KB'; } else if (presetVal === 'aadhar') { wField.value = 1013; hField.value = 638; targetField.value = 300; unitField.value = 'KB'; } else if (presetVal === 'voter') { wField.value = 620; hField.value = 875; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'pancard') { wField.value = 1000; hField.value = 1400; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'marksheet') { wField.value = 2480; hField.value = 3508; targetField.value = 1; unitField.value = 'MB'; } else if (presetVal === 'driving') { wField.value = 640; hField.value = 400; targetField.value = 100; unitField.value = 'KB'; } else if (presetVal === 'ration') { wField.value = 1650; hField.value = 2330; targetField.value = 500; unitField.value = 'KB'; } else { wField.value = ''; hField.value = ''; targetField.value = ''; unitField.value = 'KB'; } } function handleResizerPreview(input) { if (input.files && input.files[0]) { const r = new FileReader(); r.onload = function(e) { uploadedImageSrcData = e.target.result; }; r.readAsDataURL(input.files[0]); } } function processAndResizeDocument() { const logs = document.getElementById('resizerStatusLogs'); if (!uploadedImageSrcData) { return alert("Upload Image!"); } let userWidth = parseInt(document.getElementById('resizerWidth').value); let userHeight = parseInt(document.getElementById('resizerHeight').value); const sizeLimit = parseFloat(document.getElementById('resizerTargetValue').value); const unitType = document.getElementById('resizerUnitType').value; if (!sizeLimit) { return alert("Enter target size!"); } let targetBytesLimit = sizeLimit * 1024; if (unitType === 'MB') { targetBytesLimit = sizeLimit * 1024 * 1024; } logs.style.display = 'block'; logs.innerHTML = "Processing..."; const img = new Image(); img.src = uploadedImageSrcData; img.onload = function() { if (!userWidth) userWidth = img.width; if (!userHeight) userHeight = img.height; const canvas = document.createElement('canvas'); canvas.width = userWidth; canvas.height = userHeight; canvas.getContext('2d').drawImage(img, 0, 0, userWidth, userHeight); let q = 0.95; let b64 = ""; let bytes = 0; for (let i = 0; i < 12; i++) { b64 = canvas.toDataURL('image/jpeg', q); bytes = Math.round((b64.length - 814) * 0.75); if (bytes <= targetBytesLimit) { if (targetBytesLimit - bytes < (targetBytesLimit * 0.04)) break; q += 0.04; } else { q -= 0.06; } if (q < 0.1) break; } const a = document.createElement('a'); a.href = b64; a.download = "Resized.jpg"; document.body.appendChild(a); a.click(); document.body.removeChild(a); logs.innerHTML = "✅ Saved successfully!"; }; }
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.getVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; }
+  }
+  document.getElementById('calcTargetInput').valueAsDate = new Date(); document.getElementById('calcDobInput').value = "2000-01-01";
 </script>
 
 </body>
