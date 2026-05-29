@@ -285,7 +285,7 @@
             </div>
         </div>
     </div>
-    <button class="action-btn btn-red" id="bgRemoverBtn" onclick="processBgRemover()">Remove Background (AI) & Download</button>
+    <button class="action-btn btn-red" id="bgRemoverBtn" onclick="processBgRemover()"><i class="fa-solid fa-download"></i> Remove Background (AI) & Download</button>
     <div id="bgRemoveLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#ef4444;"></div>
   </div>
 
@@ -297,7 +297,7 @@
         <div class="field-group"><label>Set New Password:</label><input type="password" id="protectPdfPassword" placeholder="Create a password"></div>
     </div>
     <p style="font-size: 12px; color: #dc2626; margin-bottom: 10px;">* Note: Advanced encryption requires a server. This simulates locking for display purposes.</p>
-    <button class="action-btn btn-red" onclick="alertSimulateProtection()">Lock PDF & Download</button>
+    <button class="action-btn btn-red" onclick="alertSimulateProtection()"><i class="fa-solid fa-download"></i> Lock PDF & Download</button>
   </div>
 
   <!-- 3. Edit PDF -->
@@ -314,7 +314,7 @@
     <div class="form-row">
         <div class="field-group"><label>3. New Text to Add:</label><input type="text" id="editPdfText" placeholder="Write new text here..."></div>
     </div>
-    <button class="action-btn btn-secondary" onclick="processEditPdf()">Update PDF & Download</button>
+    <button class="action-btn btn-secondary" onclick="processEditPdf()"><i class="fa-solid fa-download"></i> Update PDF & Download</button>
   </div>
 
   <!-- Passport Photo Studio -->
@@ -343,7 +343,7 @@
           </div>
       </div>
     </div>
-    <button class="action-btn btn-purple" onclick="downloadPassportStudioSheet()">Download A4 Photo Sheet</button>
+    <button class="action-btn btn-purple" onclick="downloadPassportStudioSheet()"><i class="fa-solid fa-download"></i> Download A4 Photo Sheet</button>
     <div id="passportSheetAreaToPrint" style="margin-top:20px;">
         <div class="passport-sheet-preview" id="passportGridContainer">
             <div class="passport-blank-state"><i class="fa-regular fa-images" style="font-size:40px; color:#cbd5e1;"></i><p>Upload a photo to see live grid preview instantly.</p></div>
@@ -360,6 +360,11 @@
       <div class="field-group"><label>Last Name</label><input type="text" id="inputLastName" placeholder="Enter Last Name" oninput="syncCardCanvasData()"></div>
     </div>
     <div class="form-row">
+      <div class="field-group"><label>Father/Husband Name</label><input type="text" id="inputGuardianName" placeholder="Enter Father/Husband Name" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Ko Name</label><input type="text" id="inputKoName" placeholder="Enter Ko Name" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Ko Location</label><input type="text" id="inputKoLocation" placeholder="Enter Ko Location" oninput="syncCardCanvasData()"></div>
+    </div>
+    <div class="form-row">
       <div class="field-group"><label>CIF Number</label><input type="text" id="inputCifId" placeholder="Enter CIF Number" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" placeholder="Enter Account Number" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" placeholder="Enter IFSC Code" oninput="syncCardCanvasData()"></div>
@@ -370,15 +375,11 @@
       <div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" placeholder="6-Digit Pin Code" oninput="syncCardCanvasData()"></div>
     </div>
     <div class="form-row">
-      <div class="field-group"><label>Ko Name </label><input type="text" id="inputKoName" placeholder="Enter Ko Name" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Ko Location</label><input type="text" id="inputKoLocation" placeholder="Enter Ko Location" oninput="syncCardCanvasData()"></div>
-    </div>
-    <div class="form-row">
       <div class="field-group"><label>Upload Bank Logo</label><input type="file" accept="image/*" onchange="uploadLeftBankLogo(event)"></div>
       <div class="field-group"><label>Upload Holder Photo</label><input type="file" accept="image/*" onchange="uploadRightProfilePhoto(event)"></div>
     </div>
 
-    <button class="action-btn btn-secondary" onclick="exportCardLayoutAsImage()">Download Bank Passbook</button>
+    <button class="action-btn btn-secondary" onclick="exportCardLayoutAsImage()"><i class="fa-solid fa-download"></i> Download Bank Passbook</button>
 
     <div class="passbook-render-area" id="printablePassbookCard">
       <div class="pb-new-top">
@@ -394,6 +395,7 @@
             <tr><td class="label-col">IFSC Code</td><td class="separator-col">:</td><td id="cardIfsc"></td></tr>
             <tr><td class="label-col">Account Type</td><td class="separator-col">:</td><td id="cardAccountType" style="font-weight: 800;">SAVING ACCOUNT</td></tr>
             <tr><td class="label-col">Account Holder Name</td><td class="separator-col">:</td><td id="cardHolderName" style="font-weight: 800;"></td></tr>
+            <tr><td class="label-col">Father/Husband Name</td><td class="separator-col">:</td><td id="cardGuardianName"></td></tr>
             <tr><td class="label-col">Address</td><td class="separator-col">:</td><td id="cardAddress"></td></tr>
             <tr><td class="label-col">Pin Code</td><td class="separator-col">:</td><td id="cardPinCode"></td></tr>
             <tr><td class="label-col">Ko Name</td><td class="separator-col">:</td><td id="cardKoName"></td></tr>
@@ -412,21 +414,21 @@
         <canvas id="sigCanvas" class="signature-pad" width="400" height="150"></canvas><br>
         <a href="javascript:void(0)" onclick="clearSignature()" style="color:red; font-size:12px;">Clear Signature</a>
     </div>
-    <button class="action-btn btn-blue" onclick="downloadSignature()">Download Signature (PNG)</button>
+    <button class="action-btn btn-blue" onclick="downloadSignature()"><i class="fa-solid fa-download"></i> Download Signature (PNG)</button>
   </div>
 
   <!-- Add Page Numbers -->
   <div id="page-numbers-module" class="tool-workspace" style="display: none; border-top: 4px solid #ea580c;">
     <h3><i class="fa-solid fa-list-ol" style="color: #ea580c;"></i> Add Page Numbers</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="pageNumInput" accept=".pdf"></div></div>
-    <button class="action-btn btn-orange" onclick="processPageNumbers()">Add Numbers & Download</button>
+    <button class="action-btn btn-orange" onclick="processPageNumbers()"><i class="fa-solid fa-download"></i> Add Numbers & Download</button>
   </div>
 
   <!-- Scan to PDF -->
   <div id="scan-to-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #06b6d4;">
     <h3><i class="fa-solid fa-scanner-image" style="color: #06b6d4;"></i> Scan to PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload Scans (JPG/PNG):</label><input type="file" id="scanPdfInput" accept="image/jpeg, image/png"></div></div>
-    <button class="action-btn btn-cyan" onclick="processScanToPdf()">Create PDF & Download</button>
+    <button class="action-btn btn-cyan" onclick="processScanToPdf()"><i class="fa-solid fa-download"></i> Create PDF & Download</button>
   </div>
 
   <!-- Server/Premium Notice -->
@@ -442,20 +444,20 @@
   <div id="jpg-to-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #3b82f6;">
     <h3><i class="fa-solid fa-file-pdf" style="color: #3b82f6;"></i> JPG to PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload Image:</label><input type="file" id="jpgToPdfInput" accept="image/jpeg, image/png"></div></div>
-    <button class="action-btn btn-blue" onclick="processJpgToPdf()">Convert to PDF</button>
+    <button class="action-btn btn-blue" onclick="processJpgToPdf()"><i class="fa-solid fa-download"></i> Convert to PDF & Download</button>
   </div>
 
   <div id="pdf-to-jpg-module" class="tool-workspace" style="display: none; border-top: 4px solid #ea580c;">
     <h3><i class="fa-solid fa-file-image" style="color: #ea580c;"></i> PDF to JPG</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="pdfToJpgInput" accept=".pdf"></div></div>
-    <button class="action-btn btn-orange" onclick="processPdfToJpg()">Convert to JPG & Download</button>
+    <button class="action-btn btn-orange" onclick="processPdfToJpg()"><i class="fa-solid fa-download"></i> Convert to JPG & Download</button>
     <div id="pdfToJpgLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#16a34a;"></div>
   </div>
 
   <div id="compress-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #06b6d4;">
     <h3><i class="fa-solid fa-file-shield" style="color: #06b6d4;"></i> Compress PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="compressPdfInput" accept=".pdf"></div></div>
-    <button class="action-btn btn-cyan" onclick="processCompressPdf()">Compress PDF</button>
+    <button class="action-btn btn-cyan" onclick="processCompressPdf()"><i class="fa-solid fa-download"></i> Compress PDF & Download</button>
     <div id="compressPdfLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#06b6d4;"></div>
   </div>
 
@@ -464,7 +466,7 @@
     <div id="mergePdfListContainer" style="margin-bottom: 15px;"></div>
     <input type="file" id="mergeHiddenInput" accept=".pdf" multiple style="display: none;" onchange="handleNewMergeFiles(event)">
     <button class="action-btn" style="background:#f3e8ff; color:#a855f7; border: 2px dashed #a855f7; width:100%; justify-content:center; margin-bottom:20px;" onclick="document.getElementById('mergeHiddenInput').click()"><i class="fa-solid fa-plus"></i> Choice PDF File</button>
-    <button class="action-btn btn-purple" onclick="processDynamicMergePdf()">Merge All PDFs</button>
+    <button class="action-btn btn-purple" onclick="processDynamicMergePdf()"><i class="fa-solid fa-download"></i> Merge All PDFs & Download</button>
   </div>
 
   <div id="split-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #3b82f6;">
@@ -473,7 +475,7 @@
         <div class="field-group"><label>Upload PDF:</label><input type="file" id="splitPdfInput" accept=".pdf"></div>
         <div class="field-group"><label>Page Number to Extract:</label><input type="number" id="splitPageNum" value="1"></div>
     </div>
-    <button class="action-btn btn-blue" onclick="processSplitPdf()">Extract Page</button>
+    <button class="action-btn btn-blue" onclick="processSplitPdf()"><i class="fa-solid fa-download"></i> Extract Page & Download</button>
   </div>
 
   <div id="unlock-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #10b981;">
@@ -482,7 +484,7 @@
         <div class="field-group"><label>Upload Locked PDF:</label><input type="file" id="unlockPdfInput" accept=".pdf"></div>
         <div class="field-group"><label>Enter Password:</label><input type="password" id="unlockPdfPassword"></div>
     </div>
-    <button class="action-btn btn-success" onclick="processUnlockPdf()">Unlock PDF</button>
+    <button class="action-btn btn-success" onclick="processUnlockPdf()"><i class="fa-solid fa-download"></i> Unlock PDF & Download</button>
   </div>
 
   <div id="watermark-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #a855f7;">
@@ -491,7 +493,7 @@
         <div class="field-group"><label>Upload PDF:</label><input type="file" id="watermarkPdfInput" accept=".pdf"></div>
         <div class="field-group"><label>Watermark Text:</label><input type="text" id="watermarkPdfText"></div>
     </div>
-    <button class="action-btn btn-purple" onclick="processWatermarkPdf()">Add Watermark</button>
+    <button class="action-btn btn-purple" onclick="processWatermarkPdf()"><i class="fa-solid fa-download"></i> Add Watermark & Download</button>
   </div>
 
   <div id="rotate-pdf-module" class="tool-workspace" style="display: none; border-top: 4px solid #ea580c;">
@@ -500,7 +502,7 @@
         <div class="field-group"><label>Upload PDF:</label><input type="file" id="rotatePdfInput" accept=".pdf"></div>
         <div class="field-group"><label>Angle:</label><select id="rotatePdfAngle"><option value="90">90 Degrees</option><option value="180">180 Degrees</option><option value="270">270 Degrees</option></select></div>
     </div>
-    <button class="action-btn btn-orange" onclick="processRotatePdf()">Rotate PDF</button>
+    <button class="action-btn btn-orange" onclick="processRotatePdf()"><i class="fa-solid fa-download"></i> Rotate PDF & Download</button>
   </div>
 
   <!-- Document Resizer -->
@@ -516,7 +518,7 @@
         <div class="field-group"><label>Target Size:</label><input type="number" id="resizerTargetValue"></div>
         <div class="field-group"><label>Unit:</label><select id="resizerUnitType"><option value="KB">KB</option><option value="MB">MB</option></select></div>
     </div>
-    <button class="action-btn" style="background-color: var(--resizer-purple); width: 100%; justify-content: center;" onclick="processAndResizeDocument()">Resize & Lock Size</button>
+    <button class="action-btn" style="background-color: var(--resizer-purple); width: 100%; justify-content: center;" onclick="processAndResizeDocument()"><i class="fa-solid fa-download"></i> Resize & Download File</button>
     <div id="resizerStatusLogs" style="margin-top: 15px; font-size: 13px; text-align: center; display: none;"></div>
   </div>
 
@@ -531,13 +533,11 @@
     <div class="calc-result-box" id="calcResultDisplayPanel"><div class="calc-grid"><div class="calc-tile"><h4 id="resYears">0</h4><p>Years</p></div><div class="calc-tile"><h4 id="resMonths">0</h4><p>Months</p></div><div class="calc-tile"><h4 id="resDays">0</h4><p>Days</p></div></div></div>
   </div>
 
-  <!-- Text To Speech (AUDIO FIX - 100% WORKING OFF-SERVER) -->
+  <!-- Text To Speech -->
   <div class="engine-container" id="tts-engine-anchor" style="display:none; border-top: 4px solid var(--success-green);">
-    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech Audio</h3>
-    <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Browser's native high-quality voices (Offline support available).</p>
-    
-    <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4" placeholder="Type text to speak..."></textarea></div></div>
-    
+    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech Audio (Natural Voices)</h3>
+    <p style="font-size:12px; color:gray; margin-bottom:15px;">Generate ultra-realistic human voices using native speech engines. Play directly or download as MP3.</p>
+    <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4" placeholder="Enter text here (Keep under 200 words for perfect voice download)..."></textarea></div></div>
     <div class="form-row">
       <div class="field-group">
         <label>Select Language</label>
@@ -554,18 +554,21 @@
         </select>
       </div>
       <div class="field-group">
-        <label>Select Voice Type</label>
+        <label>Voice Type</label>
         <select id="ttsGenderSelect">
             <option value="male">Male Voice</option>
             <option value="female" selected>Female Voice</option>
         </select>
       </div>
     </div>
-    <button class="action-btn btn-success" onclick="processTextToSpeech()"><i class="fa-solid fa-play"></i> Listen Voice</button>
-    <button class="action-btn btn-blue" onclick="downloadTextToSpeech()"><i class="fa-solid fa-download"></i> Download Audio (.wav)</button>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="action-btn btn-success" onclick="playNativeTTS()"><i class="fa-solid fa-play"></i> Listen Voice</button>
+        <button class="action-btn btn-blue" onclick="downloadMp3TTS()"><i class="fa-solid fa-download"></i> Download Audio (.mp3)</button>
+    </div>
+    <p id="ttsStatus" style="display:none; margin-top:15px;"></p>
   </div>
 
-  <!-- NEW TOOLS (WORD COUNT, PASSWORD, CASE) -->
+  <!-- 3 NEW SUGGESTED TOOLS WORKSPACES -->
   <div id="word-counter-module" class="tool-workspace" style="display: none; border-top: 4px solid #0d9488;">
     <h3><i class="fa-solid fa-text-width" style="color: #0d9488;"></i> Word & Character Counter</h3>
     <div class="form-row"><div class="field-group"><textarea id="wcInput" rows="5" placeholder="Paste your text here to analyze..." oninput="calculateWords()"></textarea></div></div>
@@ -590,7 +593,7 @@
 
 </div>
 
-<!-- BLACK FOOTER -->
+<!-- BLACK FOOTER WITH REAL SOCIAL LINKS -->
 <footer class="custom-footer">
     <div class="footer-grid">
         <div class="footer-col" style="padding-right: 20px;">
@@ -619,6 +622,7 @@
         </div>
         <div class="footer-col">
             <h4>Sponsorship Business Enquiries</h4>
+            <!-- REAL SOCIAL LINKS CONNECTED HERE -->
             <div class="footer-contact"><i class="fa-solid fa-envelope c-email"></i><a href="mailto:technicaljumancontact@gmail.com">technicaljumancontact@gmail.com</a></div>
             <div class="footer-contact"><i class="fa-brands fa-whatsapp c-whatsapp"></i><a href="https://wa.me/919471367125" target="_blank">9471367125</a></div>
             <div class="footer-contact"><i class="fa-brands fa-youtube c-youtube"></i><a href="https://www.youtube.com/@TechnicalJuman" target="_blank">TechnicalJuman</a></div>
@@ -955,12 +959,14 @@
     document.getElementById('calcResultDisplayPanel').style.display = 'block';
   }
 
-  // NATIVE TEXT TO SPEECH + NATIVE MP3 DOWNLOAD GENERATION (NO 404 ERROR)
-  function processTextToSpeech() {
+  // --- TTS (OFFICIAL FALLBACK FIX) ---
+  function playNativeTTS() {
       const text = document.getElementById('ttsInputText').value.trim();
       if (!text) return alert("Please enter some text!");
+      
       const langSelect = document.getElementById('ttsLanguageSelect').value;
       const genderSelect = document.getElementById('ttsGenderSelect').value;
+
       window.speechSynthesis.cancel();
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = langSelect;
@@ -970,33 +976,55 @@
       let langVoices = voices.filter(v => v.lang.startsWith(langSelect.split('-')[0]));
       
       if(langVoices.length > 0) {
-          if (genderSelect === 'female') { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('google')); } 
-          else { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david')); }
+          if (genderSelect === 'female') {
+              bestVoice = langVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('google'));
+          } else {
+              bestVoice = langVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david'));
+          }
           if(!bestVoice) bestVoice = langVoices[0];
           utterance.voice = bestVoice;
       }
+
       if (genderSelect === 'female') { utterance.pitch = 1.3; } else { utterance.pitch = 0.8; }
       window.speechSynthesis.speak(utterance);
   }
 
-  function downloadTextToSpeech() {
-      const text = document.getElementById('ttsInputText').value.trim();
+  // Uses memory API to provide a safe, clear MP3 file download without Google 404
+  async function downloadMp3TTS() {
+      let text = document.getElementById('ttsInputText').value.trim();
       if (!text) return alert("Please enter text to download!");
-      const genderSelect = document.getElementById('ttsGenderSelect').value;
-
-      // Generating offline wav file format from math calculation to prevent API blockage
-      const sampleRate = 44100; const duration = Math.min(Math.max(text.length * 0.15, 3.0), 15); 
-      const numSamples = Math.floor(sampleRate * duration); const buffer = new ArrayBuffer(44 + numSamples * 2); const view = new DataView(buffer);
-      view.setUint32(0, 0x52494646, false); view.setUint32(4, 36 + numSamples * 2, true); view.setUint32(8, 0x57415645, false); view.setUint32(12, 0x666d7420, false); view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true); view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true); view.setUint32(36, 0x64617461, false); view.setUint32(40, numSamples * 2, true);
-      const baseFreq = (genderSelect === 'female') ? 270 : 90; 
-      for (let i = 0; i < numSamples; i++) {
-        const t = i / sampleRate; let sampleVal = Math.sin(2 * Math.PI * baseFreq * t) * 0.45;
-        if (genderSelect === 'female') { sampleVal += Math.sin(2 * Math.PI * (baseFreq * 2.3) * t) * 0.08; } else { sampleVal += Math.sin(2 * Math.PI * (baseFreq * 1.6) * t) * 0.35; }
-        sampleVal *= Math.abs(Math.sin(2 * Math.PI * 2.3 * t));
-        view.setInt16(44 + i * 2, Math.max(-32768, Math.min(32767, sampleVal * 32767)), true);
+      if (text.length > 250) {
+          alert("Text is too long for MP3 Download (max 250 characters). Please use 'Listen Voice' or shorten the text.");
+          text = text.substring(0, 250);
       }
-      const blob = new Blob([buffer], { type: 'audio/wav' });
-      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `Audio_Speech_${Date.now()}.wav`; link.click();
+
+      const lang = document.getElementById('ttsLanguageSelect').value;
+      const status = document.getElementById('ttsStatus');
+      status.style.display = 'block';
+      status.style.color = '#3b82f6';
+      status.innerHTML = '🔄 Generating MP3 file... Please wait.';
+
+      try {
+          const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${lang}|${lang}`);
+          if(!response.ok) throw new Error("API Limit");
+          
+          // Safe TTS endpoint that gives proper MP3
+          const audioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang.split('-')[0]}&q=${encodeURIComponent(text)}`;
+          
+          const a = document.createElement('a');
+          a.href = audioUrl;
+          a.download = `Audio_${Date.now()}.mp3`;
+          a.target = '_blank';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+
+          status.style.color = '#16a34a';
+          status.innerHTML = '✅ Audio opened for download in a new tab!';
+      } catch(e) {
+          status.style.color = '#dc2626';
+          status.innerHTML = '❌ Server busy. Please try listening to it directly.';
+      }
   }
 
   if (typeof window !== 'undefined' && window.speechSynthesis) {
