@@ -306,7 +306,7 @@
     <button class="action-btn btn-secondary" onclick="processEditPdf()">Update PDF & Download</button>
   </div>
 
-  <!-- Passport Studio (UPDATED WITH DROPDOWN, +/- AND LIVE PREVIEW) -->
+  <!-- Passport Photo Studio (UPDATED WITH DROPDOWN, +/- AND LIVE PREVIEW) -->
   <div class="engine-container" id="passport-studio-anchor" style="display:none; border-top: 4px solid var(--studio-purple);">
     <h3><i class="fa-solid fa-camera-retro" style="color:var(--studio-purple);"></i> Passport Size Photo Studio</h3>
     <div class="form-row">
@@ -340,7 +340,7 @@
     </div>
   </div>
 
-  <!-- Passbook Maker (UPDATED FIELDS: ORDER MATCHED WITH SCREENSHOT) -->
+  <!-- Bank Passbook Generate (UPDATED FIELDS: ORDER MATCHED WITH SCREENSHOT) -->
   <div class="engine-container" id="passbook-engine-anchor" style="display:none; border-top: 4px solid var(--sbi-blue);">
     <h3><i class="fa-solid fa-id-card" style="color:var(--sbi-blue);"></i> CSP Bank Passbook Generate</h3>
     <div class="form-row">
@@ -349,17 +349,17 @@
       <div class="field-group"><label>Last Name</label><input type="text" id="inputLastName" placeholder="Enter Last Name" oninput="syncCardCanvasData()"></div>
     </div>
     <div class="form-row">
-      <div class="field-group"><label>CIF Number</label><input type="text" id="inputCifId" placeholder="Enter CIF No" oninput="syncCardCanvasData()"></div>
-      <div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" placeholder="Enter Account No" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>CIF Number</label><input type="text" id="inputCifId" placeholder="Enter CIF Number" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" placeholder="Enter Account Number" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" placeholder="Enter IFSC Code" oninput="syncCardCanvasData()"></div>
     </div>
     <div class="form-row">
-      <div class="field-group"><label>Full Address</label><input type="text" id="inputAddress" placeholder="Enter Full Address" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label> Address</label><input type="text" id="inputAddress" placeholder="Enter Address" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" placeholder="6-Digit Pin Code" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>Account Type</label><select id="inputAccountType" onchange="syncCardCanvasData()"><option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option><option value="CURRENT ACCOUNT">CURRENT ACCOUNT</option></select></div>
     </div>
     <div class="form-row">
-      <div class="field-group"><label>Ko Name (C/O)</label><input type="text" id="inputKoName" placeholder="Enter Ko Name" oninput="syncCardCanvasData()"></div>
+      <div class="field-group"><label>Ko Name </label><input type="text" id="inputKoName" placeholder="Enter Ko Name" oninput="syncCardCanvasData()"></div>
       <div class="field-group"><label>Ko Location</label><input type="text" id="inputKoLocation" placeholder="Enter Ko Location" oninput="syncCardCanvasData()"></div>
     </div>
     <div class="form-row">
@@ -379,8 +379,8 @@
         <div class="pb-details">
           <table>
             <!-- Order Matching the Screenshot Exactly -->
-            <tr><td class="label-col">CIF No</td><td class="separator-col">:</td><td id="cardCifId"></td></tr>
-            <tr><td class="label-col">Account No</td><td class="separator-col">:</td><td id="cardAccNo"></td></tr>
+            <tr><td class="label-col">CIF Number</td><td class="separator-col">:</td><td id="cardCifId"></td></tr>
+            <tr><td class="label-col">Account Number</td><td class="separator-col">:</td><td id="cardAccNo"></td></tr>
             <tr><td class="label-col">IFSC Code</td><td class="separator-col">:</td><td id="cardIfsc"></td></tr>
             <tr><td class="label-col">Account Type</td><td class="separator-col">:</td><td id="cardAccountType" style="font-weight: 800;">SAVING ACCOUNT</td></tr>
             <tr><td class="label-col">Account Holder Name</td><td class="separator-col">:</td><td id="cardHolderName" style="font-weight: 800;"></td></tr>
