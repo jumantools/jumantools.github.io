@@ -26,7 +26,6 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: var(--bg-color); color: var(--text-main); scroll-behavior: smooth; }
 
-    /* HEADER & SEARCH & AUTH */
     header { width: 100%; background: var(--card-bg); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; gap: 15px;}
     .logo-area { display: flex; align-items: center; gap: 10px; }
     .user-profile-img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #06b6d4; padding: 2px; background: #fff; }
@@ -40,7 +39,6 @@
     .sign-in { color: var(--text-main); background: #e2e8f0; } .sign-in:hover { background: #cbd5e1; }
     .sign-up { color: #fff; background: var(--primary-color); } .sign-up:hover { background: var(--primary-hover); }
 
-    /* AUTH MODAL */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(3px); }
     .modal-content { background: #fff; padding: 30px; border-radius: 12px; width: 90%; max-width: 380px; text-align: center; position: relative; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
     .close-modal { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; transition: 0.2s; } .close-modal:hover { color: #0f172a; }
@@ -55,7 +53,6 @@
     .section-title h2 { font-size: 32px; color: var(--text-main); } .section-title h2 span { color: var(--primary-color); }
     .section-title p { color: var(--text-muted); margin-top: 6px; font-size: 16px; font-weight: 500; }
 
-    /* GRID CONTROLS */
     .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 15px; margin-bottom: 35px; }
     .tool-card { background: var(--card-bg); border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px 15px; text-align: center; cursor: pointer; transition: 0.3s; }
     .tool-card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.06); border-color: var(--primary-color); }
@@ -69,7 +66,6 @@
     .icon-dark { background: #f1f5f9; color: #334155; } .icon-yellow { background: #fef08a; color: #b45309; }
     .icon-teal { background: #ccfbf1; color: #0d9488; } .icon-pink { background: #fce7f3; color: #db2777; }
 
-    /* ENGINE LAYOUT PANELS */
     .engine-container, .tool-workspace { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 40px; scroll-margin-top: 100px; display: none; }
     .engine-container h3, .tool-workspace h3 { font-size: 22px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
@@ -86,10 +82,8 @@
     .action-btn:hover { background: #1e293b; }
     .btn-red { background: #ef4444; } .btn-green { background: #16a34a; } .btn-purple { background: var(--studio-purple); } .btn-orange { background: var(--calc-orange); } .btn-cyan { background: #06b6d4; color: white;}
 
-    /* SIGNATURE CANVAS */
     .signature-pad { border: 2px dashed #cbd5e1; background: #f8fafc; cursor: crosshair; touch-action: none; border-radius: 6px; width: 100%; max-width: 400px; height: 150px; }
 
-    /* PROFESSIONAL ABOUT US SECTION (FORMATTED) */
     .about-article { background: #000000; color: #ffffff; padding: 45px 35px; border-radius: 12px; margin: 50px 0; line-height: 1.8; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
     .about-article h2 { font-size: 26px; color: #ffffff; margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 5px; margin-top: 35px;}
     .about-article h2:first-child { margin-top: 0; }
@@ -101,8 +95,7 @@
     .about-article a { color: var(--down-btn-color); text-decoration: none; font-weight: bold;}
     .about-article a:hover { text-decoration: underline; color: #60a5fa;}
 
-    /* BLACK FOOTER WITH SOCIAL LINKS */
-    .custom-footer { background: #000000; color: #ffffff; padding: 50px 20px 20px; font-family: 'Segoe UI', sans-serif; border-top: 4px solid #222; }
+    .custom-footer { background: #000000; color: #ffffff; padding: 50px 20px 20px; font-family: 'Segoe UI', sans-serif; margin-top: 40px; border-top: 4px solid #222; }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
     .footer-col h4 { font-size: 18px; margin-bottom: 18px; color: #ffffff; font-weight: bold; text-transform: capitalize; }
     .footer-col p { color: #cccccc; font-size: 14px; line-height: 1.8; margin-bottom: 15px; }
@@ -110,17 +103,19 @@
     .footer-col ul li a { color: #cccccc; font-size: 14px; text-decoration: none; transition: 0.2s; }
     .footer-col ul li a:hover { color: #ffffff; text-decoration: underline; padding-left: 5px; }
     .footer-contact { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; color: #cccccc; font-size: 14px; }
+    
     .c-email { color: #ea4335; font-size:22px; } .c-whatsapp { color: #25D366; font-size:22px; } .c-youtube { color: #ff0000; font-size:22px; }
     .c-facebook { color: #1877F2; font-size:22px; } .c-instagram { color: #E1306C; font-size:22px; } .c-twitter { color: #1DA1F2; font-size:22px; }
     .c-telegram { color: #0088cc; font-size:22px; }
     .footer-contact a { color: #cccccc; text-decoration: none; transition: 0.2s;} .footer-contact a:hover { color: #ffffff; text-decoration: underline;}
+    
     .footer-bottom { text-align: center; border-top: 1px solid #333333; margin-top: 40px; padding-top: 20px; font-size: 13px; color: #aaaaaa; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; align-items: center; }
     .footer-bottom a { color: #cccccc; text-decoration: none; margin: 0 10px; } .footer-bottom a:hover { color: #ffffff; }
 
-    /* SPECIFIC TOOLS UI */
     .counter-btn-container { display: flex; gap: 10px; align-items: center; margin-top: 5px; }
     .counter-btn { background: #e2e8f0; color: #0f172a; border: 1px solid #cbd5e1; width: 40px; height: 40px; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; transition: 0.2s; }
     .counter-btn:hover { background: #cbd5e1; color: #000; }
+    
     .merge-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 8px; }
     .remove-pdf-btn { background: #fee2e2; color: #b91c1c; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
     
@@ -154,22 +149,9 @@
     .word-tile h4, .calc-tile h4 { font-size: 20px; color: var(--primary-color); font-weight: 800;}
     .word-tile p, .calc-tile p { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin-top:3px;}
     .pwd-display { background: #f1f5f9; border: 2px dashed #cbd5e1; padding: 15px; font-size: 20px; font-family: monospace; text-align: center; border-radius: 8px; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; word-break: break-all; }
-    .cash-row { display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid #e2e8f0; }
-    .cash-row label { font-size: 16px; font-weight: bold; width: 80px; }
-    .cash-row input { width: 100px; padding: 8px; text-align: center; font-weight: bold; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 6px; }
-    .cash-total { background: #dcfce7; padding: 15px; font-size: 24px; font-weight: 900; color: #16a34a; text-align: center; border-radius: 8px; border: 2px solid #22c55e; margin-top: 15px; }
-    .calendar-wrapper { width: 100%; max-width: 400px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff; }
-    .calendar-header { background: #0f172a; color: #fff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;}
-    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #e2e8f0; border-top: 1px solid #cbd5e1; }
-    .calendar-day, .calendar-date { background: #fff; padding: 10px 5px; text-align: center; font-size: 14px; }
-    .calendar-day { font-weight: bold; color: #334155; background: #f8fafc; }
-    .calendar-date.active { background: #ef4444; color: #fff; font-weight: bold; border-radius: 4px; }
-    .calc-btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
-    .c-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; }
-    .c-btn.operator { background: #3b82f6; color: white; }
-    .c-btn.equal { background: #16a34a; color: white; grid-column: span 2; }
-    .crop-container { width: 100%; max-height: 400px; margin-top: 15px; overflow: hidden;}
     
+    .crop-container { width: 100%; max-height: 400px; margin-top: 15px; overflow: hidden;}
+
     @media (max-width: 768px) {
         header { flex-direction: column; gap: 15px; }
         .header-search { max-width: 100%; order: 3; }
@@ -196,7 +178,7 @@
 
 <header>
   <div class="logo-area">
-    <img src="https://i.ibb.co/3WqQYwJ/photo-2025-01-20-21-36-58.jpg" alt="User Profile" class="user-profile-img" id="userProfileLogo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/YouTube_social_red_circle_%282017%29.svg" alt="YouTube Logo" class="user-profile-img" id="userProfileLogo">
     <div class="logo-text">
       <h1>Technical Juman</h1>
       <p>All In One Premium Tools</p>
@@ -220,7 +202,6 @@
   </div>
 
   <div class="tools-grid" id="toolsGridBox">
-    <!-- ALL WORKING TOOLS IN GRID -->
     <div class="tool-card" onclick="openTool('jpg-to-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-pdf"></i></div><h4>JPG to PDF</h4><p>Convert images to PDFs.</p></div>
     <div class="tool-card" onclick="openTool('pdf-to-jpg-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-file-image"></i></div><h4>PDF to JPG</h4><p>Extract images from PDF.</p></div>
     <div class="tool-card" onclick="openTool('compress-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-file-shield"></i></div><h4>Compress PDF</h4><p>Reduce PDF file size.</p></div>
@@ -247,6 +228,7 @@
     <div class="tool-card" onclick="openTool('calculator-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-calculator"></i></div><h4>Pro Calculator</h4><p>Solve math instantly.</p></div>
     <div class="tool-card" onclick="openTool('cash-counter-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-money-bill-wave"></i></div><h4>Cash Counter</h4><p>Calculate notes & total.</p></div>
     <div class="tool-card" onclick="openTool('calendar-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-regular fa-calendar-days"></i></div><h4>Live Calendar</h4><p>View current month.</p></div>
+
     <div class="tool-card" onclick="openTool('word-counter-module')"><div class="tool-icon-wrapper icon-teal"><i class="fa-solid fa-text-width"></i></div><h4>Word Counter</h4><p>Count words & characters.</p></div>
     <div class="tool-card" onclick="openTool('password-gen-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-key"></i></div><h4>Password Gen</h4><p>Generate strong passwords.</p></div>
     <div class="tool-card" onclick="openTool('case-converter-module')"><div class="tool-icon-wrapper icon-pink"><i class="fa-solid fa-font"></i></div><h4>Case Converter</h4><p>Change text cases.</p></div>
@@ -288,36 +270,10 @@
 
   <!-- WORKSPACES -->
   
-  <div class="engine-container" id="tts-engine-anchor">
-    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech Audio</h3>
-    <p style="font-size:12px; color:gray; margin-bottom:15px;">Convert text to speech. Listen online or download as MP3 offline.</p>
-    <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4" placeholder="Enter text here..."></textarea></div></div>
-    <div class="form-row">
-      <div class="field-group">
-        <label>Select Language</label>
-        <select id="ttsLanguageSelect">
-            <option value="hi-IN" selected>Hindi (India)</option><option value="en-US">English (USA)</option><option value="en-GB">English (UK)</option><option value="en-IN">English (India)</option><option value="bn-IN">Bengali (India)</option><option value="mr-IN">Marathi (India)</option><option value="te-IN">Telugu (India)</option><option value="ta-IN">Tamil (India)</option><option value="gu-IN">Gujarati (India)</option><option value="kn-IN">Kannada (India)</option><option value="ml-IN">Malayalam (India)</option><option value="es-ES">Spanish (Spain)</option><option value="fr-FR">French (France)</option><option value="de-DE">German (Germany)</option><option value="ar-SA">Arabic (Saudi Arabia)</option>
-        </select>
-      </div>
-      <div class="field-group"><label>Voice Type</label><select id="ttsGenderSelect"><option value="male">Male Voice</option><option value="female" selected>Female Voice</option></select></div>
-    </div>
-    <div style="display:flex; gap:10px;">
-      <button class="action-btn btn-success" onclick="playNativeTTS()"><i class="fa-solid fa-play"></i> Listen Voice</button>
-      <button class="download-final-btn" id="ttsDownloadBtn" onclick="downloadMp3TTS()"><i class="fa-solid fa-download"></i> Download Audio (.mp3)</button>
-    </div>
-    <div id="ttsStatus" style="display:none; margin-top:15px; font-size:14px; font-weight:bold;"></div>
-  </div>
-
-  <div id="emi-calc-module" class="tool-workspace">
-    <h3><i class="fa-solid fa-file-invoice-dollar" style="color: #3b82f6;"></i> EMI Calculator</h3>
-    <div class="form-row"><div class="field-group"><label>Loan Amount (₹):</label><input type="number" id="emiAmt"></div><div class="field-group"><label>Interest Rate (%):</label><input type="number" id="emiInt"></div><div class="field-group"><label>Tenure (Months):</label><input type="number" id="emiMonth"></div></div>
-    <button class="download-final-btn" onclick="calcEmi()"><i class="fa-solid fa-calculator"></i> Calculate EMI</button>
-    <div class="pwd-display" id="emiOut" style="margin-top:15px;">Monthly EMI: ₹ 0</div>
-  </div>
-  
   <div id="voice-typing-module" class="tool-workspace">
     <h3><i class="fa-solid fa-microphone-lines" style="color: #3b82f6;"></i> Speech to Text (Voice Typing)</h3>
-    <div class="form-row"><div class="field-group"><textarea id="voiceTextOutput" rows="6" placeholder="Click 'Start Mic' and speak..."></textarea></div></div>
+    <p style="font-size:12px; color:gray; margin-bottom:15px;">Microphone permission needed. Works best in Chrome.</p>
+    <div class="form-row"><div class="field-group"><textarea id="voiceTextOutput" rows="6" placeholder="Click 'Start Mic' and start speaking..."></textarea></div></div>
     <button class="action-btn btn-blue" id="btnVoiceStart" onclick="startVoiceTyping()"><i class="fa-solid fa-microphone"></i> Start Mic</button>
     <button class="action-btn btn-red" onclick="stopVoiceTyping()"><i class="fa-solid fa-stop"></i> Stop</button>
     <button class="action-btn btn-secondary" onclick="copyVoiceText()"><i class="fa-solid fa-copy"></i> Copy Text</button>
@@ -326,12 +282,12 @@
   <div id="translate-module" class="tool-workspace">
     <h3><i class="fa-solid fa-language" style="color: #ea580c;"></i> Universal Language Translator</h3>
     <div class="form-row">
-        <div class="field-group"><label>From:</label><select id="transFrom"><option value="en">English</option><option value="hi">Hindi</option><option value="bn">Bengali</option><option value="mr">Marathi</option><option value="ta">Tamil</option><option value="ur">Arabic</option></select></div>
-        <div class="field-group"><label>To:</label><select id="transTo"><option value="hi">Hindi</option><option value="en">English</option><option value="bn">Bengali</option><option value="mr">Marathi</option><option value="ta">Tamil</option><option value="ur">Arabic</option></select></div>
+        <div class="field-group"><label>From Language:</label><select id="transFrom"><option value="en">English</option><option value="hi">Hindi</option><option value="bn">Bengali</option><option value="mr">Marathi</option><option value="ta">Tamil</option><option value="ur">Arabic</option></select></div>
+        <div class="field-group"><label>To Language:</label><select id="transTo"><option value="hi">Hindi</option><option value="en">English</option><option value="bn">Bengali</option><option value="mr">Marathi</option><option value="ta">Tamil</option><option value="ur">Arabic</option></select></div>
     </div>
-    <div class="form-row"><div class="field-group"><textarea id="transInput" rows="4"></textarea></div></div>
-    <button class="action-btn btn-orange" onclick="processTranslate()"><i class="fa-solid fa-language"></i> Translate</button>
-    <div class="form-row" style="margin-top:15px;"><div class="field-group"><textarea id="transOutput" rows="4" readonly></textarea></div></div>
+    <div class="form-row"><div class="field-group"><textarea id="transInput" rows="4" placeholder="Enter text to translate..."></textarea></div></div>
+    <button class="action-btn btn-orange" onclick="processTranslate()"><i class="fa-solid fa-language"></i> Translate Text</button>
+    <div class="form-row" style="margin-top:15px;"><div class="field-group"><textarea id="transOutput" rows="4" placeholder="Translated text will appear here..." readonly></textarea></div></div>
     <button class="download-final-btn" onclick="downloadTranslatedText()"><i class="fa-solid fa-download"></i> Download Text (.txt)</button>
   </div>
 
@@ -339,7 +295,7 @@
     <h3><i class="fa-solid fa-fill-drip" style="color: #ef4444;"></i> Change Background Color</h3>
     <div class="form-row">
         <div class="field-group"><label>Upload Photo:</label><input type="file" id="bgColorInput" accept="image/*"></div>
-        <div class="field-group"><label>Select Color:</label><div style="display: flex; gap: 10px; align-items: center;"><input type="color" id="bgColorChoose" value="#ff0000" style="width: 50px; height: 40px;"><span style="font-size: 12px; color: #666;">Choose color before clicking remove.</span></div></div>
+        <div class="field-group"><label>Select Color:</label><input type="color" id="bgColorChoose" value="#ff0000" style="width:100%; height:40px;"></div>
     </div>
     <button class="download-final-btn" id="btnBgColor" onclick="processBgColor()"><i class="fa-solid fa-download"></i> Apply Color & Download</button>
     <div id="bgColorLog" style="margin-top:15px; font-weight:bold;"></div>
@@ -349,7 +305,15 @@
     <h3><i class="fa-solid fa-crop-simple" style="color: #334155;"></i> Crop Image</h3>
     <div class="form-row">
         <div class="field-group"><label>Upload Image:</label><input type="file" id="cropInput" accept="image/*" onchange="loadCropImage(event)"></div>
-        <div class="field-group"><label>Select Size (Ratio):</label><select id="cropRatioSelect" onchange="changeCropRatio()"><option value="NaN">Free Custom Size</option><option value="0.777">Passport Size (3.5 x 4.5)</option><option value="1">Square (1:1)</option><option value="1.777">16:9 (YouTube Thumbnail)</option></select></div>
+        <div class="field-group">
+            <label>Select Size (Ratio):</label>
+            <select id="cropRatioSelect" onchange="changeCropRatio()">
+                <option value="NaN">Free Custom Size</option>
+                <option value="0.777">Passport Size (3.5 x 4.5)</option>
+                <option value="1">Square (1:1)</option>
+                <option value="1.777">16:9 (YouTube Thumbnail)</option>
+            </select>
+        </div>
     </div>
     <div class="crop-container"><img id="cropImageDisplay" style="max-width: 100%; display: none;"></div>
     <button class="download-final-btn" style="margin-top: 15px;" onclick="downloadCropped()"><i class="fa-solid fa-download"></i> Crop & Download</button>
@@ -357,34 +321,69 @@
 
   <div id="protect-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-lock" style="color: #ef4444;"></i> Protect PDF</h3>
-    <div class="form-row"><div class="field-group"><label>Upload PDF Document:</label><input type="file" id="protectPdfInput" accept=".pdf"></div><div class="field-group"><label>Set New Password:</label><input type="password" id="protectPdfPassword"></div></div>
+    <div class="form-row">
+        <div class="field-group"><label>Upload PDF Document:</label><input type="file" id="protectPdfInput" accept=".pdf"></div>
+        <div class="field-group"><label>Set New Password:</label><input type="password" id="protectPdfPassword" placeholder="Create a password"></div>
+    </div>
+    <p style="font-size: 12px; color: #dc2626; margin-bottom: 10px;">* Note: Advanced encryption requires a server. This simulates locking for display purposes.</p>
     <button class="download-final-btn" style="background:#ef4444;" onclick="alertSimulateProtection()"><i class="fa-solid fa-download"></i> Lock PDF & Download</button>
   </div>
 
   <div id="edit-pdf-module" class="tool-workspace">
-    <h3><i class="fa-solid fa-pen-to-square" style="color: #334155;"></i> Edit PDF</h3>
-    <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="editPdfInput" accept=".pdf"></div><div class="field-group"><label>Whiteout Old Text?</label><select id="editEraseOption"><option value="no">No</option><option value="yes">Yes (Top-Left Area)</option></select></div></div>
-    <div class="form-row"><div class="field-group"><label>New Text to Add:</label><input type="text" id="editPdfText"></div></div>
+    <h3><i class="fa-solid fa-pen-to-square" style="color: #334155;"></i> Edit PDF (Replace / Add Text)</h3>
+    <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Browsers cannot directly delete PDF source code. To "remove" old text, we paint a white box over it, and then write your New Text on top!</p>
+    <div class="form-row">
+        <div class="field-group"><label>1. Upload PDF:</label><input type="file" id="editPdfInput" accept=".pdf"></div>
+        <div class="field-group">
+            <label>2. Whiteout (Erase) Old Text?</label>
+            <select id="editEraseOption"><option value="no">No, Just add new text</option><option value="yes">Yes, Erase old text (Top-Left Area)</option></select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="field-group"><label>3. New Text to Add:</label><input type="text" id="editPdfText" placeholder="Write new text here..."></div>
+    </div>
     <button class="download-final-btn" style="background:#0f172a;" onclick="processEditPdf()"><i class="fa-solid fa-download"></i> Update PDF & Download</button>
   </div>
 
   <div class="engine-container" id="passport-studio-anchor">
     <h3><i class="fa-solid fa-camera-retro" style="color:var(--studio-purple);"></i> Passport Size Photo Studio</h3>
     <div class="form-row">
-      <div class="field-group"><label>Upload Image</label><input type="file" id="passportSourceUpload" accept="image/*" onchange="loadPassportStudioSource(event)"></div>
-      <div class="field-group"><label>Select Grid Layout</label><select id="passportCopyCount" onchange="syncDropdownToStudioGrid()"><option value="6">6 Photos</option><option value="12" selected>12 Photos</option><option value="24">24 Photos</option><option value="30">30 Photos</option></select></div>
-      <div class="field-group"><label>Manual Adjust</label><div class="counter-btn-container"><button class="counter-btn remove" onclick="adjustPassportCountManual(-1)"><i class="fa-solid fa-minus"></i></button><span id="manualCountDisplay">12</span><button class="counter-btn add" onclick="adjustPassportCountManual(1)"><i class="fa-solid fa-plus"></i></button></div></div>
+      <div class="field-group">
+          <label>Upload Image Frame</label>
+          <input type="file" id="passportSourceUpload" accept="image/*" onchange="loadPassportStudioSource(event)">
+      </div>
+      <div class="field-group">
+          <label>Select Grid Layout</label>
+          <select id="passportCopyCount" onchange="syncDropdownToStudioGrid()">
+            <option value="6">6 Photos Layout</option>
+            <option value="12" selected>12 Photos Layout</option>
+            <option value="24">24 Photos Layout</option>
+            <option value="30">30 Photos Layout</option>
+          </select>
+      </div>
+      <div class="field-group">
+          <label>Manual Adjust (Add/Remove)</label>
+          <div class="counter-btn-container">
+            <button class="counter-btn remove" onclick="adjustPassportCountManual(-1)"><i class="fa-solid fa-minus"></i></button>
+            <span id="manualCountDisplay" style="font-weight:bold; font-size:16px; width:30px; text-align:center;">12</span>
+            <button class="counter-btn add" onclick="adjustPassportCountManual(1)"><i class="fa-solid fa-plus"></i></button>
+          </div>
+      </div>
     </div>
     <button class="download-final-btn" style="background:var(--studio-purple);" onclick="downloadPassportStudioSheet()"><i class="fa-solid fa-download"></i> Download A4 Photo Sheet</button>
-    <div id="passportSheetAreaToPrint" style="margin-top:20px; overflow-x:auto;"><div class="passport-sheet-preview" id="passportGridContainer"><div class="passport-blank-state"><p>Upload a photo to see live grid preview instantly.</p></div></div></div>
+    <div id="passportSheetAreaToPrint" style="margin-top:20px; overflow-x:auto;">
+        <div class="passport-sheet-preview" id="passportGridContainer">
+            <div class="passport-blank-state"><i class="fa-regular fa-images" style="font-size:40px; color:#cbd5e1;"></i><p>Upload a photo to see live grid preview instantly.</p></div>
+        </div>
+    </div>
   </div>
 
   <div class="engine-container" id="passbook-engine-anchor">
     <h3><i class="fa-solid fa-id-card" style="color:var(--sbi-blue);"></i> CSP Bank Passbook Generate</h3>
-    <div class="form-row"><div class="field-group"><label>Bank English Title</label><input type="text" id="inputBankName" oninput="syncCardCanvasData()"></div><div class="field-group"><label>First Name</label><input type="text" id="inputFirstName" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Last Name</label><input type="text" id="inputLastName" oninput="syncCardCanvasData()"></div></div>
-    <div class="form-row"><div class="field-group"><label>CIF Number</label><input type="text" id="inputCifId" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" oninput="syncCardCanvasData()"></div><div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" oninput="syncCardCanvasData()"></div></div>
-    <div class="form-row"><div class="field-group"><label>Account Type</label><select id="inputAccountType" onchange="syncCardCanvasData()"><option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option><option value="CURRENT ACCOUNT">CURRENT ACCOUNT</option></select></div><div class="field-group"><label>Full Address</label><input type="text" id="inputAddress" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" oninput="syncCardCanvasData()"></div></div>
-    <div class="form-row"><div class="field-group"><label>Father/Husband Name</label><input type="text" id="inputGuardianName" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Ko Name </label><input type="text" id="inputKoName" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Ko Location</label><input type="text" id="inputKoLocation" oninput="syncCardCanvasData()"></div></div>
+    <div class="form-row"><div class="field-group"><label>Bank English Title</label><input type="text" id="inputBankName" placeholder="e.g. STATE BANK OF INDIA" oninput="syncCardCanvasData()"></div><div class="field-group"><label>First Name</label><input type="text" id="inputFirstName" placeholder="Enter First Name" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Last Name</label><input type="text" id="inputLastName" placeholder="Enter Last Name" oninput="syncCardCanvasData()"></div></div>
+    <div class="form-row"><div class="field-group"><label>CIF Number</label><input type="text" id="inputCifId" placeholder="Enter CIF Number" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Account Number</label><input type="text" id="inputAccNo" placeholder="Enter Account Number" oninput="syncCardCanvasData()"></div><div class="field-group"><label>IFSC Code</label><input type="text" id="inputIfsc" placeholder="Enter IFSC Code" oninput="syncCardCanvasData()"></div></div>
+    <div class="form-row"><div class="field-group"><label>Account Type</label><select id="inputAccountType" onchange="syncCardCanvasData()"><option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option><option value="CURRENT ACCOUNT">CURRENT ACCOUNT</option></select></div><div class="field-group"><label>Full Address</label><input type="text" id="inputAddress" placeholder="Enter Full Address" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" placeholder="6-Digit Pin Code" oninput="syncCardCanvasData()"></div></div>
+    <div class="form-row"><div class="field-group"><label>Father/Husband Name</label><input type="text" id="inputGuardianName" placeholder="Enter Father/Husband Name" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Ko Name </label><input type="text" id="inputKoName" placeholder="Enter Ko Name" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Ko Location</label><input type="text" id="inputKoLocation" placeholder="Enter Ko Location" oninput="syncCardCanvasData()"></div></div>
     <div class="form-row"><div class="field-group"><label>Upload Bank Logo</label><input type="file" accept="image/*" onchange="uploadLeftBankLogo(event)"></div><div class="field-group"><label>Upload Holder Photo</label><input type="file" accept="image/*" onchange="uploadRightProfilePhoto(event)"></div></div>
 
     <button class="download-final-btn" onclick="exportCardLayoutAsImage()"><i class="fa-solid fa-download"></i> Download Bank Passbook</button>
@@ -422,12 +421,14 @@
     <h3><i class="fa-solid fa-file-image" style="color: #ea580c;"></i> PDF to JPG</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="pdfToJpgInput" accept=".pdf"></div></div>
     <button class="download-final-btn" style="background:#ea580c;" onclick="processPdfToJpg()"><i class="fa-solid fa-download"></i> Convert to JPG & Download</button>
+    <div id="pdfToJpgLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#16a34a;"></div>
   </div>
 
   <div id="compress-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-file-shield" style="color: #06b6d4;"></i> Compress PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="compressPdfInput" accept=".pdf"></div></div>
     <button class="download-final-btn" style="background:#06b6d4;" onclick="processCompressPdf()"><i class="fa-solid fa-download"></i> Compress PDF & Download</button>
+    <div id="compressPdfLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#06b6d4;"></div>
   </div>
 
   <div id="merge-pdf-module" class="tool-workspace">
@@ -526,6 +527,7 @@
         <div class="field-group"><label>Unit:</label><select id="resizerUnitType"><option value="KB">KB</option><option value="MB">MB</option></select></div>
     </div>
     <button class="download-final-btn" style="background-color: var(--resizer-purple);" onclick="processAndResizeDocument()"><i class="fa-solid fa-download"></i> Resize & Download File</button>
+    <div id="resizerStatusLogs" style="margin-top: 15px; font-size: 13px; text-align: center; display: none;"></div>
   </div>
 
   <div class="engine-container" id="age-calculator-anchor">
@@ -574,7 +576,7 @@
   <div id="coin-flip-module" class="tool-workspace"><h3>Coin Flipper</h3><button class="action-btn" onclick="flipCoin()">Flip Coin</button><div id="coinOut">Heads or Tails?</div></div>
   <div id="age-diff-module" class="tool-workspace"><h3>Age Difference</h3><input type="date" id="diffDob1"><input type="date" id="diffDob2"><button class="action-btn btn-success" onclick="calcAgeDiff()">Calculate</button><div id="diffOut">Result</div></div>
 
-  <!-- Premium Notice -->
+  <!-- Server/Premium Notice -->
   <div id="premium-notice-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444; text-align: center;">
     <i class="fa-solid fa-server" style="font-size: 50px; color: #cbd5e1; margin-bottom: 20px;"></i>
     <h3>Advanced Server Processing Required</h3>
@@ -583,14 +585,14 @@
 
   <!-- ABOUT US, PRIVACY POLICY & DISCLAIMER SECTION -->
   <div class="about-article">
-      <h2><b>About Us</b></h2>
+      <h2>About Us</h2>
       <p>Welcome to <b>Technical Juman!</b></p>
       <p>We are dedicated to providing you with the absolute best online utility and document management tools, with a strong focus on speed, simplicity, and user data security. Our website features <b>60+ premium-quality free online tools</b>—including advanced PDF converters, passport size photo tools, image background removers, and smart calculators—helping you manage your daily workflow without installing any heavy software.</p>
       
-      <h3><b>Our Story & Vision</b></h3>
+      <h3>Our Story & Vision</h3>
       <p>Founded by <b>Juman Ansari</b>, an experienced Indian content creator running the successful Technical Juman YouTube Channel since 2024, this platform was built with a clear vision: to simplify digital documentation, banking procedures, and online utilities for everyone. Having served a loyal audience of thousands of subscribers on YouTube through authentic banking tutorials and earning guides, we understand the true value of trust and quality. This website is an extension of our commitment to delivering genuine, helpful, and free digital solutions to our community.</p>
       
-      <h3><b>Why Choose Technical Juman?</b></h3>
+      <h3>Why Choose Technical Juman?</h3>
       <ul>
           <li><b>100% Free to Use:</b> No hidden charges, no premium subscriptions, and no registration required.</li>
           <li><b>Privacy First:</b> Your personal files and photos are processed securely and deleted automatically from our systems.</li>
@@ -601,20 +603,20 @@
 
       <br><hr style="border-top:1px solid #334155;"><br>
 
-      <h2><b>Privacy Policy</b></h2>
+      <h2>Privacy Policy</h2>
       <p>At Technical Juman, accessible from technicaljuman.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Technical Juman and how we use it.</p>
       
-      <h3><b>File Upload and Data Safety</b></h3>
+      <h3>File Upload and Data Safety</h3>
       <p>We strictly respect your privacy. All PDF files, images, or documents uploaded by users to our online tools (such as the Passport Photo Studio or Background Remover) are processed locally or on secure temporary servers. We do not store, view, copy, or share your personal files with any third party. All uploaded files are automatically and permanently deleted from our servers within 1-2 hours of processing.</p>
 
-      <h3><b>Log Files</b></h3>
+      <h3>Log Files</h3>
       <p>Technical Juman follows a standard procedure of using log files. These files log visitors when they visit websites. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable.</p>
 
-      <h3><b>Google DoubleClick DART Cookie & Ads</b></h3>
+      <h3>Google DoubleClick DART Cookie & Ads</h3>
       <p>Google is one of the third-party vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to our site and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy.</p>
       <p>Our Advertising Partners (such as Google AdSense or Adsterra) may use cookies and web beacons on our site to measure the effectiveness of their advertising campaigns and personalize the advertising content.</p>
 
-      <h3><b>Support & Contact Channels</b></h3>
+      <h3>Support & Contact Channels</h3>
       <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through our official handles:</p>
       <ul>
           <li><b>Email Support:</b> technicaljumancontact@gmail.com</li>
@@ -626,23 +628,23 @@
 
       <br><hr style="border-top:1px solid #334155;"><br>
 
-      <h2><b>Disclaimer</b></h2>
+      <h2>Disclaimer</h2>
       <p>If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email at technicaljumancontact@gmail.com.</p>
 
-      <h3><b>Disclaimers for Technical Juman</b></h3>
+      <h3>Disclaimers for Technical Juman</h3>
       <p>All the information and online utility tools on this website – technicaljuman.com – are published in good faith and for general information, education, and utility purposes only. Technical Juman does not make any warranties about the completeness, reliability, and accuracy of these tools or information.</p>
       <p>Any action you take upon the information or tools you find on this website is strictly at your own risk. Technical Juman will not be liable for any losses and/or damages in connection with the use of our website or tools.</p>
 
-      <h3><b>File Security Disclaimer</b></h3>
+      <h3>File Security Disclaimer</h3>
       <p>While we ensure that all uploaded files are completely deleted within a short period and are handled securely using client-side scripts, users are advised not to upload highly confidential personal financial data or extremely sensitive government documents. You use the online tools at your own discretion.</p>
 
-      <h3><b>External Links Disclaimer</b></h3>
+      <h3>External Links Disclaimer</h3>
       <p>From our website, you may visit other websites by following hyperlinks to such external sites (such as our social media links, official banking portals mentioned in articles, or advertisements). While we strive to provide only quality links to useful and ethical websites, we have no control over the content and nature of these external sites.</p>
 
-      <h3><b>Consent</b></h3>
+      <h3>Consent</h3>
       <p>By using our website, you hereby consent to our disclaimer and agree to its terms.</p>
 
-      <h3><b>Connect With Us</b></h3>
+      <h3>Connect With Us</h3>
       <p>For business enquiries, sponsorship, or tool-related complaints, you can directly reach out to the Technical Juman team:</p>
       <ul>
           <li><b>WhatsApp Message:</b> wa.me/919471367125</li>
@@ -834,34 +836,47 @@
   function uploadRightProfilePhoto(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardPhotoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
   function exportCardLayoutAsImage() { html2canvas(document.getElementById('printablePassbookCard'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passbook.png`; a.href = canvas.toDataURL('image/png'); a.click(); }); }
 
+  // RESIZER
   let uploadedImageSrcData = null;
   function applyResizerPreset(presetVal) { const wField = document.getElementById('resizerWidth'); const hField = document.getElementById('resizerHeight'); const targetField = document.getElementById('resizerTargetValue'); const unitField = document.getElementById('resizerUnitType'); if (presetVal === 'passport') { wField.value = 413; hField.value = 531; targetField.value = 50; unitField.value = 'KB'; } else if (presetVal === 'signature') { wField.value = 256; hField.value = 64; targetField.value = 20; unitField.value = 'KB'; } else if (presetVal === 'aadhar') { wField.value = 1013; hField.value = 638; targetField.value = 300; unitField.value = 'KB'; } else if (presetVal === 'voter') { wField.value = 620; hField.value = 875; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'pancard') { wField.value = 1000; hField.value = 1400; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'marksheet') { wField.value = 2480; hField.value = 3508; targetField.value = 1; unitField.value = 'MB'; } else if (presetVal === 'driving') { wField.value = 640; hField.value = 400; targetField.value = 100; unitField.value = 'KB'; } else if (presetVal === 'ration') { wField.value = 1650; hField.value = 2330; targetField.value = 500; unitField.value = 'KB'; } else { wField.value = ''; hField.value = ''; targetField.value = ''; unitField.value = 'KB'; } }
   function handleResizerPreview(input) { if (input.files && input.files[0]) { const r = new FileReader(); r.onload = function(e) { uploadedImageSrcData = e.target.result; }; r.readAsDataURL(input.files[0]); } }
   function processAndResizeDocument() {
-      const logs = document.getElementById('resizerStatusLogs'); if (!uploadedImageSrcData) { return alert("Upload Image!"); }
+      const logs = document.getElementById('resizerStatusLogs');
+      if (!uploadedImageSrcData) { return alert("Upload Image!"); }
       let userWidth = parseInt(document.getElementById('resizerWidth').value); let userHeight = parseInt(document.getElementById('resizerHeight').value);
       const sizeLimit = parseFloat(document.getElementById('resizerTargetValue').value); const unitType = document.getElementById('resizerUnitType').value;
-      if (!sizeLimit) { return alert("Enter target size!"); } let targetBytesLimit = sizeLimit * 1024; if (unitType === 'MB') { targetBytesLimit = sizeLimit * 1024 * 1024; }
+      if (!sizeLimit) { return alert("Enter target size!"); }
+      let targetBytesLimit = sizeLimit * 1024; if (unitType === 'MB') { targetBytesLimit = sizeLimit * 1024 * 1024; }
       logs.style.display = 'block'; logs.innerHTML = "Processing...";
       const img = new Image(); img.src = uploadedImageSrcData;
       img.onload = function() {
           if (!userWidth) userWidth = img.width; if (!userHeight) userHeight = img.height;
-          const canvas = document.createElement('canvas'); canvas.width = userWidth; canvas.height = userHeight; canvas.getContext('2d').drawImage(img, 0, 0, userWidth, userHeight);
+          const canvas = document.createElement('canvas'); canvas.width = userWidth; canvas.height = userHeight;
+          canvas.getContext('2d').drawImage(img, 0, 0, userWidth, userHeight);
           let q = 0.95; let b64 = ""; let bytes = 0;
-          for (let i = 0; i < 12; i++) { b64 = canvas.toDataURL('image/jpeg', q); bytes = Math.round((b64.length - 814) * 0.75); if (bytes <= targetBytesLimit) { if (targetBytesLimit - bytes < (targetBytesLimit * 0.04)) break; q += 0.04; } else { q -= 0.06; } if (q < 0.1) break; }
-          const a = document.createElement('a'); a.href = b64; a.download = "Resized.jpg"; document.body.appendChild(a); a.click(); document.body.removeChild(a); logs.innerHTML = "✅ Saved successfully!";
+          for (let i = 0; i < 12; i++) {
+              b64 = canvas.toDataURL('image/jpeg', q); bytes = Math.round((b64.length - 814) * 0.75);
+              if (bytes <= targetBytesLimit) { if (targetBytesLimit - bytes < (targetBytesLimit * 0.04)) break; q += 0.04; } else { q -= 0.06; }
+              if (q < 0.1) break;
+          }
+          const a = document.createElement('a'); a.href = b64; a.download = "Resized.jpg"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
+          logs.innerHTML = "✅ Saved successfully!";
       };
   }
 
   // AGE CALC
   function executePreciseAgeCalculation() {
-    const dobString = document.getElementById('calcDobInput').value; const targetString = document.getElementById('calcTargetInput').value; if(!dobString || !targetString) { return alert("Select dates."); }
-    const birthDate = new Date(dobString); const endDate = new Date(targetString); if (endDate < birthDate) { return alert("Target date error!"); }
+    const dobString = document.getElementById('calcDobInput').value; const targetString = document.getElementById('calcTargetInput').value;
+    if(!dobString || !targetString) { return alert("Select dates."); }
+    const birthDate = new Date(dobString); const endDate = new Date(targetString);
+    if (endDate < birthDate) { return alert("Target date error!"); }
     let yearsDiff = endDate.getFullYear() - birthDate.getFullYear(); let monthsDiff = endDate.getMonth() - birthDate.getMonth(); let daysDiff = endDate.getDate() - birthDate.getDate();
-    if (daysDiff < 0) { monthsDiff--; const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0); daysDiff += prevMonth.getDate(); } if (monthsDiff < 0) { yearsDiff--; monthsDiff += 12; }
+    if (daysDiff < 0) { monthsDiff--; const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0); daysDiff += prevMonth.getDate(); }
+    if (monthsDiff < 0) { yearsDiff--; monthsDiff += 12; }
     document.getElementById('resYears').innerText = yearsDiff; document.getElementById('resMonths').innerText = monthsDiff; document.getElementById('resDays').innerText = daysDiff;
     const timeDiff = endDate.getTime() - birthDate.getTime(); const tDays = Math.floor(timeDiff / (1000 * 3600 * 24)); const tWeeks = Math.floor(tDays / 7); const tHours = tDays * 24; const tMins = tHours * 60; const tSecs = tMins * 60;
-    document.getElementById('resTotalWeeks').innerText = tWeeks.toLocaleString('en-IN'); document.getElementById('resTotalDays').innerText = tDays.toLocaleString('en-IN'); document.getElementById('resTotalHours').innerText = tHours.toLocaleString('en-IN'); document.getElementById('resTotalMins').innerText = tMins.toLocaleString('en-IN'); document.getElementById('resTotalSecs').innerText = tSecs.toLocaleString('en-IN'); document.getElementById('calcResultDisplayPanel').style.display = 'block';
+    document.getElementById('resTotalWeeks').innerText = tWeeks.toLocaleString('en-IN'); document.getElementById('resTotalDays').innerText = tDays.toLocaleString('en-IN'); document.getElementById('resTotalHours').innerText = tHours.toLocaleString('en-IN'); document.getElementById('resTotalMins').innerText = tMins.toLocaleString('en-IN'); document.getElementById('resTotalSecs').innerText = tSecs.toLocaleString('en-IN');
+    document.getElementById('calcResultDisplayPanel').style.display = 'block';
   }
 
   // CASH & CALENDAR
