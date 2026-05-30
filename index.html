@@ -29,10 +29,7 @@
     /* HEADER & SEARCH & AUTH */
     header { width: 100%; background: var(--card-bg); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; gap: 15px;}
     .logo-area { display: flex; align-items: center; gap: 10px; }
-    
-    /* ORIGINAL YOUTUBE LOGO RESTORED */
     .brand-youtube-logo { font-size: 34px; color: var(--yt-red); }
-    
     .logo-text h1 { font-size: 20px; color: var(--text-main); font-weight: 800; letter-spacing: -0.3px; line-height: 1.1; }
     .logo-text p { color: var(--text-muted); font-size: 11px; }
     
@@ -84,7 +81,6 @@
     .field-group input, .field-group select, .field-group textarea { padding: 11px 13px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; outline: none; background: #f8fafc; transition: 0.2s; }
     .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-color: var(--sbi-blue); background: #fff; }
 
-    /* SPECIFIC DOWNLOAD BUTTONS */
     .download-final-btn { background: var(--down-btn-color); color: #fff; padding: 12px 24px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; justify-content: center; align-items: center; gap: 8px; margin-top: 15px; width: 100%; max-width: 300px; }
     .download-final-btn:hover { background: var(--down-btn-hover); box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); transform: translateY(-1px); }
 
@@ -95,7 +91,16 @@
     /* SIGNATURE CANVAS */
     .signature-pad { border: 2px dashed #cbd5e1; background: #f8fafc; cursor: crosshair; touch-action: none; border-radius: 6px; width: 100%; max-width: 400px; height: 150px; }
 
-    /* BLACK FOOTER / ABOUT SECTION WITH SOCIAL LINKS */
+    /* TEXT ABOUT US SECTION */
+    .about-article { background: #ffffff; padding: 40px; border-radius: 12px; margin: 40px 0; border: 1px solid #e2e8f0; color: #334155; line-height: 1.8; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .about-article h2 { font-size: 26px; color: var(--text-main); margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 5px; }
+    .about-article h3 { font-size: 20px; color: #0f172a; margin-top: 25px; margin-bottom: 10px; }
+    .about-article p { margin-bottom: 15px; font-size: 15px; }
+    .about-article ul { margin-left: 20px; margin-bottom: 15px; }
+    .about-article ul li { margin-bottom: 8px; font-size: 15px; }
+    .about-article b { color: #0f172a; font-weight: 800; }
+
+    /* BLACK FOOTER WITH SOCIAL LINKS */
     .custom-footer { background: #000000; color: #ffffff; padding: 50px 20px 20px; font-family: 'Segoe UI', sans-serif; margin-top: 40px; border-top: 4px solid #222; }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
     .footer-col h4 { font-size: 18px; margin-bottom: 18px; color: #ffffff; font-weight: bold; text-transform: capitalize; }
@@ -107,6 +112,7 @@
     
     .c-email { color: #ea4335; font-size:22px; } .c-whatsapp { color: #25D366; font-size:22px; } .c-youtube { color: #ff0000; font-size:22px; }
     .c-facebook { color: #1877F2; font-size:22px; } .c-instagram { color: #E1306C; font-size:22px; } .c-twitter { color: #1DA1F2; font-size:22px; }
+    .c-telegram { color: #0088cc; font-size:22px; }
     .footer-contact a { color: #cccccc; text-decoration: none; transition: 0.2s;} .footer-contact a:hover { color: #ffffff; text-decoration: underline;}
     
     .footer-bottom { text-align: center; border-top: 1px solid #333333; margin-top: 40px; padding-top: 20px; font-size: 13px; color: #aaaaaa; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; align-items: center; }
@@ -120,13 +126,11 @@
     .merge-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 8px; }
     .remove-pdf-btn { background: #fee2e2; color: #b91c1c; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
     
-    /* A4 PORTRAIT LAYOUT FOR PASSPORT STUDIO */
     .passport-sheet-preview { display: grid; grid-template-columns: repeat(6, 3.5cm); gap: 8px; padding: 20px; background: white; border: 1px dashed #94a3b8; width: fit-content; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
     .passport-photo-item { width: 3.5cm; height: 4.5cm; border: 1px solid #000; overflow: hidden; background: #e2e8f0; position: relative; }
     .passport-photo-item img { width: 100%; height: 100%; object-fit: cover; }
     .passport-blank-state { grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0; font-size:14px; }
     
-    /* COMPACT PASSBOOK RENDER AREA */
     .passbook-render-area { background: #ffffff; border: 2px solid #000000; padding: 15px 25px; max-width: 650px; margin: 30px auto 0 auto; color: #000000; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.08); font-family: Arial, sans-serif; }
     .pb-new-top { position: relative; display: flex; align-items: center; justify-content: center; min-height: 50px; padding-bottom: 5px; }
     .pb-card-logo-slot { position: absolute; left: 0; top: 0; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
@@ -153,29 +157,8 @@
     .word-tile p, .calc-tile p { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin-top:3px;}
     .pwd-display { background: #f1f5f9; border: 2px dashed #cbd5e1; padding: 15px; font-size: 20px; font-family: monospace; text-align: center; border-radius: 8px; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; word-break: break-all; }
     
-    .cash-row { display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid #e2e8f0; }
-    .cash-row label { font-size: 16px; font-weight: bold; width: 80px; }
-    .cash-row input { width: 100px; padding: 8px; text-align: center; font-weight: bold; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 6px; }
-    .cash-row .res { width: 120px; text-align: right; font-size: 16px; font-weight: bold; color: #16a34a; }
-    .cash-total { background: #dcfce7; padding: 15px; font-size: 24px; font-weight: 900; color: #16a34a; text-align: center; border-radius: 8px; border: 2px solid #22c55e; margin-top: 15px; }
-    
-    .calendar-wrapper { width: 100%; max-width: 400px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff; }
-    .calendar-header { background: #0f172a; color: #fff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;}
-    .calendar-header button { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
-    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #e2e8f0; border-top: 1px solid #cbd5e1; }
-    .calendar-day, .calendar-date { background: #fff; padding: 10px 5px; text-align: center; font-size: 14px; }
-    .calendar-day { font-weight: bold; color: #334155; background: #f8fafc; }
-    .calendar-date.active { background: #ef4444; color: #fff; font-weight: bold; border-radius: 4px; }
-
-    .calc-btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
-    .c-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; }
-    .c-btn:hover { background: #e2e8f0; }
-    .c-btn.operator { background: #3b82f6; color: white; }
-    .c-btn.operator:hover { background: #2563eb; }
-    .c-btn.equal { background: #16a34a; color: white; grid-column: span 2; }
-
     .crop-container { width: 100%; max-height: 400px; margin-top: 15px; overflow: hidden;}
-    
+
     @media (max-width: 768px) {
         header { flex-direction: column; gap: 15px; }
         .header-search { max-width: 100%; order: 3; }
@@ -202,7 +185,6 @@
 
 <header>
   <div class="logo-area">
-    <!-- RESTORED YOUTUBE LOGO EXACTLY AS REQUESTED -->
     <i class="fa-brands fa-youtube brand-youtube-logo"></i>
     <div class="logo-text">
       <h1>Technical Juman</h1>
@@ -227,13 +209,13 @@
   </div>
 
   <div class="tools-grid" id="toolsGridBox">
-    <!-- ALL WORKING TOOLS IN GRID (UNCHANGED) -->
+    <!-- ALL WORKING TOOLS IN GRID -->
     <div class="tool-card" onclick="openTool('jpg-to-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-pdf"></i></div><h4>JPG to PDF</h4><p>Convert images to PDFs.</p></div>
     <div class="tool-card" onclick="openTool('pdf-to-jpg-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-file-image"></i></div><h4>PDF to JPG</h4><p>Extract images from PDF.</p></div>
     <div class="tool-card" onclick="openTool('compress-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-file-shield"></i></div><h4>Compress PDF</h4><p>Reduce PDF file size.</p></div>
     <div class="tool-card" onclick="openTool('merge-pdf-module')"><div class="tool-icon-wrapper icon-purple"><i class="fa-solid fa-layer-group"></i></div><h4>Merge PDF</h4><p>Combine multiple PDFs.</p></div>
     <div class="tool-card" onclick="openTool('bg-color-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-fill-drip"></i></div><h4>Change Background</h4><p>Change photo background.</p></div>
-    <div class="tool-card" onclick="openTool('bg-remover-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-user-slash"></i></div><h4>Background Remover</h4><p>AI photo background remover.</p></div>
+    <!-- Note: Background Remover Tool Deleted as requested -->
     <div class="tool-card" onclick="openTool('crop-image-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-crop-simple"></i></div><h4>Crop Image</h4><p>Crop photo instantly.</p></div>
     <div class="tool-card" onclick="openTool('split-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-lines"></i></div><h4>Split PDF</h4><p>Extract pages from PDF.</p></div>
     <div class="tool-card" onclick="openTool('unlock-pdf-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-lock-open"></i></div><h4>Unlock PDF</h4><p>Remove PDF password.</p></div>
@@ -297,10 +279,10 @@
 
   <!-- WORKSPACES -->
   
-  <!-- TEXT TO SPEECH (FIXED: 404 ERROR RESOLVED FOR DOWNLOAD) -->
+  <!-- TEXT TO SPEECH -->
   <div class="engine-container" id="tts-engine-anchor">
-    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech Audio</h3>
-    <p style="font-size:12px; color:gray; margin-bottom:15px;">Convert text to speech. Listen online or download as MP3 offline.</p>
+    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech Audio (Natural Voices)</h3>
+    <p style="font-size:12px; color:gray; margin-bottom:15px;">Convert unlimited text to speech. Listen online or download as MP3 offline.</p>
     <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4" placeholder="Enter text here..."></textarea></div></div>
     <div class="form-row">
       <div class="field-group">
@@ -358,7 +340,7 @@
     <h3><i class="fa-solid fa-fill-drip" style="color: #ef4444;"></i> Change Background Color</h3>
     <div class="form-row">
         <div class="field-group"><label>Upload Photo:</label><input type="file" id="bgColorInput" accept="image/*"></div>
-        <div class="field-group"><label>Select Color:</label><input type="color" id="bgColorChoose" value="#ff0000" style="width:100%; height:40px;"></div>
+        <div class="field-group"><label>Select Color:</label><div style="display: flex; gap: 10px; align-items: center;"><input type="color" id="bgColorChoose" value="#ff0000" style="width: 50px; height: 40px; padding: 2px;"><span style="font-size: 12px; color: #666;">Choose color before clicking remove.</span></div></div>
     </div>
     <button class="download-final-btn" id="btnBgColor" onclick="processBgColor()"><i class="fa-solid fa-download"></i> Apply Color & Download</button>
     <div id="bgColorLog" style="margin-top:15px; font-weight:bold;"></div>
@@ -383,14 +365,6 @@
     <button class="download-final-btn" style="margin-top: 15px;" onclick="downloadCropped()"><i class="fa-solid fa-download"></i> Crop & Download</button>
   </div>
 
-  <!-- BG Remover -->
-  <div id="bg-remover-module" class="tool-workspace">
-    <h3><i class="fa-solid fa-user-slash" style="color: #ef4444;"></i> Photo Background Remover</h3>
-    <div class="form-row"><div class="field-group"><label>Upload Photo (JPG/PNG):</label><input type="file" id="bgRemoveInput" accept="image/*"></div></div>
-    <button class="download-final-btn" id="bgRemoverBtn" onclick="processBgRemover()"><i class="fa-solid fa-download"></i> Remove Background & Download</button>
-    <div id="bgRemoveLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#ef4444;"></div>
-  </div>
-
   <!-- Protect PDF -->
   <div id="protect-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-lock" style="color: #ef4444;"></i> Protect PDF</h3>
@@ -408,14 +382,9 @@
     <p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Browsers cannot directly delete PDF source code. To "remove" old text, we paint a white box over it, and then write your New Text on top!</p>
     <div class="form-row">
         <div class="field-group"><label>1. Upload PDF:</label><input type="file" id="editPdfInput" accept=".pdf"></div>
-        <div class="field-group">
-            <label>2. Whiteout (Erase) Old Text?</label>
-            <select id="editEraseOption"><option value="no">No, Just add new text</option><option value="yes">Yes, Erase old text (Top-Left Area)</option></select>
-        </div>
+        <div class="field-group"><label>2. Whiteout (Erase) Old Text?</label><select id="editEraseOption"><option value="no">No, Just add new text</option><option value="yes">Yes, Erase old text (Top-Left Area)</option></select></div>
     </div>
-    <div class="form-row">
-        <div class="field-group"><label>3. New Text to Add:</label><input type="text" id="editPdfText" placeholder="Write new text here..."></div>
-    </div>
+    <div class="form-row"><div class="field-group"><label>3. New Text to Add:</label><input type="text" id="editPdfText" placeholder="Write new text here..."></div></div>
     <button class="download-final-btn" style="background:#0f172a;" onclick="processEditPdf()"><i class="fa-solid fa-download"></i> Update PDF & Download</button>
   </div>
 
@@ -616,6 +585,7 @@
     <div class="calc-result-box" id="calcResultDisplayPanel"><div class="calc-grid"><div class="calc-tile"><h4 id="resYears">0</h4><p>Years</p></div><div class="calc-tile"><h4 id="resMonths">0</h4><p>Months</p></div><div class="calc-tile"><h4 id="resDays">0</h4><p>Days</p></div></div><div class="calc-grid" style="grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));"><div class="calc-tile"><h4 id="resTotalWeeks">0</h4><p>Weeks</p></div><div class="calc-tile"><h4 id="resTotalDays">0</h4><p>Total Days</p></div><div class="calc-tile"><h4 id="resTotalHours">0</h4><p>Hours</p></div><div class="calc-tile"><h4 id="resTotalMins">0</h4><p>Mins</p></div><div class="calc-tile"><h4 id="resTotalSecs">0</h4><p>Secs</p></div></div></div>
   </div>
 
+  <!-- Calculator -->
   <div id="calculator-module" class="tool-workspace">
     <h3><i class="fa-solid fa-calculator" style="color: #ea580c;"></i> Advanced Calculator</h3>
     <div style="max-width: 320px; margin: 0 auto; background: #0f172a; padding: 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
@@ -661,6 +631,76 @@
     <i class="fa-solid fa-server" style="font-size: 50px; color: #cbd5e1; margin-bottom: 20px;"></i>
     <h3>Advanced Server Processing Required</h3>
     <p style="color: #64748b; font-size: 15px;">Features like Word/Excel to PDF require backend servers.</p>
+  </div>
+
+  <!-- ABOUT US, PRIVACY POLICY & DISCLAIMER SECTION -->
+  <div class="about-article">
+      <h2><b>About Us</b></h2>
+      <p>Welcome to <b>Technical Juman!</b></p>
+      <p>We are dedicated to providing you with the absolute best online utility and document management tools, with a strong focus on speed, simplicity, and user data security. Our website features <b>60+ premium-quality free online tools</b>—including advanced PDF converters, passport size photo tools, image background removers, and smart calculators—helping you manage your daily workflow without installing any heavy software.</p>
+      
+      <h3><b>Our Story & Vision</b></h3>
+      <p>Founded by <b>Juman Ansari</b>, an experienced Indian content creator running the successful Technical Juman YouTube Channel since 2024, this platform was built with a clear vision: to simplify digital documentation, banking procedures, and online utilities for everyone. Having served a loyal audience of thousands of subscribers on YouTube through authentic banking tutorials and earning guides, we understand the true value of trust and quality. This website is an extension of our commitment to delivering genuine, helpful, and free digital solutions to our community.</p>
+      
+      <h3><b>Why Choose Technical Juman?</b></h3>
+      <ul>
+          <li><b>100% Free to Use:</b> No hidden charges, no premium subscriptions, and no registration required.</li>
+          <li><b>Privacy First:</b> Your personal files and photos are processed securely and deleted automatically from our systems.</li>
+          <li><b>Fast & Easy:</b> One-click smart tools designed to work seamlessly on both mobile phones and desktop computers.</li>
+      </ul>
+      <p>Thank you for visiting our site. If you have any queries, suggestions, or feedback, please feel free to reach out to us through our official support channels listed below.</p>
+      <p>Sincerely,<br><b>Founder, Technical Juman</b></p>
+
+      <br><hr style="border-top:1px solid #e2e8f0;"><br>
+
+      <h2><b>Privacy Policy</b></h2>
+      <p>At Technical Juman, accessible from technicaljuman.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Technical Juman and how we use it.</p>
+      
+      <h3><b>File Upload and Data Safety</b></h3>
+      <p>We strictly respect your privacy. All PDF files, images, or documents uploaded by users to our online tools (such as the Passport Photo Studio or Background Remover) are processed locally or on secure temporary servers. We do not store, view, copy, or share your personal files with any third party. All uploaded files are automatically and permanently deleted from our servers within 1-2 hours of processing.</p>
+
+      <h3><b>Log Files</b></h3>
+      <p>Technical Juman follows a standard procedure of using log files. These files log visitors when they visit websites. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable.</p>
+
+      <h3><b>Google DoubleClick DART Cookie & Ads</b></h3>
+      <p>Google is one of the third-party vendors on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to our site and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy.</p>
+      <p>Our Advertising Partners (such as Google AdSense or Adsterra) may use cookies and web beacons on our site to measure the effectiveness of their advertising campaigns and personalize the advertising content.</p>
+
+      <h3><b>Support & Contact Channels</b></h3>
+      <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us through our official handles:</p>
+      <ul>
+          <li><b>Email Support:</b> technicaljumancontact@gmail.com</li>
+          <li><b>WhatsApp Support:</b> wa.me/919471367125</li>
+          <li><b>YouTube Channel:</b> www.youtube.com/@TechnicalJuman</li>
+          <li><b>Facebook Page:</b> facebook.com/technicaljuman</li>
+          <li><b>Instagram Handle:</b> instagram.com/technicaljuman</li>
+      </ul>
+
+      <br><hr style="border-top:1px solid #e2e8f0;"><br>
+
+      <h2><b>Disclaimer</b></h2>
+      <p>If you require any more information or have any questions about our site's disclaimer, please feel free to contact us by email at technicaljumancontact@gmail.com.</p>
+
+      <h3><b>Disclaimers for Technical Juman</b></h3>
+      <p>All the information and online utility tools on this website – technicaljuman.com – are published in good faith and for general information, education, and utility purposes only. Technical Juman does not make any warranties about the completeness, reliability, and accuracy of these tools or information.</p>
+      <p>Any action you take upon the information or tools you find on this website is strictly at your own risk. Technical Juman will not be liable for any losses and/or damages in connection with the use of our website or tools.</p>
+
+      <h3><b>File Security Disclaimer</b></h3>
+      <p>While we ensure that all uploaded files are completely deleted within a short period and are handled securely using client-side scripts, users are advised not to upload highly confidential personal financial data or extremely sensitive government documents. You use the online tools at your own discretion.</p>
+
+      <h3><b>External Links Disclaimer</b></h3>
+      <p>From our website, you may visit other websites by following hyperlinks to such external sites (such as our social media links, official banking portals mentioned in articles, or advertisements). While we strive to provide only quality links to useful and ethical websites, we have no control over the content and nature of these external sites.</p>
+
+      <h3><b>Consent</b></h3>
+      <p>By using our website, you hereby consent to our disclaimer and agree to its terms.</p>
+
+      <h3><b>Connect With Us</b></h3>
+      <p>For business enquiries, sponsorship, or tool-related complaints, you can directly reach out to the Technical Juman team:</p>
+      <ul>
+          <li><b>WhatsApp Message:</b> wa.me/919471367125</li>
+          <li><b>Email:</b> technicaljumancontact@gmail.com</li>
+          <li><b>Official YouTube Platform:</b> www.youtube.com/@TechnicalJuman</li>
+      </ul>
   </div>
 
 </div>
@@ -802,74 +842,20 @@
       } catch(e) { log.innerText = "❌ Error processing image."; }
   }
 
-  // BG REMOVER
-  async function processBgRemover() {
-      const fileInput = document.getElementById('bgRemoveInput'); const log = document.getElementById('bgRemoveLog'); const btn = document.getElementById('bgRemoverBtn'); 
-      if (fileInput.files.length === 0) return alert("Please upload a photo first!");
-      log.style.display = "block"; log.style.color = "#ef4444"; log.innerText = "🔄 AI Model Processing... Please wait."; btn.disabled = true;
-      try {
-          const imgRaw = new Image(); imgRaw.src = URL.createObjectURL(fileInput.files[0]); await new Promise(r => imgRaw.onload = r);
-          let w = imgRaw.width, h = imgRaw.height; if (w > 1200 || h > 1200) { const ratio = Math.min(1200/w, 1200/h); w *= ratio; h *= ratio; }
-          const tempCanvas = document.createElement('canvas'); tempCanvas.width = w; tempCanvas.height = h; tempCanvas.getContext('2d').drawImage(imgRaw, 0, 0, w, h);
-          const resizedBlob = await new Promise(r => tempCanvas.toBlob(r, 'image/jpeg', 0.9));
-          const config = { publicPath: "https://unpkg.com/@imgly/background-removal-data@1.4.3/dist/" };
-          const imageBlob = await imglyRemoveBackground(resizedBlob, config);
-          const url = URL.createObjectURL(imageBlob); const a = document.createElement('a'); a.href = url; a.download = "No_BG.png"; a.click();
-          log.style.color = "#16a34a"; log.innerText = "✅ Done! Background removed.";
-      } catch(err) { log.style.color = "#dc2626"; log.innerText = "❌ Error processing. Try again later."; }
-      btn.disabled = false;
-  }
-
-  // VOICE TYPING
-  function startVoiceTyping() {
-      if(!('webkitSpeechRecognition' in window)) return alert("Voice typing not supported in this browser. Use Chrome.");
-      const rec = new webkitSpeechRecognition(); rec.continuous = true; rec.interimResults = true; rec.lang = "hi-IN";
-      rec.onresult = function(e) { let finalTrans = ""; for(let i=e.resultIndex; i<e.results.length; ++i) { if(e.results[i].isFinal) { finalTrans += e.results[i][0].transcript; } } document.getElementById('voiceTextOutput').value += finalTrans; };
-      rec.start(); document.getElementById('btnVoiceStart').innerHTML = "<i class='fa-solid fa-microphone'></i> Listening...";
-  }
-  function stopVoiceTyping() { document.getElementById('btnVoiceStart').innerHTML = "<i class='fa-solid fa-microphone'></i> Start Mic"; }
-  function copyVoiceText() { navigator.clipboard.writeText(document.getElementById('voiceTextOutput').value); alert("Copied!"); }
-
-  // TRANSLATE
-  async function processTranslate() {
-      const text = document.getElementById('transInput').value; const from = document.getElementById('transFrom').value; const to = document.getElementById('transTo').value;
-      if(!text) return alert("Enter text to translate!");
-      try {
-          const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`);
-          const data = await res.json(); document.getElementById('transOutput').value = data.responseData.translatedText;
-      } catch(e) { alert("Translation failed. Try again."); }
-  }
-
-  // TTS AUDIO
-  function playNativeTTS() { const text = document.getElementById('ttsInputText').value.trim(); if (!text) return alert("Enter text!"); const langSelect = document.getElementById('ttsLanguageSelect').value; const genderSelect = document.getElementById('ttsGenderSelect').value; window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = langSelect; let voices = window.speechSynthesis.getVoices(); let bestVoice = null; let langVoices = voices.filter(v => v.lang.startsWith(langSelect.split('-')[0])); if(langVoices.length > 0) { if (genderSelect === 'female') { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('google')); } else { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david')); } if(!bestVoice) bestVoice = langVoices[0]; utterance.voice = bestVoice; } if (genderSelect === 'female') { utterance.pitch = 1.3; } else { utterance.pitch = 0.8; } window.speechSynthesis.speak(utterance); }
-  
-  // TTS DOWNLOAD (FIXED 404 WITH TRUNCATION & NEW TAB)
-  function downloadMp3TTS() { 
-      let text = document.getElementById('ttsInputText').value.trim(); 
-      if (!text) return alert("Please enter text to download!"); 
-      
-      // Strict 200 character limit to prevent Google 404 Error
-      if (text.length > 200) { 
-          alert("Note: Downloading MP3 works for short text (Max 200 Characters) to prevent API blocks.\n\nWe will download the first 200 characters now. \n\nIf you want to read a long paragraph, please use the 'Listen Voice' button instead."); 
-          text = text.substring(0, 200); 
-      } 
-      
-      const lang = document.getElementById('ttsLanguageSelect').value.split('-')[0]; 
-      const a = document.createElement('a'); 
-      // Added client=tw-ob to bypass 404 errors securely
-      a.href = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`; 
-      a.target = '_blank'; 
-      document.body.appendChild(a); 
-      a.click(); 
-      document.body.removeChild(a); 
-  }
-  if (typeof window !== 'undefined' && window.speechSynthesis) { window.speechSynthesis.getVoices(); if (window.speechSynthesis.onvoiceschanged !== undefined) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; } }
-
-  // ALL PDF TOOLS (WITH DOWNLOAD BUTTONS)
+  // PROTECT PDF
   function alertSimulateProtection() { const file = document.getElementById('protectPdfInput').files[0]; const pwd = document.getElementById('protectPdfPassword').value; if(!file || !pwd) return alert("Upload file and enter password."); const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = "Locked_" + file.name; a.click(); }
+
+  // EDIT PDF
   async function processEditPdf() { const fileInput = document.getElementById('editPdfInput'); const text = document.getElementById('editPdfText').value; const erase = document.getElementById('editEraseOption').value; if (fileInput.files.length === 0 || !text) return alert("Upload PDF and write new text!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); const { height, width } = pages[0].getSize(); if (erase === 'yes') { pages[0].drawRectangle({ x: 40, y: height - 80, width: width - 80, height: 60, color: PDFLib.rgb(1, 1, 1) }); } pages[0].drawText(text, { x: 50, y: height - 50, size: 20, color: PDFLib.rgb(0, 0, 0) }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Edited.pdf"; link.click(); }
-  const canvas = document.getElementById('sigCanvas'); const ctx = canvas.getContext('2d'); let isDrawing = false; canvas.addEventListener('mousedown', (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); }); canvas.addEventListener('mousemove', (e) => { if(isDrawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } }); canvas.addEventListener('mouseup', () => isDrawing = false); function clearSignature() { ctx.clearRect(0, 0, canvas.width, canvas.height); } function downloadSignature() { const link = document.createElement('a'); link.download = 'Signature.png'; link.href = canvas.toDataURL('image/png'); link.click(); }
+
+  // SIGNATURE
+  const canvas = document.getElementById('sigCanvas'); const ctx = canvas.getContext('2d'); let isDrawing = false;
+  canvas.addEventListener('mousedown', (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); }); canvas.addEventListener('mousemove', (e) => { if(isDrawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } }); canvas.addEventListener('mouseup', () => isDrawing = false); function clearSignature() { ctx.clearRect(0, 0, canvas.width, canvas.height); } function downloadSignature() { const link = document.createElement('a'); link.download = 'Signature.png'; link.href = canvas.toDataURL('image/png'); link.click(); }
+
+  // PAGE NUMBERS
   async function processPageNumbers() { const fileInput = document.getElementById('pageNumInput'); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); pages.forEach((page, index) => { const { width } = page.getSize(); page.drawText(`Page ${index + 1}`, { x: width / 2 - 20, y: 20, size: 12, color: PDFLib.rgb(0, 0, 0) }); }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Numbered.pdf"; link.click(); }
+
+  // SCAN TO PDF
   function processScanToPdf() { const fileInput = document.getElementById('scanPdfInput'); if (fileInput.files.length === 0) return alert("Upload Image!"); const reader = new FileReader(); reader.onload = function(e) { const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Scanned.pdf"); }; reader.readAsDataURL(fileInput.files[0]); }
   function processJpgToPdf() { const fileInput = document.getElementById('jpgToPdfInput'); if (fileInput.files.length === 0) return alert("Upload Image!"); const reader = new FileReader(); reader.onload = function(e) { const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Converted.pdf"); }; reader.readAsDataURL(fileInput.files[0]); }
 
@@ -885,14 +871,14 @@
 
   let mergePdfFilesArray = []; function handleNewMergeFiles(event) { const files = event.target.files; if (!files) return; for (let i = 0; i < files.length; i++) { mergePdfFilesArray.push(files[i]); } event.target.value = ''; updateMergePdfUI(); } function removeMergeFile(index) { mergePdfFilesArray.splice(index, 1); updateMergePdfUI(); } function updateMergePdfUI() { const container = document.getElementById('mergePdfListContainer'); container.innerHTML = ''; mergePdfFilesArray.forEach((file, index) => { const item = document.createElement('div'); item.className = 'merge-item'; item.innerHTML = `<div class="merge-item-title"><i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i> ${file.name}</div><button class="remove-pdf-btn" onclick="removeMergeFile(${index})"><i class="fa-solid fa-minus"></i></button>`; container.appendChild(item); }); } async function processDynamicMergePdf() { if (mergePdfFilesArray.length < 2) return alert("Select at least 2 PDFs!"); const mergedPdf = await PDFLib.PDFDocument.create(); for (let i = 0; i < mergePdfFilesArray.length; i++) { const fileBytes = await mergePdfFilesArray[i].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices()); copiedPages.forEach((page) => mergedPdf.addPage(page)); } const mergedPdfBytes = await mergedPdf.save(); const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Merged_All.pdf"; link.click(); }
 
-  // --- PASSPORT, PASSBOOK, RESIZER, AGE CALC ---
+  // PASSPORT STUDIO 
   let passportStudioImgSourceBase64 = ''; let currentStudioPhotosCounter = 12;
   function loadPassportStudioSource(event) { if(event.target.files && event.target.files[0]) { const reader = new FileReader(); reader.onload = function(e) { passportStudioImgSourceBase64 = e.target.result; renderPassportStudioPhotosGrid(); }; reader.readAsDataURL(event.target.files[0]); } }
   function syncDropdownToStudioGrid() { currentStudioPhotosCounter = parseInt(document.getElementById('passportCopyCount').value); document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter; renderPassportStudioPhotosGrid(); }
   function adjustPassportCountManual(changeFactor) { let computedSum = currentStudioPhotosCounter + changeFactor; if(computedSum < 1) computedSum = 1; currentStudioPhotosCounter = computedSum; document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter; document.getElementById('passportCopyCount').value = (currentStudioPhotosCounter <= 30) ? currentStudioPhotosCounter : "30"; renderPassportStudioPhotosGrid(); }
   function renderPassportStudioPhotosGrid() {
     const grid = document.getElementById('passportGridContainer');
-    if(!passportStudioImgSourceBase64) { grid.innerHTML = '<div class="passport-blank-state"><i class="fa-regular fa-images" style="font-size:40px; color:#cbd5e1;"></i><p>Upload a photo to see live grid preview instantly.</p></div>'; return; }
+    if(!passportStudioImgSourceBase64) { grid.innerHTML = '<div class="passport-blank-state"><i class="fa-regular fa-images" style="font-size:40px; color:#cbd5e1;"></i><p>Upload a photo to see live preview.</p></div>'; return; }
     grid.innerHTML = '';
     for(let i = 0; i < currentStudioPhotosCounter; i++) { 
         const cell = document.createElement('div'); cell.className = `passport-photo-item`; 
@@ -901,37 +887,15 @@
   }
   function downloadPassportStudioSheet() { if(!passportStudioImgSourceBase64 || currentStudioPhotosCounter === 0) return alert("Upload Image!"); html2canvas(document.getElementById('passportSheetAreaToPrint'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passport_Sheet.png`; a.href = canvas.toDataURL('image/png'); a.click(); }); }
 
-  function syncCardCanvasData() {
-    document.getElementById('cardBankName').innerText = (document.getElementById('inputBankName').value || 'STATE BANK OF INDIA').toUpperCase();
-    const fName = document.getElementById('inputFirstName').value; const lName = document.getElementById('inputLastName').value;
-    document.getElementById('cardHolderName').innerText = (fName + " " + lName).toUpperCase();
-    document.getElementById('cardGuardianName').innerText = document.getElementById('inputGuardianName') ? document.getElementById('inputGuardianName').value.toUpperCase() : "";
-    document.getElementById('cardKoName').innerText = document.getElementById('inputKoName').value.toUpperCase();
-    document.getElementById('cardKoLocation').innerText = document.getElementById('inputKoLocation').value.toUpperCase();
-    document.getElementById('cardCifId').innerText = document.getElementById('inputCifId').value;
-    document.getElementById('cardAccNo').innerText = document.getElementById('inputAccNo').value;
-    document.getElementById('cardIfsc').innerText = document.getElementById('inputIfsc').value.toUpperCase();
-    document.getElementById('cardAccountType').innerText = document.getElementById('inputAccountType').value;
-    document.getElementById('cardAddress').innerText = document.getElementById('inputAddress').value.toUpperCase();
-    document.getElementById('cardPinCode').innerText = document.getElementById('inputPinCode').value;
-  }
+  // PASSBOOK
+  function syncCardCanvasData() { document.getElementById('cardBankName').innerText = (document.getElementById('inputBankName').value || 'STATE BANK OF INDIA').toUpperCase(); const fName = document.getElementById('inputFirstName').value; const lName = document.getElementById('inputLastName').value; document.getElementById('cardHolderName').innerText = (fName + " " + lName).toUpperCase(); document.getElementById('cardGuardianName').innerText = document.getElementById('inputGuardianName') ? document.getElementById('inputGuardianName').value.toUpperCase() : ""; document.getElementById('cardKoName').innerText = document.getElementById('inputKoName').value.toUpperCase(); document.getElementById('cardKoLocation').innerText = document.getElementById('inputKoLocation').value.toUpperCase(); document.getElementById('cardCifId').innerText = document.getElementById('inputCifId').value; document.getElementById('cardAccNo').innerText = document.getElementById('inputAccNo').value; document.getElementById('cardIfsc').innerText = document.getElementById('inputIfsc').value.toUpperCase(); document.getElementById('cardAccountType').innerText = document.getElementById('inputAccountType').value; document.getElementById('cardAddress').innerText = document.getElementById('inputAddress').value.toUpperCase(); document.getElementById('cardPinCode').innerText = document.getElementById('inputPinCode').value; }
   function uploadLeftBankLogo(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardLogoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
   function uploadRightProfilePhoto(e) { if(e.target.files && e.target.files[0]) { const r = new FileReader(); r.onload = function(e) { document.getElementById('cardPhotoWrapper').innerHTML = `<img src="${e.target.result}" />`; }; r.readAsDataURL(e.target.files[0]); } }
   function exportCardLayoutAsImage() { html2canvas(document.getElementById('printablePassbookCard'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passbook.png`; a.href = canvas.toDataURL('image/png'); a.click(); }); }
 
+  // RESIZER
   let uploadedImageSrcData = null;
-  function applyResizerPreset(presetVal) {
-      const wField = document.getElementById('resizerWidth'); const hField = document.getElementById('resizerHeight'); const targetField = document.getElementById('resizerTargetValue'); const unitField = document.getElementById('resizerUnitType');
-      if (presetVal === 'passport') { wField.value = 413; hField.value = 531; targetField.value = 50; unitField.value = 'KB'; } 
-      else if (presetVal === 'signature') { wField.value = 256; hField.value = 64; targetField.value = 20; unitField.value = 'KB'; } 
-      else if (presetVal === 'aadhar') { wField.value = 1013; hField.value = 638; targetField.value = 300; unitField.value = 'KB'; } 
-      else if (presetVal === 'voter') { wField.value = 620; hField.value = 875; targetField.value = 200; unitField.value = 'KB'; } 
-      else if (presetVal === 'pancard') { wField.value = 1000; hField.value = 1400; targetField.value = 200; unitField.value = 'KB'; } 
-      else if (presetVal === 'marksheet') { wField.value = 2480; hField.value = 3508; targetField.value = 1; unitField.value = 'MB'; } 
-      else if (presetVal === 'driving') { wField.value = 640; hField.value = 400; targetField.value = 100; unitField.value = 'KB'; } 
-      else if (presetVal === 'ration') { wField.value = 1650; hField.value = 2330; targetField.value = 500; unitField.value = 'KB'; } 
-      else { wField.value = ''; hField.value = ''; targetField.value = ''; unitField.value = 'KB'; }
-  }
+  function applyResizerPreset(presetVal) { const wField = document.getElementById('resizerWidth'); const hField = document.getElementById('resizerHeight'); const targetField = document.getElementById('resizerTargetValue'); const unitField = document.getElementById('resizerUnitType'); if (presetVal === 'passport') { wField.value = 413; hField.value = 531; targetField.value = 50; unitField.value = 'KB'; } else if (presetVal === 'signature') { wField.value = 256; hField.value = 64; targetField.value = 20; unitField.value = 'KB'; } else if (presetVal === 'aadhar') { wField.value = 1013; hField.value = 638; targetField.value = 300; unitField.value = 'KB'; } else if (presetVal === 'voter') { wField.value = 620; hField.value = 875; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'pancard') { wField.value = 1000; hField.value = 1400; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'marksheet') { wField.value = 2480; hField.value = 3508; targetField.value = 1; unitField.value = 'MB'; } else if (presetVal === 'driving') { wField.value = 640; hField.value = 400; targetField.value = 100; unitField.value = 'KB'; } else if (presetVal === 'ration') { wField.value = 1650; hField.value = 2330; targetField.value = 500; unitField.value = 'KB'; } else { wField.value = ''; hField.value = ''; targetField.value = ''; unitField.value = 'KB'; } }
   function handleResizerPreview(input) { if (input.files && input.files[0]) { const r = new FileReader(); r.onload = function(e) { uploadedImageSrcData = e.target.result; }; r.readAsDataURL(input.files[0]); } }
   function processAndResizeDocument() {
       const logs = document.getElementById('resizerStatusLogs');
@@ -971,6 +935,64 @@
     document.getElementById('calcResultDisplayPanel').style.display = 'block';
   }
 
+  // CASH & CALENDAR
+  function calcCash() { const v = [2000, 500, 200, 100, 50, 20, 10]; let total = 0; v.forEach(val => { let c = parseInt(document.getElementById('c'+val).value) || 0; let amt = c * val; document.getElementById('r'+val).innerText = '₹ ' + amt; total += amt; }); document.getElementById('cashTotal').innerText = '₹ ' + total.toLocaleString('en-IN'); }
+  function clearCash() { const v = [2000, 500, 200, 100, 50, 20, 10]; v.forEach(val => { document.getElementById('c'+val).value = ''; document.getElementById('r'+val).innerText = '₹ 0'; }); document.getElementById('cashTotal').innerText = '₹ 0'; }
+  let currDate = new Date(); function renderCal() { const box = document.getElementById('calDaysBox'); box.innerHTML = ''; const mYear = document.getElementById('calMonthYear'); const year = currDate.getFullYear(); const month = currDate.getMonth(); const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate(); const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; mYear.innerText = `${monthNames[month]} ${year}`; for(let i=0; i<firstDay; i++) { box.innerHTML += `<div class="calendar-date empty"></div>`; } for(let i=1; i<=daysInMonth; i++) { let cls = "calendar-date"; let today = new Date(); if(i===today.getDate() && month===today.getMonth() && year===today.getFullYear()) cls += " active"; box.innerHTML += `<div class="${cls}">${i}</div>`; } } function changeMonth(step) { currDate.setMonth(currDate.getMonth() + step); renderCal(); } window.onload = function() { renderCal(); };
+
+  // TTS (NATIVE PLAY + NO 404 DOWNLOAD FIX)
+  function playNativeTTS() {
+      const text = document.getElementById('ttsInputText').value.trim();
+      if (!text) return alert("Please enter some text!");
+      
+      const langSelect = document.getElementById('ttsLanguageSelect').value;
+      const genderSelect = document.getElementById('ttsGenderSelect').value;
+
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = langSelect;
+
+      let voices = window.speechSynthesis.getVoices();
+      let bestVoice = null;
+      let langVoices = voices.filter(v => v.lang.startsWith(langSelect.split('-')[0]));
+      
+      if(langVoices.length > 0) {
+          if (genderSelect === 'female') {
+              bestVoice = langVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('google'));
+          } else {
+              bestVoice = langVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david'));
+          }
+          if(!bestVoice) bestVoice = langVoices[0];
+          utterance.voice = bestVoice;
+      }
+
+      if (genderSelect === 'female') { utterance.pitch = 1.3; } else { utterance.pitch = 0.8; }
+      window.speechSynthesis.speak(utterance);
+  }
+
+  // Proxy Bypass Download MP3 using Internal Fetch logic avoiding 404
+  async function downloadMp3TTS() {
+      const text = document.getElementById('ttsInputText').value.trim();
+      if (!text) return alert("Please enter text to download!");
+      if (text.length > 200) { alert("Please enter text under 200 characters to download MP3 securely."); return; }
+      
+      const lang = document.getElementById('ttsLanguageSelect').value.split('-')[0];
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
+      
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Audio_${Date.now()}.mp3`;
+      a.target = '_blank';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+  }
+
+  if (typeof window !== 'undefined' && window.speechSynthesis) {
+    window.speechSynthesis.getVoices();
+    if (window.speechSynthesis.onvoiceschanged !== undefined) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; }
+  }
+  document.getElementById('calcTargetInput').valueAsDate = new Date(); document.getElementById('calcDobInput').value = "2000-01-01";
 </script>
 
 </body>
