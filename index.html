@@ -11,8 +11,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
+  <!-- Background Removal AI -->
   <script src="https://unpkg.com/@imgly/background-removal@1.4.3/dist/browser/imgly-background-removal.js"></script>
-  <!-- Library for QR Code -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <!-- Cropper JS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
@@ -23,7 +23,7 @@
       --primary-color: #ff2d2d; --primary-hover: #d60000; --bg-color: #f1f5f9; --card-bg: #ffffff;
       --text-main: #0f172a; --text-muted: #64748b; --border-color: #cbd5e1; --sbi-blue: #00a4e4;
       --success-green: #16a34a; --studio-purple: #6366f1; --calc-orange: #f97316; --yt-red: #ff0000;
-      --resizer-purple: #8e24aa; --down-btn-color: #3b82f6; --down-btn-hover: #2563eb;
+      --resizer-purple: #8e24aa;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: var(--bg-color); color: var(--text-main); scroll-behavior: smooth; }
@@ -83,7 +83,6 @@
     .icon-red { background: #fee2e2; color: #ef4444; } .icon-green { background: #dcfce7; color: #10b981; }
     .icon-dark { background: #f1f5f9; color: #334155; } .icon-yellow { background: #fef08a; color: #b45309; }
     .icon-teal { background: #ccfbf1; color: #0d9488; } .icon-pink { background: #fce7f3; color: #db2777; }
-    .icon-indigo { background: #e0e7ff; color: #4338ca; } .icon-lime { background: #ecfccb; color: #65a30d; }
 
     /* ENGINE LAYOUT PANELS */
     .engine-container, .tool-workspace { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 40px; scroll-margin-top: 100px; display: none; }
@@ -95,14 +94,16 @@
     .field-group input, .field-group select, .field-group textarea { padding: 11px 13px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; outline: none; background: #f8fafc; transition: 0.2s; }
     .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-color: var(--sbi-blue); background: #fff; }
 
-    /* NEW SPECIFIC DOWNLOAD BUTTON AS REQUESTED */
-    .download-final-btn { background: var(--down-btn-color); color: #fff; padding: 12px 24px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; width: auto; }
-    .download-final-btn:hover { background: var(--down-btn-hover); box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); transform: translateY(-1px); }
-
-    .action-btn { background: #0f172a; color: #fff; padding: 11px 24px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; margin-right: 10px; }
-    .action-btn:hover { background: #1e293b; }
-    .btn-red { background: #ef4444; } .btn-red:hover { background: #dc2626; }
-    .btn-green { background: #16a34a; } .btn-green:hover { background: #15803d; }
+    .action-btn { background: var(--primary-color); color: #fff; padding: 11px 24px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; margin-right: 10px; }
+    .action-btn:hover { background: var(--primary-hover); }
+    .btn-secondary { background: #0f172a; } .btn-secondary:hover { background: #1e293b; }
+    .btn-success { background: var(--success-green); } .btn-success:hover { background: #15803d; }
+    .btn-purple { background: var(--studio-purple); } .btn-purple:hover { background: #4f46e5; }
+    .btn-orange { background: var(--calc-orange); } .btn-orange:hover { background: #ea580c; }
+    .btn-blue { background: #3b82f6; } .btn-blue:hover { background: #2563eb; }
+    .btn-cyan { background: #06b6d4; color: white;} .btn-cyan:hover { background: #0891b2; }
+    .btn-red { background: #ef4444; color: white;} .btn-red:hover { background: #dc2626; }
+    .btn-teal { background: #0d9488; color: white;} .btn-teal:hover { background: #0f766e; }
 
     /* SIGNATURE CANVAS */
     .signature-pad { border: 2px dashed #cbd5e1; background: #f8fafc; cursor: crosshair; touch-action: none; border-radius: 6px; width: 100%; max-width: 400px; height: 150px; }
@@ -145,13 +146,11 @@
     .merge-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 8px; }
     .remove-pdf-btn { background: #fee2e2; color: #b91c1c; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
     
-    /* A4 PORTRAIT LAYOUT FOR PASSPORT STUDIO */
-    .passport-sheet-preview { display: grid; grid-template-columns: repeat(auto-fill, 3.5cm); gap: 12px; padding: 25px; background: white; border: 1px dashed #94a3b8; min-height: 150px; justify-content: center; max-width: 21cm; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+    .passport-sheet-preview { display: grid; grid-template-columns: repeat(auto-fill, 3.5cm); gap: 12px; padding: 15px; background: white; border: 1px dashed #94a3b8; min-height: 150px; }
     .passport-photo-item { width: 3.5cm; height: 4.5cm; border: 1px solid #000; overflow: hidden; background: #e2e8f0; position: relative; }
     .passport-photo-item img { width: 100%; height: 100%; object-fit: cover; }
     .passport-blank-state { grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px 0; font-size:14px; }
     
-    /* COMPACT PASSBOOK RENDER AREA */
     .passbook-render-area { background: #ffffff; border: 2px solid #000000; padding: 15px 25px; max-width: 650px; margin: 30px auto 0 auto; color: #000000; position: relative; box-shadow: 0 4px 20px rgba(0,0,0,0.08); font-family: Arial, sans-serif; }
     .pb-new-top { position: relative; display: flex; align-items: center; justify-content: center; min-height: 50px; padding-bottom: 5px; }
     .pb-card-logo-slot { position: absolute; left: 0; top: 0; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; }
@@ -183,7 +182,7 @@
     .cash-row input { width: 100px; padding: 8px; text-align: center; font-weight: bold; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 6px; }
     .cash-row .res { width: 120px; text-align: right; font-size: 16px; font-weight: bold; color: #16a34a; }
     .cash-total { background: #dcfce7; padding: 15px; font-size: 24px; font-weight: 900; color: #16a34a; text-align: center; border-radius: 8px; border: 2px solid #22c55e; margin-top: 15px; }
-    
+
     .calendar-wrapper { width: 100%; max-width: 400px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff; }
     .calendar-header { background: #0f172a; color: #fff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;}
     .calendar-header button { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
@@ -198,9 +197,8 @@
     .c-btn.operator { background: #3b82f6; color: white; }
     .c-btn.operator:hover { background: #2563eb; }
     .c-btn.equal { background: #16a34a; color: white; grid-column: span 2; }
+    .crop-container { width: 100%; max-height: 400px; margin-top: 15px; }
 
-    .crop-container { width: 100%; max-height: 400px; margin-top: 15px; overflow: hidden;}
-    
     @media (max-width: 768px) {
         header { flex-direction: column; gap: 15px; }
         .header-search { max-width: 100%; order: 3; }
@@ -227,8 +225,8 @@
 
 <header>
   <div class="logo-area">
-    <!-- YOUR PROFILE PICTURE LINK APPLIED -->
-    <img src="https://i.ibb.co/3WqQYwJ/photo-2025-01-20-21-36-58.jpg" alt="User Profile" class="user-profile-img">
+    <!-- PUT YOUR PHOTO LINK HERE BELOW -->
+    <img src="https://i.ibb.co/L5T1M5q/user-profile.jpg" alt="Profile" class="user-profile-img" id="userProfileLogo">
     <div class="logo-text">
       <h1>Technical Juman</h1>
       <p>All In One Premium Tools</p>
@@ -252,7 +250,7 @@
   </div>
 
   <div class="tools-grid" id="toolsGridBox">
-    <!-- ALL WORKING TOOLS -->
+    <!-- WORKING TOOLS -->
     <div class="tool-card" onclick="openTool('jpg-to-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-pdf"></i></div><h4>JPG to PDF</h4><p>Convert images to PDFs.</p></div>
     <div class="tool-card" onclick="openTool('pdf-to-jpg-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-file-image"></i></div><h4>PDF to JPG</h4><p>Extract images from PDF.</p></div>
     <div class="tool-card" onclick="openTool('compress-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-file-shield"></i></div><h4>Compress PDF</h4><p>Reduce PDF file size.</p></div>
@@ -271,7 +269,6 @@
     <div class="tool-card" onclick="openTool('passbook-engine-anchor')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-id-card"></i></div><h4>Passbook Maker</h4><p>Bank passbook generator.</p></div>
     <div class="tool-card" onclick="openTool('tts-engine-anchor')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-volume-high"></i></div><h4>Text To Speech</h4><p>Multi-language audio.</p></div>
     <div class="tool-card" onclick="openTool('voice-typing-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-microphone-lines"></i></div><h4>Voice Typing</h4><p>Speech to Text typing.</p></div>
-    <div class="tool-card" onclick="openTool('translate-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-language"></i></div><h4>Language Translator</h4><p>Translate any language.</p></div>
     <div class="tool-card" onclick="openTool('edit-pdf-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-pen-to-square"></i></div><h4>Edit PDF</h4><p>Add & remove text on PDF.</p></div>
     <div class="tool-card" onclick="openTool('sign-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-signature"></i></div><h4>Sign PDF</h4><p>Draw & add signature.</p></div>
     <div class="tool-card" onclick="openTool('page-numbers-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-list-ol"></i></div><h4>Page Numbers</h4><p>Add numbers to pages.</p></div>
@@ -291,12 +288,28 @@
     <div class="tool-card" onclick="openTool('random-num-module')"><div class="tool-icon-wrapper icon-teal"><i class="fa-solid fa-dice"></i></div><h4>Random Number</h4><p>Generate random digits.</p></div>
     <div class="tool-card" onclick="openTool('discount-calc-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-tags"></i></div><h4>Discount Calc</h4><p>Find final price.</p></div>
     <div class="tool-card" onclick="openTool('percent-calc-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-percent"></i></div><h4>Percentage Calc</h4><p>Quick percentage math.</p></div>
+    <div class="tool-card" onclick="openTool('base64-enc-module')"><div class="tool-icon-wrapper icon-purple"><i class="fa-solid fa-code"></i></div><h4>Base64 Encoder</h4><p>Encode text to Base64.</p></div>
+    <div class="tool-card" onclick="openTool('base64-dec-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-unlock"></i></div><h4>Base64 Decoder</h4><p>Decode Base64 to text.</p></div>
+    <div class="tool-card" onclick="openTool('url-enc-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-link"></i></div><h4>URL Encoder</h4><p>Encode links for web.</p></div>
+    <div class="tool-card" onclick="openTool('lorem-ipsum-module')"><div class="tool-icon-wrapper icon-yellow"><i class="fa-solid fa-align-left"></i></div><h4>Lorem Ipsum</h4><p>Generate dummy text.</p></div>
+    <div class="tool-card" onclick="openTool('text-binary-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-0"></i></div><h4>Text to Binary</h4><p>Convert text to 010101.</p></div>
+    <div class="tool-card" onclick="openTool('binary-text-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-1"></i></div><h4>Binary to Text</h4><p>Convert 010101 to text.</p></div>
+    <div class="tool-card" onclick="openTool('rgb-hex-module')"><div class="tool-icon-wrapper icon-pink"><i class="fa-solid fa-palette"></i></div><h4>RGB to HEX</h4><p>Convert Color Codes.</p></div>
     
-    <!-- 4 EXTRA NEW TOOLS -->
-    <div class="tool-card" onclick="openTool('ip-address-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-network-wired"></i></div><h4>IP Checker</h4><p>Check your IP address.</p></div>
-    <div class="tool-card" onclick="openTool('markdown-module')"><div class="tool-icon-wrapper icon-purple"><i class="fa-brands fa-markdown"></i></div><h4>MD to HTML</h4><p>Convert Markdown text.</p></div>
-    <div class="tool-card" onclick="openTool('coin-flip-module')"><div class="tool-icon-wrapper icon-yellow"><i class="fa-solid fa-coins"></i></div><h4>Coin Flipper</h4><p>Toss a coin online.</p></div>
-    <div class="tool-card" onclick="openTool('age-diff-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-people-arrows"></i></div><h4>Age Difference</h4><p>Compare two ages.</p></div>
+    <!-- Premium UI Tools -->
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-regular fa-file-word"></i></div><h4>Word to PDF</h4><p>Convert DOCX to PDF.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-regular fa-file-excel"></i></div><h4>PDF to Excel</h4><p>Convert PDF to XLSX.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-file-csv"></i></div><h4>Excel to PDF</h4><p>Convert Excel to PDF.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-regular fa-file-powerpoint"></i></div><h4>PDF to PowerPoint</h4><p>Convert to PPTX.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-person-chalkboard"></i></div><h4>PowerPoint to PDF</h4><p>PPTX to PDF format.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-wrench"></i></div><h4>Repair PDF</h4><p>Fix corrupted PDFs.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-purple"><i class="fa-brands fa-wpforms"></i></div><h4>PDF Forms</h4><p>Create fillable forms.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-magnifying-glass"></i></div><h4>OCR PDF</h4><p>Extract text from image.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-language"></i></div><h4>Translate PDF</h4><p>Translate documents.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-yellow"><i class="fa-solid fa-robot"></i></div><h4>AI Summarizer</h4><p>Summarize long PDFs.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-eraser"></i></div><h4>Redact PDF</h4><p>Hide sensitive info.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-brands fa-html5"></i></div><h4>HTML to PDF</h4><p>Webpage to PDF.</p></div>
+    <div class="tool-card" onclick="openTool('premium-notice-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-file-archive"></i></div><h4>PDF to PDF/A</h4><p>Archive format PDF.</p></div>
   </div>
 
   <!-- WORKSPACES -->
@@ -304,23 +317,10 @@
   <!-- NEW: VOICE TYPING -->
   <div id="voice-typing-module" class="tool-workspace" style="display: none; border-top: 4px solid #3b82f6;">
     <h3><i class="fa-solid fa-microphone-lines" style="color: #3b82f6;"></i> Speech to Text (Voice Typing)</h3>
-    <p style="font-size:12px; color:gray; margin-bottom:15px;">Microphone permission needed. Works best in Chrome.</p>
     <div class="form-row"><div class="field-group"><textarea id="voiceTextOutput" rows="6" placeholder="Click 'Start Mic' and start speaking..."></textarea></div></div>
     <button class="action-btn btn-blue" id="btnVoiceStart" onclick="startVoiceTyping()"><i class="fa-solid fa-microphone"></i> Start Mic</button>
     <button class="action-btn btn-red" onclick="stopVoiceTyping()"><i class="fa-solid fa-stop"></i> Stop</button>
     <button class="action-btn btn-secondary" onclick="copyVoiceText()"><i class="fa-solid fa-copy"></i> Copy Text</button>
-  </div>
-
-  <!-- NEW: LANGUAGE TRANSLATOR -->
-  <div id="translate-module" class="tool-workspace" style="display: none; border-top: 4px solid #ea580c;">
-    <h3><i class="fa-solid fa-language" style="color: #ea580c;"></i> Universal Language Translator</h3>
-    <div class="form-row">
-        <div class="field-group"><label>From Language:</label><select id="transFrom"><option value="en">English</option><option value="hi">Hindi</option><option value="bn">Bengali</option><option value="mr">Marathi</option><option value="ta">Tamil</option></select></div>
-        <div class="field-group"><label>To Language:</label><select id="transTo"><option value="hi">Hindi</option><option value="en">English</option><option value="bn">Bengali</option><option value="mr">Marathi</option><option value="ta">Tamil</option></select></div>
-    </div>
-    <div class="form-row"><div class="field-group"><textarea id="transInput" rows="4" placeholder="Enter text to translate..."></textarea></div></div>
-    <button class="action-btn btn-orange" onclick="processTranslate()"><i class="fa-solid fa-language"></i> Translate Text</button>
-    <div class="form-row" style="margin-top:15px;"><div class="field-group"><textarea id="transOutput" rows="4" placeholder="Translated text will appear here..." readonly></textarea></div></div>
   </div>
 
   <!-- BG COLOR -->
@@ -330,7 +330,7 @@
         <div class="field-group"><label>Upload Photo:</label><input type="file" id="bgColorInput" accept="image/*"></div>
         <div class="field-group"><label>Select Color:</label><input type="color" id="bgColorChoose" value="#ff0000" style="width:100%; height:40px;"></div>
     </div>
-    <button class="download-final-btn" id="btnBgColor" onclick="processBgColor()"><i class="fa-solid fa-download"></i> Apply Color & Download</button>
+    <button class="action-btn btn-red" id="btnBgColor" onclick="processBgColor()"><i class="fa-solid fa-download"></i> Apply Color & Download</button>
     <div id="bgColorLog" style="margin-top:15px; font-weight:bold;"></div>
   </div>
 
@@ -345,46 +345,42 @@
                 <option value="NaN">Free Custom Size</option>
                 <option value="0.777">Passport Size (3.5 x 4.5)</option>
                 <option value="1">Square (1:1)</option>
-                <option value="1.777">16:9 (YouTube Thumbnail)</option>
+                <option value="1.777">16:9 (YouTube)</option>
             </select>
         </div>
     </div>
     <div class="crop-container"><img id="cropImageDisplay" style="max-width: 100%; display: none;"></div>
-    <button class="download-final-btn" style="margin-top: 15px;" onclick="downloadCropped()"><i class="fa-solid fa-download"></i> Crop & Download</button>
+    <button class="action-btn btn-dark" style="margin-top: 15px;" onclick="downloadCropped()"><i class="fa-solid fa-download"></i> Crop & Download</button>
   </div>
 
-
-  <!-- ORIGINAL BG REMOVER -->
-  <div id="bg-remover-module" class="tool-workspace">
+  <!-- BG REMOVER (Fixed) -->
+  <div id="bg-remover-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444;">
     <h3><i class="fa-solid fa-user-slash" style="color: #ef4444;"></i> Photo Background Remover</h3>
-    <div class="form-row">
-        <div class="field-group"><label>Upload Photo (JPG/PNG):</label><input type="file" id="bgRemoveInput" accept="image/*"></div>
-    </div>
-    <button class="download-final-btn" id="bgRemoverBtn" onclick="processBgRemover()"><i class="fa-solid fa-download"></i> Remove Background & Download</button>
+    <div class="form-row"><div class="field-group"><label>Upload Photo (JPG/PNG):</label><input type="file" id="bgRemoveInput" accept="image/*"></div></div>
+    <button class="action-btn btn-red" id="bgRemoverBtn" onclick="processBgRemover()"><i class="fa-solid fa-download"></i> Remove Background & Download</button>
     <div id="bgRemoveLog" style="display:none; margin-top:15px; font-size:14px; font-weight:bold; color:#ef4444;"></div>
   </div>
 
-  <!-- TEXT TO SPEECH -->
-  <div class="engine-container" id="tts-engine-anchor">
+  <!-- TEXT TO SPEECH (FIXED 404 AND DOWNLOAD) -->
+  <div class="engine-container" id="tts-engine-anchor" style="display:none; border-top: 4px solid var(--success-green);">
     <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech Audio (Natural Voices)</h3>
-    <p style="font-size:12px; color:gray; margin-bottom:15px;">Convert unlimited text to speech. Listen online or download as MP3 offline.</p>
     <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4" placeholder="Enter text here..."></textarea></div></div>
     <div class="form-row">
       <div class="field-group">
         <label>Select Language</label>
         <select id="ttsLanguageSelect">
-            <option value="hi-IN" selected>Hindi (India)</option><option value="en-US">English (USA)</option><option value="en-GB">English (UK)</option><option value="bn-IN">Bengali (India)</option><option value="mr-IN">Marathi (India)</option><option value="te-IN">Telugu (India)</option><option value="ta-IN">Tamil (India)</option><option value="es-ES">Spanish (Spain)</option><option value="fr-FR">French (France)</option><option value="ar-SA">Arabic (Saudi Arabia)</option>
+            <option value="hi-IN" selected>Hindi (India)</option><option value="en-US">English (USA)</option><option value="en-GB">English (UK)</option><option value="en-IN">English (India)</option><option value="bn-IN">Bengali (India)</option><option value="mr-IN">Marathi (India)</option><option value="te-IN">Telugu (India)</option><option value="ta-IN">Tamil (India)</option><option value="gu-IN">Gujarati (India)</option><option value="kn-IN">Kannada (India)</option><option value="ml-IN">Malayalam (India)</option><option value="es-ES">Spanish (Spain)</option><option value="fr-FR">French (France)</option><option value="de-DE">German (Germany)</option><option value="ar-SA">Arabic (Saudi Arabia)</option>
         </select>
       </div>
       <div class="field-group"><label>Voice Type</label><select id="ttsGenderSelect"><option value="male">Male Voice</option><option value="female" selected>Female Voice</option></select></div>
     </div>
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+    <div style="display:flex; gap:10px;">
       <button class="action-btn btn-success" onclick="playNativeTTS()"><i class="fa-solid fa-play"></i> Listen Voice</button>
-      <button class="download-final-btn" id="ttsDownloadBtn" onclick="downloadMp3TTS()"><i class="fa-solid fa-download"></i> Download Audio (.mp3)</button>
+      <button class="action-btn btn-blue" id="ttsDownloadBtn" onclick="downloadMp3TTS()"><i class="fa-solid fa-download"></i> Download Audio (.mp3)</button>
     </div>
   </div>
 
-  <!-- DOCUMENT RESIZER -->
+  <!-- DOCUMENT RESIZER (ALL NEW FORMATS ADDED) -->
   <div id="document-resizer-module" class="tool-workspace">
     <h3><i class="fa-solid fa-scissors" style="color: var(--resizer-purple);"></i> Document Resizer & Dimension Fixer</h3>
     <div class="resizer-grid">
@@ -410,7 +406,7 @@
         <div class="field-group"><label>Target Size:</label><input type="number" id="resizerTargetValue"></div>
         <div class="field-group"><label>Unit:</label><select id="resizerUnitType"><option value="KB">KB</option><option value="MB">MB</option></select></div>
     </div>
-    <button class="download-final-btn" style="background-color: var(--resizer-purple); width: 100%; justify-content: center;" onclick="processAndResizeDocument()"><i class="fa-solid fa-download"></i> Resize & Download File</button>
+    <button class="action-btn" style="background-color: var(--resizer-purple); width: 100%; justify-content: center;" onclick="processAndResizeDocument()"><i class="fa-solid fa-download"></i> Resize & Download File</button>
     <div id="resizerStatusLogs" style="margin-top: 15px; font-size: 13px; text-align: center; display: none;"></div>
   </div>
 
@@ -440,14 +436,14 @@
   <div id="protect-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-lock" style="color: #ef4444;"></i> Protect PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF Document:</label><input type="file" id="protectPdfInput" accept=".pdf"></div><div class="field-group"><label>Set Password:</label><input type="password" id="protectPdfPassword"></div></div>
-    <button class="download-final-btn" onclick="alertSimulateProtection()"><i class="fa-solid fa-download"></i> Lock & Download</button>
+    <button class="action-btn btn-red" onclick="alertSimulateProtection()"><i class="fa-solid fa-download"></i> Lock & Download</button>
   </div>
 
   <div id="edit-pdf-module" class="tool-workspace">
-    <h3><i class="fa-solid fa-pen-to-square" style="color: #334155;"></i> Edit PDF (Replace / Add Text)</h3>
+    <h3><i class="fa-solid fa-pen-to-square" style="color: #334155;"></i> Edit PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="editPdfInput" accept=".pdf"></div><div class="field-group"><label>Whiteout Old Text?</label><select id="editEraseOption"><option value="no">No</option><option value="yes">Yes (Top-Left Area)</option></select></div></div>
     <div class="form-row"><div class="field-group"><label>New Text to Add:</label><input type="text" id="editPdfText"></div></div>
-    <button class="download-final-btn" onclick="processEditPdf()"><i class="fa-solid fa-download"></i> Update & Download</button>
+    <button class="action-btn btn-secondary" onclick="processEditPdf()"><i class="fa-solid fa-download"></i> Update & Download</button>
   </div>
 
   <div class="engine-container" id="passport-studio-anchor">
@@ -457,7 +453,7 @@
       <div class="field-group"><label>Select Grid Layout</label><select id="passportCopyCount" onchange="syncDropdownToStudioGrid()"><option value="6">6 Photos</option><option value="12" selected>12 Photos</option><option value="24">24 Photos</option><option value="30">30 Photos</option></select></div>
       <div class="field-group"><label>Manual Adjust</label><div class="counter-btn-container"><button class="counter-btn remove" onclick="adjustPassportCountManual(-1)"><i class="fa-solid fa-minus"></i></button><span id="manualCountDisplay" style="font-weight:bold; font-size:16px; width:30px; text-align:center;">12</span><button class="counter-btn add" onclick="adjustPassportCountManual(1)"><i class="fa-solid fa-plus"></i></button></div></div>
     </div>
-    <button class="download-final-btn" onclick="downloadPassportStudioSheet()"><i class="fa-solid fa-download"></i> Download A4 Photo Sheet</button>
+    <button class="action-btn btn-purple" onclick="downloadPassportStudioSheet()"><i class="fa-solid fa-download"></i> Download A4 Photo Sheet</button>
     <div id="passportSheetAreaToPrint" style="margin-top:20px;"><div class="passport-sheet-preview" id="passportGridContainer"><div class="passport-blank-state"><p>Upload a photo to see live grid preview instantly.</p></div></div></div>
   </div>
 
@@ -468,7 +464,7 @@
     <div class="form-row"><div class="field-group"><label>Account Type</label><select id="inputAccountType" onchange="syncCardCanvasData()"><option value="SAVING ACCOUNT" selected>SAVING ACCOUNT</option><option value="CURRENT ACCOUNT">CURRENT ACCOUNT</option></select></div><div class="field-group"><label>Full Address</label><input type="text" id="inputAddress" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Pin Code</label><input type="text" id="inputPinCode" oninput="syncCardCanvasData()"></div></div>
     <div class="form-row"><div class="field-group"><label>Father/Husband Name</label><input type="text" id="inputGuardianName" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Ko Name </label><input type="text" id="inputKoName" oninput="syncCardCanvasData()"></div><div class="field-group"><label>Ko Location</label><input type="text" id="inputKoLocation" oninput="syncCardCanvasData()"></div></div>
     <div class="form-row"><div class="field-group"><label>Upload Bank Logo</label><input type="file" accept="image/*" onchange="uploadLeftBankLogo(event)"></div><div class="field-group"><label>Upload Holder Photo</label><input type="file" accept="image/*" onchange="uploadRightProfilePhoto(event)"></div></div>
-    <button class="download-final-btn" onclick="exportCardLayoutAsImage()"><i class="fa-solid fa-download"></i> Download Passbook</button>
+    <button class="action-btn btn-secondary" onclick="exportCardLayoutAsImage()"><i class="fa-solid fa-download"></i> Download Passbook</button>
     <div class="passbook-render-area" id="printablePassbookCard">
       <div class="pb-new-top"><div class="pb-card-logo-slot" id="cardLogoWrapper"><div class="pb-sbi-circle"></div></div><div class="pb-bank-names"><span class="english-name" id="cardBankName">STATE BANK OF INDIA</span></div></div>
       <div class="pb-blue-identity-strip"><h3>IDENTITY CARD</h3></div>
@@ -498,37 +494,37 @@
   <div id="sign-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-signature" style="color: #3b82f6;"></i> Sign PDF / Draw Signature</h3>
     <div style="margin-bottom: 15px;"><canvas id="sigCanvas" class="signature-pad" width="400" height="150"></canvas><br><a href="javascript:void(0)" onclick="clearSignature()" style="color:red; font-size:12px;">Clear</a></div>
-    <button class="download-final-btn" onclick="downloadSignature()"><i class="fa-solid fa-download"></i> Download Signature (PNG)</button>
+    <button class="action-btn btn-blue" onclick="downloadSignature()"><i class="fa-solid fa-download"></i> Download PNG</button>
   </div>
 
   <div id="page-numbers-module" class="tool-workspace">
     <h3><i class="fa-solid fa-list-ol" style="color: #ea580c;"></i> Add Page Numbers</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="pageNumInput" accept=".pdf"></div></div>
-    <button class="download-final-btn" onclick="processPageNumbers()"><i class="fa-solid fa-download"></i> Download PDF</button>
+    <button class="action-btn btn-orange" onclick="processPageNumbers()"><i class="fa-solid fa-download"></i> Download PDF</button>
   </div>
 
   <div id="scan-to-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-scanner-image" style="color: #06b6d4;"></i> Scan to PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload Scans:</label><input type="file" id="scanPdfInput" accept="image/jpeg, image/png"></div></div>
-    <button class="download-final-btn" onclick="processScanToPdf()"><i class="fa-solid fa-download"></i> Create PDF</button>
+    <button class="action-btn btn-cyan" onclick="processScanToPdf()"><i class="fa-solid fa-download"></i> Create PDF</button>
   </div>
 
   <div id="jpg-to-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-file-pdf" style="color: #3b82f6;"></i> JPG to PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload Image:</label><input type="file" id="jpgToPdfInput" accept="image/jpeg, image/png"></div></div>
-    <button class="download-final-btn" onclick="processJpgToPdf()"><i class="fa-solid fa-download"></i> Convert PDF</button>
+    <button class="action-btn btn-blue" onclick="processJpgToPdf()"><i class="fa-solid fa-download"></i> Convert PDF</button>
   </div>
 
   <div id="pdf-to-jpg-module" class="tool-workspace">
     <h3><i class="fa-solid fa-file-image" style="color: #ea580c;"></i> PDF to JPG</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="pdfToJpgInput" accept=".pdf"></div></div>
-    <button class="download-final-btn" onclick="processPdfToJpg()"><i class="fa-solid fa-download"></i> Extract JPG</button>
+    <button class="action-btn btn-orange" onclick="processPdfToJpg()"><i class="fa-solid fa-download"></i> Extract JPG</button>
   </div>
 
   <div id="compress-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-file-shield" style="color: #06b6d4;"></i> Compress PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="compressPdfInput" accept=".pdf"></div></div>
-    <button class="download-final-btn" onclick="processCompressPdf()"><i class="fa-solid fa-download"></i> Compress & Download</button>
+    <button class="action-btn btn-cyan" onclick="processCompressPdf()"><i class="fa-solid fa-download"></i> Compress & Download</button>
   </div>
 
   <div id="merge-pdf-module" class="tool-workspace">
@@ -536,68 +532,39 @@
     <div id="mergePdfListContainer" style="margin-bottom: 15px;"></div>
     <input type="file" id="mergeHiddenInput" accept=".pdf" multiple style="display: none;" onchange="handleNewMergeFiles(event)">
     <button class="action-btn" style="background:#f3e8ff; color:#a855f7; border: 2px dashed #a855f7; width:100%; justify-content:center; margin-bottom:20px;" onclick="document.getElementById('mergeHiddenInput').click()"><i class="fa-solid fa-plus"></i> Choice PDF</button>
-    <button class="download-final-btn" onclick="processDynamicMergePdf()"><i class="fa-solid fa-download"></i> Merge PDFs</button>
+    <button class="action-btn btn-purple" onclick="processDynamicMergePdf()"><i class="fa-solid fa-download"></i> Merge PDFs</button>
   </div>
 
   <div id="split-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-file-lines" style="color: #3b82f6;"></i> Split PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="splitPdfInput" accept=".pdf"></div><div class="field-group"><label>Page No:</label><input type="number" id="splitPageNum" value="1"></div></div>
-    <button class="download-final-btn" onclick="processSplitPdf()"><i class="fa-solid fa-download"></i> Extract Page</button>
+    <button class="action-btn btn-blue" onclick="processSplitPdf()"><i class="fa-solid fa-download"></i> Extract Page</button>
   </div>
 
   <div id="unlock-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-lock-open" style="color: #10b981;"></i> Unlock PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload Locked PDF:</label><input type="file" id="unlockPdfInput" accept=".pdf"></div><div class="field-group"><label>Password:</label><input type="password" id="unlockPdfPassword"></div></div>
-    <button class="download-final-btn" onclick="processUnlockPdf()"><i class="fa-solid fa-download"></i> Unlock & Download</button>
+    <button class="action-btn btn-success" onclick="processUnlockPdf()"><i class="fa-solid fa-download"></i> Unlock & Download</button>
   </div>
 
   <div id="watermark-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-stamp" style="color: #a855f7;"></i> Add Watermark</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="watermarkPdfInput" accept=".pdf"></div><div class="field-group"><label>Text:</label><input type="text" id="watermarkPdfText"></div></div>
-    <button class="download-final-btn" onclick="processWatermarkPdf()"><i class="fa-solid fa-download"></i> Add Watermark</button>
+    <button class="action-btn btn-purple" onclick="processWatermarkPdf()"><i class="fa-solid fa-download"></i> Add Watermark</button>
   </div>
 
   <div id="rotate-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-rotate-right" style="color: #ea580c;"></i> Rotate PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload PDF:</label><input type="file" id="rotatePdfInput" accept=".pdf"></div><div class="field-group"><label>Angle:</label><select id="rotatePdfAngle"><option value="90">90 Deg</option><option value="180">180 Deg</option><option value="270">270 Deg</option></select></div></div>
-    <button class="download-final-btn" onclick="processRotatePdf()"><i class="fa-solid fa-download"></i> Rotate</button>
+    <button class="action-btn btn-orange" onclick="processRotatePdf()"><i class="fa-solid fa-download"></i> Rotate</button>
   </div>
 
-  <!-- 4 NEW SUGGESTED TOOLS -->
-  <div id="ip-address-module" class="tool-workspace">
-    <h3><i class="fa-solid fa-network-wired" style="color: #06b6d4;"></i> Check My IP Address</h3>
-    <button class="action-btn btn-cyan" onclick="checkMyIP()">Check IP</button>
-    <div class="pwd-display" id="ipOut" style="margin-top:15px; font-size:18px;">0.0.0.0</div>
-  </div>
-
-  <div id="markdown-module" class="tool-workspace">
-    <h3><i class="fa-brands fa-markdown" style="color: #a855f7;"></i> Markdown to HTML</h3>
-    <div class="form-row"><div class="field-group"><textarea id="mdIn" rows="4" placeholder="Type Markdown here... e.g., **Bold**"></textarea></div></div>
-    <button class="action-btn btn-purple" onclick="convertMd()">Convert to HTML</button>
-    <div class="pwd-display" id="mdOut" style="margin-top:15px; font-size:14px; text-align:left;">Output here</div>
-  </div>
-
-  <div id="coin-flip-module" class="tool-workspace">
-    <h3><i class="fa-solid fa-coins" style="color: #b45309;"></i> Coin Flipper</h3>
-    <button class="action-btn" style="background:#b45309;" onclick="flipCoin()">Flip Coin</button>
-    <div class="pwd-display" id="coinOut" style="margin-top:15px; font-size:24px;">Heads or Tails?</div>
-  </div>
-
-  <div id="age-diff-module" class="tool-workspace">
-    <h3><i class="fa-solid fa-people-arrows" style="color: #16a34a;"></i> Age Difference Calculator</h3>
-    <div class="form-row"><div class="field-group"><label>Person 1 DOB:</label><input type="date" id="diffDob1"></div><div class="field-group"><label>Person 2 DOB:</label><input type="date" id="diffDob2"></div></div>
-    <button class="action-btn btn-success" onclick="calcAgeDiff()">Calculate Difference</button>
-    <div class="pwd-display" id="diffOut" style="margin-top:15px; font-size:16px;">Result</div>
-  </div>
-
-
-  <!-- OTHER EXTRA 14 TOOLS (Compact Code) -->
   <div id="word-counter-module" class="tool-workspace"><h3>Word Counter</h3><textarea id="wcInput" rows="3" oninput="calculateWords()"></textarea><div class="word-box"><div class="word-tile"><h4 id="wcWords">0</h4><p>Words</p></div><div class="word-tile"><h4 id="wcChars">0</h4><p>Chars</p></div></div></div>
   <div id="password-gen-module" class="tool-workspace"><h3>Password Gen</h3><div class="pwd-display" id="pwdResult">Click Generate</div><input type="range" id="pwdLength" min="6" max="30" value="12"><button class="action-btn btn-red" onclick="generatePassword()">Generate</button></div>
   <div id="case-converter-module" class="tool-workspace"><h3>Case Converter</h3><textarea id="caseInput" rows="3"></textarea><button class="action-btn" onclick="convertCase('upper')">UPPER</button><button class="action-btn" onclick="convertCase('lower')">lower</button></div>
-  <div id="text-to-pdf-module" class="tool-workspace"><h3>Text to PDF</h3><textarea id="txtToPdfIn" rows="3"></textarea><button class="download-final-btn" onclick="makeTxtToPdf()"><i class="fa-solid fa-download"></i> Download PDF</button></div>
-  <div id="img-format-module" class="tool-workspace"><h3>Image Format</h3><input type="file" id="imgConvIn"><select id="imgConvType"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WEBP</option></select><button class="download-final-btn" onclick="convertImageFormat()"><i class="fa-solid fa-download"></i> Download Image</button></div>
-  <div id="qr-gen-module" class="tool-workspace"><h3>QR Generator</h3><input type="text" id="qrIn"><button class="action-btn" onclick="makeQrCode()">Generate</button><div id="qrOut"></div></div>
+  <div id="text-to-pdf-module" class="tool-workspace"><h3>Text to PDF</h3><textarea id="txtToPdfIn" rows="3"></textarea><button class="action-btn btn-blue" onclick="makeTxtToPdf()"><i class="fa-solid fa-download"></i> Download</button></div>
+  <div id="img-format-module" class="tool-workspace"><h3>Image Format</h3><input type="file" id="imgConvIn"><select id="imgConvType"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WEBP</option></select><button class="action-btn btn-orange" onclick="convertImageFormat()"><i class="fa-solid fa-download"></i> Convert</button></div>
+  <div id="qr-gen-module" class="tool-workspace"><h3>QR Generator</h3><input type="text" id="qrIn"><button class="action-btn" onclick="makeQrCode()"><i class="fa-solid fa-download"></i> Generate</button><div id="qrOut"></div></div>
   <div id="bmi-calc-module" class="tool-workspace"><h3>BMI Calculator</h3><input type="number" id="bmiW" placeholder="Weight"><input type="number" id="bmiH" placeholder="Height"><button class="action-btn btn-success" onclick="calcBmi()">Calc</button><div id="bmiOut"></div></div>
   <div id="random-num-module" class="tool-workspace"><h3>Random Number</h3><input type="number" id="randMin" value="1"><input type="number" id="randMax" value="100"><button class="action-btn" onclick="genRandomNum()">Generate</button><div id="randOut">0</div></div>
   <div id="discount-calc-module" class="tool-workspace"><h3>Discount Calc</h3><input type="number" id="discPrice" placeholder="Price"><input type="number" id="discPerc" placeholder="%"><button class="action-btn btn-red" onclick="calcDiscount()">Calc</button><div id="discOut"></div></div>
@@ -619,7 +586,7 @@
 
 </div>
 
-<!-- BLACK FOOTER WITH REAL SOCIAL LINKS (BRIGHT COLORS) -->
+<!-- BLACK FOOTER WITH REAL SOCIAL LINKS -->
 <footer class="custom-footer">
     <div class="footer-grid">
         <div class="footer-col" style="padding-right: 20px;">
@@ -680,119 +647,13 @@
       document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' });
   }
 
-  // --- NEW 4 TOOLS LOGIC ---
-  async function checkMyIP() {
-      try { const res = await fetch('https://api.ipify.org?format=json'); const data = await res.json(); document.getElementById('ipOut').innerText = data.ip; }
-      catch(e) { document.getElementById('ipOut').innerText = "Error fetching IP"; }
-  }
-  function convertMd() {
-      let text = document.getElementById('mdIn').value;
-      text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>').replace(/^## (.*$)/gim, '<h2>$1</h2>').replace(/^# (.*$)/gim, '<h1>$1</h1>')
-          .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>').replace(/\*\*(.*)\*\*/gim, '<b>$1</b>')
-          .replace(/\*(.*)\*/gim, '<i>$1</i>').replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />")
-          .replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>").replace(/\n$/gim, '<br />');
-      document.getElementById('mdOut').innerText = text;
-  }
-  function flipCoin() {
-      const res = Math.random() < 0.5 ? "HEADS" : "TAILS";
-      document.getElementById('coinOut').innerText = "Flipping...";
-      setTimeout(() => { document.getElementById('coinOut').innerText = res; }, 500);
-  }
-  function calcAgeDiff() {
-      const d1 = new Date(document.getElementById('diffDob1').value); const d2 = new Date(document.getElementById('diffDob2').value);
-      if(!d1 || !d2 || isNaN(d1) || isNaN(d2)) return alert("Select both dates!");
-      const diffTime = Math.abs(d2 - d1); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      const years = Math.floor(diffDays / 365); const remainingDays = diffDays % 365;
-      const months = Math.floor(remainingDays / 30); const days = remainingDays % 30;
-      document.getElementById('diffOut').innerText = `${years} Years, ${months} Months, ${days} Days gap.`;
-  }
-  
-  // --- TRANSLATE TOOL LOGIC ---
-  async function processTranslate() {
-      const text = document.getElementById('transInput').value;
-      const from = document.getElementById('transFrom').value;
-      const to = document.getElementById('transTo').value;
-      if(!text) return alert("Enter text to translate!");
-      try {
-          const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`);
-          const data = await res.json();
-          document.getElementById('transOutput').value = data.responseData.translatedText;
-      } catch(e) { alert("Translation failed. Try again."); }
-  }
-
-  // --- NEW CASH COUNTER LOGIC ---
-  function calcCash() {
-      const v = [2000, 500, 200, 100, 50, 20, 10]; let total = 0;
-      v.forEach(val => { let c = parseInt(document.getElementById('c'+val).value) || 0; let amt = c * val; document.getElementById('r'+val).innerText = '₹ ' + amt; total += amt; });
-      document.getElementById('cashTotal').innerText = '₹ ' + total.toLocaleString('en-IN');
-  }
-  function clearCash() {
-      const v = [2000, 500, 200, 100, 50, 20, 10]; v.forEach(val => { document.getElementById('c'+val).value = ''; document.getElementById('r'+val).innerText = '₹ 0'; }); document.getElementById('cashTotal').innerText = '₹ 0';
-  }
-
-  // --- NEW CALENDAR LOGIC ---
-  let currDate = new Date();
-  function renderCal() {
-      const box = document.getElementById('calDaysBox'); box.innerHTML = '';
-      const mYear = document.getElementById('calMonthYear'); const year = currDate.getFullYear(); const month = currDate.getMonth();
-      const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      mYear.innerText = `${monthNames[month]} ${year}`;
-      for(let i=0; i<firstDay; i++) { box.innerHTML += `<div class="calendar-date empty"></div>`; }
-      for(let i=1; i<=daysInMonth; i++) {
-          let cls = "calendar-date"; let today = new Date();
-          if(i===today.getDate() && month===today.getMonth() && year===today.getFullYear()) cls += " active";
-          box.innerHTML += `<div class="${cls}">${i}</div>`;
-      }
-  }
-  function changeMonth(step) { currDate.setMonth(currDate.getMonth() + step); renderCal(); }
-  window.onload = function() { renderCal(); };
-
-  // --- UPDATED AGE CALC LOGIC ---
-  function executePreciseAgeCalculation() {
-    const dobString = document.getElementById('calcDobInput').value; const targetString = document.getElementById('calcTargetInput').value;
-    if(!dobString || !targetString) { return alert("Select dates."); }
-    const birthDate = new Date(dobString); const endDate = new Date(targetString);
-    if (endDate < birthDate) { return alert("Target date error!"); }
-    
-    let yearsDiff = endDate.getFullYear() - birthDate.getFullYear(); let monthsDiff = endDate.getMonth() - birthDate.getMonth(); let daysDiff = endDate.getDate() - birthDate.getDate();
-    if (daysDiff < 0) { monthsDiff--; const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0); daysDiff += prevMonth.getDate(); }
-    if (monthsDiff < 0) { yearsDiff--; monthsDiff += 12; }
-    
-    document.getElementById('resYears').innerText = yearsDiff; document.getElementById('resMonths').innerText = monthsDiff; document.getElementById('resDays').innerText = daysDiff;
-    
-    const timeDiff = endDate.getTime() - birthDate.getTime();
-    const tDays = Math.floor(timeDiff / (1000 * 3600 * 24)); const tWeeks = Math.floor(tDays / 7); const tHours = tDays * 24; const tMins = tHours * 60; const tSecs = tMins * 60;
-    
-    document.getElementById('resTotalWeeks').innerText = tWeeks.toLocaleString('en-IN'); document.getElementById('resTotalDays').innerText = tDays.toLocaleString('en-IN'); document.getElementById('resTotalHours').innerText = tHours.toLocaleString('en-IN'); document.getElementById('resTotalMins').innerText = tMins.toLocaleString('en-IN'); document.getElementById('resTotalSecs').innerText = tSecs.toLocaleString('en-IN');
-    document.getElementById('calcResultDisplayPanel').style.display = 'block';
-  }
-
-  // --- CALCULATOR LOGIC ---
-  function calcCalc() { try{ document.getElementById('calcScreen').value = eval(document.getElementById('calcScreen').value); }catch(e){document.getElementById('calcScreen').value="Error";} }
-  function clrCalc(){ document.getElementById('calcScreen').value=""; } function delCalc(){ let v = document.getElementById('calcScreen').value; document.getElementById('calcScreen').value=v.slice(0,-1); } function appCalc(v){ document.getElementById('calcScreen').value+=v; } function resCalc(){ calcCalc(); }
-  
-  // --- OLDER TOOLS LOGIC ---
+  // --- NEW TOOLS LOGIC ---
   function calculateWords() { let text = document.getElementById('wcInput').value; document.getElementById('wcChars').innerText = text.length; document.getElementById('wcWords').innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; document.getElementById('wcLines').innerText = text === "" ? 0 : text.split(/\r\n|\r|\n/).length; }
   function generatePassword() { const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+"; const len = document.getElementById('pwdLength').value; let pwd = ""; for (let i = 0; i < len; i++) { pwd += chars.charAt(Math.floor(Math.random() * chars.length)); } document.getElementById('pwdResult').innerText = pwd; }
   function copyPassword() { const text = document.getElementById('pwdResult').innerText; if(text === "Click Generate Below") return; navigator.clipboard.writeText(text); alert("Password copied!"); }
   function convertCase(type) { const input = document.getElementById('caseInput'); if (type === 'upper') input.value = input.value.toUpperCase(); else if (type === 'lower') input.value = input.value.toLowerCase(); else if (type === 'title') input.value = input.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}); }
-  function makeTxtToPdf() { const text = document.getElementById('txtToPdfIn').value; if(!text) return alert("Enter text!"); const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.text(text, 10, 10, { maxWidth: 190 }); doc.save("Document.pdf"); }
-  function convertImageFormat() { const fileIn = document.getElementById('imgConvIn').files[0]; if(!fileIn) return alert("Upload Image!"); const type = document.getElementById('imgConvType').value; const ext = type.split('/')[1]; const r = new FileReader(); r.onload = e => { const img = new Image(); img.src = e.target.result; img.onload = () => { const cvs = document.createElement('canvas'); cvs.width = img.width; cvs.height = img.height; cvs.getContext('2d').drawImage(img, 0, 0); const a = document.createElement('a'); a.download = `Converted.${ext}`; a.href = cvs.toDataURL(type); a.click(); } }; r.readAsDataURL(fileIn); }
-  function makeQrCode() { const txt = document.getElementById('qrIn').value; if(!txt) return alert("Enter URL!"); document.getElementById('qrOut').innerHTML = ""; new QRCode(document.getElementById('qrOut'), { text: txt, width: 128, height: 128 }); }
-  function calcBmi() { const w = parseFloat(document.getElementById('bmiW').value); const h = parseFloat(document.getElementById('bmiH').value)/100; if(!w || !h) return alert("Enter details!"); const bmi = (w / (h*h)).toFixed(1); let stat = "Normal"; if(bmi<18.5) stat="Underweight"; else if(bmi>25) stat="Overweight"; document.getElementById('bmiOut').innerText = `BMI: ${bmi} (${stat})`; }
-  function genRandomNum() { const min = parseInt(document.getElementById('randMin').value); const max = parseInt(document.getElementById('randMax').value); document.getElementById('randOut').innerText = Math.floor(Math.random() * (max - min + 1)) + min; }
-  function calcDiscount() { const p = parseFloat(document.getElementById('discPrice').value); const d = parseFloat(document.getElementById('discPerc').value); if(!p || !d) return; document.getElementById('discOut').innerText = `Final Price: ₹${(p - (p*d/100)).toFixed(2)}`; }
-  function calcPercent() { const p = parseFloat(document.getElementById('percPart').value); const t = parseFloat(document.getElementById('percTotal').value); if(!p || !t) return; document.getElementById('percOut').innerText = `Result: ${(p/100 * t).toFixed(2)}`; }
-  function encodeB64() { document.getElementById('b64EncOut').innerText = btoa(document.getElementById('b64EncIn').value); }
-  function decodeB64() { try{ document.getElementById('b64DecOut').innerText = atob(document.getElementById('b64DecIn').value); }catch(e){alert("Invalid Base64!");} }
-  function urlOp(type) { const val = document.getElementById('urlIn').value; document.getElementById('urlOut').innerText = type==='enc' ? encodeURIComponent(val) : decodeURIComponent(val); }
-  function genLorem() { const num = document.getElementById('loremIn').value; const text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. "; document.getElementById('loremOut').innerText = text.repeat(num); }
-  function textToBin() { const t = document.getElementById('binEncIn').value; document.getElementById('binEncOut').innerText = Array.from(t).map(c => c.charCodeAt(0).toString(2).padStart(8,'0')).join(' '); }
-  function binToText() { const b = document.getElementById('binDecIn').value; document.getElementById('binDecOut').innerText = b.split(' ').map(bin => String.fromCharCode(parseInt(bin, 2))).join(''); }
-  function rgbToHex() { const r = parseInt(document.getElementById('rIn').value); const g = parseInt(document.getElementById('gIn').value); const b = parseInt(document.getElementById('bIn').value); document.getElementById('rgbOut').innerText = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase(); document.getElementById('rgbOut').style.color = document.getElementById('rgbOut').innerText; }
 
-  // BG REMOVER (FIXED ERROR)
+  // 1. BG REMOVER (Fixed)
   async function processBgRemover() {
       const fileInput = document.getElementById('bgRemoveInput'); const log = document.getElementById('bgRemoveLog'); const btn = document.getElementById('bgRemoverBtn'); const bgColor = document.getElementById('bgColorPicker').value;
       if (fileInput.files.length === 0) return alert("Please upload a photo first!");
@@ -802,7 +663,7 @@
           let w = imgRaw.width, h = imgRaw.height; if (w > 1200 || h > 1200) { const ratio = Math.min(1200/w, 1200/h); w *= ratio; h *= ratio; }
           const tempCanvas = document.createElement('canvas'); tempCanvas.width = w; tempCanvas.height = h; tempCanvas.getContext('2d').drawImage(imgRaw, 0, 0, w, h);
           const resizedBlob = await new Promise(r => tempCanvas.toBlob(r, 'image/jpeg', 0.9));
-          const config = { publicPath: "https://static.imgly.com/@imgly/background-removal-data/1.4.3/dist/" };
+          const config = { publicPath: "https://cdn.jsdelivr.net/npm/@imgly/background-removal-data@1.4.3/dist/" };
           const imageBlob = await imglyRemoveBackground(resizedBlob, config);
           const url = URL.createObjectURL(imageBlob); const img = new Image();
           img.onload = function() {
@@ -823,61 +684,89 @@
       if (cropper) cropper.destroy(); cropper = new Cropper(image, { aspectRatio: NaN, viewMode: 1 });
   }
   function changeCropRatio() { if(!cropper) return; const val = document.getElementById('cropRatioSelect').value; cropper.setAspectRatio(val === 'NaN' ? NaN : parseFloat(val)); }
-  function downloadCropped() { if (!cropper) return alert("Upload and select crop area!"); cropper.getCroppedCanvas().toBlob((blob) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Cropped_Juman.png'; a.click(); }); }
+  function downloadCropped() { if (!cropper) return alert("Upload and select crop area!"); cropper.getCroppedCanvas().toBlob((blob) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Cropped.png'; a.click(); }); }
 
-  async function processBgColor() {
-      const fileInput = document.getElementById('bgColorInput'); const log = document.getElementById('bgColorLog');
-      const bgColor = document.getElementById('bgColorChoose').value;
-      if (fileInput.files.length === 0) return alert("Please upload a photo first!");
-      log.style.color = "#ef4444"; log.innerText = "Processing AI (takes 10-15s on first load)...";
-      try {
-          const imgRaw = new Image(); imgRaw.src = URL.createObjectURL(fileInput.files[0]); await new Promise(r => imgRaw.onload = r);
-          let w = imgRaw.width, h = imgRaw.height; if (w > 1200 || h > 1200) { const ratio = Math.min(1200/w, 1200/h); w *= ratio; h *= ratio; }
-          const tempCanvas = document.createElement('canvas'); tempCanvas.width = w; tempCanvas.height = h; tempCanvas.getContext('2d').drawImage(imgRaw, 0, 0, w, h);
-          const resizedBlob = await new Promise(r => tempCanvas.toBlob(r, 'image/jpeg', 0.9));
-          const config = { publicPath: "https://unpkg.com/@imgly/background-removal-data@1.4.3/dist/" };
-          const imageBlob = await imglyRemoveBackground(resizedBlob, config);
-          const url = URL.createObjectURL(imageBlob); const img = new Image();
-          img.onload = function() {
-              const canvas = document.createElement('canvas'); canvas.width = img.width; canvas.height = img.height; const ctx = canvas.getContext('2d');
-              ctx.fillStyle = bgColor; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0);
-              const a = document.createElement('a'); a.href = canvas.toDataURL('image/jpeg', 1.0); a.download = "Colored_BG.jpg"; a.click();
-              log.style.color = "#16a34a"; log.innerText = "✅ Done! Background color applied and downloaded.";
-          }
-          img.src = url;
-      } catch(e) { log.innerText = "❌ Error processing image."; }
-  }
-
-  // PROTECT PDF
+  // 2. PROTECT PDF
   function alertSimulateProtection() { const file = document.getElementById('protectPdfInput').files[0]; const pwd = document.getElementById('protectPdfPassword').value; if(!file || !pwd) return alert("Upload file and enter password."); const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = "Locked_" + file.name; a.click(); }
 
-  // EDIT PDF
-  async function processEditPdf() { const fileInput = document.getElementById('editPdfInput'); const text = document.getElementById('editPdfText').value; const erase = document.getElementById('editEraseOption').value; if (fileInput.files.length === 0 || !text) return alert("Upload PDF and write new text!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); const { height, width } = pages[0].getSize(); if (erase === 'yes') { pages[0].drawRectangle({ x: 40, y: height - 80, width: width - 80, height: 60, color: PDFLib.rgb(1, 1, 1) }); } pages[0].drawText(text, { x: 50, y: height - 50, size: 20, color: PDFLib.rgb(0, 0, 0) }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Edited.pdf"; link.click(); }
+  // 3. EDIT PDF
+  async function processEditPdf() {
+      const fileInput = document.getElementById('editPdfInput'); const text = document.getElementById('editPdfText').value; const erase = document.getElementById('editEraseOption').value;
+      if (fileInput.files.length === 0 || !text) return alert("Upload PDF and write new text!");
+      const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); const { height, width } = pages[0].getSize();
+      if (erase === 'yes') { pages[0].drawRectangle({ x: 40, y: height - 80, width: width - 80, height: 60, color: PDFLib.rgb(1, 1, 1) }); }
+      pages[0].drawText(text, { x: 50, y: height - 50, size: 20, color: PDFLib.rgb(0, 0, 0) });
+      const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' });
+      const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Edited.pdf"; link.click();
+  }
 
-  // SIGNATURE
+  // 4. SIGNATURE
   const canvas = document.getElementById('sigCanvas'); const ctx = canvas.getContext('2d'); let isDrawing = false;
   canvas.addEventListener('mousedown', (e) => { isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); }); canvas.addEventListener('mousemove', (e) => { if(isDrawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); } }); canvas.addEventListener('mouseup', () => isDrawing = false);
   function clearSignature() { ctx.clearRect(0, 0, canvas.width, canvas.height); } function downloadSignature() { const link = document.createElement('a'); link.download = 'Signature.png'; link.href = canvas.toDataURL('image/png'); link.click(); }
 
-  // PAGE NUMBERS
-  async function processPageNumbers() { const fileInput = document.getElementById('pageNumInput'); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); pages.forEach((page, index) => { const { width } = page.getSize(); page.drawText(`Page ${index + 1}`, { x: width / 2 - 20, y: 20, size: 12, color: PDFLib.rgb(0, 0, 0) }); }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Numbered.pdf"; link.click(); }
+  // 5. PAGE NUMBERS
+  async function processPageNumbers() {
+      const fileInput = document.getElementById('pageNumInput'); if (fileInput.files.length === 0) return alert("Upload PDF!");
+      const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages();
+      pages.forEach((page, index) => { const { width } = page.getSize(); page.drawText(`Page ${index + 1}`, { x: width / 2 - 20, y: 20, size: 12, color: PDFLib.rgb(0, 0, 0) }); });
+      const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Numbered.pdf"; link.click();
+  }
 
-  // SCAN TO PDF
+  // 6. SCAN TO PDF
   function processScanToPdf() { const fileInput = document.getElementById('scanPdfInput'); if (fileInput.files.length === 0) return alert("Upload Image!"); const reader = new FileReader(); reader.onload = function(e) { const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Scanned.pdf"); }; reader.readAsDataURL(fileInput.files[0]); }
   function processJpgToPdf() { const fileInput = document.getElementById('jpgToPdfInput'); if (fileInput.files.length === 0) return alert("Upload Image!"); const reader = new FileReader(); reader.onload = function(e) { const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Converted.pdf"); }; reader.readAsDataURL(fileInput.files[0]); }
 
-  async function processSplitPdf() { const fileInput = document.getElementById('splitPdfInput'); let pageNum = parseInt(document.getElementById('splitPageNum').value); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const newPdf = await PDFLib.PDFDocument.create(); const [copiedPage] = await newPdf.copyPages(pdfDoc, [pageNum - 1]); newPdf.addPage(copiedPage); const newBytes = await newPdf.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `Page_${pageNum}.pdf`; link.click(); }
+  async function processSplitPdf() {
+      const fileInput = document.getElementById('splitPdfInput'); let pageNum = parseInt(document.getElementById('splitPageNum').value); if (fileInput.files.length === 0) return alert("Upload PDF!");
+      const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const newPdf = await PDFLib.PDFDocument.create(); const [copiedPage] = await newPdf.copyPages(pdfDoc, [pageNum - 1]);
+      newPdf.addPage(copiedPage); const newBytes = await newPdf.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `Page_${pageNum}.pdf`; link.click();
+  }
 
-  async function processWatermarkPdf() { const fileInput = document.getElementById('watermarkPdfInput'); const text = document.getElementById('watermarkPdfText').value; if (fileInput.files.length === 0 || !text) return alert("Upload PDF & Text!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); pages.forEach(page => { const { width, height } = page.getSize(); page.drawText(text, { x: width / 4, y: height / 2, size: 50, color: PDFLib.rgb(0.8, 0.2, 0.2), opacity: 0.3, rotate: PDFLib.degrees(45) }); }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Watermark.pdf"; link.click(); }
+  async function processWatermarkPdf() {
+      const fileInput = document.getElementById('watermarkPdfInput'); const text = document.getElementById('watermarkPdfText').value; if (fileInput.files.length === 0 || !text) return alert("Upload PDF & Text!");
+      const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages();
+      pages.forEach(page => { const { width, height } = page.getSize(); page.drawText(text, { x: width / 4, y: height / 2, size: 50, color: PDFLib.rgb(0.8, 0.2, 0.2), opacity: 0.3, rotate: PDFLib.degrees(45) }); });
+      const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Watermark.pdf"; link.click();
+  }
 
-  async function processRotatePdf() { const fileInput = document.getElementById('rotatePdfInput'); const angle = parseInt(document.getElementById('rotatePdfAngle').value); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); pages.forEach(page => { page.setRotation(PDFLib.degrees(page.getRotation().angle + angle)); }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Rotated.pdf"; link.click(); }
+  async function processRotatePdf() {
+      const fileInput = document.getElementById('rotatePdfInput'); const angle = parseInt(document.getElementById('rotatePdfAngle').value); if (fileInput.files.length === 0) return alert("Upload PDF!");
+      const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages();
+      pages.forEach(page => { page.setRotation(PDFLib.degrees(page.getRotation().angle + angle)); });
+      const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Rotated.pdf"; link.click();
+  }
 
-  async function processPdfToJpg() { const fileInput = document.getElementById('pdfToJpgInput'); const log = document.getElementById('pdfToJpgLog'); if (fileInput.files.length === 0) return alert("Upload PDF!"); log.style.display = "block"; log.innerText = "🔄 Processing PDF to Image..."; const fileReader = new FileReader(); fileReader.onload = async function() { const typedarray = new Uint8Array(this.result); const pdf = await pdfjsLib.getDocument(typedarray).promise; const page = await pdf.getPage(1); const viewport = page.getViewport({scale: 2.0}); const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.height = viewport.height; canvas.width = viewport.width; await page.render({canvasContext: ctx, viewport: viewport}).promise; const link = document.createElement('a'); link.href = canvas.toDataURL('image/jpeg', 0.9); link.download = "Extracted.jpg"; link.click(); log.innerText = "✅ JPG Extracted!"; }; fileReader.readAsArrayBuffer(fileInput.files[0]); }
+  async function processPdfToJpg() {
+      const fileInput = document.getElementById('pdfToJpgInput'); const log = document.getElementById('pdfToJpgLog'); if (fileInput.files.length === 0) return alert("Upload PDF!");
+      log.style.display = "block"; log.innerText = "🔄 Processing PDF to Image..."; const fileReader = new FileReader();
+      fileReader.onload = async function() {
+          const typedarray = new Uint8Array(this.result); const pdf = await pdfjsLib.getDocument(typedarray).promise; const page = await pdf.getPage(1); const viewport = page.getViewport({scale: 2.0}); const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
+          canvas.height = viewport.height; canvas.width = viewport.width; await page.render({canvasContext: ctx, viewport: viewport}).promise;
+          const link = document.createElement('a'); link.href = canvas.toDataURL('image/jpeg', 0.9); link.download = "Extracted.jpg"; link.click(); log.innerText = "✅ JPG Extracted!";
+      }; fileReader.readAsArrayBuffer(fileInput.files[0]);
+  }
 
-  async function processCompressPdf() { const fileInput = document.getElementById('compressPdfInput'); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileReader = new FileReader(); fileReader.onload = async function() { const typedarray = new Uint8Array(this.result); const pdf = await pdfjsLib.getDocument(typedarray).promise; const newPdf = new window.jspdf.jsPDF(); for(let i = 1; i <= pdf.numPages; i++) { const page = await pdf.getPage(i); const viewport = page.getViewport({scale: 1.0}); const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.height = viewport.height; canvas.width = viewport.width; await page.render({canvasContext: ctx, viewport: viewport}).promise; const imgData = canvas.toDataURL('image/jpeg', 0.5); if(i > 1) newPdf.addPage(); newPdf.addImage(imgData, 'JPEG', 0, 0, newPdf.internal.pageSize.getWidth(), newPdf.internal.pageSize.getHeight()); } newPdf.save("Compressed.pdf"); }; fileReader.readAsArrayBuffer(fileInput.files[0]); }
+  async function processCompressPdf() {
+      const fileInput = document.getElementById('compressPdfInput'); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileReader = new FileReader();
+      fileReader.onload = async function() {
+          const typedarray = new Uint8Array(this.result); const pdf = await pdfjsLib.getDocument(typedarray).promise; const newPdf = new window.jspdf.jsPDF();
+          for(let i = 1; i <= pdf.numPages; i++) {
+              const page = await pdf.getPage(i); const viewport = page.getViewport({scale: 1.0}); const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.height = viewport.height; canvas.width = viewport.width;
+              await page.render({canvasContext: ctx, viewport: viewport}).promise; const imgData = canvas.toDataURL('image/jpeg', 0.5); 
+              if(i > 1) newPdf.addPage(); newPdf.addImage(imgData, 'JPEG', 0, 0, newPdf.internal.pageSize.getWidth(), newPdf.internal.pageSize.getHeight());
+          }
+          newPdf.save("Compressed.pdf");
+      }; fileReader.readAsArrayBuffer(fileInput.files[0]);
+  }
 
-  let mergePdfFilesArray = []; function handleNewMergeFiles(event) { const files = event.target.files; if (!files) return; for (let i = 0; i < files.length; i++) { mergePdfFilesArray.push(files[i]); } event.target.value = ''; updateMergePdfUI(); } function removeMergeFile(index) { mergePdfFilesArray.splice(index, 1); updateMergePdfUI(); } function updateMergePdfUI() { const container = document.getElementById('mergePdfListContainer'); container.innerHTML = ''; mergePdfFilesArray.forEach((file, index) => { const item = document.createElement('div'); item.className = 'merge-item'; item.innerHTML = `<div class="merge-item-title"><i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i> ${file.name}</div><button class="remove-pdf-btn" onclick="removeMergeFile(${index})"><i class="fa-solid fa-minus"></i></button>`; container.appendChild(item); }); }
-  async function processDynamicMergePdf() { if (mergePdfFilesArray.length < 2) return alert("Select at least 2 PDFs!"); const mergedPdf = await PDFLib.PDFDocument.create(); for (let i = 0; i < mergePdfFilesArray.length; i++) { const fileBytes = await mergePdfFilesArray[i].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices()); copiedPages.forEach((page) => mergedPdf.addPage(page)); } const mergedPdfBytes = await mergedPdf.save(); const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Merged_All.pdf"; link.click(); }
+  let mergePdfFilesArray = []; function handleNewMergeFiles(event) { const files = event.target.files; if (!files) return; for (let i = 0; i < files.length; i++) { mergePdfFilesArray.push(files[i]); } event.target.value = ''; updateMergePdfUI(); } function removeMergeFile(index) { mergePdfFilesArray.splice(index, 1); updateMergePdfUI(); }
+  function updateMergePdfUI() { const container = document.getElementById('mergePdfListContainer'); container.innerHTML = ''; mergePdfFilesArray.forEach((file, index) => { const item = document.createElement('div'); item.className = 'merge-item'; item.innerHTML = `<div class="merge-item-title"><i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i> ${file.name}</div><button class="remove-pdf-btn" onclick="removeMergeFile(${index})"><i class="fa-solid fa-minus"></i></button>`; container.appendChild(item); }); }
+  async function processDynamicMergePdf() {
+      if (mergePdfFilesArray.length < 2) return alert("Select at least 2 PDFs!"); const mergedPdf = await PDFLib.PDFDocument.create();
+      for (let i = 0; i < mergePdfFilesArray.length; i++) { const fileBytes = await mergePdfFilesArray[i].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices()); copiedPages.forEach((page) => mergedPdf.addPage(page)); }
+      const mergedPdfBytes = await mergedPdf.save(); const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Merged_All.pdf"; link.click();
+  }
 
   // PASSPORT STUDIO 
   let passportStudioImgSourceBase64 = ''; let currentStudioPhotosCounter = 12;
@@ -894,12 +783,13 @@
   function exportCardLayoutAsImage() { html2canvas(document.getElementById('printablePassbookCard'), { scale: 2 }).then(canvas => { const a = document.createElement('a'); a.download = `Passbook.png`; a.href = canvas.toDataURL('image/png'); a.click(); }); }
 
   // RESIZER
-  let uploadedImageSrcData = null;
-  function applyResizerPreset(presetVal) { const wField = document.getElementById('resizerWidth'); const hField = document.getElementById('resizerHeight'); const targetField = document.getElementById('resizerTargetValue'); const unitField = document.getElementById('resizerUnitType'); if (presetVal === 'passport') { wField.value = 413; hField.value = 531; targetField.value = 50; unitField.value = 'KB'; } else if (presetVal === 'signature') { wField.value = 256; hField.value = 64; targetField.value = 20; unitField.value = 'KB'; } else if (presetVal === 'aadhar') { wField.value = 1013; hField.value = 638; targetField.value = 300; unitField.value = 'KB'; } else if (presetVal === 'voter') { wField.value = 620; hField.value = 875; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'pancard') { wField.value = 1000; hField.value = 1400; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'marksheet') { wField.value = 2480; hField.value = 3508; targetField.value = 1; unitField.value = 'MB'; } else if (presetVal === 'driving') { wField.value = 640; hField.value = 400; targetField.value = 100; unitField.value = 'KB'; } else if (presetVal === 'ration') { wField.value = 1650; hField.value = 2330; targetField.value = 500; unitField.value = 'KB'; } else { wField.value = ''; hField.value = ''; targetField.value = ''; unitField.value = 'KB'; } }
+  let uploadedImageSrcData = null; function applyResizerPreset(presetVal) { const wField = document.getElementById('resizerWidth'); const hField = document.getElementById('resizerHeight'); const targetField = document.getElementById('resizerTargetValue'); const unitField = document.getElementById('resizerUnitType'); if (presetVal === 'passport') { wField.value = 413; hField.value = 531; targetField.value = 50; unitField.value = 'KB'; } else if (presetVal === 'signature') { wField.value = 256; hField.value = 64; targetField.value = 20; unitField.value = 'KB'; } else if (presetVal === 'aadhar') { wField.value = 1013; hField.value = 638; targetField.value = 300; unitField.value = 'KB'; } else if (presetVal === 'voter') { wField.value = 620; hField.value = 875; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'pancard') { wField.value = 1000; hField.value = 1400; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'marksheet') { wField.value = 2480; hField.value = 3508; targetField.value = 1; unitField.value = 'MB'; } else if (presetVal === 'driving') { wField.value = 640; hField.value = 400; targetField.value = 100; unitField.value = 'KB'; } else if (presetVal === 'ration') { wField.value = 1650; hField.value = 2330; targetField.value = 500; unitField.value = 'KB'; } else { wField.value = ''; hField.value = ''; targetField.value = ''; unitField.value = 'KB'; } }
   function handleResizerPreview(input) { if (input.files && input.files[0]) { const r = new FileReader(); r.onload = function(e) { uploadedImageSrcData = e.target.result; }; r.readAsDataURL(input.files[0]); } }
   function processAndResizeDocument() { const logs = document.getElementById('resizerStatusLogs'); if (!uploadedImageSrcData) { return alert("Upload Image!"); } let userWidth = parseInt(document.getElementById('resizerWidth').value); let userHeight = parseInt(document.getElementById('resizerHeight').value); const sizeLimit = parseFloat(document.getElementById('resizerTargetValue').value); const unitType = document.getElementById('resizerUnitType').value; if (!sizeLimit) { return alert("Enter target size!"); } let targetBytesLimit = sizeLimit * 1024; if (unitType === 'MB') { targetBytesLimit = sizeLimit * 1024 * 1024; } logs.style.display = 'block'; logs.innerHTML = "Processing..."; const img = new Image(); img.src = uploadedImageSrcData; img.onload = function() { if (!userWidth) userWidth = img.width; if (!userHeight) userHeight = img.height; const canvas = document.createElement('canvas'); canvas.width = userWidth; canvas.height = userHeight; canvas.getContext('2d').drawImage(img, 0, 0, userWidth, userHeight); let q = 0.95; let b64 = ""; let bytes = 0; for (let i = 0; i < 12; i++) { b64 = canvas.toDataURL('image/jpeg', q); bytes = Math.round((b64.length - 814) * 0.75); if (bytes <= targetBytesLimit) { if (targetBytesLimit - bytes < (targetBytesLimit * 0.04)) break; q += 0.04; } else { q -= 0.06; } if (q < 0.1) break; } const a = document.createElement('a'); a.href = b64; a.download = "Resized.jpg"; document.body.appendChild(a); a.click(); document.body.removeChild(a); logs.innerHTML = "✅ Saved successfully!"; }; }
+  function executePreciseAgeCalculation() { const dobString = document.getElementById('calcDobInput').value; const targetString = document.getElementById('calcTargetInput').value; if(!dobString || !targetString) { return alert("Select dates."); } const birthDate = new Date(dobString); const endDate = new Date(targetString); if (endDate < birthDate) { return alert("Target date error!"); } let yearsDiff = endDate.getFullYear() - birthDate.getFullYear(); let monthsDiff = endDate.getMonth() - birthDate.getMonth(); let daysDiff = endDate.getDate() - birthDate.getDate(); if (daysDiff < 0) { monthsDiff--; const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0); daysDiff += prevMonth.getDate(); } if (monthsDiff < 0) { yearsDiff--; monthsDiff += 12; } document.getElementById('resYears').innerText = yearsDiff; document.getElementById('resMonths').innerText = monthsDiff; document.getElementById('resDays').innerText = daysDiff; document.getElementById('calcResultDisplayPanel').style.display = 'block'; }
+  function calcCash() { const v = [2000, 500, 200, 100, 50, 20, 10]; let total = 0; v.forEach(val => { let c = parseInt(document.getElementById('c'+val).value) || 0; let amt = c * val; document.getElementById('r'+val).innerText = '₹ ' + amt; total += amt; }); document.getElementById('cashTotal').innerText = '₹ ' + total.toLocaleString('en-IN'); } function clearCash() { const v = [2000, 500, 200, 100, 50, 20, 10]; v.forEach(val => { document.getElementById('c'+val).value = ''; document.getElementById('r'+val).innerText = '₹ 0'; }); document.getElementById('cashTotal').innerText = '₹ 0'; }
 
-  // VOICE TYPING
+  // TTS VOICE TYPING 
   function startVoiceTyping() {
       if(!('webkitSpeechRecognition' in window)) return alert("Voice typing not supported in this browser. Use Chrome.");
       const rec = new webkitSpeechRecognition(); rec.continuous = true; rec.interimResults = true; rec.lang = "hi-IN";
@@ -909,12 +799,11 @@
   function stopVoiceTyping() { document.getElementById('btnVoiceStart').innerHTML = "<i class='fa-solid fa-microphone'></i> Start Mic"; }
   function copyVoiceText() { navigator.clipboard.writeText(document.getElementById('voiceTextOutput').value); alert("Copied!"); }
 
-  // TTS AUDIO
+  // TTS AUDIO PLAY & DOWNLOAD
   function playNativeTTS() { const text = document.getElementById('ttsInputText').value.trim(); if (!text) return alert("Enter text!"); const langSelect = document.getElementById('ttsLanguageSelect').value; const genderSelect = document.getElementById('ttsGenderSelect').value; window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = langSelect; let voices = window.speechSynthesis.getVoices(); let bestVoice = null; let langVoices = voices.filter(v => v.lang.startsWith(langSelect.split('-')[0])); if(langVoices.length > 0) { if (genderSelect === 'female') { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('google')); } else { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david')); } if(!bestVoice) bestVoice = langVoices[0]; utterance.voice = bestVoice; } if (genderSelect === 'female') { utterance.pitch = 1.3; } else { utterance.pitch = 0.8; } window.speechSynthesis.speak(utterance); }
   function downloadMp3TTS() { let text = document.getElementById('ttsInputText').value.trim(); if (!text) return alert("Enter text!"); if (text.length > 200) { alert("Shorten text to < 200 chars for download. We will download the first 200 chars."); text = text.substring(0, 200); } const lang = document.getElementById('ttsLanguageSelect').value; const a = document.createElement('a'); a.href = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang.split('-')[0]}&q=${encodeURIComponent(text)}`; a.target = '_blank'; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
 
   if (typeof window !== 'undefined' && window.speechSynthesis) { window.speechSynthesis.getVoices(); if (window.speechSynthesis.onvoiceschanged !== undefined) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; } }
-  document.getElementById('calcTargetInput').valueAsDate = new Date(); document.getElementById('calcDobInput').value = "2000-01-01";
 </script>
 
 </body>
