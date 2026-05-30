@@ -81,6 +81,7 @@
     .action-btn { background: #0f172a; color: #fff; padding: 11px 24px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; margin-right: 10px; }
     .action-btn:hover { background: #1e293b; }
     .btn-red { background: #ef4444; } .btn-green { background: #16a34a; } .btn-purple { background: var(--studio-purple); } .btn-orange { background: var(--calc-orange); } .btn-cyan { background: #06b6d4; color: white;}
+    .btn-blue { background: #3b82f6; } .btn-blue:hover { background: #2563eb; }
 
     .signature-pad { border: 2px dashed #cbd5e1; background: #f8fafc; cursor: crosshair; touch-action: none; border-radius: 6px; width: 100%; max-width: 400px; height: 150px; }
 
@@ -151,6 +152,34 @@
     .pwd-display { background: #f1f5f9; border: 2px dashed #cbd5e1; padding: 15px; font-size: 20px; font-family: monospace; text-align: center; border-radius: 8px; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; word-break: break-all; }
     
     .crop-container { width: 100%; max-height: 400px; margin-top: 15px; overflow: hidden;}
+
+    /* CASH COUNTER STYLE */
+    .cash-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; background: #f8fafc; padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border-color); }
+    .cash-row label { width: 80px; font-weight: bold; }
+    .cash-row input { width: 100px; padding: 6px; border: 1px solid var(--border-color); border-radius: 4px; text-align: center; }
+    .cash-total { font-size: 20px; font-weight: bold; color: var(--success-green); margin: 20px 0; text-align: right; }
+
+    /* PRO CALCULATOR STYLE */
+    .calc-btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .c-btn { padding: 15px; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; background: #334155; color: #fff; transition: 0.2s; }
+    .c-btn:hover { background: #475569; }
+    .c-btn.operator { background: #f97316; }
+    .c-btn.operator:hover { background: #ea580c; }
+    .c-btn.equal { background: #16a34a; grid-column: span 1; }
+    .c-btn.equal:hover { background: #15803d; }
+
+    /* CALENDAR STYLE */
+    .calendar-wrapper { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; max-width: 350px; margin: 0 auto; }
+    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .calendar-header button { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--text-main); }
+    #calMonthYear { font-weight: bold; font-size: 16px; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
+    .calendar-day { font-weight: bold; color: var(--text-muted); font-size: 12px; margin-bottom: 5px; }
+    .calendar-date { padding: 8px 0; font-size: 14px; border-radius: 4px; cursor: pointer; }
+    .calendar-date:hover { background: #e2e8f0; }
+    .calendar-date.active { background: var(--primary-color); color: #fff; font-weight: bold; }
+    .calendar-date.empty { cursor: default; }
+    .calendar-date.empty:hover { background: none; }
 
     @media (max-width: 768px) {
         header { flex-direction: column; gap: 15px; }
@@ -411,6 +440,40 @@
     </div>
   </div>
 
+  <!-- TEXT TO SPEECH (TTS) WORKSPACE -->
+  <div class="engine-container" id="tts-engine-anchor">
+    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech (TTS) Multi-Language</h3>
+    <div class="form-row">
+      <div class="field-group">
+        <label>Select Language</label>
+        <select id="ttsLanguageSelect">
+          <option value="en-US">English (US)</option>
+          <option value="en-GB">English (UK)</option>
+          <option value="hi-IN">Hindi (India)</option>
+          <option value="bn-IN">Bengali (India)</option>
+          <option value="mr-IN">Marathi (India)</option>
+          <option value="ta-IN">Tamil (India)</option>
+          <option value="ur-PK">Urdu</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Select Voice Style</label>
+        <select id="ttsGenderSelect">
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="field-group">
+        <label>Enter Text to Speak</label>
+        <textarea id="ttsInputText" rows="4" placeholder="Type here what you want to convert into speech..."></textarea>
+      </div>
+    </div>
+    <button class="action-btn btn-green" onclick="playNativeTTS()"><i class="fa-solid fa-play"></i> Listen Voice</button>
+    <button class="download-final-btn" onclick="downloadMp3TTS()"><i class="fa-solid fa-download"></i> Download TTS MP3</button>
+  </div>
+
   <div id="jpg-to-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-file-pdf" style="color: #3b82f6;"></i> JPG to PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload Image:</label><input type="file" id="jpgToPdfInput" accept="image/jpeg, image/png"></div></div>
@@ -481,6 +544,27 @@
     <button class="download-final-btn" style="background:#06b6d4;" onclick="processScanToPdf()"><i class="fa-solid fa-download"></i> Create PDF & Download</button>
   </div>
 
+  <!-- LOAN EMI CALCULATOR WORKSPACE -->
+  <div id="emi-calc-module" class="tool-workspace">
+    <h3><i class="fa-solid fa-file-invoice-dollar" style="color: #3b82f6;"></i> Loan EMI Calculator</h3>
+    <div class="form-row">
+      <div class="field-group">
+        <label>Loan Amount (₹)</label>
+        <input type="number" id="emiAmt" placeholder="e.g. 500000" value="500000">
+      </div>
+      <div class="field-group">
+        <label>Annual Interest Rate (%)</label>
+        <input type="number" step="0.1" id="emiInt" placeholder="e.g. 8.5" value="8.5">
+      </div>
+      <div class="field-group">
+        <label>Tenure (Months)</label>
+        <input type="number" id="emiMonth" placeholder="e.g. 60" value="60">
+      </div>
+    </div>
+    <button class="action-btn btn-blue" onclick="calcEmi()"><i class="fa-solid fa-calculator"></i> Calculate EMI</button>
+    <div id="emiOut" style="margin-top:15px; font-size:18px; font-weight:bold; color:var(--text-main);"></div>
+  </div>
+
   <div id="text-to-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-file-pdf" style="color: #3b82f6;"></i> Text to PDF</h3>
     <div class="form-row"><div class="field-group"><textarea id="txtToPdfIn" rows="3"></textarea></div></div>
@@ -547,7 +631,13 @@
 
   <div id="cash-counter-module" class="tool-workspace">
     <h3><i class="fa-solid fa-money-bill-wave" style="color: #16a34a;"></i> Cash Denomination Counter</h3>
-    <div class="cash-row"><label>₹ 2000</label><span>x</span><input type="number" id="c2000" oninput="calcCash()"></div><div class="cash-row"><label>₹ 500</label><span>x</span><input type="number" id="c500" oninput="calcCash()"></div><div class="cash-row"><label>₹ 200</label><span>x</span><input type="number" id="c200" oninput="calcCash()"></div><div class="cash-row"><label>₹ 100</label><span>x</span><input type="number" id="c100" oninput="calcCash()"></div><div class="cash-row"><label>₹ 50</label><span>x</span><input type="number" id="c50" oninput="calcCash()"></div><div class="cash-row"><label>₹ 20</label><span>x</span><input type="number" id="c20" oninput="calcCash()"></div><div class="cash-row"><label>₹ 10</label><span>x</span><input type="number" id="c10" oninput="calcCash()"></div>
+    <div class="cash-row"><label>₹ 2000</label><span>x</span><input type="number" id="c2000" oninput="calcCash()"><span id="r2000" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
+    <div class="cash-row"><label>₹ 500</label><span>x</span><input type="number" id="c500" oninput="calcCash()"><span id="r500" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
+    <div class="cash-row"><label>₹ 200</label><span>x</span><input type="number" id="c200" oninput="calcCash()"><span id="r200" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
+    <div class="cash-row"><label>₹ 100</label><span>x</span><input type="number" id="c100" oninput="calcCash()"><span id="r100" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
+    <div class="cash-row"><label>₹ 50</label><span>x</span><input type="number" id="c50" oninput="calcCash()"><span id="r50" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
+    <div class="cash-row"><label>₹ 20</label><span>x</span><input type="number" id="c20" oninput="calcCash()"><span id="r20" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
+    <div class="cash-row"><label>₹ 10</label><span>x</span><input type="number" id="c10" oninput="calcCash()"><span id="r10" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
     <div class="cash-total">Total: <span id="cashTotal">₹ 0</span></div>
     <button class="action-btn btn-secondary" style="width:100%; justify-content:center;" onclick="clearCash()">Clear All</button>
   </div>
@@ -557,7 +647,16 @@
     <div class="calendar-wrapper"><div class="calendar-header"><button onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button><span id="calMonthYear">Month Year</span><button onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button></div><div class="calendar-grid"><div class="calendar-day">Sun</div><div class="calendar-day">Mon</div><div class="calendar-day">Tue</div><div class="calendar-day">Wed</div><div class="calendar-day">Thu</div><div class="calendar-day">Fri</div><div class="calendar-day">Sat</div></div><div class="calendar-grid" id="calDaysBox"></div></div>
   </div>
 
-  <div id="word-counter-module" class="tool-workspace"><h3>Word Counter</h3><textarea id="wcInput" rows="3" oninput="calculateWords()"></textarea><div class="word-box"><div class="word-tile"><h4 id="wcWords">0</h4><p>Words</p></div><div class="word-tile"><h4 id="wcChars">0</h4><p>Chars</p></div></div></div>
+  <div id="word-counter-module" class="tool-workspace">
+    <h3>Word Counter</h3>
+    <textarea id="wcInput" rows="3" oninput="calculateWords()"></textarea>
+    <div class="word-box">
+      <div class="word-tile"><h4 id="wcWords">0</h4><p>Words</p></div>
+      <div class="word-tile"><h4 id="wcChars">0</h4><p>Chars</p></div>
+      <div class="word-tile"><h4 id="wcLines">0</h4><p>Lines</p></div>
+    </div>
+  </div>
+
   <div id="password-gen-module" class="tool-workspace"><h3>Password Gen</h3><div class="pwd-display" id="pwdResult">Click Generate</div><input type="range" id="pwdLength" min="6" max="30" value="12"><button class="action-btn btn-red" onclick="generatePassword()">Generate</button></div>
   <div id="case-converter-module" class="tool-workspace"><h3>Case Converter</h3><textarea id="caseInput" rows="3"></textarea><button class="action-btn" onclick="convertCase('upper')">UPPER</button><button class="action-btn" onclick="convertCase('lower')">lower</button></div>
   <div id="bmi-calc-module" class="tool-workspace"><h3>BMI Calculator</h3><input type="number" id="bmiW" placeholder="Weight"><input type="number" id="bmiH" placeholder="Height"><button class="action-btn btn-success" onclick="calcBmi()">Calc</button><div id="bmiOut"></div></div>
@@ -587,7 +686,7 @@
   <div class="about-article">
       <h2>About Us</h2>
       <p>Welcome to <b>Technical Juman!</b></p>
-      <p>We are dedicated to providing you with the absolute best online utility and document management tools, with a strong focus on speed, simplicity, and user data security. Our website features <b>60+ premium-quality free online tools</b>—including advanced PDF converters, passport size photo tools, image background removers, and smart calculators—helping you manage your daily workflow without installing any heavy software.</p>
+      <p>We are dedicated to providing you with the absolute best online utility and document management tools, with a strong focus on speed, simplicity, and user data security. Our website features <b>60+ premium-quality free online tools</b>—including advanced PDF converters, passport size photo tools, image background removes, and smart calculators—helping you manage your daily workflow without installing any heavy software.</p>
       
       <h3>Our Story & Vision</h3>
       <p>Founded by <b>Juman Ansari</b>, an experienced Indian content creator running the successful Technical Juman YouTube Channel since 2024, this platform was built with a clear vision: to simplify digital documentation, banking procedures, and online utilities for everyone. Having served a loyal audience of thousands of subscribers on YouTube through authentic banking tutorials and earning guides, we understand the true value of trust and quality. This website is an extension of our commitment to delivering genuine, helpful, and free digital solutions to our community.</p>
@@ -716,8 +815,69 @@
       document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' });
   }
 
-  // --- NEW TOOLS LOGIC ---
-  function calculateWords() { let text = document.getElementById('wcInput').value; document.getElementById('wcChars').innerText = text.length; document.getElementById('wcWords').innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; document.getElementById('wcLines').innerText = text === "" ? 0 : text.split(/\r\n|\r|\n/).length; }
+  // --- VOICE TYPING LOGIC ---
+  let recognition;
+  function startVoiceTyping() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+          alert("Speech recognition is not supported in this browser. Please try using Google Chrome.");
+          return;
+      }
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-IN'; // Change localization or make dynamic if needed
+
+      recognition.onstart = () => {
+          document.getElementById('btnVoiceStart').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Listening...';
+          document.getElementById('btnVoiceStart').style.background = '#16a34a';
+      };
+
+      recognition.onresult = (event) => {
+          let interimTranscript = '';
+          let finalTranscript = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+              if (event.results[i].isFinal) {
+                  finalTranscript += event.results[i][0].transcript;
+              } else {
+                  interimTranscript += event.results[i][0].transcript;
+              }
+          }
+          document.getElementById('voiceTextOutput').value = finalTranscript + interimTranscript;
+      };
+
+      recognition.onerror = (event) => {
+          console.error("Speech recognition error", event.error);
+      };
+
+      recognition.onend = () => {
+          document.getElementById('btnVoiceStart').innerHTML = '<i class="fa-solid fa-microphone"></i> Start Mic';
+          document.getElementById('btnVoiceStart').style.background = '#3b82f6';
+      };
+
+      recognition.start();
+  }
+
+  function stopVoiceTyping() {
+      if (recognition) {
+          recognition.stop();
+      }
+  }
+
+  function copyVoiceText() {
+      const text = document.getElementById('voiceTextOutput').value;
+      if (!text) return alert("No text to copy!");
+      navigator.clipboard.writeText(text);
+      alert("Text copied to clipboard!");
+  }
+
+  // --- GENERAL TOOLS LOGIC ---
+  function calculateWords() { 
+      let text = document.getElementById('wcInput').value; 
+      document.getElementById('wcChars').innerText = text.length; 
+      document.getElementById('wcWords').innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; 
+      document.getElementById('wcLines').innerText = text === "" ? 0 : text.split(/\r\n|\r|\n/).length; 
+  }
   function generatePassword() { const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+"; const len = document.getElementById('pwdLength').value; let pwd = ""; for (let i = 0; i < len; i++) { pwd += chars.charAt(Math.floor(Math.random() * chars.length)); } document.getElementById('pwdResult').innerText = pwd; }
   function copyPassword() { const text = document.getElementById('pwdResult').innerText; if(text === "Click Generate Below") return; navigator.clipboard.writeText(text); alert("Password copied!"); }
   function convertCase(type) { const input = document.getElementById('caseInput'); if (type === 'upper') input.value = input.value.toUpperCase(); else if (type === 'lower') input.value = input.value.toLowerCase(); else if (type === 'title') input.value = input.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}); }
@@ -740,7 +900,29 @@
   function convertMd() { let text = document.getElementById('mdIn').value; text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>').replace(/^## (.*$)/gim, '<h2>$1</h2>').replace(/^# (.*$)/gim, '<h1>$1</h1>').replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>').replace(/\*\*(.*)\*\*/gim, '<b>$1</b>').replace(/\*(.*)\*/gim, '<i>$1</i>').replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />").replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>").replace(/\n$/gim, '<br />'); document.getElementById('mdOut').innerHTML = text; }
   function flipCoin() { const res = Math.random() < 0.5 ? "HEADS" : "TAILS"; document.getElementById('coinOut').innerText = "Flipping..."; setTimeout(() => { document.getElementById('coinOut').innerText = res; }, 500); }
   function calcAgeDiff() { const d1 = new Date(document.getElementById('diffDob1').value); const d2 = new Date(document.getElementById('diffDob2').value); if(!d1 || !d2 || isNaN(d1) || isNaN(d2)) return alert("Select both dates!"); const diffTime = Math.abs(d2 - d1); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); const years = Math.floor(diffDays / 365); const remainingDays = diffDays % 365; const months = Math.floor(remainingDays / 30); const days = remainingDays % 30; document.getElementById('diffOut').innerText = `${years} Years, ${months} Months, ${days} Days gap.`; }
-  function calcEmi() { const amt = document.getElementById('emiAmt').value; const int = document.getElementById('emiInt').value; const m = document.getElementById('emiMonth').value; if(!amt || !int || !m) return alert("Fill all details!"); const r = int / 12 / 100; const emi = (amt * r * Math.pow(1+r, m)) / (Math.pow(1+r, m) - 1); document.getElementById('emiOut').innerText = `Monthly EMI: ₹ ${emi.toFixed(2)}`; }
+  function calcEmi() { 
+      const amt = parseFloat(document.getElementById('emiAmt').value); 
+      const interest = parseFloat(document.getElementById('emiInt').value); 
+      const months = parseInt(document.getElementById('emiMonth').value); 
+      if(!amt || !interest || !months) return alert("Fill all details!"); 
+      const r = interest / 12 / 100; 
+      const emi = (amt * r * Math.pow(1+r, months)) / (Math.pow(1+r, months) - 1); 
+      document.getElementById('emiOut').innerText = `Monthly EMI: ₹ ${emi.toFixed(2)}`; 
+  }
+
+  // --- PRO CALCULATOR LOGIC ---
+  function clrCalc() { document.getElementById('calcScreen').value = ''; }
+  function delCalc() { const val = document.getElementById('calcScreen').value; document.getElementById('calcScreen').value = val.substring(0, val.length - 1); }
+  function appCalc(char) { document.getElementById('calcScreen').value += char; }
+  function resCalc() {
+      try {
+          const expression = document.getElementById('calcScreen').value;
+          const sanitized = expression.replace(/×/g, '*').replace(/÷/g, '/');
+          document.getElementById('calcScreen').value = eval(sanitized);
+      } catch(e) {
+          document.getElementById('calcScreen').value = 'Error';
+      }
+  }
 
   // CROP IMAGE
   let cropper;
