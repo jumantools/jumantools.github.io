@@ -11,9 +11,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
-  <!-- Background Removal AI for Color Change Tool -->
   <script src="https://unpkg.com/@imgly/background-removal@1.4.3/dist/browser/imgly-background-removal.js"></script>
+  <!-- Library for QR Code -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Cropper JS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
@@ -29,11 +30,8 @@
 
     /* HEADER & SEARCH & AUTH */
     header { width: 100%; background: var(--card-bg); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; gap: 15px;}
-    .logo-area { display: flex; align-items: center; gap: 10px; }
-    
-    /* REVERTED TO YOUTUBE LOGO */
+    .logo-area { display: flex; align-items: center; gap: 10px; position: relative; }
     .brand-youtube-logo { font-size: 34px; color: var(--yt-red); }
-    
     .logo-text h1 { font-size: 20px; color: var(--text-main); font-weight: 800; letter-spacing: -0.3px; line-height: 1.1; }
     .logo-text p { color: var(--text-muted); font-size: 11px; }
     
@@ -74,6 +72,7 @@
     .icon-red { background: #fee2e2; color: #ef4444; } .icon-green { background: #dcfce7; color: #10b981; }
     .icon-dark { background: #f1f5f9; color: #334155; } .icon-yellow { background: #fef08a; color: #b45309; }
     .icon-teal { background: #ccfbf1; color: #0d9488; } .icon-pink { background: #fce7f3; color: #db2777; }
+    .icon-gray { background: #f3f4f6; color: #475569; }
 
     /* ENGINE LAYOUT PANELS */
     .engine-container, .tool-workspace { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 40px; scroll-margin-top: 100px; display: none; }
@@ -112,20 +111,22 @@
     
     .c-email { color: #ea4335; font-size:22px; } .c-whatsapp { color: #25D366; font-size:22px; } .c-youtube { color: #ff0000; font-size:22px; }
     .c-facebook { color: #1877F2; font-size:22px; } .c-instagram { color: #E1306C; font-size:22px; } .c-twitter { color: #1DA1F2; font-size:22px; }
+    .c-telegram { color: #0088cc; font-size:22px; }
     .footer-contact a { color: #cccccc; text-decoration: none; transition: 0.2s;} .footer-contact a:hover { color: #ffffff; text-decoration: underline;}
     
     .footer-bottom { text-align: center; border-top: 1px solid #333333; margin-top: 40px; padding-top: 20px; font-size: 13px; color: #aaaaaa; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; align-items: center; }
     .footer-bottom a { color: #cccccc; text-decoration: none; margin: 0 10px; } .footer-bottom a:hover { color: #ffffff; }
 
-    /* MISC UI */
+    /* SPECIFIC TOOLS UI */
     .counter-btn-container { display: flex; gap: 10px; align-items: center; margin-top: 5px; }
     .counter-btn { background: #e2e8f0; color: #0f172a; border: 1px solid #cbd5e1; width: 40px; height: 40px; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; transition: 0.2s; }
     .counter-btn:hover { background: #cbd5e1; color: #000; }
-    
+    .counter-btn.add { background: #dcfce7; color: #15803d; border-color: #bbf7d0; } .counter-btn.add:hover { background: #bbf7d0; }
+    .counter-btn.remove { background: #fee2e2; color: #b91c1c; border-color: #fecaca; } .counter-btn.remove:hover { background: #fecaca; }
+
     .merge-item { display: flex; justify-content: space-between; align-items: center; background: #f8fafc; padding: 12px 15px; border: 1px solid #cbd5e1; border-radius: 6px; margin-bottom: 8px; }
     .remove-pdf-btn { background: #fee2e2; color: #b91c1c; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; }
     
-    /* 6 IN A ROW PASSPORT LAYOUT CSS */
     .passport-sheet-preview { display: grid; grid-template-columns: repeat(6, 3.5cm); gap: 8px; padding: 20px; background: white; border: 1px dashed #94a3b8; width: fit-content; margin: 0 auto; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
     .passport-photo-item { width: 3.5cm; height: 4.5cm; border: 1px solid #000; overflow: hidden; background: #e2e8f0; position: relative; }
     .passport-photo-item img { width: 100%; height: 100%; object-fit: cover; }
@@ -171,16 +172,10 @@
     .calendar-day, .calendar-date { background: #fff; padding: 10px 5px; text-align: center; font-size: 14px; }
     .calendar-day { font-weight: bold; color: #334155; background: #f8fafc; }
     .calendar-date.active { background: #ef4444; color: #fff; font-weight: bold; border-radius: 4px; }
-
-    .calc-btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
-    .c-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; }
-    .c-btn:hover { background: #e2e8f0; }
-    .c-btn.operator { background: #3b82f6; color: white; }
-    .c-btn.operator:hover { background: #2563eb; }
-    .c-btn.equal { background: #16a34a; color: white; grid-column: span 2; }
-
-    .crop-container { width: 100%; max-height: 400px; margin-top: 15px; overflow: hidden;}
     
+    .crop-container { width: 100%; max-height: 400px; margin-top: 15px; overflow: hidden;}
+    .qr-box { margin-top:15px; background:#fff; padding:15px; display:inline-block; border:1px solid #ccc; }
+
     @media (max-width: 768px) {
         header { flex-direction: column; gap: 15px; }
         .header-search { max-width: 100%; order: 3; }
@@ -237,7 +232,6 @@
     <div class="tool-card" onclick="openTool('compress-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-file-shield"></i></div><h4>Compress PDF</h4><p>Reduce PDF file size.</p></div>
     <div class="tool-card" onclick="openTool('merge-pdf-module')"><div class="tool-icon-wrapper icon-purple"><i class="fa-solid fa-layer-group"></i></div><h4>Merge PDF</h4><p>Combine multiple PDFs.</p></div>
     <div class="tool-card" onclick="openTool('bg-color-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-fill-drip"></i></div><h4>Change Background</h4><p>Change photo background.</p></div>
-    <!-- Note: Background Remover Tool Deleted Successfully -->
     <div class="tool-card" onclick="openTool('crop-image-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-crop-simple"></i></div><h4>Crop Image</h4><p>Crop photo instantly.</p></div>
     <div class="tool-card" onclick="openTool('split-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-lines"></i></div><h4>Split PDF</h4><p>Extract pages from PDF.</p></div>
     <div class="tool-card" onclick="openTool('unlock-pdf-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-lock-open"></i></div><h4>Unlock PDF</h4><p>Remove PDF password.</p></div>
@@ -256,7 +250,6 @@
     <div class="tool-card" onclick="openTool('page-numbers-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-list-ol"></i></div><h4>Page Numbers</h4><p>Add numbers to pages.</p></div>
     <div class="tool-card" onclick="openTool('scan-to-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-scanner-image"></i></div><h4>Scan to PDF</h4><p>Convert scans to PDF.</p></div>
     <div class="tool-card" onclick="openTool('emi-calc-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-invoice-dollar"></i></div><h4>EMI Calculator</h4><p>Calculate Loan EMI.</p></div>
-    <div class="tool-card" onclick="openTool('calculator-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-calculator"></i></div><h4>Pro Calculator</h4><p>Solve math instantly.</p></div>
     <div class="tool-card" onclick="openTool('cash-counter-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-money-bill-wave"></i></div><h4>Cash Counter</h4><p>Calculate notes & total.</p></div>
     <div class="tool-card" onclick="openTool('calendar-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-regular fa-calendar-days"></i></div><h4>Live Calendar</h4><p>View current month.</p></div>
 
@@ -325,7 +318,7 @@
     <button class="action-btn btn-secondary" onclick="copyVoiceText()"><i class="fa-solid fa-copy"></i> Copy Text</button>
   </div>
 
-  <!-- 2. Language Translator -->
+  <!-- 2. Language Translator (FIXED) -->
   <div id="translate-module" class="tool-workspace">
     <h3><i class="fa-solid fa-language" style="color: #ea580c;"></i> Universal Language Translator</h3>
     <div class="form-row">
@@ -335,9 +328,10 @@
     <div class="form-row"><div class="field-group"><textarea id="transInput" rows="4" placeholder="Enter text to translate..."></textarea></div></div>
     <button class="action-btn btn-orange" onclick="processTranslate()"><i class="fa-solid fa-language"></i> Translate Text</button>
     <div class="form-row" style="margin-top:15px;"><div class="field-group"><textarea id="transOutput" rows="4" placeholder="Translated text will appear here..." readonly></textarea></div></div>
+    <button class="download-final-btn" onclick="downloadTranslatedText()"><i class="fa-solid fa-download"></i> Download Text (.txt)</button>
   </div>
 
-  <!-- 3. BG Color (Safe version of Background Remover) -->
+  <!-- 3. BG Color -->
   <div id="bg-color-module" class="tool-workspace">
     <h3><i class="fa-solid fa-fill-drip" style="color: #ef4444;"></i> Change Background Color</h3>
     <div class="form-row">
@@ -348,7 +342,7 @@
     <div id="bgColorLog" style="margin-top:15px; font-weight:bold;"></div>
   </div>
 
-  <!-- 4. Crop Image (WITH NEW SIZES) -->
+  <!-- 4. Crop Image -->
   <div id="crop-image-module" class="tool-workspace">
     <h3><i class="fa-solid fa-crop-simple" style="color: #334155;"></i> Crop Image</h3>
     <div class="form-row">
@@ -567,6 +561,14 @@
     <div class="form-row"><div class="field-group"><label>Upload Image:</label><input type="file" id="imgConvIn"></div><div class="field-group"><label>Convert To:</label><select id="imgConvType"><option value="image/jpeg">JPG</option><option value="image/png">PNG</option><option value="image/webp">WEBP</option></select></div></div>
     <button class="download-final-btn" style="background:#ea580c;" onclick="convertImageFormat()"><i class="fa-solid fa-download"></i> Convert & Download Image</button>
   </div>
+  
+  <div id="qr-gen-module" class="tool-workspace">
+    <h3><i class="fa-solid fa-qrcode" style="color: #0f172a;"></i> QR Generator</h3>
+    <div class="form-row"><div class="field-group"><input type="text" id="qrIn" placeholder="Enter link..."></div></div>
+    <button class="action-btn" onclick="makeQrCode()">Generate QR Code</button>
+    <button class="download-final-btn" style="background:#0f172a; display:inline-block;" onclick="downloadQrCode()"><i class="fa-solid fa-download"></i> Download QR Code</button>
+    <div id="qrOut" style="margin-top:15px; background:#fff; padding:15px; display:block; width:fit-content;"></div>
+  </div>
 
   <!-- Document Resizer -->
   <div id="document-resizer-module" class="tool-workspace">
@@ -599,63 +601,12 @@
   </div>
 
   <!-- Age Calculator -->
-  <div class="engine-container" id="age-calculator-anchor" style="display:none; border-top: 4px solid var(--calc-orange);">
-    <h3><i class="fa-solid fa-calculator" style="color:var(--calc-orange);"></i> High-Precision Age Calculator</h3>
-    <div class="form-row">
-      <div class="field-group"><label>Date of Birth</label><input type="date" id="calcDobInput"></div>
-      <div class="field-group"><label>Calculate Age At</label><input type="date" id="calcTargetInput"></div>
-    </div>
-    <button class="action-btn btn-orange" onclick="executePreciseAgeCalculation()">Compute Age Breakdown</button>
-    <div class="calc-result-box" id="calcResultDisplayPanel">
-        <div class="calc-grid"><div class="calc-tile"><h4 id="resYears">0</h4><p>Years</p></div><div class="calc-tile"><h4 id="resMonths">0</h4><p>Months</p></div><div class="calc-tile"><h4 id="resDays">0</h4><p>Days</p></div></div>
-        <div class="calc-grid" style="grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));">
-            <div class="calc-tile"><h4 id="resTotalWeeks" style="font-size:18px;">0</h4><p>Weeks</p></div><div class="calc-tile"><h4 id="resTotalDays" style="font-size:18px;">0</h4><p>Total Days</p></div><div class="calc-tile"><h4 id="resTotalHours" style="font-size:18px;">0</h4><p>Hours</p></div><div class="calc-tile"><h4 id="resTotalMins" style="font-size:18px;">0</h4><p>Mins</p></div><div class="calc-tile"><h4 id="resTotalSecs" style="font-size:18px;">0</h4><p>Secs</p></div>
-        </div>
-    </div>
+  <div class="engine-container" id="age-calculator-anchor">
+    <h3><i class="fa-solid fa-calculator" style="color:var(--calc-orange);"></i> Age Calculator</h3>
+    <div class="form-row"><div class="field-group"><label>Date of Birth</label><input type="date" id="calcDobInput"></div><div class="field-group"><label>Target Date</label><input type="date" id="calcTargetInput"></div></div>
+    <button class="action-btn btn-orange" onclick="executePreciseAgeCalculation()">Calculate Age</button>
+    <div class="calc-result-box" id="calcResultDisplayPanel"><div class="calc-grid"><div class="calc-tile"><h4 id="resYears">0</h4><p>Years</p></div><div class="calc-tile"><h4 id="resMonths">0</h4><p>Months</p></div><div class="calc-tile"><h4 id="resDays">0</h4><p>Days</p></div></div><div class="calc-grid" style="grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));"><div class="calc-tile"><h4 id="resTotalWeeks">0</h4><p>Weeks</p></div><div class="calc-tile"><h4 id="resTotalDays">0</h4><p>Total Days</p></div><div class="calc-tile"><h4 id="resTotalHours">0</h4><p>Hours</p></div><div class="calc-tile"><h4 id="resTotalMins">0</h4><p>Mins</p></div><div class="calc-tile"><h4 id="resTotalSecs">0</h4><p>Secs</p></div></div></div>
   </div>
-
-  <!-- Text To Speech (404 ERROR FIXED + DOWNLOAD) -->
-  <div class="engine-container" id="tts-engine-anchor">
-    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech Audio</h3>
-    <p style="font-size:12px; color:gray; margin-bottom:15px;">Convert text to speech. Listen online or download as MP3 offline.</p>
-    <div class="form-row"><div class="field-group" style="grid-column: span 2;"><textarea id="ttsInputText" rows="4" placeholder="Enter text here..."></textarea></div></div>
-    <div class="form-row">
-      <div class="field-group">
-        <label>Select Language</label>
-        <select id="ttsLanguageSelect">
-            <option value="hi-IN" selected>Hindi (India)</option><option value="en-US">English (USA)</option><option value="en-GB">English (UK)</option><option value="en-IN">English (India)</option><option value="bn-IN">Bengali (India)</option><option value="mr-IN">Marathi (India)</option><option value="te-IN">Telugu (India)</option><option value="ta-IN">Tamil (India)</option><option value="gu-IN">Gujarati (India)</option><option value="kn-IN">Kannada (India)</option><option value="ml-IN">Malayalam (India)</option><option value="es-ES">Spanish (Spain)</option><option value="fr-FR">French (France)</option><option value="de-DE">German (Germany)</option><option value="ar-SA">Arabic (Saudi Arabia)</option>
-        </select>
-      </div>
-      <div class="field-group"><label>Voice Type</label><select id="ttsGenderSelect"><option value="male">Male Voice</option><option value="female" selected>Female Voice</option></select></div>
-    </div>
-    <div style="display:flex; gap:10px;">
-      <button class="action-btn btn-success" onclick="playNativeTTS()"><i class="fa-solid fa-play"></i> Listen Voice</button>
-      <button class="download-final-btn" id="ttsDownloadBtn" onclick="downloadMp3TTS()"><i class="fa-solid fa-download"></i> Download Audio (.mp3)</button>
-    </div>
-    <div id="ttsStatus" style="display:none; margin-top:15px; font-size:14px; font-weight:bold;"></div>
-  </div>
-
-  <!-- OTHER GENERAL UTILITY TOOLS -->
-  <div id="word-counter-module" class="tool-workspace"><h3>Word Counter</h3><textarea id="wcInput" rows="3" oninput="calculateWords()"></textarea><div class="word-box"><div class="word-tile"><h4 id="wcWords">0</h4><p>Words</p></div><div class="word-tile"><h4 id="wcChars">0</h4><p>Chars</p></div></div></div>
-  <div id="password-gen-module" class="tool-workspace"><h3>Password Gen</h3><div class="pwd-display" id="pwdResult">Click Generate</div><input type="range" id="pwdLength" min="6" max="30" value="12"><button class="action-btn btn-red" onclick="generatePassword()">Generate</button></div>
-  <div id="case-converter-module" class="tool-workspace"><h3>Case Converter</h3><textarea id="caseInput" rows="3"></textarea><button class="action-btn" onclick="convertCase('upper')">UPPER</button><button class="action-btn" onclick="convertCase('lower')">lower</button></div>
-  <div id="qr-gen-module" class="tool-workspace"><h3>QR Generator</h3><input type="text" id="qrIn"><button class="download-final-btn" style="background:#0f172a;" onclick="makeQrCode()"><i class="fa-solid fa-download"></i> Generate QR Code</button><div id="qrOut" style="margin-top:15px; background:#fff; padding:15px; display:inline-block;"></div></div>
-  <div id="bmi-calc-module" class="tool-workspace"><h3>BMI Calculator</h3><input type="number" id="bmiW" placeholder="Weight"><input type="number" id="bmiH" placeholder="Height"><button class="action-btn btn-success" onclick="calcBmi()">Calc</button><div id="bmiOut"></div></div>
-  <div id="random-num-module" class="tool-workspace"><h3>Random Number</h3><input type="number" id="randMin" value="1"><input type="number" id="randMax" value="100"><button class="action-btn" onclick="genRandomNum()">Generate</button><div id="randOut">0</div></div>
-  <div id="discount-calc-module" class="tool-workspace"><h3>Discount Calc</h3><input type="number" id="discPrice" placeholder="Price"><input type="number" id="discPerc" placeholder="%"><button class="action-btn btn-red" onclick="calcDiscount()">Calc</button><div id="discOut"></div></div>
-  <div id="percent-calc-module" class="tool-workspace"><h3>Percentage Calc</h3><input type="number" id="percPart"><input type="number" id="percTotal"><button class="action-btn btn-blue" onclick="calcPercent()">Calc</button><div id="percOut"></div></div>
-  <div id="base64-enc-module" class="tool-workspace"><h3>Base64 Encode</h3><textarea id="b64EncIn"></textarea><button class="action-btn" onclick="encodeB64()">Encode</button><div id="b64EncOut"></div></div>
-  <div id="base64-dec-module" class="tool-workspace"><h3>Base64 Decode</h3><textarea id="b64DecIn"></textarea><button class="action-btn" onclick="decodeB64()">Decode</button><div id="b64DecOut"></div></div>
-  <div id="url-enc-module" class="tool-workspace"><h3>URL Encode/Decode</h3><input type="text" id="urlIn"><button class="action-btn" onclick="urlOp('enc')">Enc</button><button class="action-btn" onclick="urlOp('dec')">Dec</button><div id="urlOut"></div></div>
-  <div id="lorem-ipsum-module" class="tool-workspace"><h3>Lorem Ipsum</h3><input type="number" id="loremIn" value="3"><button class="action-btn" onclick="genLorem()">Generate</button><div id="loremOut"></div></div>
-  <div id="text-binary-module" class="tool-workspace"><h3>Text to Binary</h3><input type="text" id="binEncIn"><button class="action-btn" onclick="textToBin()">Convert</button><div id="binEncOut"></div></div>
-  <div id="binary-text-module" class="tool-workspace"><h3>Binary to Text</h3><input type="text" id="binDecIn"><button class="action-btn" onclick="binToText()">Convert</button><div id="binDecOut"></div></div>
-  <div id="rgb-hex-module" class="tool-workspace"><h3>RGB to HEX</h3><input type="number" id="rIn" value="255"><input type="number" id="gIn" value="0"><input type="number" id="bIn" value="0"><button class="action-btn" onclick="rgbToHex()">Convert</button><div id="rgbOut">#FF0000</div></div>
-  
-  <div id="ip-address-module" class="tool-workspace"><h3>IP Checker</h3><button class="action-btn btn-cyan" onclick="checkMyIP()">Check IP</button><div id="ipOut">0.0.0.0</div></div>
-  <div id="markdown-module" class="tool-workspace"><h3>Markdown to HTML</h3><textarea id="mdIn" rows="4"></textarea><button class="action-btn btn-purple" onclick="convertMd()">Convert</button><div id="mdOut"></div></div>
-  <div id="coin-flip-module" class="tool-workspace"><h3>Coin Flipper</h3><button class="action-btn" onclick="flipCoin()">Flip Coin</button><div id="coinOut">Heads or Tails?</div></div>
-  <div id="age-diff-module" class="tool-workspace"><h3>Age Difference</h3><input type="date" id="diffDob1"><input type="date" id="diffDob2"><button class="action-btn btn-success" onclick="calcAgeDiff()">Calculate</button><div id="diffOut">Result</div></div>
 
   <div id="calculator-module" class="tool-workspace">
     <h3><i class="fa-solid fa-calculator" style="color: #ea580c;"></i> Advanced Calculator</h3>
@@ -663,13 +614,6 @@
         <input type="text" id="calcScreen" disabled style="width:100%; background:#1e293b; color:#fff; font-size:28px; text-align:right; padding:15px; border:none; border-radius:8px; margin-bottom:15px;">
         <div class="calc-btn-grid"><button class="c-btn" style="background:#ef4444; color:#fff;" onclick="clrCalc()">C</button><button class="c-btn" onclick="delCalc()">DEL</button><button class="c-btn operator" onclick="appCalc('%')">%</button><button class="c-btn operator" onclick="appCalc('/')">÷</button><button class="c-btn" onclick="appCalc('7')">7</button><button class="c-btn" onclick="appCalc('8')">8</button><button class="c-btn" onclick="appCalc('9')">9</button><button class="c-btn operator" onclick="appCalc('*')">×</button><button class="c-btn" onclick="appCalc('4')">4</button><button class="c-btn" onclick="appCalc('5')">5</button><button class="c-btn" onclick="appCalc('6')">6</button><button class="c-btn operator" onclick="appCalc('-')">-</button><button class="c-btn" onclick="appCalc('1')">1</button><button class="c-btn" onclick="appCalc('2')">2</button><button class="c-btn" onclick="appCalc('3')">3</button><button class="c-btn operator" onclick="appCalc('+')">+</button><button class="c-btn" onclick="appCalc('0')">0</button><button class="c-btn" onclick="appCalc('00')">00</button><button class="c-btn" onclick="appCalc('.')">.</button><button class="c-btn equal" onclick="resCalc()">=</button></div>
     </div>
-  </div>
-
-  <div id="emi-calc-module" class="tool-workspace">
-    <h3><i class="fa-solid fa-file-invoice-dollar" style="color: #3b82f6;"></i> EMI Calculator</h3>
-    <div class="form-row"><div class="field-group"><label>Loan Amount (₹):</label><input type="number" id="emiAmt"></div><div class="field-group"><label>Interest Rate (%):</label><input type="number" id="emiInt"></div><div class="field-group"><label>Tenure (Months):</label><input type="number" id="emiMonth"></div></div>
-    <button class="action-btn btn-blue" onclick="calcEmi()"><i class="fa-solid fa-calculator"></i> Calculate EMI</button>
-    <div class="pwd-display" id="emiOut" style="margin-top:15px; font-size:18px;">Monthly EMI: ₹ 0</div>
   </div>
 
   <div id="cash-counter-module" class="tool-workspace">
@@ -684,6 +628,26 @@
     <div class="calendar-wrapper"><div class="calendar-header"><button onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button><span id="calMonthYear">Month Year</span><button onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button></div><div class="calendar-grid"><div class="calendar-day">Sun</div><div class="calendar-day">Mon</div><div class="calendar-day">Tue</div><div class="calendar-day">Wed</div><div class="calendar-day">Thu</div><div class="calendar-day">Fri</div><div class="calendar-day">Sat</div></div><div class="calendar-grid" id="calDaysBox"></div></div>
   </div>
 
+  <!-- OTHER MINOR TOOLS COMPACTED -->
+  <div id="word-counter-module" class="tool-workspace"><h3>Word Counter</h3><textarea id="wcInput" rows="3" oninput="calculateWords()"></textarea><div class="word-box"><div class="word-tile"><h4 id="wcWords">0</h4><p>Words</p></div><div class="word-tile"><h4 id="wcChars">0</h4><p>Chars</p></div></div></div>
+  <div id="password-gen-module" class="tool-workspace"><h3>Password Gen</h3><div class="pwd-display" id="pwdResult">Click Generate</div><input type="range" id="pwdLength" min="6" max="30" value="12"><button class="action-btn btn-red" onclick="generatePassword()">Generate</button></div>
+  <div id="case-converter-module" class="tool-workspace"><h3>Case Converter</h3><textarea id="caseInput" rows="3"></textarea><button class="action-btn" onclick="convertCase('upper')">UPPER</button><button class="action-btn" onclick="convertCase('lower')">lower</button></div>
+  <div id="bmi-calc-module" class="tool-workspace"><h3>BMI Calculator</h3><input type="number" id="bmiW" placeholder="Weight"><input type="number" id="bmiH" placeholder="Height"><button class="action-btn btn-success" onclick="calcBmi()">Calc</button><div id="bmiOut"></div></div>
+  <div id="random-num-module" class="tool-workspace"><h3>Random Number</h3><input type="number" id="randMin" value="1"><input type="number" id="randMax" value="100"><button class="action-btn" onclick="genRandomNum()">Generate</button><div id="randOut">0</div></div>
+  <div id="discount-calc-module" class="tool-workspace"><h3>Discount Calc</h3><input type="number" id="discPrice" placeholder="Price"><input type="number" id="discPerc" placeholder="%"><button class="action-btn btn-red" onclick="calcDiscount()">Calc</button><div id="discOut"></div></div>
+  <div id="percent-calc-module" class="tool-workspace"><h3>Percentage Calc</h3><input type="number" id="percPart"><input type="number" id="percTotal"><button class="action-btn btn-blue" onclick="calcPercent()">Calc</button><div id="percOut"></div></div>
+  <div id="base64-enc-module" class="tool-workspace"><h3>Base64 Encode</h3><textarea id="b64EncIn"></textarea><button class="action-btn" onclick="encodeB64()">Encode</button><div id="b64EncOut"></div></div>
+  <div id="base64-dec-module" class="tool-workspace"><h3>Base64 Decode</h3><textarea id="b64DecIn"></textarea><button class="action-btn" onclick="decodeB64()">Decode</button><div id="b64DecOut"></div></div>
+  <div id="url-enc-module" class="tool-workspace"><h3>URL Encode/Decode</h3><input type="text" id="urlIn"><button class="action-btn" onclick="urlOp('enc')">Enc</button><button class="action-btn" onclick="urlOp('dec')">Dec</button><div id="urlOut"></div></div>
+  <div id="lorem-ipsum-module" class="tool-workspace"><h3>Lorem Ipsum</h3><input type="number" id="loremIn" value="3"><button class="action-btn" onclick="genLorem()">Generate</button><div id="loremOut"></div></div>
+  <div id="text-binary-module" class="tool-workspace"><h3>Text to Binary</h3><input type="text" id="binEncIn"><button class="action-btn" onclick="textToBin()">Convert</button><div id="binEncOut"></div></div>
+  <div id="binary-text-module" class="tool-workspace"><h3>Binary to Text</h3><input type="text" id="binDecIn"><button class="action-btn" onclick="binToText()">Convert</button><div id="binDecOut"></div></div>
+  <div id="rgb-hex-module" class="tool-workspace"><h3>RGB to HEX</h3><input type="number" id="rIn" value="255"><input type="number" id="gIn" value="0"><input type="number" id="bIn" value="0"><button class="action-btn" onclick="rgbToHex()">Convert</button><div id="rgbOut">#FF0000</div></div>
+  <div id="ip-address-module" class="tool-workspace"><h3>IP Checker</h3><button class="action-btn btn-cyan" onclick="checkMyIP()">Check IP</button><div id="ipOut">0.0.0.0</div></div>
+  <div id="markdown-module" class="tool-workspace"><h3>Markdown to HTML</h3><textarea id="mdIn" rows="4"></textarea><button class="action-btn btn-purple" onclick="convertMd()">Convert</button><div id="mdOut"></div></div>
+  <div id="coin-flip-module" class="tool-workspace"><h3>Coin Flipper</h3><button class="action-btn" onclick="flipCoin()">Flip Coin</button><div id="coinOut">Heads or Tails?</div></div>
+  <div id="age-diff-module" class="tool-workspace"><h3>Age Difference</h3><input type="date" id="diffDob1"><input type="date" id="diffDob2"><button class="action-btn btn-success" onclick="calcAgeDiff()">Calculate</button><div id="diffOut">Result</div></div>
+
   <!-- Server/Premium Notice -->
   <div id="premium-notice-module" class="tool-workspace" style="display: none; border-top: 4px solid #ef4444; text-align: center;">
     <i class="fa-solid fa-server" style="font-size: 50px; color: #cbd5e1; margin-bottom: 20px;"></i>
@@ -693,7 +657,7 @@
 
 </div>
 
-<!-- BLACK FOOTER WITH REAL SOCIAL LINKS -->
+<!-- BLACK FOOTER WITH REAL SOCIAL LINKS (BRIGHT COLORS) -->
 <footer class="custom-footer">
     <div class="footer-grid">
         <div class="footer-col" style="padding-right: 20px;">
@@ -754,14 +718,21 @@
       document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' });
   }
 
-  // --- GENERAL TOOLS LOGIC ---
+  // --- NEW TOOLS LOGIC ---
   function calculateWords() { let text = document.getElementById('wcInput').value; document.getElementById('wcChars').innerText = text.length; document.getElementById('wcWords').innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; document.getElementById('wcLines').innerText = text === "" ? 0 : text.split(/\r\n|\r|\n/).length; }
   function generatePassword() { const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+"; const len = document.getElementById('pwdLength').value; let pwd = ""; for (let i = 0; i < len; i++) { pwd += chars.charAt(Math.floor(Math.random() * chars.length)); } document.getElementById('pwdResult').innerText = pwd; }
   function copyPassword() { const text = document.getElementById('pwdResult').innerText; if(text === "Click Generate Below") return; navigator.clipboard.writeText(text); alert("Password copied!"); }
   function convertCase(type) { const input = document.getElementById('caseInput'); if (type === 'upper') input.value = input.value.toUpperCase(); else if (type === 'lower') input.value = input.value.toLowerCase(); else if (type === 'title') input.value = input.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}); }
   function makeTxtToPdf() { const text = document.getElementById('txtToPdfIn').value; if(!text) return alert("Enter text!"); const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.text(text, 10, 10, { maxWidth: 190 }); doc.save("Document.pdf"); }
   function convertImageFormat() { const fileIn = document.getElementById('imgConvIn').files[0]; if(!fileIn) return alert("Upload Image!"); const type = document.getElementById('imgConvType').value; const ext = type.split('/')[1]; const r = new FileReader(); r.onload = e => { const img = new Image(); img.src = e.target.result; img.onload = () => { const cvs = document.createElement('canvas'); cvs.width = img.width; cvs.height = img.height; cvs.getContext('2d').drawImage(img, 0, 0); const a = document.createElement('a'); a.download = `Converted.${ext}`; a.href = cvs.toDataURL(type); a.click(); } }; r.readAsDataURL(fileIn); }
+  
   function makeQrCode() { const txt = document.getElementById('qrIn').value; if(!txt) return alert("Enter URL!"); document.getElementById('qrOut').innerHTML = ""; new QRCode(document.getElementById('qrOut'), { text: txt, width: 128, height: 128 }); }
+  function downloadQrCode() { 
+      const qrCanvas = document.querySelector('#qrOut canvas'); 
+      if (!qrCanvas) return alert("Please generate a QR code first!"); 
+      const a = document.createElement('a'); a.download = 'QR_Code.png'; a.href = qrCanvas.toDataURL('image/png'); a.click(); 
+  }
+
   function calcBmi() { const w = parseFloat(document.getElementById('bmiW').value); const h = parseFloat(document.getElementById('bmiH').value)/100; if(!w || !h) return alert("Enter details!"); const bmi = (w / (h*h)).toFixed(1); let stat = "Normal"; if(bmi<18.5) stat="Underweight"; else if(bmi>25) stat="Overweight"; document.getElementById('bmiOut').innerText = `BMI: ${bmi} (${stat})`; }
   function genRandomNum() { const min = parseInt(document.getElementById('randMin').value); const max = parseInt(document.getElementById('randMax').value); document.getElementById('randOut').innerText = Math.floor(Math.random() * (max - min + 1)) + min; }
   function calcDiscount() { const p = parseFloat(document.getElementById('discPrice').value); const d = parseFloat(document.getElementById('discPerc').value); if(!p || !d) return; document.getElementById('discOut').innerText = `Final Price: ₹${(p - (p*d/100)).toFixed(2)}`; }
@@ -796,19 +767,21 @@
       });
   }
 
-  // BG COLOR (Uses safe path to prevent error)
+  // BG COLOR
   async function processBgColor() {
       const fileInput = document.getElementById('bgColorInput'); const log = document.getElementById('bgColorLog');
       const bgColor = document.getElementById('bgColorChoose').value;
       if (fileInput.files.length === 0) return alert("Please upload a photo first!");
       log.style.color = "#ef4444"; log.innerText = "Processing AI (takes 10-15s on first load)...";
+      
       try {
           const imgRaw = new Image(); imgRaw.src = URL.createObjectURL(fileInput.files[0]); await new Promise(r => imgRaw.onload = r);
           let w = imgRaw.width, h = imgRaw.height; if (w > 1200 || h > 1200) { const ratio = Math.min(1200/w, 1200/h); w *= ratio; h *= ratio; }
           const tempCanvas = document.createElement('canvas'); tempCanvas.width = w; tempCanvas.height = h; tempCanvas.getContext('2d').drawImage(imgRaw, 0, 0, w, h);
           const resizedBlob = await new Promise(r => tempCanvas.toBlob(r, 'image/jpeg', 0.9));
-          const config = { publicPath: "https://static.imgly.com/@imgly/background-removal-data/1.4.3/dist/" };
+          const config = { publicPath: "https://unpkg.com/@imgly/background-removal-data@1.4.3/dist/" };
           const imageBlob = await imglyRemoveBackground(resizedBlob, config);
+          
           const url = URL.createObjectURL(imageBlob); const img = new Image();
           img.onload = function() {
               const canvas = document.createElement('canvas'); canvas.width = img.width; canvas.height = img.height; const ctx = canvas.getContext('2d');
@@ -838,9 +811,13 @@
   function processJpgToPdf() { const fileInput = document.getElementById('jpgToPdfInput'); if (fileInput.files.length === 0) return alert("Upload Image!"); const reader = new FileReader(); reader.onload = function(e) { const { jsPDF } = window.jspdf; const doc = new jsPDF(); doc.addImage(e.target.result, 'JPEG', 10, 10, 190, 0); doc.save("Converted.pdf"); }; reader.readAsDataURL(fileInput.files[0]); }
 
   async function processSplitPdf() { const fileInput = document.getElementById('splitPdfInput'); let pageNum = parseInt(document.getElementById('splitPageNum').value); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const newPdf = await PDFLib.PDFDocument.create(); const [copiedPage] = await newPdf.copyPages(pdfDoc, [pageNum - 1]); newPdf.addPage(copiedPage); const newBytes = await newPdf.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = `Page_${pageNum}.pdf`; link.click(); }
+
   async function processWatermarkPdf() { const fileInput = document.getElementById('watermarkPdfInput'); const text = document.getElementById('watermarkPdfText').value; if (fileInput.files.length === 0 || !text) return alert("Upload PDF & Text!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); pages.forEach(page => { const { width, height } = page.getSize(); page.drawText(text, { x: width / 4, y: height / 2, size: 50, color: PDFLib.rgb(0.8, 0.2, 0.2), opacity: 0.3, rotate: PDFLib.degrees(45) }); }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Watermark.pdf"; link.click(); }
+
   async function processRotatePdf() { const fileInput = document.getElementById('rotatePdfInput'); const angle = parseInt(document.getElementById('rotatePdfAngle').value); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileBytes = await fileInput.files[0].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const pages = pdfDoc.getPages(); pages.forEach(page => { page.setRotation(PDFLib.degrees(page.getRotation().angle + angle)); }); const newBytes = await pdfDoc.save(); const blob = new Blob([newBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Rotated.pdf"; link.click(); }
+
   async function processPdfToJpg() { const fileInput = document.getElementById('pdfToJpgInput'); const log = document.getElementById('pdfToJpgLog'); if (fileInput.files.length === 0) return alert("Upload PDF!"); log.style.display = "block"; log.innerText = "🔄 Processing PDF to Image..."; const fileReader = new FileReader(); fileReader.onload = async function() { const typedarray = new Uint8Array(this.result); const pdf = await pdfjsLib.getDocument(typedarray).promise; const page = await pdf.getPage(1); const viewport = page.getViewport({scale: 2.0}); const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.height = viewport.height; canvas.width = viewport.width; await page.render({canvasContext: ctx, viewport: viewport}).promise; const link = document.createElement('a'); link.href = canvas.toDataURL('image/jpeg', 0.9); link.download = "Extracted.jpg"; link.click(); log.innerText = "✅ JPG Extracted!"; }; fileReader.readAsArrayBuffer(fileInput.files[0]); }
+
   async function processCompressPdf() { const fileInput = document.getElementById('compressPdfInput'); if (fileInput.files.length === 0) return alert("Upload PDF!"); const fileReader = new FileReader(); fileReader.onload = async function() { const typedarray = new Uint8Array(this.result); const pdf = await pdfjsLib.getDocument(typedarray).promise; const newPdf = new window.jspdf.jsPDF(); for(let i = 1; i <= pdf.numPages; i++) { const page = await pdf.getPage(i); const viewport = page.getViewport({scale: 1.0}); const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d'); canvas.height = viewport.height; canvas.width = viewport.width; await page.render({canvasContext: ctx, viewport: viewport}).promise; const imgData = canvas.toDataURL('image/jpeg', 0.5); if(i > 1) newPdf.addPage(); newPdf.addImage(imgData, 'JPEG', 0, 0, newPdf.internal.pageSize.getWidth(), newPdf.internal.pageSize.getHeight()); } newPdf.save("Compressed.pdf"); }; fileReader.readAsArrayBuffer(fileInput.files[0]); }
 
   let mergePdfFilesArray = []; function handleNewMergeFiles(event) { const files = event.target.files; if (!files) return; for (let i = 0; i < files.length; i++) { mergePdfFilesArray.push(files[i]); } event.target.value = ''; updateMergePdfUI(); } function removeMergeFile(index) { mergePdfFilesArray.splice(index, 1); updateMergePdfUI(); } function updateMergePdfUI() { const container = document.getElementById('mergePdfListContainer'); container.innerHTML = ''; mergePdfFilesArray.forEach((file, index) => { const item = document.createElement('div'); item.className = 'merge-item'; item.innerHTML = `<div class="merge-item-title"><i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i> ${file.name}</div><button class="remove-pdf-btn" onclick="removeMergeFile(${index})"><i class="fa-solid fa-minus"></i></button>`; container.appendChild(item); }); } async function processDynamicMergePdf() { if (mergePdfFilesArray.length < 2) return alert("Select at least 2 PDFs!"); const mergedPdf = await PDFLib.PDFDocument.create(); for (let i = 0; i < mergePdfFilesArray.length; i++) { const fileBytes = await mergePdfFilesArray[i].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices()); copiedPages.forEach((page) => mergedPdf.addPage(page)); } const mergedPdfBytes = await mergedPdf.save(); const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Merged_All.pdf"; link.click(); }
@@ -871,29 +848,17 @@
   let uploadedImageSrcData = null;
   function applyResizerPreset(presetVal) { const wField = document.getElementById('resizerWidth'); const hField = document.getElementById('resizerHeight'); const targetField = document.getElementById('resizerTargetValue'); const unitField = document.getElementById('resizerUnitType'); if (presetVal === 'passport') { wField.value = 413; hField.value = 531; targetField.value = 50; unitField.value = 'KB'; } else if (presetVal === 'signature') { wField.value = 256; hField.value = 64; targetField.value = 20; unitField.value = 'KB'; } else if (presetVal === 'aadhar') { wField.value = 1013; hField.value = 638; targetField.value = 300; unitField.value = 'KB'; } else if (presetVal === 'voter') { wField.value = 620; hField.value = 875; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'pancard') { wField.value = 1000; hField.value = 1400; targetField.value = 200; unitField.value = 'KB'; } else if (presetVal === 'marksheet') { wField.value = 2480; hField.value = 3508; targetField.value = 1; unitField.value = 'MB'; } else if (presetVal === 'driving') { wField.value = 640; hField.value = 400; targetField.value = 100; unitField.value = 'KB'; } else if (presetVal === 'ration') { wField.value = 1650; hField.value = 2330; targetField.value = 500; unitField.value = 'KB'; } else { wField.value = ''; hField.value = ''; targetField.value = ''; unitField.value = 'KB'; } }
   function handleResizerPreview(input) { if (input.files && input.files[0]) { const r = new FileReader(); r.onload = function(e) { uploadedImageSrcData = e.target.result; }; r.readAsDataURL(input.files[0]); } }
-  function processAndResizeDocument() {
-      const logs = document.getElementById('resizerStatusLogs'); if (!uploadedImageSrcData) { return alert("Upload Image!"); }
-      let userWidth = parseInt(document.getElementById('resizerWidth').value); let userHeight = parseInt(document.getElementById('resizerHeight').value);
-      const sizeLimit = parseFloat(document.getElementById('resizerTargetValue').value); const unitType = document.getElementById('resizerUnitType').value;
-      if (!sizeLimit) { return alert("Enter target size!"); } let targetBytesLimit = sizeLimit * 1024; if (unitType === 'MB') { targetBytesLimit = sizeLimit * 1024 * 1024; }
-      logs.style.display = 'block'; logs.innerHTML = "Processing...";
-      const img = new Image(); img.src = uploadedImageSrcData;
-      img.onload = function() {
-          if (!userWidth) userWidth = img.width; if (!userHeight) userHeight = img.height;
-          const canvas = document.createElement('canvas'); canvas.width = userWidth; canvas.height = userHeight; canvas.getContext('2d').drawImage(img, 0, 0, userWidth, userHeight);
-          let q = 0.95; let b64 = ""; let bytes = 0;
-          for (let i = 0; i < 12; i++) { b64 = canvas.toDataURL('image/jpeg', q); bytes = Math.round((b64.length - 814) * 0.75); if (bytes <= targetBytesLimit) { if (targetBytesLimit - bytes < (targetBytesLimit * 0.04)) break; q += 0.04; } else { q -= 0.06; } if (q < 0.1) break; }
-          const a = document.createElement('a'); a.href = b64; a.download = "Resized.jpg"; document.body.appendChild(a); a.click(); document.body.removeChild(a);
-          logs.innerHTML = "✅ Saved successfully!";
-      };
-  }
+  function processAndResizeDocument() { const logs = document.getElementById('resizerStatusLogs'); if (!uploadedImageSrcData) { return alert("Upload Image!"); } let userWidth = parseInt(document.getElementById('resizerWidth').value); let userHeight = parseInt(document.getElementById('resizerHeight').value); const sizeLimit = parseFloat(document.getElementById('resizerTargetValue').value); const unitType = document.getElementById('resizerUnitType').value; if (!sizeLimit) { return alert("Enter target size!"); } let targetBytesLimit = sizeLimit * 1024; if (unitType === 'MB') { targetBytesLimit = sizeLimit * 1024 * 1024; } logs.style.display = 'block'; logs.innerHTML = "Processing..."; const img = new Image(); img.src = uploadedImageSrcData; img.onload = function() { if (!userWidth) userWidth = img.width; if (!userHeight) userHeight = img.height; const canvas = document.createElement('canvas'); canvas.width = userWidth; canvas.height = userHeight; canvas.getContext('2d').drawImage(img, 0, 0, userWidth, userHeight); let q = 0.95; let b64 = ""; let bytes = 0; for (let i = 0; i < 12; i++) { b64 = canvas.toDataURL('image/jpeg', q); bytes = Math.round((b64.length - 814) * 0.75); if (bytes <= targetBytesLimit) { if (targetBytesLimit - bytes < (targetBytesLimit * 0.04)) break; q += 0.04; } else { q -= 0.06; } if (q < 0.1) break; } const a = document.createElement('a'); a.href = b64; a.download = "Resized.jpg"; document.body.appendChild(a); a.click(); document.body.removeChild(a); logs.innerHTML = "✅ Saved successfully!"; }; }
 
   // AGE CALC
   function executePreciseAgeCalculation() {
-    const dobString = document.getElementById('calcDobInput').value; const targetString = document.getElementById('calcTargetInput').value; if(!dobString || !targetString) { return alert("Select dates."); }
-    const birthDate = new Date(dobString); const endDate = new Date(targetString); if (endDate < birthDate) { return alert("Target date error!"); }
+    const dobString = document.getElementById('calcDobInput').value; const targetString = document.getElementById('calcTargetInput').value;
+    if(!dobString || !targetString) { return alert("Select dates."); }
+    const birthDate = new Date(dobString); const endDate = new Date(targetString);
+    if (endDate < birthDate) { return alert("Target date error!"); }
     let yearsDiff = endDate.getFullYear() - birthDate.getFullYear(); let monthsDiff = endDate.getMonth() - birthDate.getMonth(); let daysDiff = endDate.getDate() - birthDate.getDate();
-    if (daysDiff < 0) { monthsDiff--; const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0); daysDiff += prevMonth.getDate(); } if (monthsDiff < 0) { yearsDiff--; monthsDiff += 12; }
+    if (daysDiff < 0) { monthsDiff--; const prevMonth = new Date(endDate.getFullYear(), endDate.getMonth(), 0); daysDiff += prevMonth.getDate(); }
+    if (monthsDiff < 0) { yearsDiff--; monthsDiff += 12; }
     document.getElementById('resYears').innerText = yearsDiff; document.getElementById('resMonths').innerText = monthsDiff; document.getElementById('resDays').innerText = daysDiff;
     const timeDiff = endDate.getTime() - birthDate.getTime(); const tDays = Math.floor(timeDiff / (1000 * 3600 * 24)); const tWeeks = Math.floor(tDays / 7); const tHours = tDays * 24; const tMins = tHours * 60; const tSecs = tMins * 60;
     document.getElementById('resTotalWeeks').innerText = tWeeks.toLocaleString('en-IN'); document.getElementById('resTotalDays').innerText = tDays.toLocaleString('en-IN'); document.getElementById('resTotalHours').innerText = tHours.toLocaleString('en-IN'); document.getElementById('resTotalMins').innerText = tMins.toLocaleString('en-IN'); document.getElementById('resTotalSecs').innerText = tSecs.toLocaleString('en-IN');
@@ -905,53 +870,22 @@
   function clearCash() { const v = [2000, 500, 200, 100, 50, 20, 10]; v.forEach(val => { document.getElementById('c'+val).value = ''; document.getElementById('r'+val).innerText = '₹ 0'; }); document.getElementById('cashTotal').innerText = '₹ 0'; }
   let currDate = new Date(); function renderCal() { const box = document.getElementById('calDaysBox'); box.innerHTML = ''; const mYear = document.getElementById('calMonthYear'); const year = currDate.getFullYear(); const month = currDate.getMonth(); const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate(); const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; mYear.innerText = `${monthNames[month]} ${year}`; for(let i=0; i<firstDay; i++) { box.innerHTML += `<div class="calendar-date empty"></div>`; } for(let i=1; i<=daysInMonth; i++) { let cls = "calendar-date"; let today = new Date(); if(i===today.getDate() && month===today.getMonth() && year===today.getFullYear()) cls += " active"; box.innerHTML += `<div class="${cls}">${i}</div>`; } } function changeMonth(step) { currDate.setMonth(currDate.getMonth() + step); renderCal(); } window.onload = function() { renderCal(); };
 
-  // TTS (NATIVE PLAY + NO 404 DOWNLOAD FIX)
-  function playNativeTTS() {
-      const text = document.getElementById('ttsInputText').value.trim();
-      if (!text) return alert("Please enter some text!");
-      const langSelect = document.getElementById('ttsLanguageSelect').value;
-      const genderSelect = document.getElementById('ttsGenderSelect').value;
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = langSelect;
-      let voices = window.speechSynthesis.getVoices();
-      let bestVoice = null;
-      let langVoices = voices.filter(v => v.lang.startsWith(langSelect.split('-')[0]));
-      
-      if(langVoices.length > 0) {
-          if (genderSelect === 'female') { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('google')); } 
-          else { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david')); }
-          if(!bestVoice) bestVoice = langVoices[0];
-          utterance.voice = bestVoice;
-      }
-      if (genderSelect === 'female') { utterance.pitch = 1.3; } else { utterance.pitch = 0.8; }
-      window.speechSynthesis.speak(utterance);
+  // TRANSLATE
+  async function processTranslate() {
+      const text = document.getElementById('transInput').value; const from = document.getElementById('transFrom').value; const to = document.getElementById('transTo').value;
+      if(!text) return alert("Enter text to translate!");
+      try {
+          const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`);
+          const data = await res.json(); document.getElementById('transOutput').value = data.responseData.translatedText;
+      } catch(e) { alert("Translation failed. Try again."); }
+  }
+  function downloadTranslatedText() {
+      const text = document.getElementById('transOutput').value;
+      if(!text) return alert("No text to download!");
+      const blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+      const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "Translated_Text.txt"; link.click();
   }
 
-  function downloadMp3TTS() {
-      let text = document.getElementById('ttsInputText').value.trim();
-      if (!text) return alert("Please enter text to download!");
-      
-      // Google API throws 404 for long text. So we truncate it to a safe limit.
-      if (text.length > 180) {
-          alert("Note: For downloading MP3 without error, text must be under 180 characters.\n\nWe will download the first 180 characters now. (For long text, use the 'Listen Voice' button instead).");
-          text = text.substring(0, 180); 
-      }
-
-      const lang = document.getElementById('ttsLanguageSelect').value.split('-')[0];
-      const downloadUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
-      
-      const status = document.getElementById('ttsStatus');
-      status.style.display = 'block';
-      status.style.color = '#16a34a';
-      status.innerHTML = '✅ Downloading audio in a new tab... Press Ctrl+S (or Save As) to save it.';
-      
-      // Open in new tab, prevents CORS and 404 errors completely.
-      window.open(downloadUrl, "_blank"); 
-  }
-
-  if (typeof window !== 'undefined' && window.speechSynthesis) { window.speechSynthesis.getVoices(); if (window.speechSynthesis.onvoiceschanged !== undefined) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; } }
-  document.getElementById('calcTargetInput').valueAsDate = new Date(); document.getElementById('calcDobInput').value = "2000-01-01";
 </script>
 
 </body>
