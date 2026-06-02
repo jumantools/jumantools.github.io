@@ -180,29 +180,6 @@
     .calendar-date.active { background: var(--primary-color); color: #fff; font-weight: bold; }
     .calendar-date.empty { cursor: default; }
     .calendar-date.empty:hover { background: none; }
-
-    @media (max-width: 768px) {
-        header { flex-direction: column; gap: 15px; }
-        .header-search { max-width: 100%; order: 3; }
-        .header-auth { order: 2; width: 100%; justify-content: space-between;}
-    }
-  </style>
-</head>
-<body>
-
-<!-- AUTH MODAL -->
-<div class="modal-overlay" id="authModal">
-    <div class="modal-content">
-        <i class="fa-solid fa-xmark close-modal" onclick="closeAuthModal()"></i>
-        <h3 id="modalTitle">Welcome Back</h3>
-        <p style="font-size:13px; color:#64748b; margin-bottom:20px;">Please login to continue using Premium Tools.</p>
-        <button class="social-btn btn-google" onclick="alert('Connecting to Google Servers...')"><i class="fa-brands fa-google"></i> Login with Google</button>
-        <button class="social-btn btn-facebook" onclick="alert('Connecting to Facebook Servers...')"><i class="fa-brands fa-facebook-f"></i> Login with Facebook</button>
-        <div class="modal-divider">OR</div>
-        <input type="email" class="modal-input" placeholder="Email Address">
-        <input type="password" class="modal-input" placeholder="Password">
-        <button class="action-btn" style="width:100%; justify-content:center;" onclick="closeAuthModal()">Continue</button>
-    </div>
 </div>
 
 <header>
