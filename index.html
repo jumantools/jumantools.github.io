@@ -180,6 +180,29 @@
     .calendar-date.active { background: var(--primary-color); color: #fff; font-weight: bold; }
     .calendar-date.empty { cursor: default; }
     .calendar-date.empty:hover { background: none; }
+
+    @media (max-width: 768px) {
+        header { flex-direction: column; gap: 15px; }
+        .header-search { max-width: 100%; order: 3; }
+        .header-auth { order: 2; width: 100%; justify-content: space-between;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- AUTH MODAL -->
+<div class="modal-overlay" id="authModal">
+    <div class="modal-content">
+        <i class="fa-solid fa-xmark close-modal" onclick="closeAuthModal()"></i>
+        <h3 id="modalTitle">Welcome Back</h3>
+        <p style="font-size:13px; color:#64748b; margin-bottom:20px;">Please login to continue using Premium Tools.</p>
+        <button class="social-btn btn-google" onclick="alert('Connecting to Google Servers...')"><i class="fa-brands fa-google"></i> Login with Google</button>
+        <button class="social-btn btn-facebook" onclick="alert('Connecting to Facebook Servers...')"><i class="fa-brands fa-facebook-f"></i> Login with Facebook</button>
+        <div class="modal-divider">OR</div>
+        <input type="email" class="modal-input" placeholder="Email Address">
+        <input type="password" class="modal-input" placeholder="Password">
+        <button class="action-btn" style="width:100%; justify-content:center;" onclick="closeAuthModal()">Continue</button>
+    </div>
 </div>
 
 <header>
@@ -416,100 +439,7 @@
       </div>
     </div>
   </div>
-@media print {
-  /* Hide non-print elements completely to save paper/space */
-  header, footer, nav, aside, hr, button, .no-print, #how-it-works, #workbench-section > div > div:not(#passport-print-area) {
-    display: none !important;
-    visibility: hidden !important;
-  }
-  
-  /* Ensure pure white canvas backgrounds */
-  body {
-    background: #ffffff !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  
-  #root, main, #workbench-section, .lg\:col-span-8, .flex {
-    border: none !important;
-    box-shadow: none !important;
-    background: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    width: auto !important;
-    height: auto !important;
-  }
 
-  /* Hide all descendants of body by default */
-  body * {
-    visibility: hidden;
-  }
-  
-  /* Make the print container and all its descendants visible and precise */
-  #passport-print-area, #passport-print-area * {
-    visibility: visible !important;
-  }
-  
-  #passport-print-area {
-    position: absolute !important;
-    left: 0 !important;
-    top: 0 !important;
-    width: 210mm !important;
-    height: 297mm !important;
-    margin: 0 !important;
-    padding-top: ${passportTopMargin}mm !important; /* Dynamic Top Margin sits photos high! */
-    padding-left: 12mm !important;
-    padding-right: 12mm !important;
-    padding-bottom: 12mm !important;
-    border: none !important;
-    box-shadow: none !important;
-    background: #ffffff !important;
-    display: block !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-}
-
-const downloadPassportSheet = async () => {
-  if (!activeImageUrl) return;
-  setIsExporting(true);
-  
-  try {
-    const canvas = document.createElement('canvas');
-    canvas.width = 2480; // 300 DPI high resolution A4
-    canvas.height = 3508;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) throw new Error('Could not request canvas context');
-    
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    const pxPerMm = 11.811;
-    const pagePadding = 12 * pxPerMm;
-    const gap = passportGap * (pxPerMm / 4.0);
-    
-    const usableWidth = canvas.width - (2 * pagePadding);
-    const cardWidth = (usableWidth - (passportCols - 1) * gap) / passportCols;
-    const cardHeight = cardWidth * (passportPhotoHeight / passportPhotoWidth);
-    
-    const subjectImg = await loadImage(activeImageUrl);
-    
-    let col = 0;
-    let row = 0;
-    const startX = pagePadding;
-    const startY = passportTopMargin * pxPerMm; // Sits photos perfectly at the dynamic top coordinate!
-    
-    for (let i = 0; i < passportCount; i++) {
-      if (col >= passportCols) {
-        col = 0;
-        row++;
-      }
-      const x = startX + col * (cardWidth + gap);
-      const y = startY + row * (cardHeight + gap);
-      drawPassportItem(ctx, subjectImg, x, y, cardWidth, cardHeight);
-      col++;
-    }
-    // ...
   <!-- TEXT TO SPEECH (TTS) WORKSPACE -->
   <div class="engine-container" id="tts-engine-anchor">
     <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech (TTS) Multi-Language</h3>
