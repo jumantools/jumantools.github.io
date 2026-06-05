@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +13,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
   <script src="https://unpkg.com/@imgly/background-removal@1.4.3/dist/browser/imgly-background-removal.js"></script>
+  <!-- Library for QR Code -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- Cropper JS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
@@ -26,19 +29,26 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     body { background: var(--bg-color); color: var(--text-main); scroll-behavior: smooth; }
 
+    /* HEADER & SEARCH & AUTH */
     header { width: 100%; background: var(--card-bg); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; flex-wrap: wrap; gap: 15px;}
     .logo-area { display: flex; align-items: center; gap: 10px; }
-    .user-profile-img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid #06b6d4; padding: 2px; background: #fff; }
-    .logo-text h1 { font-size: 20px; color: var(--text-main); font-weight: 900; letter-spacing: -0.3px; line-height: 1.1; }
+    
+    /* ORIGINAL YOUTUBE LOGO RESTORED */
+    .brand-youtube-logo { font-size: 34px; color: var(--yt-red); }
+    
+    .logo-text h1 { font-size: 20px; color: var(--text-main); font-weight: 800; letter-spacing: -0.3px; line-height: 1.1; }
     .logo-text p { color: var(--text-muted); font-size: 11px; }
+    
     .header-search { display: flex; align-items: center; background: #f1f5f9; border-radius: 8px; padding: 8px 15px; width: 100%; max-width: 400px; border: 1px solid #cbd5e1; }
     .header-search i { color: #94a3b8; margin-right: 10px; }
     .header-search input { border: none; background: transparent; outline: none; width: 100%; font-size: 14px; color: #334155; }
+    
     .header-auth { display: flex; gap: 10px; align-items: center; }
     .auth-btn { text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 600; transition: 0.2s; cursor: pointer; border: none; }
     .sign-in { color: var(--text-main); background: #e2e8f0; } .sign-in:hover { background: #cbd5e1; }
     .sign-up { color: #fff; background: var(--primary-color); } .sign-up:hover { background: var(--primary-hover); }
 
+    /* AUTH MODAL */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; backdrop-filter: blur(3px); }
     .modal-content { background: #fff; padding: 30px; border-radius: 12px; width: 90%; max-width: 380px; text-align: center; position: relative; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
     .close-modal { position: absolute; right: 15px; top: 15px; font-size: 20px; cursor: pointer; color: #94a3b8; transition: 0.2s; } .close-modal:hover { color: #0f172a; }
@@ -53,6 +63,7 @@
     .section-title h2 { font-size: 32px; color: var(--text-main); } .section-title h2 span { color: var(--primary-color); }
     .section-title p { color: var(--text-muted); margin-top: 6px; font-size: 16px; font-weight: 500; }
 
+    /* GRID CONTROLS */
     .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 15px; margin-bottom: 35px; }
     .tool-card { background: var(--card-bg); border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px 15px; text-align: center; cursor: pointer; transition: 0.3s; }
     .tool-card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.06); border-color: var(--primary-color); }
@@ -66,6 +77,7 @@
     .icon-dark { background: #f1f5f9; color: #334155; } .icon-yellow { background: #fef08a; color: #b45309; }
     .icon-teal { background: #ccfbf1; color: #0d9488; } .icon-pink { background: #fce7f3; color: #db2777; }
 
+    /* ENGINE LAYOUT PANELS */
     .engine-container, .tool-workspace { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 40px; scroll-margin-top: 100px; display: none; }
     .engine-container h3, .tool-workspace h3 { font-size: 22px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
@@ -75,6 +87,7 @@
     .field-group input, .field-group select, .field-group textarea { padding: 11px 13px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; outline: none; background: #f8fafc; transition: 0.2s; }
     .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-color: var(--sbi-blue); background: #fff; }
 
+    /* SPECIFIC DOWNLOAD BUTTONS */
     .download-final-btn { background: var(--down-btn-color); color: #fff; padding: 12px 24px; border: none; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; justify-content: center; align-items: center; gap: 8px; margin-top: 15px; width: 100%; max-width: 300px; }
     .download-final-btn:hover { background: var(--down-btn-hover); box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); transform: translateY(-1px); }
 
@@ -83,8 +96,10 @@
     .btn-red { background: #ef4444; } .btn-green { background: #16a34a; } .btn-purple { background: var(--studio-purple); } .btn-orange { background: var(--calc-orange); } .btn-cyan { background: #06b6d4; color: white;}
     .btn-blue { background: #3b82f6; } .btn-blue:hover { background: #2563eb; }
 
+    /* SIGNATURE CANVAS */
     .signature-pad { border: 2px dashed #cbd5e1; background: #f8fafc; cursor: crosshair; touch-action: none; border-radius: 6px; width: 100%; max-width: 400px; height: 150px; }
 
+    /* PROFESSIONAL ABOUT US SECTION (FORMATTED) */
     .about-article { background: #000000; color: #ffffff; padding: 45px 35px; border-radius: 12px; margin: 50px 0; line-height: 1.8; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
     .about-article h2 { font-size: 26px; color: #ffffff; margin-bottom: 15px; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 5px; margin-top: 35px;}
     .about-article h2:first-child { margin-top: 0; }
@@ -96,6 +111,7 @@
     .about-article a { color: var(--down-btn-color); text-decoration: none; font-weight: bold;}
     .about-article a:hover { text-decoration: underline; color: #60a5fa;}
 
+    /* BLACK FOOTER WITH SOCIAL LINKS */
     .custom-footer { background: #000000; color: #ffffff; padding: 50px 20px 20px; font-family: 'Segoe UI', sans-serif; margin-top: 40px; border-top: 4px solid #222; }
     .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; }
     .footer-col h4 { font-size: 18px; margin-bottom: 18px; color: #ffffff; font-weight: bold; text-transform: capitalize; }
@@ -113,6 +129,7 @@
     .footer-bottom { text-align: center; border-top: 1px solid #333333; margin-top: 40px; padding-top: 20px; font-size: 13px; color: #aaaaaa; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; align-items: center; }
     .footer-bottom a { color: #cccccc; text-decoration: none; margin: 0 10px; } .footer-bottom a:hover { color: #ffffff; }
 
+    /* SPECIFIC TOOLS UI */
     .counter-btn-container { display: flex; gap: 10px; align-items: center; margin-top: 5px; }
     .counter-btn { background: #e2e8f0; color: #0f172a; border: 1px solid #cbd5e1; width: 40px; height: 40px; border-radius: 6px; font-size: 18px; font-weight: 700; cursor: pointer; display: inline-flex; justify-content: center; align-items: center; transition: 0.2s; }
     .counter-btn:hover { background: #cbd5e1; color: #000; }
@@ -151,36 +168,28 @@
     .word-tile p, .calc-tile p { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: bold; margin-top:3px;}
     .pwd-display { background: #f1f5f9; border: 2px dashed #cbd5e1; padding: 15px; font-size: 20px; font-family: monospace; text-align: center; border-radius: 8px; font-weight: bold; letter-spacing: 2px; margin-bottom: 15px; word-break: break-all; }
     
+    .cash-row { display: flex; align-items: center; justify-content: space-between; padding: 8px; border-bottom: 1px solid #e2e8f0; }
+    .cash-row label { font-size: 16px; font-weight: bold; width: 80px; }
+    .cash-row input { width: 100px; padding: 8px; text-align: center; font-weight: bold; font-size: 16px; border: 1px solid #cbd5e1; border-radius: 6px; }
+    .cash-total { background: #dcfce7; padding: 15px; font-size: 24px; font-weight: 900; color: #16a34a; text-align: center; border-radius: 8px; border: 2px solid #22c55e; margin-top: 15px; }
+    
+    .calendar-wrapper { width: 100%; max-width: 400px; margin: 0 auto; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff; }
+    .calendar-header { background: #0f172a; color: #fff; padding: 15px; text-align: center; font-size: 18px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;}
+    .calendar-header button { background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; }
+    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #e2e8f0; border-top: 1px solid #cbd5e1; }
+    .calendar-day, .calendar-date { background: #fff; padding: 10px 5px; text-align: center; font-size: 14px; }
+    .calendar-day { font-weight: bold; color: #334155; background: #f8fafc; }
+    .calendar-date.active { background: #ef4444; color: #fff; font-weight: bold; border-radius: 4px; }
+
+    .calc-btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
+    .c-btn { background: #f1f5f9; border: 1px solid #cbd5e1; padding: 15px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer; }
+    .c-btn:hover { background: #e2e8f0; }
+    .c-btn.operator { background: #3b82f6; color: white; }
+    .c-btn.operator:hover { background: #2563eb; }
+    .c-btn.equal { background: #16a34a; color: white; grid-column: span 2; }
+
     .crop-container { width: 100%; max-height: 400px; margin-top: 15px; overflow: hidden;}
-
-    /* CASH COUNTER STYLE */
-    .cash-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; background: #f8fafc; padding: 10px 15px; border-radius: 6px; border: 1px solid var(--border-color); }
-    .cash-row label { width: 80px; font-weight: bold; }
-    .cash-row input { width: 100px; padding: 6px; border: 1px solid var(--border-color); border-radius: 4px; text-align: center; }
-    .cash-total { font-size: 20px; font-weight: bold; color: var(--success-green); margin: 20px 0; text-align: right; }
-
-    /* PRO CALCULATOR STYLE */
-    .calc-btn-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .c-btn { padding: 15px; font-size: 18px; font-weight: bold; border: none; border-radius: 8px; cursor: pointer; background: #334155; color: #fff; transition: 0.2s; }
-    .c-btn:hover { background: #475569; }
-    .c-btn.operator { background: #f97316; }
-    .c-btn.operator:hover { background: #ea580c; }
-    .c-btn.equal { background: #16a34a; grid-column: span 1; }
-    .c-btn.equal:hover { background: #15803d; }
-
-    /* CALENDAR STYLE */
-    .calendar-wrapper { background: #fff; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; max-width: 350px; margin: 0 auto; }
-    .calendar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .calendar-header button { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--text-main); }
-    #calMonthYear { font-weight: bold; font-size: 16px; }
-    .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; }
-    .calendar-day { font-weight: bold; color: var(--text-muted); font-size: 12px; margin-bottom: 5px; }
-    .calendar-date { padding: 8px 0; font-size: 14px; border-radius: 4px; cursor: pointer; }
-    .calendar-date:hover { background: #e2e8f0; }
-    .calendar-date.active { background: var(--primary-color); color: #fff; font-weight: bold; }
-    .calendar-date.empty { cursor: default; }
-    .calendar-date.empty:hover { background: none; }
-
+    
     @media (max-width: 768px) {
         header { flex-direction: column; gap: 15px; }
         .header-search { max-width: 100%; order: 3; }
@@ -207,7 +216,7 @@
 
 <header>
   <div class="logo-area">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/YouTube_social_red_circle_%282017%29.svg" alt="YouTube Logo" class="user-profile-img" id="userProfileLogo">
+    <i class="fa-brands fa-youtube brand-youtube-logo"></i>
     <div class="logo-text">
       <h1>Technical Juman</h1>
       <p>All In One Premium Tools</p>
@@ -231,11 +240,11 @@
   </div>
 
   <div class="tools-grid" id="toolsGridBox">
+    <!-- ALL WORKING TOOLS IN GRID -->
     <div class="tool-card" onclick="openTool('jpg-to-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-pdf"></i></div><h4>JPG to PDF</h4><p>Convert images to PDFs.</p></div>
     <div class="tool-card" onclick="openTool('pdf-to-jpg-module')"><div class="tool-icon-wrapper icon-orange"><i class="fa-solid fa-file-image"></i></div><h4>PDF to JPG</h4><p>Extract images from PDF.</p></div>
     <div class="tool-card" onclick="openTool('compress-pdf-module')"><div class="tool-icon-wrapper icon-cyan"><i class="fa-solid fa-file-shield"></i></div><h4>Compress PDF</h4><p>Reduce PDF file size.</p></div>
     <div class="tool-card" onclick="openTool('merge-pdf-module')"><div class="tool-icon-wrapper icon-purple"><i class="fa-solid fa-layer-group"></i></div><h4>Merge PDF</h4><p>Combine multiple PDFs.</p></div>
-    <div class="tool-card" onclick="openTool('bg-color-module')"><div class="tool-icon-wrapper icon-red"><i class="fa-solid fa-fill-drip"></i></div><h4>Change Background</h4><p>Change photo background.</p></div>
     <div class="tool-card" onclick="openTool('crop-image-module')"><div class="tool-icon-wrapper icon-dark"><i class="fa-solid fa-crop-simple"></i></div><h4>Crop Image</h4><p>Crop photo instantly.</p></div>
     <div class="tool-card" onclick="openTool('split-pdf-module')"><div class="tool-icon-wrapper icon-blue"><i class="fa-solid fa-file-lines"></i></div><h4>Split PDF</h4><p>Extract pages from PDF.</p></div>
     <div class="tool-card" onclick="openTool('unlock-pdf-module')"><div class="tool-icon-wrapper icon-green"><i class="fa-solid fa-lock-open"></i></div><h4>Unlock PDF</h4><p>Remove PDF password.</p></div>
@@ -318,16 +327,6 @@
     <button class="action-btn btn-orange" onclick="processTranslate()"><i class="fa-solid fa-language"></i> Translate Text</button>
     <div class="form-row" style="margin-top:15px;"><div class="field-group"><textarea id="transOutput" rows="4" placeholder="Translated text will appear here..." readonly></textarea></div></div>
     <button class="download-final-btn" onclick="downloadTranslatedText()"><i class="fa-solid fa-download"></i> Download Text (.txt)</button>
-  </div>
-
-  <div id="bg-color-module" class="tool-workspace">
-    <h3><i class="fa-solid fa-fill-drip" style="color: #ef4444;"></i> Change Background Color</h3>
-    <div class="form-row">
-        <div class="field-group"><label>Upload Photo:</label><input type="file" id="bgColorInput" accept="image/*"></div>
-        <div class="field-group"><label>Select Color:</label><input type="color" id="bgColorChoose" value="#ff0000" style="width:100%; height:40px;"></div>
-    </div>
-    <button class="download-final-btn" id="btnBgColor" onclick="processBgColor()"><i class="fa-solid fa-download"></i> Apply Color & Download</button>
-    <div id="bgColorLog" style="margin-top:15px; font-weight:bold;"></div>
   </div>
 
   <div id="crop-image-module" class="tool-workspace">
@@ -440,40 +439,6 @@
     </div>
   </div>
 
-  <!-- TEXT TO SPEECH (TTS) WORKSPACE -->
-  <div class="engine-container" id="tts-engine-anchor">
-    <h3><i class="fa-solid fa-volume-high" style="color:var(--success-green);"></i> Text To Speech (TTS) Multi-Language</h3>
-    <div class="form-row">
-      <div class="field-group">
-        <label>Select Language</label>
-        <select id="ttsLanguageSelect">
-          <option value="en-US">English (US)</option>
-          <option value="en-GB">English (UK)</option>
-          <option value="hi-IN">Hindi (India)</option>
-          <option value="bn-IN">Bengali (India)</option>
-          <option value="mr-IN">Marathi (India)</option>
-          <option value="ta-IN">Tamil (India)</option>
-          <option value="ur-PK">Urdu</option>
-        </select>
-      </div>
-      <div class="field-group">
-        <label>Select Voice Style</label>
-        <select id="ttsGenderSelect">
-          <option value="female">Female</option>
-          <option value="male">Male</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="field-group">
-        <label>Enter Text to Speak</label>
-        <textarea id="ttsInputText" rows="4" placeholder="Type here what you want to convert into speech..."></textarea>
-      </div>
-    </div>
-    <button class="action-btn btn-green" onclick="playNativeTTS()"><i class="fa-solid fa-play"></i> Listen Voice</button>
-    <button class="download-final-btn" onclick="downloadMp3TTS()"><i class="fa-solid fa-download"></i> Download TTS MP3</button>
-  </div>
-
   <div id="jpg-to-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-file-pdf" style="color: #3b82f6;"></i> JPG to PDF</h3>
     <div class="form-row"><div class="field-group"><label>Upload Image:</label><input type="file" id="jpgToPdfInput" accept="image/jpeg, image/png"></div></div>
@@ -544,30 +509,9 @@
     <button class="download-final-btn" style="background:#06b6d4;" onclick="processScanToPdf()"><i class="fa-solid fa-download"></i> Create PDF & Download</button>
   </div>
 
-  <!-- LOAN EMI CALCULATOR WORKSPACE -->
-  <div id="emi-calc-module" class="tool-workspace">
-    <h3><i class="fa-solid fa-file-invoice-dollar" style="color: #3b82f6;"></i> Loan EMI Calculator</h3>
-    <div class="form-row">
-      <div class="field-group">
-        <label>Loan Amount (₹)</label>
-        <input type="number" id="emiAmt" placeholder="e.g. 500000" value="500000">
-      </div>
-      <div class="field-group">
-        <label>Annual Interest Rate (%)</label>
-        <input type="number" step="0.1" id="emiInt" placeholder="e.g. 8.5" value="8.5">
-      </div>
-      <div class="field-group">
-        <label>Tenure (Months)</label>
-        <input type="number" id="emiMonth" placeholder="e.g. 60" value="60">
-      </div>
-    </div>
-    <button class="action-btn btn-blue" onclick="calcEmi()"><i class="fa-solid fa-calculator"></i> Calculate EMI</button>
-    <div id="emiOut" style="margin-top:15px; font-size:18px; font-weight:bold; color:var(--text-main);"></div>
-  </div>
-
   <div id="text-to-pdf-module" class="tool-workspace">
     <h3><i class="fa-solid fa-file-pdf" style="color: #3b82f6;"></i> Text to PDF</h3>
-    <div class="form-row"><div class="field-group"><textarea id="txtToPdfIn" rows="3"></textarea></div></div>
+    <div class="form-row"><div class="field-group"><textarea id="txtToPdfIn" rows="3" placeholder="Write something to make PDF..."></textarea></div></div>
     <button class="download-final-btn" onclick="makeTxtToPdf()"><i class="fa-solid fa-download"></i> Save & Download PDF</button>
   </div>
 
@@ -631,13 +575,7 @@
 
   <div id="cash-counter-module" class="tool-workspace">
     <h3><i class="fa-solid fa-money-bill-wave" style="color: #16a34a;"></i> Cash Denomination Counter</h3>
-    <div class="cash-row"><label>₹ 2000</label><span>x</span><input type="number" id="c2000" oninput="calcCash()"><span id="r2000" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
-    <div class="cash-row"><label>₹ 500</label><span>x</span><input type="number" id="c500" oninput="calcCash()"><span id="r500" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
-    <div class="cash-row"><label>₹ 200</label><span>x</span><input type="number" id="c200" oninput="calcCash()"><span id="r200" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
-    <div class="cash-row"><label>₹ 100</label><span>x</span><input type="number" id="c100" oninput="calcCash()"><span id="r100" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
-    <div class="cash-row"><label>₹ 50</label><span>x</span><input type="number" id="c50" oninput="calcCash()"><span id="r50" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
-    <div class="cash-row"><label>₹ 20</label><span>x</span><input type="number" id="c20" oninput="calcCash()"><span id="r20" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
-    <div class="cash-row"><label>₹ 10</label><span>x</span><input type="number" id="c10" oninput="calcCash()"><span id="r10" style="font-weight: bold; margin-left: auto;">₹ 0</span></div>
+    <div class="cash-row"><label>₹ 2000</label><span>x</span><input type="number" id="c2000" oninput="calcCash()"><span class="res" id="r2000">₹ 0</span></div><div class="cash-row"><label>₹ 500</label><span>x</span><input type="number" id="c500" oninput="calcCash()"><span class="res" id="r500">₹ 0</span></div><div class="cash-row"><label>₹ 200</label><span>x</span><input type="number" id="c200" oninput="calcCash()"><span class="res" id="r200">₹ 0</span></div><div class="cash-row"><label>₹ 100</label><span>x</span><input type="number" id="c100" oninput="calcCash()"><span class="res" id="r100">₹ 0</span></div><div class="cash-row"><label>₹ 50</label><span>x</span><input type="number" id="c50" oninput="calcCash()"><span class="res" id="r50">₹ 0</span></div><div class="cash-row"><label>₹ 20</label><span>x</span><input type="number" id="c20" oninput="calcCash()"><span class="res" id="r20">₹ 0</span></div><div class="cash-row"><label>₹ 10</label><span>x</span><input type="number" id="c10" oninput="calcCash()"><span class="res" id="r10">₹ 0</span></div>
     <div class="cash-total">Total: <span id="cashTotal">₹ 0</span></div>
     <button class="action-btn btn-secondary" style="width:100%; justify-content:center;" onclick="clearCash()">Clear All</button>
   </div>
@@ -647,16 +585,7 @@
     <div class="calendar-wrapper"><div class="calendar-header"><button onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button><span id="calMonthYear">Month Year</span><button onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button></div><div class="calendar-grid"><div class="calendar-day">Sun</div><div class="calendar-day">Mon</div><div class="calendar-day">Tue</div><div class="calendar-day">Wed</div><div class="calendar-day">Thu</div><div class="calendar-day">Fri</div><div class="calendar-day">Sat</div></div><div class="calendar-grid" id="calDaysBox"></div></div>
   </div>
 
-  <div id="word-counter-module" class="tool-workspace">
-    <h3>Word Counter</h3>
-    <textarea id="wcInput" rows="3" oninput="calculateWords()"></textarea>
-    <div class="word-box">
-      <div class="word-tile"><h4 id="wcWords">0</h4><p>Words</p></div>
-      <div class="word-tile"><h4 id="wcChars">0</h4><p>Chars</p></div>
-      <div class="word-tile"><h4 id="wcLines">0</h4><p>Lines</p></div>
-    </div>
-  </div>
-
+  <div id="word-counter-module" class="tool-workspace"><h3>Word Counter</h3><textarea id="wcInput" rows="3" oninput="calculateWords()"></textarea><div class="word-box"><div class="word-tile"><h4 id="wcWords">0</h4><p>Words</p></div><div class="word-tile"><h4 id="wcChars">0</h4><p>Chars</p></div></div></div>
   <div id="password-gen-module" class="tool-workspace"><h3>Password Gen</h3><div class="pwd-display" id="pwdResult">Click Generate</div><input type="range" id="pwdLength" min="6" max="30" value="12"><button class="action-btn btn-red" onclick="generatePassword()">Generate</button></div>
   <div id="case-converter-module" class="tool-workspace"><h3>Case Converter</h3><textarea id="caseInput" rows="3"></textarea><button class="action-btn" onclick="convertCase('upper')">UPPER</button><button class="action-btn" onclick="convertCase('lower')">lower</button></div>
   <div id="bmi-calc-module" class="tool-workspace"><h3>BMI Calculator</h3><input type="number" id="bmiW" placeholder="Weight"><input type="number" id="bmiH" placeholder="Height"><button class="action-btn btn-success" onclick="calcBmi()">Calc</button><div id="bmiOut"></div></div>
@@ -686,7 +615,7 @@
   <div class="about-article">
       <h2>About Us</h2>
       <p>Welcome to <b>Technical Juman!</b></p>
-      <p>We are dedicated to providing you with the absolute best online utility and document management tools, with a strong focus on speed, simplicity, and user data security. Our website features <b>60+ premium-quality free online tools</b>—including advanced PDF converters, passport size photo tools, image background removes, and smart calculators—helping you manage your daily workflow without installing any heavy software.</p>
+      <p>We are dedicated to providing you with the absolute best online utility and document management tools, with a strong focus on speed, simplicity, and user data security. Our website features <b>60+ premium-quality free online tools</b>—including advanced PDF converters, passport size photo tools, image background removers, and smart calculators—helping you manage your daily workflow without installing any heavy software.</p>
       
       <h3>Our Story & Vision</h3>
       <p>Founded by <b>Juman Ansari</b>, an experienced Indian content creator running the successful Technical Juman YouTube Channel since 2024, this platform was built with a clear vision: to simplify digital documentation, banking procedures, and online utilities for everyone. Having served a loyal audience of thousands of subscribers on YouTube through authentic banking tutorials and earning guides, we understand the true value of trust and quality. This website is an extension of our commitment to delivering genuine, helpful, and free digital solutions to our community.</p>
@@ -815,69 +744,8 @@
       document.getElementById(moduleId).scrollIntoView({ behavior: 'smooth' });
   }
 
-  // --- VOICE TYPING LOGIC ---
-  let recognition;
-  function startVoiceTyping() {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-          alert("Speech recognition is not supported in this browser. Please try using Google Chrome.");
-          return;
-      }
-      recognition = new SpeechRecognition();
-      recognition.continuous = true;
-      recognition.interimResults = true;
-      recognition.lang = 'en-IN'; // Change localization or make dynamic if needed
-
-      recognition.onstart = () => {
-          document.getElementById('btnVoiceStart').innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Listening...';
-          document.getElementById('btnVoiceStart').style.background = '#16a34a';
-      };
-
-      recognition.onresult = (event) => {
-          let interimTranscript = '';
-          let finalTranscript = '';
-          for (let i = event.resultIndex; i < event.results.length; ++i) {
-              if (event.results[i].isFinal) {
-                  finalTranscript += event.results[i][0].transcript;
-              } else {
-                  interimTranscript += event.results[i][0].transcript;
-              }
-          }
-          document.getElementById('voiceTextOutput').value = finalTranscript + interimTranscript;
-      };
-
-      recognition.onerror = (event) => {
-          console.error("Speech recognition error", event.error);
-      };
-
-      recognition.onend = () => {
-          document.getElementById('btnVoiceStart').innerHTML = '<i class="fa-solid fa-microphone"></i> Start Mic';
-          document.getElementById('btnVoiceStart').style.background = '#3b82f6';
-      };
-
-      recognition.start();
-  }
-
-  function stopVoiceTyping() {
-      if (recognition) {
-          recognition.stop();
-      }
-  }
-
-  function copyVoiceText() {
-      const text = document.getElementById('voiceTextOutput').value;
-      if (!text) return alert("No text to copy!");
-      navigator.clipboard.writeText(text);
-      alert("Text copied to clipboard!");
-  }
-
-  // --- GENERAL TOOLS LOGIC ---
-  function calculateWords() { 
-      let text = document.getElementById('wcInput').value; 
-      document.getElementById('wcChars').innerText = text.length; 
-      document.getElementById('wcWords').innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; 
-      document.getElementById('wcLines').innerText = text === "" ? 0 : text.split(/\r\n|\r|\n/).length; 
-  }
+  // --- NEW TOOLS LOGIC ---
+  function calculateWords() { let text = document.getElementById('wcInput').value; document.getElementById('wcChars').innerText = text.length; document.getElementById('wcWords').innerText = text.trim() === "" ? 0 : text.trim().split(/\s+/).length; document.getElementById('wcLines').innerText = text === "" ? 0 : text.split(/\r\n|\r|\n/).length; }
   function generatePassword() { const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+"; const len = document.getElementById('pwdLength').value; let pwd = ""; for (let i = 0; i < len; i++) { pwd += chars.charAt(Math.floor(Math.random() * chars.length)); } document.getElementById('pwdResult').innerText = pwd; }
   function copyPassword() { const text = document.getElementById('pwdResult').innerText; if(text === "Click Generate Below") return; navigator.clipboard.writeText(text); alert("Password copied!"); }
   function convertCase(type) { const input = document.getElementById('caseInput'); if (type === 'upper') input.value = input.value.toUpperCase(); else if (type === 'lower') input.value = input.value.toLowerCase(); else if (type === 'title') input.value = input.value.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}); }
@@ -900,29 +768,7 @@
   function convertMd() { let text = document.getElementById('mdIn').value; text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>').replace(/^## (.*$)/gim, '<h2>$1</h2>').replace(/^# (.*$)/gim, '<h1>$1</h1>').replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>').replace(/\*\*(.*)\*\*/gim, '<b>$1</b>').replace(/\*(.*)\*/gim, '<i>$1</i>').replace(/!\[(.*?)\]\((.*?)\)/gim, "<img alt='$1' src='$2' />").replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>").replace(/\n$/gim, '<br />'); document.getElementById('mdOut').innerHTML = text; }
   function flipCoin() { const res = Math.random() < 0.5 ? "HEADS" : "TAILS"; document.getElementById('coinOut').innerText = "Flipping..."; setTimeout(() => { document.getElementById('coinOut').innerText = res; }, 500); }
   function calcAgeDiff() { const d1 = new Date(document.getElementById('diffDob1').value); const d2 = new Date(document.getElementById('diffDob2').value); if(!d1 || !d2 || isNaN(d1) || isNaN(d2)) return alert("Select both dates!"); const diffTime = Math.abs(d2 - d1); const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); const years = Math.floor(diffDays / 365); const remainingDays = diffDays % 365; const months = Math.floor(remainingDays / 30); const days = remainingDays % 30; document.getElementById('diffOut').innerText = `${years} Years, ${months} Months, ${days} Days gap.`; }
-  function calcEmi() { 
-      const amt = parseFloat(document.getElementById('emiAmt').value); 
-      const interest = parseFloat(document.getElementById('emiInt').value); 
-      const months = parseInt(document.getElementById('emiMonth').value); 
-      if(!amt || !interest || !months) return alert("Fill all details!"); 
-      const r = interest / 12 / 100; 
-      const emi = (amt * r * Math.pow(1+r, months)) / (Math.pow(1+r, months) - 1); 
-      document.getElementById('emiOut').innerText = `Monthly EMI: ₹ ${emi.toFixed(2)}`; 
-  }
-
-  // --- PRO CALCULATOR LOGIC ---
-  function clrCalc() { document.getElementById('calcScreen').value = ''; }
-  function delCalc() { const val = document.getElementById('calcScreen').value; document.getElementById('calcScreen').value = val.substring(0, val.length - 1); }
-  function appCalc(char) { document.getElementById('calcScreen').value += char; }
-  function resCalc() {
-      try {
-          const expression = document.getElementById('calcScreen').value;
-          const sanitized = expression.replace(/×/g, '*').replace(/÷/g, '/');
-          document.getElementById('calcScreen').value = eval(sanitized);
-      } catch(e) {
-          document.getElementById('calcScreen').value = 'Error';
-      }
-  }
+  function calcEmi() { const amt = document.getElementById('emiAmt').value; const int = document.getElementById('emiInt').value; const m = document.getElementById('emiMonth').value; if(!amt || !int || !m) return alert("Fill all details!"); const r = int / 12 / 100; const emi = (amt * r * Math.pow(1+r, m)) / (Math.pow(1+r, m) - 1); document.getElementById('emiOut').innerText = `Monthly EMI: ₹ ${emi.toFixed(2)}`; }
 
   // CROP IMAGE
   let cropper;
@@ -1003,7 +849,7 @@
   function adjustPassportCountManual(changeFactor) { let computedSum = currentStudioPhotosCounter + changeFactor; if(computedSum < 1) computedSum = 1; currentStudioPhotosCounter = computedSum; document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter; document.getElementById('passportCopyCount').value = (currentStudioPhotosCounter <= 30) ? currentStudioPhotosCounter : "30"; renderPassportStudioPhotosGrid(); }
   function renderPassportStudioPhotosGrid() {
     const grid = document.getElementById('passportGridContainer');
-    if(!passportStudioImgSourceBase64) { grid.innerHTML = '<div class="passport-blank-state"><i class="fa-regular fa-images" style="font-size:40px; color:#cbd5e1;"></i><p>Upload a photo to see live grid preview instantly.</p></div>'; return; }
+    if(!passportStudioImgSourceBase64) { grid.innerHTML = '<div class="passport-blank-state"><i class="fa-regular fa-images" style="font-size:40px; color:#cbd5e1;"></i><p>Upload a photo to see live preview.</p></div>'; return; }
     grid.innerHTML = '';
     for(let i = 0; i < currentStudioPhotosCounter; i++) { 
         const cell = document.createElement('div'); cell.className = `passport-photo-item`; 
@@ -1061,21 +907,8 @@
     document.getElementById('calcResultDisplayPanel').style.display = 'block';
   }
 
-  // CASH & CALENDAR
-  function calcCash() { const v = [2000, 500, 200, 100, 50, 20, 10]; let total = 0; v.forEach(val => { let c = parseInt(document.getElementById('c'+val).value) || 0; let amt = c * val; document.getElementById('r'+val).innerText = '₹ ' + amt; total += amt; }); document.getElementById('cashTotal').innerText = '₹ ' + total.toLocaleString('en-IN'); }
-  function clearCash() { const v = [2000, 500, 200, 100, 50, 20, 10]; v.forEach(val => { document.getElementById('c'+val).value = ''; document.getElementById('r'+val).innerText = '₹ 0'; }); document.getElementById('cashTotal').innerText = '₹ 0'; }
-  let currDate = new Date(); function renderCal() { const box = document.getElementById('calDaysBox'); box.innerHTML = ''; const mYear = document.getElementById('calMonthYear'); const year = currDate.getFullYear(); const month = currDate.getMonth(); const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate(); const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; mYear.innerText = `${monthNames[month]} ${year}`; for(let i=0; i<firstDay; i++) { box.innerHTML += `<div class="calendar-date empty"></div>`; } for(let i=1; i<=daysInMonth; i++) { let cls = "calendar-date"; let today = new Date(); if(i===today.getDate() && month===today.getMonth() && year===today.getFullYear()) cls += " active"; box.innerHTML += `<div class="${cls}">${i}</div>`; } } function changeMonth(step) { currDate.setMonth(currDate.getMonth() + step); renderCal(); } window.onload = function() { renderCal(); };
-
-  // TTS AUDIO
-  function playNativeTTS() { const text = document.getElementById('ttsInputText').value.trim(); if (!text) return alert("Enter text!"); const langSelect = document.getElementById('ttsLanguageSelect').value; const genderSelect = document.getElementById('ttsGenderSelect').value; window.speechSynthesis.cancel(); const utterance = new SpeechSynthesisUtterance(text); utterance.lang = langSelect; let voices = window.speechSynthesis.getVoices(); let bestVoice = null; let langVoices = voices.filter(v => v.lang.startsWith(langSelect.split('-')[0])); if(langVoices.length > 0) { if (genderSelect === 'female') { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('google')); } else { bestVoice = langVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('david')); } if(!bestVoice) bestVoice = langVoices[0]; utterance.voice = bestVoice; } if (genderSelect === 'female') { utterance.pitch = 1.3; } else { utterance.pitch = 0.8; } window.speechSynthesis.speak(utterance); }
-  function downloadMp3TTS() { let text = document.getElementById('ttsInputText').value.trim(); if (!text) return alert("Please enter text to download!"); if (text.length > 200) { alert("Shorten text to < 200 chars for download. We will download the first 200 chars."); text = text.substring(0, 200); } const lang = document.getElementById('ttsLanguageSelect').value.split('-')[0]; const a = document.createElement('a'); a.href = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`; a.target = '_blank'; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
-  if (typeof window !== 'undefined' && window.speechSynthesis) { window.speechSynthesis.getVoices(); if (window.speechSynthesis.onvoiceschanged !== undefined) { window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); }; } }
-
-  // TRANSLATE
-  async function processTranslate() { const text = document.getElementById('transInput').value; const from = document.getElementById('transFrom').value; const to = document.getElementById('transTo').value; if(!text) return alert("Enter text to translate!"); try { const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`); const data = await res.json(); document.getElementById('transOutput').value = data.responseData.translatedText; } catch(e) { alert("Translation failed. Try again."); } }
-  function downloadTranslatedText() { const text = document.getElementById('transOutput').value; if(!text) return alert("No text to download!"); const blob = new Blob([text], {type: "text/plain;charset=utf-8"}); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = "Translated_Text.txt"; link.click(); }
-
 </script>
 
 </body>
 </html>
+```
