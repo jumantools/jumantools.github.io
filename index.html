@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Technical Juman All In One - Premium Tools</title>
+  <title>Technical Juman Free Online PDF and Document Editor Tools</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -218,7 +218,7 @@
     <i class="fa-brands fa-youtube brand-youtube-logo"></i>
     <div class="logo-text">
       <h1>Technical Juman</h1>
-      <p>All In One Premium Tools</p>
+      <p>Free Online PDF and Document Editor Tools</p>
     </div>
   </div>
   <div class="header-search">
@@ -720,7 +720,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <div>© 2025 Technical Juman - All In One Premium Tools. All rights reserved.</div>
+        <div>© 2025 Technical Juman - Free Online PDF and Document Editor Tools. All rights reserved.</div>
         <div><a href="#">Disclaimer</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a></div>
     </div>
 </footer>
@@ -841,7 +841,7 @@
 
   let mergePdfFilesArray = []; function handleNewMergeFiles(event) { const files = event.target.files; if (!files) return; for (let i = 0; i < files.length; i++) { mergePdfFilesArray.push(files[i]); } event.target.value = ''; updateMergePdfUI(); } function removeMergeFile(index) { mergePdfFilesArray.splice(index, 1); updateMergePdfUI(); } function updateMergePdfUI() { const container = document.getElementById('mergePdfListContainer'); container.innerHTML = ''; mergePdfFilesArray.forEach((file, index) => { const item = document.createElement('div'); item.className = 'merge-item'; item.innerHTML = `<div class="merge-item-title"><i class="fa-solid fa-file-pdf" style="color:#ef4444;"></i> ${file.name}</div><button class="remove-pdf-btn" onclick="removeMergeFile(${index})"><i class="fa-solid fa-minus"></i></button>`; container.appendChild(item); }); } async function processDynamicMergePdf() { if (mergePdfFilesArray.length < 2) return alert("Select at least 2 PDFs!"); const mergedPdf = await PDFLib.PDFDocument.create(); for (let i = 0; i < mergePdfFilesArray.length; i++) { const fileBytes = await mergePdfFilesArray[i].arrayBuffer(); const pdfDoc = await PDFLib.PDFDocument.load(fileBytes); const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices()); copiedPages.forEach((page) => mergedPdf.addPage(page)); } const mergedPdfBytes = await mergedPdf.save(); const blob = new Blob([mergedPdfBytes], { type: 'application/pdf' }); const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = "Merged_All.pdf"; link.click(); }
 
-  // PASSPORT STUDIO 
+  // Passport Size Photo Studio
   let passportStudioImgSourceBase64 = ''; let currentStudioPhotosCounter = 12;
   function loadPassportStudioSource(event) { if(event.target.files && event.target.files[0]) { const reader = new FileReader(); reader.onload = function(e) { passportStudioImgSourceBase64 = e.target.result; renderPassportStudioPhotosGrid(); }; reader.readAsDataURL(event.target.files[0]); } }
   function syncDropdownToStudioGrid() { currentStudioPhotosCounter = parseInt(document.getElementById('passportCopyCount').value); document.getElementById('manualCountDisplay').innerText = currentStudioPhotosCounter; renderPassportStudioPhotosGrid(); }
