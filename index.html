@@ -1238,3 +1238,333 @@
 
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instant Passport Photo Maker</title>
+    <!-- Tailwind CSS for quick styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* --- PRINT CSS --- */
+        @media print {
+            /* Force A4 size and hide browser headers/footers */
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+
+            /* Hide everything that is NOT the print area */
+            body * {
+                visibility: hidden;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background: #ffffff !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* Show only the print area and its contents */
+            #passport-print-area, #passport-print-area * {
+                visibility: visible !important;
+            }
+
+            /* Exact A4 Dimensions and Layout */
+            #passport-print-area {
+                box-sizing: border-box !important; /* Critical to prevent padding expanding width */
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                margin: 0 !important;
+                /* Dynamic padding applied via JS inline styles */
+                padding-left: 12mm !important;
+                padding-right: 12mm !important;
+                padding-bottom: 12mm !important;
+                background: #ffffff !important;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                align-content: flex-start !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .passport-img-box {
+                box-sizing: border-box;
+                border: 1px dashed #ccc; /* Cut lines */
+            }
+        }
+
+        /* --- SCREEN/PREVIEW CSS --- */
+        #preview-container {
+            /* Scaled down A4 proportion for screen preview */
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 210 / 297;
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        #passport-print-area {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            box-sizing: border-box;
+            padding: 4%; /* approximate preview padding */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4 shadow-md no-print">
+        <h1 class="text-2xl font-bold text-center">Instant Passport Photo Generator</h1>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-4 mt-4 grid grid-cols-1 lg:grid-cols-12 gap-8 no-print">
+        
+        <!-- Controls Section (Left Side) -->
+        <div class="lg:col-span-5 bg-white p-6 rounded-lg shadow-md no-print">
+            <h2 class="text-lg font-semibold mb-4 border-b pb-2">Settings</h2>
+            
+            <!-- Upload Image -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium mb-1">Upload Photo</label>
+                <input type="file" id="imageInput" accept="image/*" class="w-full border p-2 rounded">
+            </div>
+
+            <!-- Dimensions -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Width (mm)</label>
+                    <input type="number" id="photoWidth" value="35" class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Height (mm)</label>
+                    <input type="number" id="photoHeight" value="45" class="w-full border p-2 rounded">
+                </div>
+            </div>
+
+            <!-- Layout Settings -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Columns</label>
+                    <input type="number" id="passportCols" value="4" class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Total Photos</label>
+                    <input type="number" id="passportCount" value="8" class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Top Margin (mm)</label>
+                    <input type="number" id="topMargin" value="12" class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Gap Between (mm)</label>
+                    <input type="number" id="passportGap" value="5" class="w-full border p-2 rounded">
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-6 space-y-3">
+                <button onclick="window.print()" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition">
+                    🖨️ Print Directly (A4)
+                </button>
+                <button onclick="downloadPassportSheet()" id="downloadBtn" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition">
+                    ⬇️ Download High-Res (JPEG)
+                </button>
+            </div>
+        </div>
+
+        <!-- Preview Section (Right Side) -->
+        <div class="lg:col-span-7 no-print">
+            <div class="bg-gray-200 p-4 rounded-lg flex justify-center items-center h-full">
+                <!-- Actual Print Area (Matches A4 proportion visually, but uses exact mm in print) -->
+                <div id="preview-container">
+                    <div id="passport-print-area">
+                        <!-- Images will be injected here via JS -->
+                        <div class="w-full h-full flex items-center justify-center text-gray-400">
+                            Upload an image to see preview
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Application Logic -->
+    <script>
+        let activeImageUrl = null;
+
+        // DOM Elements
+        const imageInput = document.getElementById('imageInput');
+        const printArea = document.getElementById('passport-print-area');
+        const inputs = document.querySelectorAll('input[type="number"]');
+
+        // Handle Image Upload
+        imageInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (activeImageUrl) URL.revokeObjectURL(activeImageUrl);
+                activeImageUrl = URL.createObjectURL(file);
+                updatePreview();
+            }
+        });
+
+        // Handle Setting Changes
+        inputs.forEach(input => {
+            input.addEventListener('input', updatePreview);
+        });
+
+        // Update the Live Preview UI
+        function updatePreview() {
+            if (!activeImageUrl) return;
+
+            const widthStr = document.getElementById('photoWidth').value;
+            const heightStr = document.getElementById('photoHeight').value;
+            const colsStr = document.getElementById('passportCols').value;
+            const countStr = document.getElementById('passportCount').value;
+            const topMarginStr = document.getElementById('topMargin').value;
+            const gapStr = document.getElementById('passportGap').value;
+
+            // Apply dynamic top margin and gap for PRINT mode via inline styles
+            printArea.style.setProperty('padding-top', `${topMarginStr}mm`, 'important');
+            printArea.style.setProperty('gap', `${gapStr}mm`, 'important');
+
+            printArea.innerHTML = ''; // Clear previous
+
+            for (let i = 0; i < parseInt(countStr); i++) {
+                const imgWrap = document.createElement('div');
+                imgWrap.className = 'passport-img-box';
+                
+                // Set sizes using CSS calc for the preview to look accurate
+                // For exact print accuracy, we use inline mm styling
+                imgWrap.style.width = `${widthStr}mm`;
+                imgWrap.style.height = `${heightStr}mm`;
+                
+                const img = document.createElement('img');
+                img.src = activeImageUrl;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+
+                imgWrap.appendChild(img);
+                printArea.appendChild(imgWrap);
+            }
+        }
+
+        // Helper to load image for Canvas drawing
+        const loadImage = (url) => {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = () => resolve(img);
+                img.onerror = (e) => reject(e);
+                img.src = url;
+            });
+        };
+
+        // Download High-Resolution A4 Canvas logic
+        async function downloadPassportSheet() {
+            if (!activeImageUrl) {
+                alert("Please upload a photo first.");
+                return;
+            }
+
+            const btn = document.getElementById('downloadBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = "⏳ Generating...";
+            btn.disabled = true;
+
+            try {
+                // Get Settings
+                const photoW = parseFloat(document.getElementById('photoWidth').value);
+                const photoH = parseFloat(document.getElementById('photoHeight').value);
+                const passportCols = parseInt(document.getElementById('passportCols').value);
+                const passportCount = parseInt(document.getElementById('passportCount').value);
+                const topMargin = parseFloat(document.getElementById('topMargin').value);
+                const passportGap = parseFloat(document.getElementById('passportGap').value);
+
+                // Create Canvas (A4 Size at 300 DPI)
+                const canvas = document.createElement('canvas');
+                canvas.width = 2480; 
+                canvas.height = 3508;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) throw new Error('Could not request canvas context');
+
+                // White Background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Conversions (300 DPI)
+                const pxPerMm = 11.811;
+                const pagePaddingLeft = 12 * pxPerMm;
+                const gapPx = passportGap * pxPerMm;
+                const cardWidthPx = photoW * pxPerMm;
+                const cardHeightPx = photoH * pxPerMm;
+
+                const subjectImg = await loadImage(activeImageUrl);
+
+                let col = 0;
+                let row = 0;
+                const startX = pagePaddingLeft;
+                const startY = topMargin * pxPerMm;
+
+                for (let i = 0; i < passportCount; i++) {
+                    if (col >= passportCols) {
+                        col = 0;
+                        row++;
+                    }
+                    
+                    const x = startX + col * (cardWidthPx + gapPx);
+                    const y = startY + row * (cardHeightPx + gapPx);
+
+                    // Draw the image (Cover mode equivalent)
+                    ctx.drawImage(subjectImg, x, y, cardWidthPx, cardHeightPx);
+
+                    // Draw cut lines (Grey border)
+                    ctx.strokeStyle = '#cccccc';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x, y, cardWidthPx, cardHeightPx);
+
+                    col++;
+                }
+
+                // Convert to Blob and Download
+                canvas.toBlob((blob) => {
+                    if (!blob) throw new Error('Canvas to Blob failed');
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'Passport-Photos-A4.jpg';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                }, 'image/jpeg', 1.0); // 100% Quality
+
+            } catch (error) {
+                console.error("Export Error:", error);
+                alert("Error generating the image. Check console for details.");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
