@@ -4,14 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Passport Size Photo Studio</title>
-    <!-- Tailwind CSS for UI styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Free AI Background Removal (Alternative to remove.bg) -->
+    <!-- Google Fonts: Inter for Professional Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { primary: '#4f46e5', secondary: '#1e293b' }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Imgly AI Background Removal -->
     <script src="https://unpkg.com/@imgly/background-removal@1.4.3/dist/browser/imglyRemoveBackground.umd.js"></script>
 
     <style>
-        /* --- PRINT CSS --- */
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; }
+        
+        /* Custom Scrollbar for Settings Panel */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* --- PRINT CSS (CRITICAL FOR A4 EXACT SIZE) --- */
         @media print {
             @page { size: A4 portrait; margin: 0; }
             body * { visibility: hidden; }
@@ -20,173 +42,199 @@
             #passport-print-area, #passport-print-area * { visibility: visible !important; }
             
             #passport-print-area {
-                box-sizing: border-box !important;
-                position: absolute !important; left: 0 !important; top: 0 !important;
-                width: 210mm !important; height: 297mm !important; margin: 0 !important;
-                padding-left: 12mm !important; padding-right: 12mm !important; padding-bottom: 12mm !important;
-                background: #ffffff !important; display: flex !important;
-                flex-wrap: wrap !important; align-content: flex-start !important;
+                box-sizing: border-box !important; position: absolute !important; 
+                left: 0 !important; top: 0 !important; width: 210mm !important; 
+                height: 297mm !important; margin: 0 !important;
+                padding-left: 12mm !important; padding-right: 12mm !important; 
+                padding-bottom: 12mm !important; background: #ffffff !important; 
+                display: flex !important; flex-wrap: wrap !important; 
+                align-content: flex-start !important;
                 -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important;
             }
-            .passport-img-box {
-                box-sizing: border-box;
-                border: 1px dashed #ccc;
-                overflow: hidden;
-                position: relative;
-            }
+            .passport-img-box { box-sizing: border-box; border: 1px dashed #cbd5e1; overflow: hidden; position: relative; }
         }
 
-        /* --- PREVIEW CSS --- */
-        #preview-container {
-            width: 100%; max-width: 500px; aspect-ratio: 210 / 297;
-            background: white; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            overflow: hidden; position: relative; margin: 0 auto;
+        /* --- A4 PAPER PREVIEW CSS --- */
+        #preview-wrapper {
+            width: 100%; max-width: 520px; aspect-ratio: 210 / 297;
+            background: white; overflow: hidden; position: relative; margin: auto;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e5e7eb;
         }
         #passport-print-area {
             width: 100%; height: 100%; display: flex; flex-wrap: wrap;
             align-content: flex-start; box-sizing: border-box; padding: 4%;
         }
-        .passport-img-box {
-            overflow: hidden; position: relative;
-        }
+        .passport-img-box { overflow: hidden; position: relative; }
+        
+        /* Drag & Drop Overlay */
+        .drag-active { border-color: #4f46e5 !important; background-color: #eef2ff !important; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans relative">
+<body class="h-screen flex flex-col overflow-hidden text-slate-800">
 
-    <!-- Loading Overlay -->
-    <div id="loading-overlay" class="fixed inset-0 bg-slate-900 bg-opacity-80 flex flex-col items-center justify-center z-50 hidden no-print backdrop-blur-sm">
-        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mb-4"></div>
-        <h2 class="text-white text-2xl font-bold tracking-wide">Studio AI Working...</h2>
-        <p class="text-slate-300 text-sm mt-2">Removing background just like Remove.bg ✨</p>
+    <!-- OVERLAY: Processing Image -->
+    <div id="loading-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex flex-col items-center justify-center z-50 hidden no-print transition-all">
+        <!-- SVG Spinner -->
+        <svg class="animate-spin h-12 w-12 text-indigo-500 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <h2 class="text-white text-2xl font-bold tracking-tight">Processing Image...</h2>
+        <p class="text-indigo-200 text-sm mt-2 font-medium">Removing background and applying studio settings</p>
     </div>
 
-    <!-- Header -->
-    <header class="bg-slate-900 text-white p-5 shadow-lg no-print">
-        <div class="max-w-7xl mx-auto flex items-center justify-center">
-            <h1 class="text-3xl font-extrabold tracking-tight">📸 Passport Size Photo Studio</h1>
+    <!-- TOP NAVBAR -->
+    <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-6 shrink-0 no-print z-10">
+        <div class="flex items-center gap-3">
+            <div class="bg-indigo-600 text-white p-2 rounded-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            </div>
+            <h1 class="text-xl font-bold text-slate-800 tracking-tight">Passport Photo Studio</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <span class="text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">A4 Canvas</span>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto p-4 mt-6 grid grid-cols-1 lg:grid-cols-12 gap-8 no-print">
+    <!-- MAIN DASHBOARD AREA -->
+    <main class="flex-1 flex overflow-hidden no-print relative">
         
-        <!-- --- STUDIO TOOLS SECTION (LEFT) --- -->
-        <div class="lg:col-span-5 bg-white p-6 rounded-xl shadow-lg border border-slate-200 no-print">
-            
-            <!-- Tool 1: Image Upload -->
-            <div class="mb-6">
-                <label class="block text-sm font-bold mb-2 text-slate-700">1. Upload Photo (Auto BG Removal)</label>
-                <div class="relative border-2 border-dashed border-blue-400 rounded-lg p-6 hover:bg-blue-50 transition text-center cursor-pointer">
-                    <input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                    <span class="text-3xl mb-2 block">📤</span>
-                    <span class="text-blue-600 font-semibold">Click or Drag photo here</span>
-                </div>
-            </div>
-
-            <!-- Tool 2: Background Colors -->
-            <div class="mb-6">
-                <label class="block text-sm font-bold mb-2 text-slate-700">2. Background Color</label>
-                <div class="flex items-center space-x-3">
-                    <button class="color-btn w-8 h-8 rounded-full shadow border-2 border-transparent focus:border-slate-900" style="background-color: #3b82f6;" onclick="setColor('#3b82f6')"></button>
-                    <button class="color-btn w-8 h-8 rounded-full shadow border-2 border-transparent focus:border-slate-900" style="background-color: #ffffff;" onclick="setColor('#ffffff')"></button>
-                    <button class="color-btn w-8 h-8 rounded-full shadow border-2 border-transparent focus:border-slate-900" style="background-color: #ef4444;" onclick="setColor('#ef4444')"></button>
-                    <button class="color-btn w-8 h-8 rounded-full shadow border-2 border-transparent focus:border-slate-900" style="background-color: #94a3b8;" onclick="setColor('#94a3b8')"></button>
-                    <span class="text-slate-400">|</span>
-                    <input type="color" id="bgColor" value="#3b82f6" class="h-8 w-12 border rounded cursor-pointer">
-                </div>
-            </div>
-
-            <!-- Tool 3: Size Presets -->
-            <div class="mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
-                <label class="block text-sm font-bold mb-2 text-slate-700">3. Select Country / Size</label>
-                <select id="sizePreset" class="w-full border border-slate-300 p-2 rounded mb-3 font-medium text-slate-700">
-                    <option value="35,45,4,8">🇮🇳 India Standard (35x45 mm)</option>
-                    <option value="51,51,3,6">🇺🇸 US Visa / Passport (51x51 mm)</option>
-                    <option value="35,45,4,8">🇬🇧 UK Standard (35x45 mm)</option>
-                    <option value="20,25,6,18">📮 Stamp Size (20x25 mm)</option>
-                    <option value="custom">⚙️ Custom Size</option>
-                </select>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Width (mm)</label>
-                        <input type="number" id="photoWidth" value="35" class="w-full border border-slate-300 p-2 rounded bg-white">
+        <!-- LEFT PANEL: TOOLS & SETTINGS -->
+        <aside class="w-full lg:w-[420px] bg-white border-r border-slate-200 flex flex-col h-full z-10 shadow-lg lg:shadow-none overflow-y-auto">
+            <div class="p-6 space-y-8 flex-1">
+                
+                <!-- 1. Upload Section (Drag & Drop) -->
+                <section>
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider">1. Photo Subject</h3>
                     </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Height (mm)</label>
-                        <input type="number" id="photoHeight" value="45" class="w-full border border-slate-300 p-2 rounded bg-white">
+                    <label id="dropZone" class="relative flex flex-col items-center justify-center w-full h-40 border-2 border-slate-300 border-dashed rounded-xl cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors group">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg class="w-8 h-8 mb-3 text-indigo-500 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                            <p class="mb-1 text-sm font-semibold text-slate-700">Click to upload or drag & drop</p>
+                            <p class="text-xs text-slate-500">Auto background removal applied</p>
+                        </div>
+                        <input id="imageInput" type="file" class="hidden" accept="image/*" />
+                    </label>
+                </section>
+
+                <!-- 2. Studio Background -->
+                <section>
+                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3">2. Background Color</h3>
+                    <div class="flex items-center gap-3">
+                        <button class="w-10 h-10 rounded-full shadow-sm border border-slate-200 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:scale-105 transition" style="background-color: #3b82f6;" onclick="setColor('#3b82f6')"></button>
+                        <button class="w-10 h-10 rounded-full shadow-sm border border-slate-200 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:scale-105 transition" style="background-color: #ffffff;" onclick="setColor('#ffffff')"></button>
+                        <button class="w-10 h-10 rounded-full shadow-sm border border-slate-200 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:scale-105 transition" style="background-color: #ef4444;" onclick="setColor('#ef4444')"></button>
+                        <button class="w-10 h-10 rounded-full shadow-sm border border-slate-200 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 hover:scale-105 transition" style="background-color: #94a3b8;" onclick="setColor('#94a3b8')"></button>
+                        <div class="h-6 w-px bg-slate-300 mx-1"></div>
+                        <div class="relative w-10 h-10 rounded-full overflow-hidden border border-slate-200 shadow-sm cursor-pointer hover:scale-105 transition">
+                            <input type="color" id="bgColor" value="#3b82f6" class="absolute inset-0 w-[200%] h-[200%] -top-2 -left-2 cursor-pointer">
+                        </div>
                     </div>
-                </div>
+                </section>
+
+                <!-- 3. Size Specifications -->
+                <section class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3">3. Dimensions & Layout</h3>
+                    
+                    <select id="sizePreset" class="w-full bg-white border border-slate-300 text-slate-700 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5 mb-4 font-medium shadow-sm outline-none">
+                        <option value="35,45,4,8">🇮🇳 Standard India (35x45 mm) - 8 Photos</option>
+                        <option value="51,51,3,6">🇺🇸 US Visa/Passport (51x51 mm) - 6 Photos</option>
+                        <option value="35,45,4,8">🇬🇧 Standard UK (35x45 mm) - 8 Photos</option>
+                        <option value="20,25,6,18">📮 Stamp Size (20x25 mm) - 18 Photos</option>
+                        <option value="custom">⚙️ Custom Manual Size</option>
+                    </select>
+
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Width (mm)</label>
+                            <input type="number" id="photoWidth" value="35" class="w-full border border-slate-300 px-3 py-2 rounded-lg bg-white text-sm focus:ring-1 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Height (mm)</label>
+                            <input type="number" id="photoHeight" value="45" class="w-full border border-slate-300 px-3 py-2 rounded-lg bg-white text-sm focus:ring-1 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Columns</label>
+                            <input type="number" id="passportCols" value="4" class="w-full border border-slate-300 px-3 py-2 rounded-lg bg-white text-sm focus:ring-1 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Total Photos</label>
+                            <input type="number" id="passportCount" value="8" class="w-full border border-slate-300 px-3 py-2 rounded-lg bg-white text-sm focus:ring-1 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Top Margin (mm)</label>
+                            <input type="number" id="topMargin" value="12" class="w-full border border-slate-300 px-3 py-2 rounded-lg bg-white text-sm focus:ring-1 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-500 mb-1">Gap Between (mm)</label>
+                            <input type="number" id="passportGap" value="5" class="w-full border border-slate-300 px-3 py-2 rounded-lg bg-white text-sm focus:ring-1 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+                </section>
             </div>
 
-            <!-- Tool 4: Grid Layout -->
-            <div class="mb-6 grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Columns per row</label>
-                    <input type="number" id="passportCols" value="4" class="w-full border border-slate-300 p-2 rounded">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Total Photos</label>
-                    <input type="number" id="passportCount" value="8" class="w-full border border-slate-300 p-2 rounded">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Top Margin (mm)</label>
-                    <input type="number" id="topMargin" value="12" class="w-full border border-slate-300 p-2 rounded">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-500 mb-1">Gap Between (mm)</label>
-                    <input type="number" id="passportGap" value="5" class="w-full border border-slate-300 p-2 rounded">
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="mt-6 flex gap-3">
-                <button onclick="window.print()" class="flex-1 bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-4 rounded shadow-md transition flex justify-center items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
-                    Print A4
-                </button>
-                <button onclick="downloadPassportSheet()" id="downloadBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded shadow-md transition flex justify-center items-center gap-2">
+            <!-- Footer Actions (Sticky Bottom) -->
+            <div class="p-6 border-t border-slate-200 bg-white space-y-3">
+                <button onclick="downloadPassportSheet()" id="downloadBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-colors flex justify-center items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    Save High-Res
+                    Download High-Res JPG
+                </button>
+                <button onclick="window.print()" class="w-full bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-semibold py-3 px-4 rounded-xl shadow-sm transition-colors flex justify-center items-center gap-2">
+                    <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Print Direct to A4
                 </button>
             </div>
-        </div>
+        </aside>
 
-        <!-- --- A4 PREVIEW SECTION (RIGHT) --- -->
-        <div class="lg:col-span-7 no-print flex flex-col">
-            <h2 class="text-xl font-bold text-slate-700 mb-4">A4 Sheet Preview</h2>
-            <div class="bg-slate-200 p-6 rounded-xl flex justify-center items-center flex-1 shadow-inner border border-slate-300 border-dashed">
-                <div id="preview-container">
+        <!-- RIGHT PANEL: PREVIEW CANVAS -->
+        <section class="flex-1 bg-slate-100 flex flex-col p-6 overflow-y-auto no-print">
+            <div class="flex-1 flex items-center justify-center py-4">
+                
+                <!-- A4 Paper Representation -->
+                <div id="preview-wrapper" class="rounded-sm">
                     <div id="passport-print-area">
+                        <!-- Empty State -->
                         <div class="w-full h-full flex flex-col items-center justify-center text-slate-400">
-                            <svg class="w-16 h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <span>Upload photo to see magic</span>
+                            <div class="bg-slate-100 p-4 rounded-full mb-3">
+                                <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <span class="font-medium text-sm">A4 Live Preview</span>
                         </div>
                     </div>
                 </div>
+
             </div>
-        </div>
+        </section>
 
     </main>
 
-    <!-- App Logic -->
+    <!-- Application Script -->
     <script>
         let activeImageUrl = null;
 
-        // DOM Elements
         const imageInput = document.getElementById('imageInput');
+        const dropZone = document.getElementById('dropZone');
         const bgColorInput = document.getElementById('bgColor');
         const printArea = document.getElementById('passport-print-area');
         const loadingOverlay = document.getElementById('loading-overlay');
         const inputs = document.querySelectorAll('input[type="number"]');
         const sizePreset = document.getElementById('sizePreset');
 
-        // Color Swatch Function
+        // Color Swatch function
         window.setColor = function(color) {
             bgColorInput.value = color;
             updatePreview();
         };
 
-        // Size Presets Logic
+        // Preset sizes
         sizePreset.addEventListener('change', function(e) {
             if (e.target.value !== 'custom') {
                 const [w, h, c, count] = e.target.value.split(',');
@@ -198,15 +246,33 @@
             }
         });
 
-        // 1. IMAGE UPLOAD & AI BACKGROUND REMOVAL (Free Remove.bg alternative)
-        imageInput.addEventListener('change', async function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        // Event Listeners for file selection
+        imageInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+        
+        // DRAG & DROP LOGIC
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-active');
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('drag-active');
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-active');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        // Main Image Processor
+        async function handleFile(file) {
+            if (!file || !file.type.startsWith('image/')) return;
 
             loadingOverlay.classList.remove('hidden');
 
             try {
-                // @imgly processes the image directly in the browser (100% Free & Secure)
+                // Free In-Browser AI Background Removal
                 const imageBlob = await imglyRemoveBackground(file, {
                     publicPath: 'https://unpkg.com/@imgly/background-removal@1.4.3/dist/assets/' 
                 });
@@ -217,175 +283,155 @@
                 updatePreview();
             } catch (error) {
                 console.error("AI Error:", error);
-                alert("Failed to process image. Try a different photo.");
+                alert("Processing failed. Please try a different photo.");
             } finally {
                 loadingOverlay.classList.add('hidden');
-                // Reset input so same file can be selected again if needed
-                imageInput.value = "";
+                imageInput.value = ""; // Reset input
             }
-        });
+        }
 
-        // Event Listeners for Live Update
+        // Live Update Triggers
         inputs.forEach(input => input.addEventListener('input', () => {
-            sizePreset.value = 'custom'; // Switch to custom if user manually types sizes
+            sizePreset.value = 'custom';
             updatePreview();
         }));
         bgColorInput.addEventListener('input', updatePreview);
 
-        // 2. LIVE PREVIEW UPDATE
+        // Update HTML Preview
         function updatePreview() {
             if (!activeImageUrl) return;
 
-            const widthStr = document.getElementById('photoWidth').value;
-            const heightStr = document.getElementById('photoHeight').value;
-            const colsStr = document.getElementById('passportCols').value;
-            const countStr = document.getElementById('passportCount').value;
-            const topMarginStr = document.getElementById('topMargin').value;
-            const gapStr = document.getElementById('passportGap').value;
-            const bgColor = bgColorInput.value;
+            const w = document.getElementById('photoWidth').value;
+            const h = document.getElementById('photoHeight').value;
+            const c = document.getElementById('passportCols').value;
+            const count = document.getElementById('passportCount').value;
+            const top = document.getElementById('topMargin').value;
+            const gap = document.getElementById('passportGap').value;
+            const color = bgColorInput.value;
 
-            // Update print area layout
-            printArea.style.setProperty('padding-top', `${topMarginStr}mm`, 'important');
-            printArea.style.setProperty('gap', `${gapStr}mm`, 'important');
+            printArea.style.setProperty('padding-top', `${top}mm`, 'important');
+            printArea.style.setProperty('gap', `${gap}mm`, 'important');
             printArea.innerHTML = ''; 
 
-            for (let i = 0; i < parseInt(countStr); i++) {
-                const imgWrap = document.createElement('div');
-                imgWrap.className = 'passport-img-box';
-                imgWrap.style.width = `${widthStr}mm`;
-                imgWrap.style.height = `${heightStr}mm`;
-                imgWrap.style.backgroundColor = bgColor;
+            for (let i = 0; i < parseInt(count); i++) {
+                const box = document.createElement('div');
+                box.className = 'passport-img-box';
+                box.style.width = `${w}mm`;
+                box.style.height = `${h}mm`;
+                box.style.backgroundColor = color;
                 
                 const img = document.createElement('img');
                 img.src = activeImageUrl;
                 img.style.width = '100%';
                 img.style.height = '100%';
-                // 'cover' ensures the photo fills the dimensions without stretching
                 img.style.objectFit = 'cover';
-                img.style.objectPosition = 'center top'; // Keeps head in focus usually
+                img.style.objectPosition = 'center top'; // prioritize face
 
-                imgWrap.appendChild(img);
-                printArea.appendChild(imgWrap);
+                box.appendChild(img);
+                printArea.appendChild(box);
             }
         }
 
-        const loadImage = (url) => {
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.crossOrigin = 'Anonymous';
-                img.onload = () => resolve(img);
-                img.onerror = (e) => reject(e);
-                img.src = url;
-            });
-        };
+        const loadImage = (url) => new Promise((res, rej) => {
+            const img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onload = () => res(img);
+            img.onerror = rej;
+            img.src = url;
+        });
 
-        // 3. GENERATE & DOWNLOAD 300 DPI A4 SHEET
+        // High Res Canvas Download
         async function downloadPassportSheet() {
-            if (!activeImageUrl) {
-                alert("Please upload a photo first.");
-                return;
-            }
+            if (!activeImageUrl) return alert("Please upload a photo first.");
 
             const btn = document.getElementById('downloadBtn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = "⏳ Processing AI...";
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<svg class="animate-spin h-5 w-5 text-white mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Saving...`;
             btn.disabled = true;
 
             try {
-                const photoW = parseFloat(document.getElementById('photoWidth').value);
-                const photoH = parseFloat(document.getElementById('photoHeight').value);
-                const passportCols = parseInt(document.getElementById('passportCols').value);
-                const passportCount = parseInt(document.getElementById('passportCount').value);
-                const topMargin = parseFloat(document.getElementById('topMargin').value);
-                const passportGap = parseFloat(document.getElementById('passportGap').value);
+                const w = parseFloat(document.getElementById('photoWidth').value);
+                const h = parseFloat(document.getElementById('photoHeight').value);
+                const cols = parseInt(document.getElementById('passportCols').value);
+                const count = parseInt(document.getElementById('passportCount').value);
+                const topM = parseFloat(document.getElementById('topMargin').value);
+                const gap = parseFloat(document.getElementById('passportGap').value);
                 const bgColor = bgColorInput.value;
 
-                // Create 300 DPI A4 Canvas
+                // 300 DPI Canvas Setup
                 const canvas = document.createElement('canvas');
                 canvas.width = 2480; 
                 canvas.height = 3508;
                 const ctx = canvas.getContext('2d');
-                
                 ctx.fillStyle = '#ffffff';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                 const pxPerMm = 11.811;
-                const pagePaddingLeft = 12 * pxPerMm;
-                const gapPx = passportGap * pxPerMm;
-                const cardWidthPx = photoW * pxPerMm;
-                const cardHeightPx = photoH * pxPerMm;
+                const padLeftPx = 12 * pxPerMm;
+                const gapPx = gap * pxPerMm;
+                const cwPx = w * pxPerMm;
+                const chPx = h * pxPerMm;
 
-                const subjectImg = await loadImage(activeImageUrl);
+                const img = await loadImage(activeImageUrl);
+                let col = 0, row = 0;
+                const startY = topM * pxPerMm;
 
-                let col = 0; let row = 0;
-                const startX = pagePaddingLeft;
-                const startY = topMargin * pxPerMm;
+                for (let i = 0; i < count; i++) {
+                    if (col >= cols) { col = 0; row++; }
+                    const x = padLeftPx + col * (cwPx + gapPx);
+                    const y = startY + row * (chPx + gapPx);
 
-                for (let i = 0; i < passportCount; i++) {
-                    if (col >= passportCols) { col = 0; row++; }
-                    
-                    const x = startX + col * (cardWidthPx + gapPx);
-                    const y = startY + row * (cardHeightPx + gapPx);
-
-                    // A) Draw Background Color
+                    // Background
                     ctx.fillStyle = bgColor;
-                    ctx.fillRect(x, y, cardWidthPx, cardHeightPx);
+                    ctx.fillRect(x, y, cwPx, chPx);
 
-                    // B) Draw Image with "object-fit: cover" equivalent logic
-                    const imgAspect = subjectImg.width / subjectImg.height;
-                    const canvasAspect = cardWidthPx / cardHeightPx;
-                    let drawWidth, drawHeight, offsetX, offsetY;
+                    // Image 'Cover' sizing logic
+                    const imgAspect = img.width / img.height;
+                    const canvasAspect = cwPx / chPx;
+                    let dw, dh, ox, oy;
 
                     if (imgAspect > canvasAspect) {
-                        // Image is wider than needed
-                        drawHeight = cardHeightPx;
-                        drawWidth = subjectImg.width * (cardHeightPx / subjectImg.height);
-                        offsetX = (cardWidthPx - drawWidth) / 2;
-                        offsetY = 0;
+                        dh = chPx; dw = img.width * (chPx / img.height);
+                        ox = (cwPx - dw) / 2; oy = 0;
                     } else {
-                        // Image is taller than needed
-                        drawWidth = cardWidthPx;
-                        drawHeight = subjectImg.height * (cardWidthPx / subjectImg.width);
-                        offsetX = 0;
-                        offsetY = 0; // Focus on top/center (head) instead of perfect center
+                        dw = cwPx; dh = img.height * (cwPx / img.width);
+                        ox = 0; oy = 0; 
                     }
 
-                    // Mask/Clip the photo to stay inside the borders
                     ctx.save();
                     ctx.beginPath();
-                    ctx.rect(x, y, cardWidthPx, cardHeightPx);
+                    ctx.rect(x, y, cwPx, chPx);
                     ctx.clip();
-                    
-                    ctx.drawImage(subjectImg, x + offsetX, y + offsetY, drawWidth, drawHeight);
+                    ctx.drawImage(img, x + ox, y + oy, dw, dh);
                     ctx.restore();
 
-                    // C) Draw Cut lines (Grey dashed border)
+                    // Cut lines
                     ctx.strokeStyle = '#9ca3af';
                     ctx.lineWidth = 3;
-                    ctx.setLineDash([10, 10]); // Dashed line for scissors
-                    ctx.strokeRect(x, y, cardWidthPx, cardHeightPx);
-                    ctx.setLineDash([]); // Reset dash
+                    ctx.setLineDash([10, 10]);
+                    ctx.strokeRect(x, y, cwPx, chPx);
+                    ctx.setLineDash([]);
 
                     col++;
                 }
 
-                // Download Process
+                // Trigger Download
                 canvas.toBlob((blob) => {
                     const url = URL.createObjectURL(blob);
                     const link = document.createElement('a');
                     link.href = url;
-                    link.download = `Passport-Studio-Sheet-${Date.now()}.jpg`;
+                    link.download = `Passport-Studio-${Date.now()}.jpg`;
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
                     URL.revokeObjectURL(url);
                 }, 'image/jpeg', 0.98);
 
-            } catch (error) {
-                console.error("Studio Export Error:", error);
-                alert("Studio encountered an error saving the image.");
+            } catch (err) {
+                console.error("Export Error:", err);
+                alert("Error exporting image.");
             } finally {
-                btn.innerHTML = originalText;
+                btn.innerHTML = originalHTML;
                 btn.disabled = false;
             }
         }
