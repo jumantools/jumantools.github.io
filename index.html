@@ -1,50 +1,93 @@
-1	<!DOCTYPE html>
-2	<html lang="en">
-3	<head>
-4	  <meta charset="UTF-8">
-5	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-6	  
-7	  <title>Smart Photo Shop - Premium Biometric Passport &amp; Print Sheet Creator</title>
-8	  <meta name="description" content="Professional web-based biometric passport photo designer. Features include background separation, preset colors, face brightness levels, alignment frames, and composite A4 layouts.">
-9	  <meta name="keywords" content="passport photo creator, visa size maker, professional, a4 print grids, background color changer, biometric guidelines, free local editor">
-10	  
-11	  <style>
-12	/* ==========================================
-13	   SMART PHOTO SHOP - PREMIUM VANILLA CSS3
-14	   Theme: Elegant Professional Slate & Indigo
-15	   ========================================== */
-16	
-17	/* Google Fonts Import */
-18	@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
-19	
-20	/* CSS Colors & Layout Design System */
-21	:root {
-22	  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-23	  --font-mono: 'JetBrains Mono', monospace;
-24	  
-25	  /* Modern Saffron/Indigo color palette */
-26	  --color-primary: #2563EB;
-27	  --color-primary-hover: #1D4ED8;
-28	  --color-primary-light: #EFF6FF;
-29	  --color-primary-glow: rgba(37, 99, 235, 0.12);
-30	  
-31	  --color-success: #10B981;
-32	  --color-success-light: #ECFDF5;
-33	  --color-success-border: #A7F3D0;
-34	  
-35	  --color-amber: #D97706;
-36	  --color-amber-light: #FEF3C7;
-37	  --color-amber-border: #FDE68A;
-38	  
-39	  --color-rose: #EF4444;
-40	  --color-rose-light: #FEF2F2;
-41	  --color-rose-border: #FCA5A5;
-42	  
-43	  --bg-app: #F8FAFC;
-44	  --bg-card: #FFFFFF;
-45	  --bg-input: #F8FAFC;
-46	  
-47	  --text-main: #1F2937;
-48	  --text-muted: #64748B;
-49	  --text-dark: #0F172A;
-50	  --text-light: #FFFFFF;
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Juman - Free Background Remover Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        input[type="file"] { margin: 20px 0; }
+        canvas { max-width: 100%; margin-top: 20px; border: 2px dashed #ccc; display: none; }
+        .btn { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 10px; }
+        .btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Technical Juman Free Background Remover (Chroma/Color Key)</h2>
+    <p>Apni photo upload karein aur kisi bhi ek color (jaise Green ya White background) ko automatic gayab karein.</p>
+    
+    <input type="file" id="upload" accept="image/*"><br>
+    
+    <label for="colorPicker">Mitane wala Color chunein: </label>
+    <input type="color" id="colorPicker" value="#ffffff"><br><br>
+    
+    <canvas id="canvas"></canvas><br>
+    
+    <a id="download" class="btn" style="display:none;">Transparent Photo Download Karein</a>
+</div>
+
+<script>
+    const upload = document.getElementById('upload');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const colorPicker = document.getElementById('colorPicker');
+    const downloadBtn = document.getElementById('download');
+    let img = new Image();
+
+    upload.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        canvas.style.display = 'inline-block';
+        removeBackground();
+    };
+
+    colorPicker.addEventListener('input', removeBackground);
+
+    function removeBackground() {
+        if (!img.src) return;
+        ctx.drawImage(img, 0, 0);
+        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imgData.data;
+
+        // Target color extract karein
+        const targetColor = colorPicker.value;
+        const rTarget = parseInt(targetColor.substr(1, 2), 16);
+        const gTarget = parseInt(targetColor.substr(3, 2), 16);
+        const bTarget = parseInt(targetColor.substr(5, 2), 16);
+        const tolerance = 50; // Rang match karne ki capacity
+
+        for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+
+            // Agar color match hota hai toh use transparent (0) kar do
+            if (Math.abs(r - rTarget) < tolerance && Math.abs(g - gTarget) < tolerance && Math.abs(b - bTarget) < tolerance) {
+                data[i + 3] = 0; // Alpha component ko zero kiya
+            }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+        downloadBtn.href = canvas.toDataURL('image/png');
+        downloadBtn.download = 'technical-juman-transparent.png';
+        downloadBtn.style.display = 'inline-block';
+    }
+</script>
+
+</body>
+</html>
