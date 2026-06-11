@@ -1,261 +1,206 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technical Juman Admin Panel</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            /* गिटहब लाइव जैसा साफ़-सुथरा लाइट-वेट बैकग्राउंड */
-            background-color: #f0f4f8; 
-        }
-        /* स्टार्टिंग वाला चौकोर छोटा बॉक्स और कोनों की लाइन */
-        .juman-box-wrapper {
-            position: relative;
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-        /* कोनों के कट्स जो पहले ओरिजिनल इंटरफ़ेस में थे */
-        .juman-box-wrapper::before, .juman-box-wrapper::after,
-        .corner-element::before, .corner-element::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            border: 4px solid #1e40af; /* प्रीमियम गहरा ब्लू */
-            z-index: 10;
-        }
-        /* Top Left Cut */
-        .juman-box-wrapper::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-        /* Top Right Cut */
-        .juman-box-wrapper::after { top: -2px; right: -2px; border-left: none; border-bottom: none; }
-        /* Bottom Left Cut */
-        .corner-element::before { bottom: -2px; left: -2px; border-right: none; border-top: none; }
-        /* Bottom Right Cut */
-        .corner-element::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
-
-        .hidden-section { display: none; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Juman - Secure Admin Panel</title>
+  <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
+        "firebase/auth": "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #f8fafc; padding: 20px; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+    .secure-card { max-width: 550px; width: 100%; background: #1e293b; padding: 35px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid #334155; }
+    h2 { color: #38bdf8; text-align: center; margin-top: 0; font-size: 24px; letter-spacing: 0.5px; }
+    h2 span { color: #ef4444; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-weight: 600; margin-bottom: 8px; color: #94a3b8; font-size: 14px; }
+    input, textarea { width: 100%; padding: 12px 16px; border: 1px solid #475569; border-radius: 8px; box-sizing: border-box; font-size: 15px; background: #0f172a; color: #fff; transition: 0.3s; }
+    input:focus, textarea:focus { border-color: #38bdf8; outline: none; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2); }
+    textarea { height: 120px; resize: vertical; }
+    .code-box { font-family: 'Courier New', monospace; color: #34d399; background: #020617; }
+    button { background: #38bdf8; color: #0f172a; border: none; padding: 14px; width: 100%; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s; margin-top: 10px; }
+    button:hover { background: #0ea5e9; }
+    .logout-btn { background: #ef4444; color: white; margin-top: 20px; }
+    .logout-btn:hover { background: #dc2626; }
+    .msg { margin-top: 20px; padding: 12px; text-align: center; font-weight: bold; border-radius: 8px; display: none; }
+    #loginSection { display: block; }
+    #dashboardSection { display: none; }
+    #recaptcha-container { margin: 15px 0; display: flex; justify-content: center; }
+  </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4">
+<body>
 
-    <div id="loginSection" class="w-full max-w-md text-center">
-        
-        <div class="mb-6">
-            <h1 class="text-3xl font-extrabold text-slate-800 tracking-wide uppercase">Technical Juman</h1>
-            <p class="text-sm font-bold text-blue-700 tracking-widest uppercase mt-0.5">Admin Panel</p>
-        </div>
-
-        <div class="juman-box-wrapper p-6 sm:p-8 bg-white text-left">
-            <div class="corner-element"></div>
-
-            <div id="statusAlert" class="hidden p-3 text-xs font-bold mb-4 text-center rounded border"></div>
-
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Admin ID (Mobile Number)</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 text-sm">👤</span>
-                        <input type="text" id="phoneNumber" placeholder="जैसे: +917762862822" 
-                            class="w-full pl-9 pr-4 py-2 border border-slate-300 focus:border-blue-600 outline-none transition text-slate-800 font-semibold text-base shadow-inner rounded-none">
-                    </div>
-                </div>
-
-                <div id="recaptcha-container" class="flex justify-center my-1"></div>
-
-                <button onclick="sendOTP()" id="btnSend" class="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2.5 px-4 shadow transition duration-200 tracking-wide text-xs uppercase">
-                    सुरक्षित लिंक भेजें (Send OTP) 🔒
-                </button>
-
-                <div id="otpBox" class="hidden space-y-4 pt-4 border-t border-slate-200">
-                    <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">सुरक्षित कोड (Secure Lock)</label>
-                        <input type="text" id="otpCode" placeholder="••••••" 
-                            class="w-full px-4 py-2 border border-slate-300 text-center tracking-widest font-bold text-xl outline-none focus:border-blue-600 bg-slate-50">
-                    </div>
-                    <button onclick="verifyOTP()" id="btnVerify" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 shadow transition duration-200 tracking-wide text-xs uppercase">
-                        🔑 वेरीफाई और प्रवेश करें
-                    </button>
-                </div>
-            </div>
-        </div>
+<div class="secure-card">
+  <div id="loginSection">
+    <h2>Technical Juman <span>- Secure Lock</span></h2>
+    <p style="text-align: center; color: #94a3b8; font-size: 14px; margin-bottom: 25px;">केवल अधिकृत एडमिन ही लॉगिन कर सकते हैं।</p>
+    
+    <div class="form-group" id="phoneGroup">
+      <label>अपना एडमिन मोबाइल नंबर डालें (+91 के साथ):</label>
+      <input type="tel" id="adminPhone" placeholder="जैसे: +9199XXXXXXXX">
+    </div>
+    
+    <div class="form-group" id="otpGroup" style="display: none;">
+      <label>आपके फोन पर भेजा गया 6-अंकों का OTP डालें:</label>
+      <input type="number" id="otpCode" placeholder="Enter 6 Digit OTP">
     </div>
 
+    <div id="recaptcha-container"></div>
 
-    <div id="adminPanel" class="w-full max-w-4xl juman-box-wrapper p-6 sm:p-8 hidden-section transition-all duration-300 m-4">
-        <div class="corner-element"></div>
-        
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-200 pb-4 mb-6 gap-4">
-            <div>
-                <h2 class="text-xl font-bold text-slate-800 uppercase">Technical Juman Dashboard</h2>
-                <p class="text-xs font-bold text-blue-700 uppercase tracking-wider mt-0.5">Live Tools Control Suite</p>
-            </div>
-            <button onclick="logout()" class="px-4 py-1.5 border border-red-300 text-red-600 hover:bg-red-50 font-bold text-xs uppercase tracking-wider transition">
-                सुरक्षित लॉगआउट (Logout)
-            </button>
-        </div>
+    <button id="actionBtn">सुरक्षित लिंक भेजें (Send OTP)</button>
+  </div>
 
-        <div class="space-y-5">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">टूल का नाम (Tool Title)</label>
-                    <input type="text" id="toolTitle" placeholder="जैसे: Passport Size Photo Maker" class="w-full px-4 py-2 border border-slate-300 outline-none focus:border-blue-600 font-medium text-slate-800">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">यूनिक यूआरएल आईडी (URL Slug)</label>
-                    <input type="text" id="toolSlug" placeholder="जैसे: passport-photo-maker" class="w-full px-4 py-2 border border-slate-300 outline-none focus:border-blue-600 font-medium text-slate-800">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">टूल का विवरण (SEO Meta Description)</label>
-                <textarea id="toolDesc" rows="2" placeholder="इस टूल के बारे में छोटा सा विवरण लिखें..." class="w-full px-4 py-2 border border-slate-300 outline-none focus:border-blue-600 text-slate-800"></textarea>
-            </div>
-
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">टूल का कोड (Main Engine Code)</label>
-                <textarea id="toolCode" rows="10" placeholder="यहाँ अपने पूरे टूल का क्लीन कोड पेस्ट करें..." class="w-full p-4 border border-slate-300 font-mono text-xs bg-slate-50 outline-none focus:border-blue-600 text-slate-800"></textarea>
-            </div>
-
-            <button onclick="uploadTool()" id="btnUpload" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 shadow transition duration-200 uppercase tracking-widest text-sm">
-                🚀 टूल को अपनी वेबसाइट पर लाइव पब्लिश करें
-            </button>
-        </div>
+  <div id="dashboardSection">
+    <h2>Technical Juman <span>- Main Control Panel</span></h2>
+    
+    <div class="form-group">
+      <label>टूल का नाम (Tool Name):</label>
+      <input type="text" id="tName" placeholder="जैसे: Smart Photo Shop">
     </div>
+    
+    <div class="form-group">
+      <label>टूल का छोटा विवरण (Description):</label>
+      <textarea id="tDesc" placeholder="टूल के बारे में यूज़र्स के लिए जानकारी..."></textarea>
+    </div>
+    
+    <div class="form-group">
+      <label>टूल का पूरा HTML/JS कोड (Tool Code):</label>
+      <textarea id="tCode" class="code-box" placeholder="यहाँ टूल का पूरा कोड पेस्ट करें..."></textarea>
+    </div>
+    
+    <button id="uploadBtn">टूल को सीधे फायरबेस में लाइव करें</button>
+    <button id="logoutBtn" class="logout-btn">पैनल लॉक करें (Logout)</button>
+  </div>
 
-    <script>
-        // आपके फायरबेस प्रोजेक्ट का असली क्रेडेंशियल कॉन्फ़िगरेशन
-        const firebaseConfig = {
-            apiKey: "AIzaSyAs-48C6B1XmH8vM-QvR8Wn9Z2lPt4Y",
-            authDomain: "technicaljumantools.firebaseapp.com",
-            projectId: "technicaljumantools",
-            storageBucket: "technicaljumantools.appspot.com",
-            messagingSenderId: "103948576123",
-            appId: "1:103948576123:web:a1b2c3d4e5f6g7h8i9j0"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
+  <div id="statusAlert" class="msg"></div>
+</div>
 
-        // सुरक्षा चक्र: केवल आपका यह मोबाइल नंबर ही अंदर जा सकेगा
-        const ALLOWED_ADMIN_NUMBER = "+917762862822"; 
+<script type="module">
+  import { initializeApp } from "firebase/app";
+  import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+  import { getFirestore, collection, addDoc } from "firebase/firestore";
 
-        let confirmationResult = null;
-        const alertBox = document.getElementById('statusAlert');
+  // जुमन भाई का ओरिजिनल फायरबेस कॉन्फ़िगरेशन
+  const firebaseConfig = {
+    apiKey: "AIzaSyCvQtZF8m4AmlFpkb_8UcS2hXqW_27ZYQc",
+    authDomain: "technicaljumantools.firebaseapp.com",
+    projectId: "technicaljumantools",
+    storageBucket: "technicaljumantools.firebasestorage.app",
+    messagingSenderId: "413368590162",
+    appId: "1:413368590162:web:68892ff8436ba8fc9d248b",
+    measurementId: "G-HQ7HK1SDVF"
+  };
 
-        function showMessage(text, type) {
-            alertBox.style.display = "block";
-            alertBox.className = `p-3 text-xs font-bold mb-4 text-center border ${
-                type === 'error' ? 'bg-red-50 text-red-700 border-red-200' :
-                type === 'wait' ? 'bg-blue-50 text-blue-700 border-blue-200' :
-                'bg-emerald-50 text-emerald-700 border-emerald-200'
-            }`;
-            alertBox.innerText = text;
-        }
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-        // Invisible reCAPTCHA सुरक्षा चक्र सेटअप
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-            'size': 'normal',
-            'callback': (response) => {}
-        });
+  // सुरक्षा कवच: केवल जुमन भाई का नंबर ही अंदर जा पाएगा
+  const ALLOWED_ADMIN_NUMBER = "+917762862822"; // <--- यहाँ अपना असली मोबाइल नंबर बदलें (जैसे: +919572xxxxxx)
 
-        function sendOTP() {
-            const num = document.getElementById('phoneNumber').value.trim();
-            
-            if(num !== ALLOWED_ADMIN_NUMBER) {
-                showMessage("⚠️ एक्सेस ब्लॉक: यह एडमिन आईडी (नंबर) डेटाबेस में रजिस्टर्ड नहीं है!", "error");
-                return;
-            }
+  let confirmationResult = null;
+  const alertBox = document.getElementById('statusAlert');
 
-            showMessage("⌛ सुरक्षा जांच जारी है... आपके फोन पर OTP भेजा जा रहा है...", "wait");
-            const appVerifier = window.recaptchaVerifier;
+  function showAlert(text, type) {
+    alertBox.style.display = "block";
+    if(type === 'error') {
+      alertBox.style.background = "#7f1d1d"; alertBox.style.color = "#fca5a5";
+    } else if(type === 'wait') {
+      alertBox.style.background = "#78350f"; alertBox.style.color = "#fde047";
+    } else {
+      alertBox.style.background = "#064e3b"; alertBox.style.color = "#6ee7b7";
+    }
+    alertBox.innerText = text;
+  }
 
-            auth.signInWithPhoneNumber(num, appVerifier)
-                .then((result) => {
-                    confirmationResult = result;
-                    showMessage("✅ सुरक्षा कोड (OTP) आपके मोबाइल नंबर पर सफलतापूर्वक भेज दिया गया है।", "success");
-                    document.getElementById('otpBox').classList.remove('hidden');
-                    document.getElementById('btnSend').style.display = "none";
-                })
-                .catch((error) => {
-                    showMessage("ओटीपी भेजने में विफल: " + error.message + " (फायरबेस में Phone Authentication चालू होना ज़रूरी है)", "error");
-                    if (window.recaptchaVerifier) {
-                        recaptchaVerifier.render().then(widgetId => recaptchaVerifier.reset(widgetId));
-                    }
-                });
-        }
+  // Google Invisible Recaptcha (ताकि बोट अटैक न कर सकें)
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+    'size': 'normal',
+    'callback': (response) => {}
+  });
 
-        function verifyOTP() {
-            const code = document.getElementById('otpCode').value.trim();
-            if(!code) { showMessage("कृपया एसएमएस में प्राप्त 6 अंकों का सुरक्षित कोड दर्ज करें!", "error"); return; }
+  const actionBtn = document.getElementById('actionBtn');
 
-            showMessage("⌛ कोड का सत्यापन (Verification) किया जा रहा है...", "wait");
+  actionBtn.addEventListener('click', async () => {
+    const phoneInput = document.getElementById('adminPhone').value.trim();
+    
+    if (!confirmationResult) {
+      // सुरक्षा जांच: क्या नंबर मैच हो रहा है?
+      if (phoneInput !== ALLOWED_ADMIN_NUMBER) {
+        showAlert("अस्वीकार किया गया: यह मोबाइल नंबर एडमिन डेटाबेस में नहीं है!", "error");
+        return;
+      }
 
-            confirmationResult.confirm(code)
-                .then((result) => {
-                    showMessage("🎉 एडमिन वेरिफिकेशन सफल! डैशबोर्ड लोड हो रहा है...", "success");
-                    setTimeout(() => {
-                        document.getElementById('loginSection').style.display = "none";
-                        document.getElementById('adminPanel').classList.remove('hidden-section');
-                    }, 1000);
-                })
-                .catch((error) => {
-                    showMessage("❌ गलत कोड! कृपया दोबारा देखकर सही OTP दर्ज करें।", "error");
-                });
-        }
+      showAlert("गूगल सुरक्षा जांच जारी है, कृपया रुकें...", "wait");
+      try {
+        const appVerifier = window.recaptchaVerifier;
+        confirmationResult = await signInWithPhoneNumber(auth, phoneInput, appVerifier);
+        document.getElementById('phoneGroup').style.display = "none";
+        document.getElementById('otpGroup').style.display = "block";
+        document.getElementById('recaptcha-container').style.display = "none";
+        actionBtn.innerText = "ओटीपी वेरिफाई करें (Verify OTP)";
+        showAlert("सफलता! आपके फ़ोन पर असली OTP भेज दिया गया है।", "success");
+      } catch (error) {
+        showAlert("ओटीपी भेजने में एरर: " + error.message, "error");
+        console.error(error);
+      }
+    } else {
+      // OTP वेरिफिकेशन स्टेप
+      const code = document.getElementById('otpCode').value.trim();
+      showAlert("ओटीपी की जांच हो रही है...", "wait");
+      try {
+        const result = await confirmationResult.confirm(code);
+        // लॉगिन सफल!
+        document.getElementById('loginSection').style.display = "none";
+        document.getElementById('dashboardSection').style.display = "block";
+        alertBox.style.display = "none";
+      } catch (error) {
+        showAlert("गलत OTP! कृपया दोबारा सही कोड डालें।", "error");
+      }
+    }
+  });
 
-        function uploadTool() {
-            const title = document.getElementById('toolTitle').value.trim();
-            const slug = document.getElementById('toolSlug').value.trim();
-            const desc = document.getElementById('toolDesc').value.trim();
-            const code = document.getElementById('toolCode').value.trim();
+  // टूल डेटा सीधे फायरबेस में भेजने का सिस्टम
+  document.getElementById('uploadBtn').addEventListener('click', async () => {
+    const name = document.getElementById('tName').value.trim();
+    const desc = document.getElementById('tDesc').value.trim();
+    const code = document.getElementById('tCode').value.trim();
 
-            if(!title || !slug || !code) {
-                alert("कृपया टूल का नाम, यूआरएल आईडी और कोड तीनों बॉक्स भरें!");
-                return;
-            }
+    if(!name || !desc || !code) {
+      showAlert("डेटा सुरक्षित नहीं: कृपया सभी बॉक्स को पूरा भरें!", "error");
+      return;
+    }
 
-            document.getElementById('btnUpload').innerText = "⚡ सुरक्षित सर्वर पर डेटा स्टोर हो रहा है...";
-            document.getElementById('btnUpload').disabled = true;
+    showAlert("फायरबेस एन्क्रिप्शन चालू है, डेटा भेजा जा रहा है...", "wait");
 
-            db.collection("tools").doc(slug).set({
-                title: title,
-                slug: slug,
-                description: desc,
-                htmlCode: code,
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then(() => {
-                alert("🚀 शानदार जुमन भाई! आपका नया टूल आपकी लाइव वेबसाइट पर सफलतापूर्वक लाइव पब्लिश हो गया है!");
-                document.getElementById('toolTitle').value = "";
-                document.getElementById('toolSlug').value = "";
-                document.getElementById('toolDesc').value = "";
-                document.getElementById('toolCode').value = "";
-                document.getElementById('btnUpload').innerText = "🚀 टूल को अपनी वेबसाइट पर लाइव पब्लिश करें";
-                document.getElementById('btnUpload').disabled = false;
-            })
-            .catch((error) => {
-                alert("अपलोड फेल: " + error.message);
-                document.getElementById('btnUpload').innerText = "🚀 टूल को अपनी वेबसाइट पर लाइव पब्लिश करें";
-                document.getElementById('btnUpload').disabled = false;
-            });
-        }
+    try {
+      await addDoc(collection(db, "tools"), {
+        toolName: name,
+        description: desc,
+        toolCode: code,
+        dateAdded: new Date().toISOString()
+      });
+      showAlert("बधाई हो जुमन भाई! नया टूल फायरबेस सिक्योर कलेक्शन में लाइव हो गया है।", "success");
+      document.getElementById('tName').value = "";
+      document.getElementById('tDesc').value = "";
+      document.getElementById('tCode').value = "";
+    } catch (e) {
+      showAlert("डेटाबेस एरर: " + e.message, "error");
+    }
+  });
 
-        function logout() {
-            auth.signOut().then(() => {
-                window.location.reload();
-            });
-        }
-    </script>
+  // लॉगआउट (पैनल तुरंत लॉक करने के लिए)
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    auth.signOut();
+    location.reload();
+  });
+</script>
+
 </body>
 </html>
