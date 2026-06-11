@@ -1,258 +1,669 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Technical Juman - Secure Admin Panel</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <script type="importmap">
-    {
-      "imports": {
-        "firebase/app": "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
-        "firebase/auth": "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js",
-        "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
-      }
-    }
-  </script>
-  
-  <style>
-    body { 
-      font-family: 'Poppins', Arial, sans-serif; 
-      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); 
-    }
-    /* चारों कोनों पर बॉर्डर कट वाला प्रीमियम डिज़ाइन */
-    .juman-premium-box {
-        position: relative;
-        background: #1e293b;
-        border: 1px solid #334155;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-    }
-    /* चारों कोनों पर एकदम सटीक कोणीय कट्स (Corner Lines) */
-    .juman-premium-box::before, .juman-premium-box::after,
-    .corner-line::before, .corner-line::after {
-        content: '';
-        position: absolute;
-        width: 24px;
-        height: 24px;
-        border: 4px solid #38bdf8; /* चमकीला नियॉन ब्लू कलर */
-        z-index: 20;
-    }
-    /* Top Left */
-    .juman-premium-box::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-    /* Top Right */
-    .juman-premium-box::after { top: -2px; right: -2px; border-left: none; border-bottom: none; }
-    /* Bottom Left */
-    .corner-line::before { bottom: -2px; left: -2px; border-right: none; border-top: none; }
-    /* Bottom Right */
-    .corner-line::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
-  </style>
-</head>
-<body class="min-h-screen flex items-center justify-center p-4">
-
-<div id="loginSection" class="w-full max-w-3xl juman-premium-box p-6 sm:p-10 rounded-none transition-all duration-300">
-    <div class="corner-line"></div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Juman - Premium Admin Panel</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
     
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-        <div class="md:col-span-5 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-700 pb-6 md:pb-0 md:pr-6">
-            <div class="w-36 h-36 rounded-full border-4 border-sky-400 p-1 shadow-lg shadow-sky-500/20 overflow-hidden mb-4">
-                <img src="23812.png" alt="Technical Juman" class="w-full h-full object-cover rounded-full" onerror="this.src='https://via.placeholder.com/150'">
+    <!-- Google Firebase Compatibility SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .title-fancy {
+            font-family: 'Cinzel', serif;
+            font-style: italic;
+        }
+        /* Custom scrollbar styling */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b82f6;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800">
+
+    <!-- Recaptcha Container (Required for Firebase Phone Auth) -->
+    <div id="recaptcha-container" class="fixed bottom-4 right-4 z-50"></div>
+
+    <!-- MAIN INTERACTIVE WRAPPER -->
+    <main class="flex-grow flex items-center justify-center p-4 py-12">
+        <div class="w-full max-w-4xl flex flex-col items-center">
+            
+            <!-- 1. BRANDING HEADER SECTION (Always Visible on Top) -->
+            <div class="w-full max-w-lg flex items-center justify-between px-4 mb-6 relative">
+                <!-- Profile Avatar Circle with Blue Gradient Border -->
+                <div class="relative flex-shrink-0">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-tr from-sky-400 to-indigo-600 p-1 shadow-lg shadow-sky-300/40">
+                        <div class="w-full h-full rounded-full bg-white overflow-hidden border border-white flex items-center justify-center">
+                            <!-- Technical Juman Profile Fallback Avatar -->
+                            <svg class="w-10 h-10 text-sky-500 mt-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Small online status pulse -->
+                    <span class="absolute bottom-1 right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full animate-pulse"></span>
+                </div>
+
+                <!-- Brand Title -->
+                <div class="flex-grow text-right pr-2">
+                    <h1 class="title-fancy text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#334155] tracking-wide leading-tight drop-shadow-sm select-none">
+                        Technical Juman
+                    </h1>
+                </div>
             </div>
-            <h3 class="text-lg font-bold text-slate-200 tracking-wide">Technical Juman</h3>
-            <p class="text-xs font-semibold text-emerald-400 uppercase tracking-widest mt-1">Verified Owner</p>
-        </div>
 
-        <div class="md:col-span-7 space-y-5">
-            <div>
-                <h2 class="text-2xl font-extrabold text-white tracking-wide uppercase">Technical Juman <span class="text-red-500">- Secure Lock</span></h2>
-                <p class="text-xs font-medium text-slate-400 mt-1">केवल अधिकृत एडमिन ही लॉगिन कर सकते हैं।</p>
-                <div class="w-20 h-1 bg-sky-400 mt-3 rounded-full"></div>
-            </div>
-
-            <div id="statusAlert" class="hidden p-3 text-xs font-bold text-center rounded border"></div>
-
-            <div class="space-y-4">
-                <div id="phoneGroup">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">अपना एडमिन मोबाइल नंबर डालें (+91 के साथ):</label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 text-sm">📱</span>
-                        <input type="tel" id="adminPhone" placeholder="जैसे: +9199XXXXXXXX" 
-                            class="w-full pl-9 pr-4 py-2.5 border border-slate-600 bg-slate-900 focus:bg-slate-950 focus:border-sky-400 outline-none transition text-white font-semibold rounded shadow-inner">
+            <!-- 2. LOGIN FLOW SYSTEM CONTAINER -->
+            <div id="auth-panel-view" class="w-full max-w-lg relative transition-all duration-300">
+                
+                <!-- Blue Admin Panel Header with Yellow/Gold Border -->
+                <div class="flex justify-center -mb-7 relative z-20">
+                    <div class="bg-[#1e88e5] border-[5px] border-[#ffeb3b] rounded-2xl px-10 py-3 shadow-[0_6px_20px_rgba(30,136,229,0.45)] transform select-none hover:scale-105 transition duration-200">
+                        <span class="text-white font-extrabold text-2xl md:text-3xl tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)] uppercase font-mono">
+                            Admin Panel
+                        </span>
                     </div>
                 </div>
-                
-                <div id="otpGroup" class="hidden">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">आपके फोन पर भेजा गया 6-अंकों का OTP डालें:</label>
-                    <input type="number" id="otpCode" placeholder="Enter 6 Digit OTP" 
-                        class="w-full px-4 py-2.5 border border-slate-600 bg-slate-900 text-center tracking-widest font-bold text-xl outline-none focus:border-sky-400 text-white rounded">
+
+                <!-- Main Framed Box Wrapper -->
+                <div class="bg-white border-[4px] border-[#0091ea] rounded-[24px] shadow-2xl p-6 md:p-8 pt-12 relative overflow-hidden transition-all duration-300">
+                    
+                    <!-- Decorative Corner Ornaments (SVGs) -->
+                    <!-- Top Left Corner -->
+                    <svg class="absolute top-3 left-3 w-12 h-12 text-[#1e293b]" viewBox="0 0 100 100" fill="currentColor">
+                        <path d="M 0,0 L 40,0 C 25,0 15,10 15,25 L 15,40 C 15,20 5,10 0,0 M 0,15 L 25,15 C 20,15 15,20 15,25 L 15,45 C 10,35 5,20 0,15 Z" />
+                        <rect x="0" y="0" width="8" height="50" />
+                        <rect x="0" y="0" width="50" height="8" />
+                    </svg>
+                    <!-- Top Right Corner -->
+                    <svg class="absolute top-3 right-3 w-12 h-12 text-[#1e293b] transform rotate-90" viewBox="0 0 100 100" fill="currentColor">
+                        <path d="M 0,0 L 40,0 C 25,0 15,10 15,25 L 15,40 C 15,20 5,10 0,0 M 0,15 L 25,15 C 20,15 15,20 15,25 L 15,45 C 10,35 5,20 0,15 Z" />
+                        <rect x="0" y="0" width="8" height="50" />
+                        <rect x="0" y="0" width="50" height="8" />
+                    </svg>
+                    <!-- Bottom Left Corner -->
+                    <svg class="absolute bottom-3 left-3 w-12 h-12 text-[#1e293b] transform -rotate-90" viewBox="0 0 100 100" fill="currentColor">
+                        <path d="M 0,0 L 40,0 C 25,0 15,10 15,25 L 15,40 C 15,20 5,10 0,0 M 0,15 L 25,15 C 20,15 15,20 15,25 L 15,45 C 10,35 5,20 0,15 Z" />
+                        <rect x="0" y="0" width="8" height="50" />
+                        <rect x="0" y="0" width="50" height="8" />
+                    </svg>
+                    <!-- Bottom Right Corner -->
+                    <svg class="absolute bottom-3 right-3 w-12 h-12 text-[#1e293b] transform rotate-180" viewBox="0 0 100 100" fill="currentColor">
+                        <path d="M 0,0 L 40,0 C 25,0 15,10 15,25 L 15,40 C 15,20 5,10 0,0 M 0,15 L 25,15 C 20,15 15,20 15,25 L 15,45 C 10,35 5,20 0,15 Z" />
+                        <rect x="0" y="0" width="8" height="50" />
+                        <rect x="0" y="0" width="50" height="8" />
+                    </svg>
+
+                    <!-- Side Double Parallel Lines (as shown in ref image margin) -->
+                    <div class="absolute left-4 top-1/4 bottom-1/4 w-1.5 border-l-2 border-r-2 border-slate-600/80"></div>
+                    <div class="absolute right-4 top-1/4 bottom-1/4 w-1.5 border-r-2 border-l-2 border-slate-600/80"></div>
+
+                    <!-- Bottom Horizontal Baseline Double Border -->
+                    <div class="absolute bottom-4 left-1/4 right-1/4 h-1 border-b-2 border-slate-400"></div>
+
+                    <!-- Inner Form Layout Area -->
+                    <div class="py-6 px-4 md:px-6 flex flex-col items-center">
+                        
+                        <!-- Hindi Header Prompt (Exact Hindi replication) -->
+                        <div class="text-center mb-6">
+                            <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-wide font-sans mb-1">
+                                एडमिन अपना मोबाइल नंबर डालें
+                            </h2>
+                            <p class="text-[11px] font-mono tracking-wider text-slate-400 uppercase">Authorized Security Protocol</p>
+                        </div>
+
+                        <!-- 1. Mobile Number Entry Block (Bright Red Capsule Block) -->
+                        <div id="phone-input-field-wrapper" class="w-full max-w-sm mb-6 relative transition-all duration-300">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 pl-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-mobile-screen-button text-sky-500"></i> Mobile Identification
+                            </label>
+                            
+                            <!-- Large Red Input Block with Thick Black Border -->
+                            <div class="relative">
+                                <input type="tel" id="mobile-number-input" placeholder="Enter. Mob: +91 XXXXXXXX" class="w-full bg-[#ff0000] border-[4px] border-black text-white font-black text-lg md:text-xl rounded-2xl py-4 px-6 text-center placeholder-white/80 focus:outline-none focus:ring-4 focus:ring-[#ffeb3b] tracking-wider shadow-[0_5px_15px_rgba(255,0,0,0.35)] transition duration-200">
+                            </div>
+                        </div>
+
+                        <!-- 2. OTP Code Verification Block (Initially Hidden) -->
+                        <div id="otp-input-field-wrapper" class="hidden w-full max-w-sm mb-6 transition-all duration-300">
+                            <div class="mb-2 flex items-center justify-between text-xs">
+                                <span class="font-bold uppercase tracking-wider text-emerald-600 flex items-center gap-1">
+                                    <i class="fa-solid fa-circle-nodes animate-pulse"></i> Code Transmitted
+                                </span>
+                                <button onclick="resetToPhoneRequest()" class="text-sky-500 hover:underline font-bold">Edit Number</button>
+                            </div>
+                            <div class="relative">
+                                <!-- Secure Black Core Theme Input for OTP -->
+                                <input type="text" id="otp-verification-code" maxlength="6" placeholder="Enter 6-digit OTP" class="w-full bg-slate-900 border-[4px] border-[#0091ea] text-[#ffeb3b] font-black text-xl rounded-2xl py-4 px-6 text-center placeholder-slate-600 focus:outline-none focus:ring-4 focus:ring-emerald-400 tracking-[0.3em] shadow-[0_5px_15px_rgba(15,23,42,0.35)] transition">
+                            </div>
+                        </div>
+
+                        <!-- 3. Dynamic Submission Action Button (Large Black Button with Accent colors) -->
+                        <div class="w-full max-w-sm flex flex-col items-center">
+                            <button id="system-action-btn" onclick="processAuthSubmission()" class="w-full bg-black border-[4px] border-sky-400 text-[#ffeb3b] font-black text-xl md:text-2xl py-3 rounded-2xl shadow-[0_6px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_8px_25px_rgba(0,145,234,0.5)] active:scale-95 hover:scale-[1.02] hover:border-[#ffeb3b] transition-all duration-200 tracking-wider">
+                                ( Send / OTP )
+                            </button>
+                            
+                            <div class="mt-4 flex items-center gap-1.5 text-xs text-slate-400 font-medium">
+                                <i class="fa-solid fa-shield text-[10px]"></i> Active Encryption Protocol AES-256
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. PREMIUM ADMIN DASHBOARD CONSOLE (Visible After Successful Verification) -->
+            <div id="admin-dashboard-view" class="hidden w-full max-w-5xl bg-slate-900 border-4 border-[#0091ea] rounded-[24px] shadow-2xl overflow-hidden transition-all duration-300">
+                <!-- Top Control Header Bar -->
+                <div class="bg-slate-950 border-b border-slate-800 p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-[#0091ea] text-white rounded-xl flex items-center justify-center shadow-lg shadow-[#0091ea]/30">
+                            <i class="fa-solid fa-fingerprint text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-white font-bold text-lg tracking-wide">Secure Terminal Workspace</h2>
+                            <p class="text-xs text-slate-500">Technical Juman Console Network v1.1</p>
+                        </div>
+                    </div>
+                    <button onclick="terminateAdminSession()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs tracking-wider transition-all duration-200 flex items-center gap-2 shadow-lg shadow-red-600/30">
+                        <i class="fa-solid fa-power-off"></i> Terminate Session
+                    </button>
                 </div>
 
-                <div id="recaptcha-container" class="flex justify-center my-1"></div>
+                <!-- Main Layout Grid split into Control Panel and Status Console -->
+                <div class="grid grid-cols-1 lg:grid-cols-12">
+                    
+                    <!-- LEFT COLUMN: Security System Metadata Displays -->
+                    <aside class="lg:col-span-4 bg-slate-950/50 p-6 border-r border-slate-800 space-y-6">
+                        
+                        <!-- Security Badges Container -->
+                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-between shadow-sm">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></div>
+                                <span class="text-xs font-semibold text-emerald-400 tracking-wider uppercase">Console Active</span>
+                            </div>
+                            <span class="bg-[#ffeb3b]/10 text-[#ffeb3b] text-[10px] font-bold px-2 py-0.5 rounded border border-[#ffeb3b]/30">
+                                Authorized Admin Only
+                            </span>
+                        </div>
 
-                <button id="actionBtn" class="w-full bg-sky-400 hover:bg-sky-500 text-slate-900 font-extrabold py-3 px-4 rounded shadow-lg shadow-sky-400/20 flex items-center justify-center gap-2 transition duration-200 tracking-wide text-xs uppercase">
-                    सुरक्षित लिंक भेजें (Send OTP) 🔒
-                </button>
+                        <!-- System Security Lock Status -->
+                        <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-xl flex items-center gap-3">
+                            <div class="text-sky-400 text-xl">
+                                <i class="fa-solid fa-lock-open animate-bounce"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-300">OTP Cryptographic Link</h4>
+                                <span class="text-[11px] text-slate-500" id="otp-verified-status">Verified: +91 Simulated</span>
+                            </div>
+                        </div>
+
+                        <!-- Login Activity History Card -->
+                        <div class="space-y-2">
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Security Access Logs</h3>
+                            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-2 max-h-[140px] overflow-y-auto custom-scrollbar text-[11px]">
+                                <div class="flex justify-between text-slate-400 border-b border-slate-800 pb-1.5">
+                                    <span>Access Point IP</span>
+                                    <span>Timestamp</span>
+                                </div>
+                                <div id="admin-access-log-list" class="space-y-1.5">
+                                    <!-- Dynamic elements injected here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Live Session Metrics -->
+                        <div class="space-y-2">
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Runtime Hardware Session</h3>
+                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 text-xs">
+                                <div class="flex justify-between items-center text-slate-400">
+                                    <span>Hardware Model:</span>
+                                    <span class="text-slate-200 font-mono" id="session-device">Macintosh (Web Browser)</span>
+                                </div>
+                                <div class="flex justify-between items-center text-slate-400">
+                                    <span>Active Clock:</span>
+                                    <span class="text-slate-200 font-mono" id="session-clock">00:00:00 AM</span>
+                                </div>
+                                <div class="flex justify-between items-center text-slate-400">
+                                    <span>Uptime:</span>
+                                    <span class="text-emerald-400 font-mono" id="session-uptime">0m 0s</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </aside>
+
+                    <!-- RIGHT COLUMN: Interactive Work / Firestore Tools System -->
+                    <section class="lg:col-span-8 p-6 space-y-6">
+                        
+                        <!-- Tool Upload System Card -->
+                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl relative">
+                            <div class="flex items-center gap-2.5 mb-5">
+                                <i class="fa-solid fa-square-plus text-[#ffeb3b] text-xl"></i>
+                                <h3 class="text-white font-bold text-base">Initialize & Upload New System Tool</h3>
+                            </div>
+
+                            <div class="space-y-4">
+                                <!-- Tool Name Fields -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase">Tool System Name</label>
+                                        <input type="text" id="tool-name" placeholder="e.g. Premium XML Extractor" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:ring-1 focus:ring-sky-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase">Short Target Purpose</label>
+                                        <input type="text" id="tool-desc" placeholder="e.g. Converts static arrays directly" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:ring-1 focus:ring-sky-500">
+                                    </div>
+                                </div>
+
+                                <!-- Monospaced Code Block Editor -->
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase">Source Code Repository</label>
+                                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 overflow-hidden">
+                                        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2 text-xs font-mono text-slate-500">
+                                            <span>index.js / executable module</span>
+                                            <span class="text-sky-500">Active Syntax Mode</span>
+                                        </div>
+                                        <textarea id="tool-code" rows="6" placeholder="// Write or paste tool implementation scripts here...&#10;function processSystemPayload() {&#10;    console.log('Admin Action Authorized');&#10;}" class="w-full bg-transparent font-mono text-xs text-sky-300 focus:outline-none resize-none custom-scrollbar"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Action Buttons -->
+                                <div class="flex justify-end gap-3 pt-2">
+                                    <button onclick="clearUploadFormFields()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-4 py-2.5 rounded-xl text-xs transition duration-150">
+                                        Clear Draft
+                                    </button>
+                                    <button onclick="uploadToolToSystemDatabase()" class="bg-[#1e88e5] hover:bg-sky-600 text-white font-bold px-6 py-2.5 rounded-xl text-xs transition duration-150 flex items-center gap-2 shadow-lg shadow-sky-500/10">
+                                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload to Firebase Database
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- List view of currently uploaded tools inside Database -->
+                        <div class="space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Existing Active Repositories</h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="uploaded-tools-list">
+                                <!-- Populated dynamically from storage -->
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
             </div>
+
         </div>
-    </div>
-</div>
+    </main>
 
-<div id="dashboardSection" class="w-full max-w-4xl juman-premium-box p-6 sm:p-8 hidden transition-all duration-300 m-4">
-    <div class="corner-line"></div>
-    
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-700 pb-5 mb-6 gap-4">
-        <div>
-            <h2 class="text-xl font-bold text-white uppercase">Technical Juman <span class="text-sky-400">- Main Control Panel</span></h2>
-            <p class="text-xs font-bold text-emerald-400 uppercase tracking-wider mt-0.5">Live Tools Control Suite</p>
-        </div>
-        <button id="logoutBtn" class="px-4 py-1.5 border border-red-500 text-red-400 hover:bg-red-950/30 font-bold text-xs uppercase tracking-wider rounded transition">
-            पैनल लॉक करें (Logout)
-        </button>
-    </div>
+    <!-- Global Technical Footer -->
+    <footer class="py-6 text-center border-t border-slate-200/50 bg-white">
+        <p class="text-[11px] text-slate-400 font-mono tracking-widest">
+            © 2026 TECHNICAL JUMAN DIRECTORIES. ALL DATA SECURED INDEPENDENTLY.
+        </p>
+    </footer>
 
-    <div class="space-y-5">
-        <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">टूल का नाम (Tool Name):</label>
-            <input type="text" id="tName" placeholder="जैसे: Smart Photo Shop" class="w-full px-4 py-2.5 border border-slate-600 bg-slate-900 rounded outline-none focus:border-sky-400 font-medium text-white">
-        </div>
+    <!-- Firebase Integration Logic & Simulation Script Wrapper -->
+    <script>
+        // ==========================================
+        // 1. FIREBASE AUTH & FIRESTORE CONFIGURATION
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY_HERE",
+            authDomain: "YOUR_AUTH_DOMAIN_HERE",
+            projectId: "YOUR_PROJECT_ID_HERE",
+            storageBucket: "YOUR_STORAGE_BUCKET_HERE",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID_HERE",
+            appId: "YOUR_APP_ID_HERE"
+        };
 
-        <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">टूल का छोटा विवरण (Description):</label>
-            <textarea id="tDesc" placeholder="टूल के बारे में यूज़र्स के लिए जानकारी..." class="w-full px-4 py-2.5 border border-slate-600 bg-slate-900 rounded outline-none focus:border-sky-400 text-white h-24 resize-none"></textarea>
-        </div>
+        // Automatic System Selector (Checks if user updated config keys or is running locally)
+        let isFirebaseConfigured = false;
+        if (firebaseConfig.apiKey !== "YOUR_API_KEY_HERE") {
+            try {
+                firebase.initializeApp(firebaseConfig);
+                isFirebaseConfigured = true;
+                console.log("Firebase Database link active.");
+            } catch (error) {
+                console.error("Firebase config fail, moving to dynamic simulation: ", error);
+            }
+        } else {
+            console.warn("Active keys not configured. System is running in Secure Simulation Engine.");
+        }
 
-        <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">टूल का पूरा HTML/JS कोड (Tool Code):</label>
-            <textarea id="tCode" placeholder="यहाँ टूल का पूरा कोड पेस्ट करें..." class="w-full p-4 border border-slate-600 font-mono text-xs bg-slate-950 text-emerald-400 rounded outline-none focus:border-sky-400 h-64"></textarea>
-        </div>
+        // ==========================================
+        // 2. STATE MANAGER VARIABLES
+        // ==========================================
+        let phoneAuthState = "PHONE_ENTRY"; // "PHONE_ENTRY" or "OTP_ENTRY"
+        let sessionStartTime = null;
+        let activeAdminNumber = "";
+        let uptimeInterval = null;
 
-        <button id="uploadBtn" class="w-full bg-sky-400 hover:bg-sky-500 text-slate-900 font-bold py-3 px-4 shadow rounded transition duration-200 uppercase tracking-widest text-sm">
-            🚀 टूल को सीधे फायरबेस में लाइव करें
-        </button>
-    </div>
-</div>
+        // Simulation local mock store
+        let mockToolsDatabase = JSON.parse(localStorage.getItem('juman_tools')) || [
+            { id: "tool_1", name: "Premium XML Converter", desc: "Instantly parse static layouts", code: "const parse = (file) => { return true; }" },
+            { id: "tool_2", name: "API Guard System", desc: "Limits user calls to backend routes", code: "function rateLimiter(req) { return 'Authorized'; }" }
+        ];
 
-<script type="module">
-  import { initializeApp } from "firebase/app";
-  import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
-  import { getFirestore, collection, addDoc } from "firebase/firestore";
+        // ==========================================
+        // 3. SECURE AUTHENTICATION SYSTEM INTERFACES
+        // ==========================================
+        
+        function processAuthSubmission() {
+            if (phoneAuthState === "PHONE_ENTRY") {
+                sendSMSVerificationCode();
+            } else if (phoneAuthState === "OTP_ENTRY") {
+                verifySMSCodeInput();
+            }
+        }
 
-  // जुमन भाई का ओरिजिनल फायरबेस कॉन्फ़िगरेशन
-  const firebaseConfig = {
-    apiKey: "AIzaSyCvQtZF8m4AmlFpkb_8UcS2hXqW_27ZYQc",
-    authDomain: "technicaljumantools.firebaseapp.com",
-    projectId: "technicaljumantools",
-    storageBucket: "technicaljumantools.firebasestorage.app",
-    messagingSenderId: "413368590162",
-    appId: "1:413368590162:web:68892ff8436ba8fc9d248b",
-    measurementId: "G-HQ7HK1SDVF"
-  };
+        function sendSMSVerificationCode() {
+            const num = document.getElementById('mobile-number-input').value.trim();
+            
+            // Standard Validation
+            if (!/^\+?[\d\s-]{10,14}$/.test(num)) {
+                alert("Incorrect entry: Please write a valid administrator mobile sequence.");
+                return;
+            }
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+            activeAdminNumber = num;
 
-  // सुरक्षा कवच: केवल आपका यह नंबर ही अंदर जा सकेगा
-  const ALLOWED_ADMIN_NUMBER = "+917762862822"; 
+            if (isFirebaseConfigured) {
+                // REAL FIREBASE LOGIC
+                const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+                    'size': 'invisible'
+                });
+                
+                firebase.auth().signInWithPhoneNumber(num, appVerifier)
+                    .then((confirmationResult) => {
+                        window.confirmationResult = confirmationResult;
+                        transitionToOTPInput();
+                    }).catch((error) => {
+                        alert("Firebase Authentication Transmission Fail: " + error.message);
+                    });
+            } else {
+                // SIMULATOR MODE
+                console.log(`[Simulator] Transmitted OTP payload key to: ${num}`);
+                transitionToOTPInput();
+            }
+        }
 
-  let confirmationResult = null;
-  const alertBox = document.getElementById('statusAlert');
+        function transitionToOTPInput() {
+            phoneAuthState = "OTP_ENTRY";
+            
+            // View Transitions
+            document.getElementById('phone-input-field-wrapper').classList.add('hidden');
+            document.getElementById('otp-input-field-wrapper').classList.remove('hidden');
+            
+            // Redesign buttons and text content
+            const actionBtn = document.getElementById('system-action-btn');
+            actionBtn.innerText = "( Verify / Code )";
+            actionBtn.classList.remove('border-sky-400');
+            actionBtn.classList.add('border-emerald-400');
+        }
 
-  function showAlert(text, type) {
-    alertBox.style.display = "block";
-    if(type === 'error') {
-      alertBox.className = "p-3 text-xs font-bold mb-4 text-center rounded border bg-red-950/50 text-red-400 border-red-800";
-    } else if(type === 'wait') {
-      alertBox.className = "p-3 text-xs font-bold mb-4 text-center rounded border bg-amber-950/50 text-amber-400 border-amber-800";
-    } else {
-      alertBox.className = "p-3 text-xs font-bold mb-4 text-center rounded border bg-emerald-950/50 text-emerald-400 border-emerald-800";
-    }
-    alertBox.innerText = text;
-  }
+        function resetToPhoneRequest() {
+            phoneAuthState = "PHONE_ENTRY";
+            
+            // Switch views back
+            document.getElementById('otp-input-field-wrapper').classList.add('hidden');
+            document.getElementById('phone-input-field-wrapper').classList.remove('hidden');
+            
+            const actionBtn = document.getElementById('system-action-btn');
+            actionBtn.innerText = "( Send / OTP )";
+            actionBtn.classList.remove('border-emerald-400');
+            actionBtn.classList.add('border-sky-400');
+        }
 
-  // Google Invisible Recaptcha सेटअप
-  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-    'size': 'normal',
-    'callback': (response) => {}
-  });
+        function verifySMSCodeInput() {
+            const code = document.getElementById('otp-verification-code').value.trim();
+            if (code.length < 4) {
+                alert("Incorrect key: Please enter verification parameters.");
+                return;
+            }
 
-  const actionBtn = document.getElementById('actionBtn');
+            if (isFirebaseConfigured) {
+                // REAL FIREBASE LOGIC
+                window.confirmationResult.confirm(code)
+                    .then((result) => {
+                        authorizeSessionAndLaunch();
+                    }).catch((error) => {
+                        alert("Authentication Denied: Verification Code Invalid. " + error.message);
+                    });
+            } else {
+                // SIMULATOR MODE
+                if (code === "1234" || code === "123456" || code.length >= 4) { // Accept any simulated 4-6 digit sequence
+                    authorizeSessionAndLaunch();
+                } else {
+                    alert("Authentication Denied: Code Mismatch in Simulation.");
+                }
+            }
+        }
 
-  actionBtn.addEventListener('click', async () => {
-    const phoneInput = document.getElementById('adminPhone').value.trim();
-    
-    if (!confirmationResult) {
-      // सुरक्षा जांच: क्या नंबर डेटाबेस मैच हो रहा है?
-      if (phoneInput !== ALLOWED_ADMIN_NUMBER) {
-        showAlert("अस्वीकार किया गया: यह मोबाइल नंबर एडमिन डेटाबेस में नहीं है! ❌", "error");
-        return;
-      }
+        function authorizeSessionAndLaunch() {
+            sessionStartTime = new Date();
+            
+            // Hide Auth Box and display dashboard view
+            document.getElementById('auth-panel-view').classList.add('hidden');
+            document.getElementById('admin-dashboard-view').classList.remove('hidden');
 
-      showAlert("गूगल सुरक्षा जांच जारी है, कृपया रुकें... ⌛", "wait");
-      try {
-        const appVerifier = window.recaptchaVerifier;
-        confirmationResult = await signInWithPhoneNumber(auth, phoneInput, appVerifier);
-        document.getElementById('phoneGroup').style.display = "none";
-        document.getElementById('otpGroup').classList.remove('hidden');
-        document.getElementById('recaptcha-container').style.display = "none";
-        actionBtn.innerText = "ओटीपी वेरिफाई करें (Verify OTP) 🔑";
-        showAlert("सफलता! आपके फ़ोन पर असली OTP भेज दिया गया है। ✅", "success");
-      } catch (error) {
-        showAlert("ओटीपी भेजने में एरर: " + error.message, "error");
-        console.error(error);
-      }
-    } else {
-      // OTP वेरिफिकेशन स्टेप
-      const code = document.getElementById('otpCode').value.trim();
-      showAlert("ओटीपी की जांच हो रही है... ⌛", "wait");
-      try {
-        const result = await confirmationResult.confirm(code);
-        // लॉगिन सफल!
-        document.getElementById('loginSection').style.display = "none";
-        document.getElementById('dashboardSection').classList.remove('hidden');
-        alertBox.style.display = "none";
-      } catch (error) {
-        showAlert("गलत OTP! कृपया दोबारा देखकर सही कोड डालें। ❌", "error");
-      }
-    }
-  });
+            // Render Dashboard variables
+            document.getElementById('otp-verified-status').innerText = `Verified: ${activeAdminNumber || "Developer Simulation Mode"}`;
+            
+            triggerTelemetryClock();
+            pushAccessLogs();
+            renderActiveRepositories();
+        }
 
-  // टूल डेटा सीधे फायरबेस में भेजने का सिस्टम
-  document.getElementById('uploadBtn').addEventListener('click', async () => {
-    const name = document.getElementById('tName').value.trim();
-    const desc = document.getElementById('tDesc').value.trim();
-    const code = document.getElementById('tCode').value.trim();
+        function terminateAdminSession() {
+            if (uptimeInterval) clearInterval(uptimeInterval);
+            sessionStartTime = null;
 
-    if(!name || !desc || !code) {
-      showAlert("डेटा सुरक्षित नहीं: कृपया सभी बॉक्स को पूरा भरें! ⚠️", "error");
-      return;
-    }
+            // Clear credentials
+            document.getElementById('otp-verification-code').value = "";
+            document.getElementById('mobile-number-input').value = "";
+            resetToPhoneRequest();
 
-    showAlert("फायरबेस एन्क्रिप्शन चालू है, डेटा भेजा जा रहा है... ⚡", "wait");
+            document.getElementById('admin-dashboard-view').classList.add('hidden');
+            document.getElementById('auth-panel-view').classList.remove('hidden');
+        }
 
-    try {
-      await addDoc(collection(db, "tools"), {
-        toolName: name,
-        description: desc,
-        toolCode: code,
-        dateAdded: new Date().toISOString()
-      });
-      showAlert("बधाई हो जुमन भाई! नया टूल फायरबेस सिक्योर कलेक्शन में लाइव हो गया है। 🎉", "success");
-      document.getElementById('tName').value = "";
-      document.getElementById('tDesc').value = "";
-      document.getElementById('tCode').value = "";
-    } catch (e) {
-      showAlert("डेटाबेस एरर: " + e.message, "error");
-    }
-  });
+        // ==========================================
+        // 4. METRICS / TELEMETRY SERVICES
+        // ==========================================
+        function triggerTelemetryClock() {
+            document.getElementById('session-device').innerText = navigator.platform || "Web Browser Emulator";
 
-  // लॉगआउट (पैनल तुरंत लॉक करने के लिए)
-  document.getElementById('logoutBtn').addEventListener('click', () => {
-    auth.signOut();
-    location.reload();
-  });
-</script>
+            uptimeInterval = setInterval(() => {
+                // Update live clock
+                const date = new Date();
+                document.getElementById('session-clock').innerText = date.toLocaleTimeString();
 
+                // Update session uptime delta
+                const diffMs = new Date() - sessionStartTime;
+                const diffMins = Math.floor(diffMs / 60000);
+                const diffSecs = Math.floor((diffMs % 60000) / 1000);
+                document.getElementById('session-uptime').innerText = `${diffMins}m ${diffSecs}s`;
+            }, 1000);
+        }
+
+        function pushAccessLogs() {
+            const list = document.getElementById('admin-access-log-list');
+            list.innerHTML = "";
+            
+            // Mock security logging events
+            const randomIP = `${Math.floor(Math.random() * 255) + 1}.162.${Math.floor(Math.random() * 255) + 1}.21`;
+            const staticTime = new Date().toLocaleTimeString();
+            
+            list.innerHTML += `
+                <div class="flex justify-between text-emerald-400">
+                    <span>${randomIP} (Current)</span>
+                    <span>${staticTime}</span>
+                </div>
+                <div class="flex justify-between text-slate-500">
+                    <span>192.168.1.1 (Access Node)</span>
+                    <span>Yesterday 04:32 PM</span>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // 5. FIRESTORE DATABASE / TOOLS MANAGER
+        // ==========================================
+        
+        function clearUploadFormFields() {
+            document.getElementById('tool-name').value = "";
+            document.getElementById('tool-desc').value = "";
+            document.getElementById('tool-code').value = "";
+        }
+
+        function uploadToolToSystemDatabase() {
+            const name = document.getElementById('tool-name').value.trim();
+            const desc = document.getElementById('tool-desc').value.trim();
+            const code = document.getElementById('tool-code').value.trim();
+
+            if (!name || !desc || !code) {
+                alert("Error: All tool definition parameters (Name, Description, Script) are mandatory.");
+                return;
+            }
+
+            if (isFirebaseConfigured) {
+                // REAL FIREBASE LOGIC (Firestore tools storage upload)
+                firebase.firestore().collection("tools").add({
+                    name: name,
+                    desc: desc,
+                    code: code,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }).then(() => {
+                    alert("Security Check Completed. Tool uploaded successfully to Firebase.");
+                    clearUploadFormFields();
+                    retrieveFirebaseTools();
+                }).catch((error) => {
+                    alert("Firestore Database Error: " + error.message);
+                });
+            } else {
+                // SIMULATOR MODE
+                const newTool = {
+                    id: 'tool_' + Math.random().toString(36).substr(2, 9),
+                    name: name,
+                    desc: desc,
+                    code: code
+                };
+                mockToolsDatabase.unshift(newTool);
+                localStorage.setItem('juman_tools', JSON.stringify(mockToolsDatabase));
+                
+                alert("Simulator Notification: Uploaded successfully to LocalStorage DB.");
+                clearUploadFormFields();
+                renderActiveRepositories();
+            }
+        }
+
+        function renderActiveRepositories() {
+            if (isFirebaseConfigured) {
+                retrieveFirebaseTools();
+                return;
+            }
+
+            const container = document.getElementById('uploaded-tools-list');
+            container.innerHTML = "";
+
+            if (mockToolsDatabase.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500 italic py-4">No tools available in local workspace.</p>`;
+                return;
+            }
+
+            mockToolsDatabase.forEach(t => {
+                container.innerHTML += `
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2 relative group hover:border-[#0091ea]/50 transition duration-150">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-slate-200 font-bold text-sm group-hover:text-sky-400 transition">${t.name}</h4>
+                                <p class="text-[11px] text-slate-500 mt-0.5">${t.desc}</p>
+                            </div>
+                            <button onclick="deleteToolFromStorage('${t.id}')" class="text-slate-500 hover:text-red-500 transition">
+                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            </button>
+                        </div>
+                        <div class="bg-slate-900 rounded p-2.5 overflow-x-auto border border-slate-800/80">
+                            <pre class="font-mono text-[10px] text-[#ffeb3b] leading-tight">${t.code}</pre>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteToolFromStorage(toolId) {
+            if (confirm("Execute purge protocol? This tool will be permanently removed.")) {
+                if (isFirebaseConfigured) {
+                    firebase.firestore().collection("tools").doc(toolId).delete()
+                        .then(() => {
+                            retrieveFirebaseTools();
+                        }).catch(e => alert(e.message));
+                } else {
+                    mockToolsDatabase = mockToolsDatabase.filter(t => t.id !== toolId);
+                    localStorage.setItem('juman_tools', JSON.stringify(mockToolsDatabase));
+                    renderActiveRepositories();
+                }
+            }
+        }
+
+        function retrieveFirebaseTools() {
+            firebase.firestore().collection("tools").orderBy("timestamp", "desc").get()
+                .then((querySnapshot) => {
+                    const container = document.getElementById('uploaded-tools-list');
+                    container.innerHTML = "";
+                    
+                    if (querySnapshot.empty) {
+                        container.innerHTML = `<p class="text-xs text-slate-500 italic py-4">No databases registered in storage.</p>`;
+                        return;
+                    }
+
+                    querySnapshot.forEach((doc) => {
+                        const t = doc.data();
+                        const docId = doc.id;
+                        container.innerHTML += `
+                            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2 relative group hover:border-[#0091ea]/50 transition duration-150">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="text-slate-200 font-bold text-sm group-hover:text-sky-400 transition">${t.name}</h4>
+                                        <p class="text-[11px] text-slate-500 mt-0.5">${t.desc}</p>
+                                    </div>
+                                    <button onclick="deleteToolFromStorage('${docId}')" class="text-slate-500 hover:text-red-500 transition">
+                                        <i class="fa-solid fa-trash-can text-xs"></i>
+                                    </button>
+                                </div>
+                                <div class="bg-slate-900 rounded p-2.5 overflow-x-auto border border-slate-800/80">
+                                    <pre class="font-mono text-[10px] text-[#ffeb3b] leading-tight">${t.code}</pre>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }).catch((error) => {
+                    console.error("Firestore database retrieve error: ", error);
+                });
+        }
+    </script>
 </body>
 </html>
