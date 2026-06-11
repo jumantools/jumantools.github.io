@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Technical Juman - Secure Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
   <script type="importmap">
     {
       "imports": {
@@ -13,72 +16,121 @@
       }
     }
   </script>
+  
   <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: #0f172a; color: #f8fafc; padding: 20px; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-    .secure-card { max-width: 550px; width: 100%; background: #1e293b; padding: 35px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid #334155; }
-    h2 { color: #38bdf8; text-align: center; margin-top: 0; font-size: 24px; letter-spacing: 0.5px; }
-    h2 span { color: #ef4444; }
-    .form-group { margin-bottom: 20px; }
-    label { display: block; font-weight: 600; margin-bottom: 8px; color: #94a3b8; font-size: 14px; }
-    input, textarea { width: 100%; padding: 12px 16px; border: 1px solid #475569; border-radius: 8px; box-sizing: border-box; font-size: 15px; background: #0f172a; color: #fff; transition: 0.3s; }
-    input:focus, textarea:focus { border-color: #38bdf8; outline: none; box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2); }
-    textarea { height: 120px; resize: vertical; }
-    .code-box { font-family: 'Courier New', monospace; color: #34d399; background: #020617; }
-    button { background: #38bdf8; color: #0f172a; border: none; padding: 14px; width: 100%; font-size: 16px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: 0.2s; margin-top: 10px; }
-    button:hover { background: #0ea5e9; }
-    .logout-btn { background: #ef4444; color: white; margin-top: 20px; }
-    .logout-btn:hover { background: #dc2626; }
-    .msg { margin-top: 20px; padding: 12px; text-align: center; font-weight: bold; border-radius: 8px; display: none; }
-    #loginSection { display: block; }
-    #dashboardSection { display: none; }
-    #recaptcha-container { margin: 15px 0; display: flex; justify-content: center; }
+    body { 
+      font-family: 'Poppins', Arial, sans-serif; 
+      background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); 
+    }
+    /* चारों कोनों पर बॉर्डर कट वाला प्रीमियम डिज़ाइन */
+    .juman-premium-box {
+        position: relative;
+        background: #1e293b;
+        border: 1px solid #334155;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+    /* चारों कोनों पर एकदम सटीक कोणीय कट्स (Corner Lines) */
+    .juman-premium-box::before, .juman-premium-box::after,
+    .corner-line::before, .corner-line::after {
+        content: '';
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border: 4px solid #38bdf8; /* चमकीला नियॉन ब्लू कलर */
+        z-index: 20;
+    }
+    /* Top Left */
+    .juman-premium-box::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+    /* Top Right */
+    .juman-premium-box::after { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+    /* Bottom Left */
+    .corner-line::before { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+    /* Bottom Right */
+    .corner-line::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
   </style>
 </head>
-<body>
+<body class="min-h-screen flex items-center justify-center p-4">
 
-<div class="secure-card">
-  <div id="loginSection">
-    <h2>Technical Juman <span>- Secure Lock</span></h2>
-    <p style="text-align: center; color: #94a3b8; font-size: 14px; margin-bottom: 25px;">केवल अधिकृत एडमिन ही लॉगिन कर सकते हैं।</p>
+<div id="loginSection" class="w-full max-w-3xl juman-premium-box p-6 sm:p-10 rounded-none transition-all duration-300">
+    <div class="corner-line"></div>
     
-    <div class="form-group" id="phoneGroup">
-      <label>अपना एडमिन मोबाइल नंबर डालें (+91 के साथ):</label>
-      <input type="tel" id="adminPhone" placeholder="जैसे: +9199XXXXXXXX">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-5 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-700 pb-6 md:pb-0 md:pr-6">
+            <div class="w-36 h-36 rounded-full border-4 border-sky-400 p-1 shadow-lg shadow-sky-500/20 overflow-hidden mb-4">
+                <img src="23812.png" alt="Technical Juman" class="w-full h-full object-cover rounded-full" onerror="this.src='https://via.placeholder.com/150'">
+            </div>
+            <h3 class="text-lg font-bold text-slate-200 tracking-wide">Technical Juman</h3>
+            <p class="text-xs font-semibold text-emerald-400 uppercase tracking-widest mt-1">Verified Owner</p>
+        </div>
+
+        <div class="md:col-span-7 space-y-5">
+            <div>
+                <h2 class="text-2xl font-extrabold text-white tracking-wide uppercase">Technical Juman <span class="text-red-500">- Secure Lock</span></h2>
+                <p class="text-xs font-medium text-slate-400 mt-1">केवल अधिकृत एडमिन ही लॉगिन कर सकते हैं।</p>
+                <div class="w-20 h-1 bg-sky-400 mt-3 rounded-full"></div>
+            </div>
+
+            <div id="statusAlert" class="hidden p-3 text-xs font-bold text-center rounded border"></div>
+
+            <div class="space-y-4">
+                <div id="phoneGroup">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">अपना एडमिन मोबाइल नंबर डालें (+91 के साथ):</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500 text-sm">📱</span>
+                        <input type="tel" id="adminPhone" placeholder="जैसे: +9199XXXXXXXX" 
+                            class="w-full pl-9 pr-4 py-2.5 border border-slate-600 bg-slate-900 focus:bg-slate-950 focus:border-sky-400 outline-none transition text-white font-semibold rounded shadow-inner">
+                    </div>
+                </div>
+                
+                <div id="otpGroup" class="hidden">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">आपके फोन पर भेजा गया 6-अंकों का OTP डालें:</label>
+                    <input type="number" id="otpCode" placeholder="Enter 6 Digit OTP" 
+                        class="w-full px-4 py-2.5 border border-slate-600 bg-slate-900 text-center tracking-widest font-bold text-xl outline-none focus:border-sky-400 text-white rounded">
+                </div>
+
+                <div id="recaptcha-container" class="flex justify-center my-1"></div>
+
+                <button id="actionBtn" class="w-full bg-sky-400 hover:bg-sky-500 text-slate-900 font-extrabold py-3 px-4 rounded shadow-lg shadow-sky-400/20 flex items-center justify-center gap-2 transition duration-200 tracking-wide text-xs uppercase">
+                    सुरक्षित लिंक भेजें (Send OTP) 🔒
+                </button>
+            </div>
+        </div>
     </div>
+</div>
+
+<div id="dashboardSection" class="w-full max-w-4xl juman-premium-box p-6 sm:p-8 hidden transition-all duration-300 m-4">
+    <div class="corner-line"></div>
     
-    <div class="form-group" id="otpGroup" style="display: none;">
-      <label>आपके फोन पर भेजा गया 6-अंकों का OTP डालें:</label>
-      <input type="number" id="otpCode" placeholder="Enter 6 Digit OTP">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-700 pb-5 mb-6 gap-4">
+        <div>
+            <h2 class="text-xl font-bold text-white uppercase">Technical Juman <span class="text-sky-400">- Main Control Panel</span></h2>
+            <p class="text-xs font-bold text-emerald-400 uppercase tracking-wider mt-0.5">Live Tools Control Suite</p>
+        </div>
+        <button id="logoutBtn" class="px-4 py-1.5 border border-red-500 text-red-400 hover:bg-red-950/30 font-bold text-xs uppercase tracking-wider rounded transition">
+            पैनल लॉक करें (Logout)
+        </button>
     </div>
 
-    <div id="recaptcha-container"></div>
+    <div class="space-y-5">
+        <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">टूल का नाम (Tool Name):</label>
+            <input type="text" id="tName" placeholder="जैसे: Smart Photo Shop" class="w-full px-4 py-2.5 border border-slate-600 bg-slate-900 rounded outline-none focus:border-sky-400 font-medium text-white">
+        </div>
 
-    <button id="actionBtn">सुरक्षित लिंक भेजें (Send OTP)</button>
-  </div>
+        <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">टूल का छोटा विवरण (Description):</label>
+            <textarea id="tDesc" placeholder="टूल के बारे में यूज़र्स के लिए जानकारी..." class="w-full px-4 py-2.5 border border-slate-600 bg-slate-900 rounded outline-none focus:border-sky-400 text-white h-24 resize-none"></textarea>
+        </div>
 
-  <div id="dashboardSection">
-    <h2>Technical Juman <span>- Main Control Panel</span></h2>
-    
-    <div class="form-group">
-      <label>टूल का नाम (Tool Name):</label>
-      <input type="text" id="tName" placeholder="जैसे: Smart Photo Shop">
-    </div>
-    
-    <div class="form-group">
-      <label>टूल का छोटा विवरण (Description):</label>
-      <textarea id="tDesc" placeholder="टूल के बारे में यूज़र्स के लिए जानकारी..."></textarea>
-    </div>
-    
-    <div class="form-group">
-      <label>टूल का पूरा HTML/JS कोड (Tool Code):</label>
-      <textarea id="tCode" class="code-box" placeholder="यहाँ टूल का पूरा कोड पेस्ट करें..."></textarea>
-    </div>
-    
-    <button id="uploadBtn">टूल को सीधे फायरबेस में लाइव करें</button>
-    <button id="logoutBtn" class="logout-btn">पैनल लॉक करें (Logout)</button>
-  </div>
+        <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">टूल का पूरा HTML/JS कोड (Tool Code):</label>
+            <textarea id="tCode" placeholder="यहाँ टूल का पूरा कोड पेस्ट करें..." class="w-full p-4 border border-slate-600 font-mono text-xs bg-slate-950 text-emerald-400 rounded outline-none focus:border-sky-400 h-64"></textarea>
+        </div>
 
-  <div id="statusAlert" class="msg"></div>
+        <button id="uploadBtn" class="w-full bg-sky-400 hover:bg-sky-500 text-slate-900 font-bold py-3 px-4 shadow rounded transition duration-200 uppercase tracking-widest text-sm">
+            🚀 टूल को सीधे फायरबेस में लाइव करें
+        </button>
+    </div>
 </div>
 
 <script type="module">
@@ -101,8 +153,8 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // सुरक्षा कवच: केवल जुमन भाई का नंबर ही अंदर जा पाएगा
-  const ALLOWED_ADMIN_NUMBER = "+917762862822"; // <--- यहाँ अपना असली मोबाइल नंबर बदलें (जैसे: +919572xxxxxx)
+  // सुरक्षा कवच: केवल आपका यह नंबर ही अंदर जा सकेगा
+  const ALLOWED_ADMIN_NUMBER = "+917762862822"; 
 
   let confirmationResult = null;
   const alertBox = document.getElementById('statusAlert');
@@ -110,16 +162,16 @@
   function showAlert(text, type) {
     alertBox.style.display = "block";
     if(type === 'error') {
-      alertBox.style.background = "#7f1d1d"; alertBox.style.color = "#fca5a5";
+      alertBox.className = "p-3 text-xs font-bold mb-4 text-center rounded border bg-red-950/50 text-red-400 border-red-800";
     } else if(type === 'wait') {
-      alertBox.style.background = "#78350f"; alertBox.style.color = "#fde047";
+      alertBox.className = "p-3 text-xs font-bold mb-4 text-center rounded border bg-amber-950/50 text-amber-400 border-amber-800";
     } else {
-      alertBox.style.background = "#064e3b"; alertBox.style.color = "#6ee7b7";
+      alertBox.className = "p-3 text-xs font-bold mb-4 text-center rounded border bg-emerald-950/50 text-emerald-400 border-emerald-800";
     }
     alertBox.innerText = text;
   }
 
-  // Google Invisible Recaptcha (ताकि बोट अटैक न कर सकें)
+  // Google Invisible Recaptcha सेटअप
   window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
     'size': 'normal',
     'callback': (response) => {}
@@ -131,21 +183,21 @@
     const phoneInput = document.getElementById('adminPhone').value.trim();
     
     if (!confirmationResult) {
-      // सुरक्षा जांच: क्या नंबर मैच हो रहा है?
+      // सुरक्षा जांच: क्या नंबर डेटाबेस मैच हो रहा है?
       if (phoneInput !== ALLOWED_ADMIN_NUMBER) {
-        showAlert("अस्वीकार किया गया: यह मोबाइल नंबर एडमिन डेटाबेस में नहीं है!", "error");
+        showAlert("अस्वीकार किया गया: यह मोबाइल नंबर एडमिन डेटाबेस में नहीं है! ❌", "error");
         return;
       }
 
-      showAlert("गूगल सुरक्षा जांच जारी है, कृपया रुकें...", "wait");
+      showAlert("गूगल सुरक्षा जांच जारी है, कृपया रुकें... ⌛", "wait");
       try {
         const appVerifier = window.recaptchaVerifier;
         confirmationResult = await signInWithPhoneNumber(auth, phoneInput, appVerifier);
         document.getElementById('phoneGroup').style.display = "none";
-        document.getElementById('otpGroup').style.display = "block";
+        document.getElementById('otpGroup').classList.remove('hidden');
         document.getElementById('recaptcha-container').style.display = "none";
-        actionBtn.innerText = "ओटीपी वेरिफाई करें (Verify OTP)";
-        showAlert("सफलता! आपके फ़ोन पर असली OTP भेज दिया गया है।", "success");
+        actionBtn.innerText = "ओटीपी वेरिफाई करें (Verify OTP) 🔑";
+        showAlert("सफलता! आपके फ़ोन पर असली OTP भेज दिया गया है। ✅", "success");
       } catch (error) {
         showAlert("ओटीपी भेजने में एरर: " + error.message, "error");
         console.error(error);
@@ -153,15 +205,15 @@
     } else {
       // OTP वेरिफिकेशन स्टेप
       const code = document.getElementById('otpCode').value.trim();
-      showAlert("ओटीपी की जांच हो रही है...", "wait");
+      showAlert("ओटीपी की जांच हो रही है... ⌛", "wait");
       try {
         const result = await confirmationResult.confirm(code);
         // लॉगिन सफल!
         document.getElementById('loginSection').style.display = "none";
-        document.getElementById('dashboardSection').style.display = "block";
+        document.getElementById('dashboardSection').classList.remove('hidden');
         alertBox.style.display = "none";
       } catch (error) {
-        showAlert("गलत OTP! कृपया दोबारा सही कोड डालें।", "error");
+        showAlert("गलत OTP! कृपया दोबारा देखकर सही कोड डालें। ❌", "error");
       }
     }
   });
@@ -173,11 +225,11 @@
     const code = document.getElementById('tCode').value.trim();
 
     if(!name || !desc || !code) {
-      showAlert("डेटा सुरक्षित नहीं: कृपया सभी बॉक्स को पूरा भरें!", "error");
+      showAlert("डेटा सुरक्षित नहीं: कृपया सभी बॉक्स को पूरा भरें! ⚠️", "error");
       return;
     }
 
-    showAlert("फायरबेस एन्क्रिप्शन चालू है, डेटा भेजा जा रहा है...", "wait");
+    showAlert("फायरबेस एन्क्रिप्शन चालू है, डेटा भेजा जा रहा है... ⚡", "wait");
 
     try {
       await addDoc(collection(db, "tools"), {
@@ -186,7 +238,7 @@
         toolCode: code,
         dateAdded: new Date().toISOString()
       });
-      showAlert("बधाई हो जुमन भाई! नया टूल फायरबेस सिक्योर कलेक्शन में लाइव हो गया है।", "success");
+      showAlert("बधाई हो जुमन भाई! नया टूल फायरबेस सिक्योर कलेक्शन में लाइव हो गया है। 🎉", "success");
       document.getElementById('tName').value = "";
       document.getElementById('tDesc').value = "";
       document.getElementById('tCode').value = "";
