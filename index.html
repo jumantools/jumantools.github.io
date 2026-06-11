@@ -14,85 +14,106 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f3f4f6; /* एकदम साफ और लाइट-वेट बैकग्राउंड */
+            background-color: #f3f4f6; /* क्लीन लाइट-वेट बैकग्राउंड */
         }
-        /* प्रीमियम कोनों वाला फ्रेम डिज़ाइन */
-        .premium-layout-frame {
+        /* स्टार्टिंग वाला चौकोर बॉक्स और कोनों का फ्रेम डिज़ाइन */
+        .juman-square-box {
             position: relative;
             background: #ffffff;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+            border: 2px solid #3b82f6; /* चौकोर ब्लू बॉर्डर */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
-        /* चारों कोनों पर लकीर वाला प्रीमियम डिज़ाइन */
-        .premium-layout-frame::before, .premium-layout-frame::after,
-        .corner-designer::before, .corner-designer::after {
+        /* चारों कॉर्नर्स के प्रीमियम कट्स */
+        .juman-square-box::before, .juman-square-box::after,
+        .corner-line::before, .corner-line::after {
             content: '';
             position: absolute;
             width: 20px;
             height: 20px;
-            border: 4px solid #1d4ed8; /* गहरा प्रीमियम ब्लू कलर */
-            z-index: 10;
+            border: 4px solid #1d4ed8; /* गहरा प्रीमियम ब्लू */
+            z-index: 20;
         }
-        /* Top Left Corner */
-        .premium-layout-frame::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-        /* Top Right Corner */
-        .premium-layout-frame::after { top: -2px; right: -2px; border-left: none; border-bottom: none; }
-        /* Bottom Left Corner */
-        .corner-designer::before { bottom: -2px; left: -2px; border-right: none; border-top: none; }
-        /* Bottom Right Corner */
-        .corner-designer::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+        /* Top Left */
+        .juman-square-box::before { top: -4px; left: -4px; border-right: none; border-bottom: none; }
+        /* Top Right */
+        .juman-square-box::after { top: -4px; right: -4px; border-left: none; border-bottom: none; }
+        /* Bottom Left */
+        .corner-line::before { bottom: -4px; left: -4px; border-right: none; border-top: none; }
+        /* Bottom Right */
+        .corner-line::after { bottom: -4px; right: -4px; border-left: none; border-top: none; }
 
         .hidden-panel { display: none; }
+        
+        /* प्रोफाइल पिक्चर स्टाइल */
+        .profile-circle {
+            width: 75px;
+            height: 75px;
+            border: 3px solid #1d4ed8;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: #e5e7eb;
+        }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 sm:p-6">
+<body class="min-h-screen flex items-center justify-center p-4">
 
-    <div id="loginSection" class="w-full max-w-md premium-layout-frame rounded-lg p-8 transition-all duration-300">
-        <div class="corner-designer"></div>
+    <div id="loginSection" class="w-full max-w-lg juman-square-box p-6 sm:p-8 rounded-none transition-all duration-300">
+        <div class="corner-line"></div>
 
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-gray-850 tracking-wide">Technical Juman</h1>
-            <p class="text-xs font-bold uppercase tracking-widest text-blue-700 mt-1">Admin Panel</p>
-            <div class="w-16 h-1 bg-blue-700 mx-auto mt-3 rounded-full"></div>
+        <div class="flex items-center gap-4 border-b border-gray-200 pb-5 mb-6">
+            <img src="https://i.ibb.co/v4xtZfX4/23812.png" alt="Juman Ansari" class="profile-circle shadow-md">
+            
+            <div>
+                <h1 class="text-xl sm:text-2xl font-bold text-gray-850 tracking-wide leading-tight">Technical Juman</h1>
+                <p class="text-xs font-bold uppercase tracking-widest text-blue-700 mt-0.5">Admin Panel</p>
+                <div class="inline-flex items-center gap-1.5 bg-red-50 border border-red-200 text-red-650 text-[11px] font-bold px-2 py-0.5 rounded mt-1.5">
+                    <span>🔒 SECURE LOCK ACTIVE</span>
+                </div>
+            </div>
         </div>
 
-        <div id="statusAlert" class="hidden p-3 rounded text-sm font-medium mb-4 text-center"></div>
+        <div id="statusAlert" class="hidden p-3 text-sm font-medium mb-4 text-center"></div>
 
         <div class="space-y-5">
             <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">अपना सुरक्षित मोबाइल नंबर दर्ज करें</label>
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">अपना सुरक्षित मोबाइल नंबर दर्ज करें</label>
                 <input type="text" id="phoneNumber" placeholder="जैसे: +917762862822" 
-                    class="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition text-gray-900 font-medium">
+                    class="w-full px-4 py-2.5 border-2 border-gray-300 focus:border-blue-600 outline-none transition text-gray-900 font-semibold text-base">
             </div>
 
             <div id="recaptcha-container" class="flex justify-center my-2"></div>
 
-            <button onclick="sendOTP()" id="btnSend" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-md shadow transition duration-200 text-center">
+            <button onclick="sendOTP()" id="btnSend" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 shadow transition duration-200 uppercase tracking-wider text-sm">
                 सुरक्षित लिंक भेजें (Send OTP)
             </button>
 
-            <div id="otpBox" class="hidden space-y-4 pt-4 border-t border-gray-100">
+            <div id="otpBox" class="hidden space-y-4 pt-4 border-t-2 border-dashed border-gray-200">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">6-अंकों का सुरक्षित OTP डालें</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-600 mb-1.5">6-अंकों का सुरक्षित OTP कोड दर्ज करें</label>
                     <input type="text" id="otpCode" placeholder="• • • • • •" 
-                        class="w-full px-4 py-2.5 border border-gray-300 rounded-md text-center tracking-widest font-bold text-xl outline-none focus:ring-2 focus:ring-blue-600">
+                        class="w-full px-4 py-2.5 border-2 border-gray-300 text-center tracking-widest font-bold text-2xl outline-none focus:border-blue-600 text-gray-900">
                 </div>
-                <button onclick="verifyOTP()" id="btnVerify" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 px-4 rounded-md shadow transition duration-200">
-                    वेरीफाई और प्रवेश करें
+                <button onclick="verifyOTP()" id="btnVerify" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 shadow transition duration-200 uppercase tracking-wider text-sm">
+                    🔒 वेरीफाई और प्रवेश करें
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="adminPanel" class="w-full max-w-4xl premium-layout-frame rounded-lg p-6 sm:p-8 hidden-panel transition-all duration-300 m-4">
-        <div class="corner-designer"></div>
+
+    <div id="adminPanel" class="w-full max-w-4xl juman-square-box p-6 sm:p-8 hidden-panel transition-all duration-300 m-4">
+        <div class="corner-line"></div>
         
-        <div class="flex flex-col sm:flex-row justify-between items-center border-b border-gray-200 pb-5 mb-6 gap-4">
-            <div>
-                <h2 class="text-xl font-bold text-gray-800">Technical Juman Dashboard</h2>
-                <p class="text-xs text-gray-500 mt-0.5">यहाँ से 'Smart Photo Shop' टूल का नया कोड सीधे लाइव सबमिट करें</p>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-200 pb-5 mb-6 gap-4">
+            <div class="flex items-center gap-4">
+                <img src="https://i.ibb.co/v4xtZfX4/23812.png" alt="Juman Ansari" class="profile-circle shadow-md">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900">Technical Juman</h2>
+                    <p class="text-xs font-bold text-blue-700 uppercase tracking-wider">Live Tools Control Suite</p>
+                    <p class="text-[11px] text-gray-500 mt-0.5">Verified Manager Status: 🛡️ Full Access</p>
+                </div>
             </div>
-            <button onclick="logout()" class="px-4 py-1.5 border border-red-200 text-red-600 hover:bg-red-50 rounded-md text-sm font-medium transition">
+            <button onclick="logout()" class="px-4 py-2 border-2 border-red-300 text-red-600 hover:bg-red-50 font-bold text-xs uppercase tracking-wider transition">
                 सुरक्षित लॉगआउट (Logout)
             </button>
         </div>
@@ -100,33 +121,33 @@
         <div class="space-y-5">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">टूल का नाम (Tool Title)</label>
-                    <input type="text" id="toolTitle" placeholder="जैसे: Passport Size Photo Maker" class="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-600 text-gray-800">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">टूल का नाम (Tool Title)</label>
+                    <input type="text" id="toolTitle" placeholder="जैसे: Passport Size Photo Maker" class="w-full px-4 py-2.5 border border-gray-300 outline-none focus:border-blue-600 font-medium text-gray-800">
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">यूनिक यूआरएल आईडी (URL Slug)</label>
-                    <input type="text" id="toolSlug" placeholder="जैसे: passport-photo-maker" class="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-600 text-gray-800">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">यूनिक यूआरएल आईडी (URL Slug)</label>
+                    <input type="text" id="toolSlug" placeholder="जैसे: passport-photo-maker" class="w-full px-4 py-2.5 border border-gray-300 outline-none focus:border-blue-600 font-medium text-gray-800">
                 </div>
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">टूल का विवरण (SEO / Meta Description)</label>
-                <textarea id="toolDesc" rows="2" placeholder="इस टूल के बारे में छोटा सा विवरण जो गूगल सर्च रिजल्ट में दिखाई देगा..." class="w-full px-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-600 text-gray-800"></textarea>
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">टूल का विवरण (SEO Meta Description)</label>
+                <textarea id="toolDesc" rows="2" placeholder="इस टूल के बारे में छोटा सा विवरण जो गूगल सर्च इंजन में शो होगा..." class="w-full px-4 py-2.5 border border-gray-300 outline-none focus:border-blue-600 text-gray-800"></textarea>
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">टूल का फ्रेश HTML/CSS/JS कोड (Main Engine Code)</label>
-                <textarea id="toolCode" rows="10" placeholder="यहाँ अपने पूरे 'Smart Photo Shop' टूल का क्लीन कोड पेस्ट करें..." class="w-full p-4 border border-gray-300 rounded-md font-mono text-xs bg-gray-50 outline-none focus:ring-2 focus:ring-blue-600 text-gray-800"></textarea>
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1">टूल का फ्रेश HTML/CSS/JS कोड (Main Engine Code)</label>
+                <textarea id="toolCode" rows="10" placeholder="यहाँ अपने पूरे 'Smart Photo Shop' टूल का क्लीन कोड पेस्ट करें..." class="w-full p-4 border border-gray-300 font-mono text-xs bg-gray-50 outline-none focus:border-blue-600 text-gray-800"></textarea>
             </div>
 
-            <button onclick="uploadTool()" id="btnUpload" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-md shadow-md transition duration-200">
+            <button onclick="uploadTool()" id="btnUpload" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 shadow-md transition duration-200 uppercase tracking-widest text-sm">
                 🚀 टूल को अपनी वेबसाइट पर लाइव पब्लिश करें
             </button>
         </div>
     </div>
 
     <script>
-        // आपके फायरबेस का असली क्रेडेंशियल कॉन्फ़िगरेशन
+        // आपके फायरबेस का लाइव ओरिजिनल क्रेडेंशियल
         const firebaseConfig = {
             apiKey: "AIzaSyAs-48C6B1XmH8vM-QvR8Wn9Z2lPt4Y",
             authDomain: "technicaljumantools.firebaseapp.com",
@@ -140,7 +161,7 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // सुरक्षा कवच: केवल आपका यह असली नंबर ही एडमिन पैनल खोल पाएगा
+        // सुरक्षा चक्र: केवल जुमन भाई का ओरिजिनल नंबर ही अलाउड होगा
         const ALLOWED_ADMIN_NUMBER = "+917762862822"; 
 
         let confirmationResult = null;
@@ -148,15 +169,15 @@
 
         function showMessage(text, type) {
             alertBox.style.display = "block";
-            alertBox.className = `p-3 rounded text-sm font-medium mb-4 text-center ${
-                type === 'error' ? 'bg-red-50 text-red-700 border border-red-200' :
-                type === 'wait' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
-                'bg-emerald-50 text-emerald-700 border border-emerald-200'
+            alertBox.className = `p-3 text-sm font-semibold mb-4 text-center border ${
+                type === 'error' ? 'bg-red-50 text-red-700 border-red-200' :
+                type === 'wait' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                'bg-emerald-50 text-emerald-700 border-emerald-200'
             }`;
             alertBox.innerText = text;
         }
 
-        // reCAPTCHA सुरक्षा चक्र सेटअप
+        // Invisible reCAPTCHA सुरक्षा चक्र इनिशियलाइज़ेशन
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
             'size': 'normal',
             'callback': (response) => {}
@@ -181,7 +202,7 @@
                     document.getElementById('btnSend').style.display = "none";
                 })
                 .catch((error) => {
-                    showMessage("ओटीपी भेजने में विफल: " + error.message + " (कृपया जांचें कि फायरबेस में फोन ऑथेंटिकेशन इनेबल है या नहीं)", "error");
+                    showMessage("ओटीपी भेजने में विफल: " + error.message + " (फायरबेस कंसोल में जाकर Phone Auth इनेबल करना न भूलें)", "error");
                     if (window.recaptchaVerifier) {
                         recaptchaVerifier.render().then(widgetId => recaptchaVerifier.reset(widgetId));
                     }
