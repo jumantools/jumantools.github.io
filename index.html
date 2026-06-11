@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Technical Juman Admin Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -14,91 +14,92 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at center, #e0f2fe 0%, #f3f4f6 100%); /* स्क्रीनशॉट जैसा शानदार लाइट ग्रेडिएंट */
+            /* गिटहब लाइव जैसा साफ़-सुथरा लाइट-वेट बैकग्राउंड */
+            background-color: #f0f4f8; 
         }
-        /* चारों कोनों पर बॉर्डर कट वाला प्रीमियम डिज़ाइन */
-        .juman-premium-box {
+        /* स्टार्टिंग वाला चौकोर छोटा बॉक्स और कोनों की लाइन */
+        .juman-box-wrapper {
             position: relative;
             background: #ffffff;
             border: 1px solid #cbd5e1;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
-        /* चारों कोनों पर एकदम सटीक कोणीय कट्स (Corner Lines) */
-        .juman-premium-box::before, .juman-premium-box::after,
-        .corner-line::before, .corner-line::after {
+        /* कोनों के कट्स जो पहले ओरिजिनल इंटरफ़ेस में थे */
+        .juman-box-wrapper::before, .juman-box-wrapper::after,
+        .corner-element::before, .corner-element::after {
             content: '';
             position: absolute;
-            width: 24px;
-            height: 24px;
-            border: 5px solid #1e40af; /* गहरा ब्लू कलर */
-            z-index: 20;
+            width: 20px;
+            height: 20px;
+            border: 4px solid #1e40af; /* प्रीमियम गहरा ब्लू */
+            z-index: 10;
         }
-        /* Top Left */
-        .juman-premium-box::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
-        /* Top Right */
-        .juman-premium-box::after { top: -2px; right: -2px; border-left: none; border-bottom: none; }
-        /* Bottom Left */
-        .corner-line::before { bottom: -2px; left: -2px; border-right: none; border-top: none; }
-        /* Bottom Right */
-        .corner-line::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+        /* Top Left Cut */
+        .juman-box-wrapper::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        /* Top Right Cut */
+        .juman-box-wrapper::after { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+        /* Bottom Left Cut */
+        .corner-element::before { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+        /* Bottom Right Cut */
+        .corner-element::after { bottom: -2px; right: -2px; border-left: none; border-top: none; }
 
-        .hidden-panel { display: none; }
+        .hidden-section { display: none; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
 
-    <div id="loginSection" class="w-full max-w-md juman-premium-box p-8 rounded-none transition-all duration-300">
-        <div class="corner-line"></div>
-
-        <div class="text-center mb-6">
-            <h1 class="text-2xl font-extrabold text-slate-800 tracking-wide uppercase">Technical Juman</h1>
-            <p class="text-xs font-bold uppercase tracking-widest text-blue-700 mt-1">Admin Panel</p>
-            <div class="w-16 h-1 bg-blue-700 mx-auto mt-3 rounded-full"></div>
+    <div id="loginSection" class="w-full max-w-md text-center">
+        
+        <div class="mb-6">
+            <h1 class="text-3xl font-extrabold text-slate-800 tracking-wide uppercase">Technical Juman</h1>
+            <p class="text-sm font-bold text-blue-700 tracking-widest uppercase mt-0.5">Admin Panel</p>
         </div>
 
-        <div id="statusAlert" class="hidden p-3 text-xs font-semibold mb-4 text-center rounded"></div>
+        <div class="juman-box-wrapper p-6 sm:p-8 bg-white text-left">
+            <div class="corner-element"></div>
 
-        <div class="space-y-5">
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Admin ID (Mobile Number)</label>
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                        👤
-                    </span>
-                    <input type="text" id="phoneNumber" placeholder="+917762862822" 
-                        class="w-full pl-9 pr-4 py-2.5 border border-slate-300 bg-slate-50 focus:bg-white focus:border-blue-600 outline-none transition text-slate-800 font-semibold rounded shadow-inner">
-                </div>
-            </div>
+            <div id="statusAlert" class="hidden p-3 text-xs font-bold mb-4 text-center rounded border"></div>
 
-            <div id="recaptcha-container" class="flex justify-center my-1"></div>
-
-            <button onclick="sendOTP()" id="btnSend" class="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2.5 px-4 rounded shadow flex items-center justify-center gap-2 transition duration-200 tracking-wide text-sm">
-                सुरक्षित लिंक भेजें (Send OTP) 🔒
-            </button>
-
-            <div id="otpBox" class="hidden space-y-4 pt-4 border-t border-slate-200">
+            <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Security Code (Secure Lock)</label>
-                    <input type="text" id="otpCode" placeholder="••••••" 
-                        class="w-full px-4 py-2.5 border border-slate-300 text-center tracking-widest font-bold text-xl outline-none focus:border-blue-600 bg-slate-50 rounded">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">Admin ID (Mobile Number)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 text-sm">👤</span>
+                        <input type="text" id="phoneNumber" placeholder="जैसे: +917762862822" 
+                            class="w-full pl-9 pr-4 py-2 border border-slate-300 focus:border-blue-600 outline-none transition text-slate-800 font-semibold text-base shadow-inner rounded-none">
+                    </div>
                 </div>
-                <button onclick="verifyOTP()" id="btnVerify" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded shadow transition duration-200 tracking-wide text-sm uppercase">
-                    🔑 वेरीफाई और प्रवेश करें
+
+                <div id="recaptcha-container" class="flex justify-center my-1"></div>
+
+                <button onclick="sendOTP()" id="btnSend" class="w-full bg-slate-700 hover:bg-slate-800 text-white font-bold py-2.5 px-4 shadow transition duration-200 tracking-wide text-xs uppercase">
+                    सुरक्षित लिंक भेजें (Send OTP) 🔒
                 </button>
+
+                <div id="otpBox" class="hidden space-y-4 pt-4 border-t border-slate-200">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">सुरक्षित कोड (Secure Lock)</label>
+                        <input type="text" id="otpCode" placeholder="••••••" 
+                            class="w-full px-4 py-2 border border-slate-300 text-center tracking-widest font-bold text-xl outline-none focus:border-blue-600 bg-slate-50">
+                    </div>
+                    <button onclick="verifyOTP()" id="btnVerify" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 shadow transition duration-200 tracking-wide text-xs uppercase">
+                        🔑 वेरीफाई और प्रवेश करें
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
 
-    <div id="adminPanel" class="w-full max-w-4xl juman-premium-box p-6 sm:p-8 hidden-panel transition-all duration-300 m-4">
-        <div class="corner-line"></div>
+    <div id="adminPanel" class="w-full max-w-4xl juman-box-wrapper p-6 sm:p-8 hidden-section transition-all duration-300 m-4">
+        <div class="corner-element"></div>
         
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-200 pb-5 mb-6 gap-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-gray-200 pb-4 mb-6 gap-4">
             <div>
-                <h2 class="text-xl font-bold text-slate-800">Technical Juman Dashboard</h2>
+                <h2 class="text-xl font-bold text-slate-800 uppercase">Technical Juman Dashboard</h2>
                 <p class="text-xs font-bold text-blue-700 uppercase tracking-wider mt-0.5">Live Tools Control Suite</p>
             </div>
-            <button onclick="logout()" class="px-4 py-1.5 border border-red-300 text-red-600 hover:bg-red-50 font-bold text-xs uppercase tracking-wider rounded transition">
+            <button onclick="logout()" class="px-4 py-1.5 border border-red-300 text-red-600 hover:bg-red-50 font-bold text-xs uppercase tracking-wider transition">
                 सुरक्षित लॉगआउट (Logout)
             </button>
         </div>
@@ -107,25 +108,25 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">टूल का नाम (Tool Title)</label>
-                    <input type="text" id="toolTitle" placeholder="जैसे: Passport Size Photo Maker" class="w-full px-4 py-2.5 border border-slate-300 rounded outline-none focus:border-blue-600 font-medium text-slate-800">
+                    <input type="text" id="toolTitle" placeholder="जैसे: Passport Size Photo Maker" class="w-full px-4 py-2 border border-slate-300 outline-none focus:border-blue-600 font-medium text-slate-800">
                 </div>
                 <div>
                     <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">यूनिक यूआरएल आईडी (URL Slug)</label>
-                    <input type="text" id="toolSlug" placeholder="जैसे: passport-photo-maker" class="w-full px-4 py-2.5 border border-slate-300 rounded outline-none focus:border-blue-600 font-medium text-slate-800">
+                    <input type="text" id="toolSlug" placeholder="जैसे: passport-photo-maker" class="w-full px-4 py-2 border border-slate-300 outline-none focus:border-blue-600 font-medium text-slate-800">
                 </div>
             </div>
 
             <div>
                 <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">टूल का विवरण (SEO Meta Description)</label>
-                <textarea id="toolDesc" rows="2" placeholder="इस टूल के बारे में छोटा सा विवरण लिखें जो गूगल सर्च इंजन में शो होगा..." class="w-full px-4 py-2.5 border border-slate-300 rounded outline-none focus:border-blue-600 text-slate-800"></textarea>
+                <textarea id="toolDesc" rows="2" placeholder="इस टूल के बारे में छोटा सा विवरण लिखें..." class="w-full px-4 py-2 border border-slate-300 outline-none focus:border-blue-600 text-slate-800"></textarea>
             </div>
 
             <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">टूल का फ्रेश HTML/CSS/JS कोड (Main Engine Code)</label>
-                <textarea id="toolCode" rows="10" placeholder="यहाँ अपने पूरे 'Smart Photo Shop' टूल का क्लीन कोड पेस्ट करें..." class="w-full p-4 border border-slate-300 rounded font-mono text-xs bg-slate-50 outline-none focus:border-blue-600 text-slate-800"></textarea>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">टूल का कोड (Main Engine Code)</label>
+                <textarea id="toolCode" rows="10" placeholder="यहाँ अपने पूरे टूल का क्लीन कोड पेस्ट करें..." class="w-full p-4 border border-slate-300 font-mono text-xs bg-slate-50 outline-none focus:border-blue-600 text-slate-800"></textarea>
             </div>
 
-            <button onclick="uploadTool()" id="btnUpload" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 shadow rounded transition duration-200 uppercase tracking-widest text-sm">
+            <button onclick="uploadTool()" id="btnUpload" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 shadow transition duration-200 uppercase tracking-widest text-sm">
                 🚀 टूल को अपनी वेबसाइट पर लाइव पब्लिश करें
             </button>
         </div>
@@ -146,7 +147,7 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // सुरक्षा कवच: केवल आपका यह नंबर ही अंदर जा सकेगा
+        // सुरक्षा चक्र: केवल आपका यह मोबाइल नंबर ही अंदर जा सकेगा
         const ALLOWED_ADMIN_NUMBER = "+917762862822"; 
 
         let confirmationResult = null;
@@ -162,7 +163,7 @@
             alertBox.innerText = text;
         }
 
-        // reCAPTCHA सुरक्षा चक्र सेटअप
+        // Invisible reCAPTCHA सुरक्षा चक्र सेटअप
         window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
             'size': 'normal',
             'callback': (response) => {}
@@ -205,7 +206,7 @@
                     showMessage("🎉 एडमिन वेरिफिकेशन सफल! डैशबोर्ड लोड हो रहा है...", "success");
                     setTimeout(() => {
                         document.getElementById('loginSection').style.display = "none";
-                        document.getElementById('adminPanel').classList.remove('hidden-panel');
+                        document.getElementById('adminPanel').classList.remove('hidden-section');
                     }, 1000);
                 })
                 .catch((error) => {
