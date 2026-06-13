@@ -1,669 +1,360 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technical Juman - Premium Admin Panel</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Premium Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  FileText, Image, Shield, Layers, Crop, Lock, 
+  RotateCw, Scissors, Calendar, Volume2, Mic, 
+  Languages, PenTool, Signature, FileCode, Check, Copy, Search 
+} from 'lucide-react';
+
+// Tool Interface definition
+interface Tool {
+  id: string;
+  name: string;
+  description: string;
+  icon: React.ReactNode;
+  category: string;
+  colorClass: string;
+}
+
+export default function Dashboard() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeTool, setActiveTool] = useState<string | null>(null);
+  const [copiedStates, setCopiedStates] = useState<{ [key: string]: boolean }>({});
+  
+  // States for individual tools
+  const [voiceText, setVoiceText] = useState('');
+  const [isListening, setIsListening] = useState(false);
+  const [translateText, setTranslateText] = useState('');
+  const [translatedResult, setTranslatedResult] = useState('');
+  const [base64Input, setBase64Input] = useState('');
+  const [base64Output, setBase64Output] = useState('');
+
+  // Refs for Speech Recognition
+  const recognitionRef = useRef<any>(null);
+
+  // List of tools matching the Technical Juman platform
+  const tools: Tool[] = [
+    { id: 'voice-typing', name: 'Speech to Text', description: 'Speech to Text voice typing.', icon: <Mic size={20} />, category: 'Text', colorClass: 'bg-blue-100 text-blue-600' },
+    { id: 'translator', name: 'Language Translator', description: 'Translate text to any language.', icon: <Languages size={20} />, category: 'Text', colorClass: 'bg-orange-100 text-orange-600' },
+    { id: 'base64', name: 'Base64 Encoder/Decoder', description: 'Encode or decode text in Base64.', icon: <FileCode size={20} />, category: 'Utility', colorClass: 'bg-purple-100 text-purple-600' },
+    { id: 'jpg-to-pdf', name: 'JPG to PDF', description: 'Convert images to PDF files.', icon: <FileText size={20} />, category: 'PDF', colorClass: 'bg-red-100 text-red-600' },
+    { id: 'compress-pdf', name: 'Compress PDF', description: 'Reduce PDF file size easily.', icon: <Shield size={20} />, category: 'PDF', colorClass: 'bg-cyan-100 text-cyan-600' },
+    { id: 'crop-image', name: 'Crop Image', description: 'Crop your photos instantly.', icon: <Crop size={20} />, category: 'Image', colorClass: 'bg-slate-100 text-slate-600' },
+  ];
+
+  // Copy to Clipboard feature with status feedback
+  const handleCopyToClipboard = async (text: string, elementId: string) => {
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedStates(prev => ({ ...prev, [elementId]: true }));
+      setTimeout(() => {
+        setCopiedStates(prev => ({ ...prev, [elementId]: false }));
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  // Filter tools based on search
+  const filteredTools = tools.filter(tool => 
+    tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    tool.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // --- Voice Typing Logic ---
+  const startVoiceTyping = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech Recognition is not supported in this browser. Please use Chrome.");
+      return;
+    }
     
-    <!-- Google Firebase Compatibility SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    const rec = new SpeechRecognition();
+    rec.continuous = true;
+    rec.interimResults = true;
+    rec.lang = 'en-IN';
 
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
-        }
-        .title-fancy {
-            font-family: 'Cinzel', serif;
-            font-style: italic;
-        }
-        /* Custom scrollbar styling */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #3b82f6;
-            border-radius: 4px;
-        }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col justify-between text-slate-800">
-
-    <!-- Recaptcha Container (Required for Firebase Phone Auth) -->
-    <div id="recaptcha-container" class="fixed bottom-4 right-4 z-50"></div>
-
-    <!-- MAIN INTERACTIVE WRAPPER -->
-    <main class="flex-grow flex items-center justify-center p-4 py-12">
-        <div class="w-full max-w-4xl flex flex-col items-center">
-            
-            <!-- 1. BRANDING HEADER SECTION (Always Visible on Top) -->
-            <div class="w-full max-w-lg flex items-center justify-between px-4 mb-6 relative">
-                <!-- Profile Avatar Circle with Blue Gradient Border -->
-                <div class="relative flex-shrink-0">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-tr from-sky-400 to-indigo-600 p-1 shadow-lg shadow-sky-300/40">
-                        <div class="w-full h-full rounded-full bg-white overflow-hidden border border-white flex items-center justify-center">
-                            <!-- Technical Juman Profile Fallback Avatar -->
-                            <svg class="w-10 h-10 text-sky-500 mt-2" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <!-- Small online status pulse -->
-                    <span class="absolute bottom-1 right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full animate-pulse"></span>
-                </div>
-
-                <!-- Brand Title -->
-                <div class="flex-grow text-right pr-2">
-                    <h1 class="title-fancy text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#334155] tracking-wide leading-tight drop-shadow-sm select-none">
-                        Technical Juman
-                    </h1>
-                </div>
-            </div>
-
-            <!-- 2. LOGIN FLOW SYSTEM CONTAINER -->
-            <div id="auth-panel-view" class="w-full max-w-lg relative transition-all duration-300">
-                
-                <!-- Blue Admin Panel Header with Yellow/Gold Border -->
-                <div class="flex justify-center -mb-7 relative z-20">
-                    <div class="bg-[#1e88e5] border-[5px] border-[#ffeb3b] rounded-2xl px-10 py-3 shadow-[0_6px_20px_rgba(30,136,229,0.45)] transform select-none hover:scale-105 transition duration-200">
-                        <span class="text-white font-extrabold text-2xl md:text-3xl tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.5)] uppercase font-mono">
-                            Admin Panel
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Main Framed Box Wrapper -->
-                <div class="bg-white border-[4px] border-[#0091ea] rounded-[24px] shadow-2xl p-6 md:p-8 pt-12 relative overflow-hidden transition-all duration-300">
-                    
-                    <!-- Decorative Corner Ornaments (SVGs) -->
-                    <!-- Top Left Corner -->
-                    <svg class="absolute top-3 left-3 w-12 h-12 text-[#1e293b]" viewBox="0 0 100 100" fill="currentColor">
-                        <path d="M 0,0 L 40,0 C 25,0 15,10 15,25 L 15,40 C 15,20 5,10 0,0 M 0,15 L 25,15 C 20,15 15,20 15,25 L 15,45 C 10,35 5,20 0,15 Z" />
-                        <rect x="0" y="0" width="8" height="50" />
-                        <rect x="0" y="0" width="50" height="8" />
-                    </svg>
-                    <!-- Top Right Corner -->
-                    <svg class="absolute top-3 right-3 w-12 h-12 text-[#1e293b] transform rotate-90" viewBox="0 0 100 100" fill="currentColor">
-                        <path d="M 0,0 L 40,0 C 25,0 15,10 15,25 L 15,40 C 15,20 5,10 0,0 M 0,15 L 25,15 C 20,15 15,20 15,25 L 15,45 C 10,35 5,20 0,15 Z" />
-                        <rect x="0" y="0" width="8" height="50" />
-                        <rect x="0" y="0" width="50" height="8" />
-                    </svg>
-                    <!-- Bottom Left Corner -->
-                    <svg class="absolute bottom-3 left-3 w-12 h-12 text-[#1e293b] transform -rotate-90" viewBox="0 0 100 100" fill="currentColor">
-                        <path d="M 0,0 L 40,0 C 25,0 15,10 15,25 L 15,40 C 15,20 5,10 0,0 M 0,15 L 25,15 C 20,15 15,20 15,25 L 15,45 C 10,35 5,20 0,15 Z" />
-                        <rect x="0" y="0" width="8" height="50" />
-                        <rect x="0" y="0" width="50" height="8" />
-                    </svg>
-                    <!-- Bottom Right Corner -->
-                    <svg class="absolute bottom-3 right-3 w-12 h-12 text-[#1e293b] transform rotate-180" viewBox="0 0 100 100" fill="currentColor">
-                        <path d="M 0,0 L 40,0 C 25,0 15,10 15,25 L 15,40 C 15,20 5,10 0,0 M 0,15 L 25,15 C 20,15 15,20 15,25 L 15,45 C 10,35 5,20 0,15 Z" />
-                        <rect x="0" y="0" width="8" height="50" />
-                        <rect x="0" y="0" width="50" height="8" />
-                    </svg>
-
-                    <!-- Side Double Parallel Lines (as shown in ref image margin) -->
-                    <div class="absolute left-4 top-1/4 bottom-1/4 w-1.5 border-l-2 border-r-2 border-slate-600/80"></div>
-                    <div class="absolute right-4 top-1/4 bottom-1/4 w-1.5 border-r-2 border-l-2 border-slate-600/80"></div>
-
-                    <!-- Bottom Horizontal Baseline Double Border -->
-                    <div class="absolute bottom-4 left-1/4 right-1/4 h-1 border-b-2 border-slate-400"></div>
-
-                    <!-- Inner Form Layout Area -->
-                    <div class="py-6 px-4 md:px-6 flex flex-col items-center">
-                        
-                        <!-- Hindi Header Prompt (Exact Hindi replication) -->
-                        <div class="text-center mb-6">
-                            <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 tracking-wide font-sans mb-1">
-                                एडमिन अपना मोबाइल नंबर डालें
-                            </h2>
-                            <p class="text-[11px] font-mono tracking-wider text-slate-400 uppercase">Authorized Security Protocol</p>
-                        </div>
-
-                        <!-- 1. Mobile Number Entry Block (Bright Red Capsule Block) -->
-                        <div id="phone-input-field-wrapper" class="w-full max-w-sm mb-6 relative transition-all duration-300">
-                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2 pl-1 flex items-center gap-1.5">
-                                <i class="fa-solid fa-mobile-screen-button text-sky-500"></i> Mobile Identification
-                            </label>
-                            
-                            <!-- Large Red Input Block with Thick Black Border -->
-                            <div class="relative">
-                                <input type="tel" id="mobile-number-input" placeholder="Enter. Mob: +91 XXXXXXXX" class="w-full bg-[#ff0000] border-[4px] border-black text-white font-black text-lg md:text-xl rounded-2xl py-4 px-6 text-center placeholder-white/80 focus:outline-none focus:ring-4 focus:ring-[#ffeb3b] tracking-wider shadow-[0_5px_15px_rgba(255,0,0,0.35)] transition duration-200">
-                            </div>
-                        </div>
-
-                        <!-- 2. OTP Code Verification Block (Initially Hidden) -->
-                        <div id="otp-input-field-wrapper" class="hidden w-full max-w-sm mb-6 transition-all duration-300">
-                            <div class="mb-2 flex items-center justify-between text-xs">
-                                <span class="font-bold uppercase tracking-wider text-emerald-600 flex items-center gap-1">
-                                    <i class="fa-solid fa-circle-nodes animate-pulse"></i> Code Transmitted
-                                </span>
-                                <button onclick="resetToPhoneRequest()" class="text-sky-500 hover:underline font-bold">Edit Number</button>
-                            </div>
-                            <div class="relative">
-                                <!-- Secure Black Core Theme Input for OTP -->
-                                <input type="text" id="otp-verification-code" maxlength="6" placeholder="Enter 6-digit OTP" class="w-full bg-slate-900 border-[4px] border-[#0091ea] text-[#ffeb3b] font-black text-xl rounded-2xl py-4 px-6 text-center placeholder-slate-600 focus:outline-none focus:ring-4 focus:ring-emerald-400 tracking-[0.3em] shadow-[0_5px_15px_rgba(15,23,42,0.35)] transition">
-                            </div>
-                        </div>
-
-                        <!-- 3. Dynamic Submission Action Button (Large Black Button with Accent colors) -->
-                        <div class="w-full max-w-sm flex flex-col items-center">
-                            <button id="system-action-btn" onclick="processAuthSubmission()" class="w-full bg-black border-[4px] border-sky-400 text-[#ffeb3b] font-black text-xl md:text-2xl py-3 rounded-2xl shadow-[0_6px_20px_rgba(0,0,0,0.35)] hover:shadow-[0_8px_25px_rgba(0,145,234,0.5)] active:scale-95 hover:scale-[1.02] hover:border-[#ffeb3b] transition-all duration-200 tracking-wider">
-                                ( Send / OTP )
-                            </button>
-                            
-                            <div class="mt-4 flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                                <i class="fa-solid fa-shield text-[10px]"></i> Active Encryption Protocol AES-256
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. PREMIUM ADMIN DASHBOARD CONSOLE (Visible After Successful Verification) -->
-            <div id="admin-dashboard-view" class="hidden w-full max-w-5xl bg-slate-900 border-4 border-[#0091ea] rounded-[24px] shadow-2xl overflow-hidden transition-all duration-300">
-                <!-- Top Control Header Bar -->
-                <div class="bg-slate-950 border-b border-slate-800 p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-[#0091ea] text-white rounded-xl flex items-center justify-center shadow-lg shadow-[#0091ea]/30">
-                            <i class="fa-solid fa-fingerprint text-xl"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-white font-bold text-lg tracking-wide">Secure Terminal Workspace</h2>
-                            <p class="text-xs text-slate-500">Technical Juman Console Network v1.1</p>
-                        </div>
-                    </div>
-                    <button onclick="terminateAdminSession()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-xl text-xs tracking-wider transition-all duration-200 flex items-center gap-2 shadow-lg shadow-red-600/30">
-                        <i class="fa-solid fa-power-off"></i> Terminate Session
-                    </button>
-                </div>
-
-                <!-- Main Layout Grid split into Control Panel and Status Console -->
-                <div class="grid grid-cols-1 lg:grid-cols-12">
-                    
-                    <!-- LEFT COLUMN: Security System Metadata Displays -->
-                    <aside class="lg:col-span-4 bg-slate-950/50 p-6 border-r border-slate-800 space-y-6">
-                        
-                        <!-- Security Badges Container -->
-                        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-between shadow-sm">
-                            <div class="flex items-center gap-2.5">
-                                <div class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping"></div>
-                                <span class="text-xs font-semibold text-emerald-400 tracking-wider uppercase">Console Active</span>
-                            </div>
-                            <span class="bg-[#ffeb3b]/10 text-[#ffeb3b] text-[10px] font-bold px-2 py-0.5 rounded border border-[#ffeb3b]/30">
-                                Authorized Admin Only
-                            </span>
-                        </div>
-
-                        <!-- System Security Lock Status -->
-                        <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-xl flex items-center gap-3">
-                            <div class="text-sky-400 text-xl">
-                                <i class="fa-solid fa-lock-open animate-bounce"></i>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-300">OTP Cryptographic Link</h4>
-                                <span class="text-[11px] text-slate-500" id="otp-verified-status">Verified: +91 Simulated</span>
-                            </div>
-                        </div>
-
-                        <!-- Login Activity History Card -->
-                        <div class="space-y-2">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Security Access Logs</h3>
-                            <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-2 max-h-[140px] overflow-y-auto custom-scrollbar text-[11px]">
-                                <div class="flex justify-between text-slate-400 border-b border-slate-800 pb-1.5">
-                                    <span>Access Point IP</span>
-                                    <span>Timestamp</span>
-                                </div>
-                                <div id="admin-access-log-list" class="space-y-1.5">
-                                    <!-- Dynamic elements injected here -->
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Live Session Metrics -->
-                        <div class="space-y-2">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Runtime Hardware Session</h3>
-                            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 text-xs">
-                                <div class="flex justify-between items-center text-slate-400">
-                                    <span>Hardware Model:</span>
-                                    <span class="text-slate-200 font-mono" id="session-device">Macintosh (Web Browser)</span>
-                                </div>
-                                <div class="flex justify-between items-center text-slate-400">
-                                    <span>Active Clock:</span>
-                                    <span class="text-slate-200 font-mono" id="session-clock">00:00:00 AM</span>
-                                </div>
-                                <div class="flex justify-between items-center text-slate-400">
-                                    <span>Uptime:</span>
-                                    <span class="text-emerald-400 font-mono" id="session-uptime">0m 0s</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </aside>
-
-                    <!-- RIGHT COLUMN: Interactive Work / Firestore Tools System -->
-                    <section class="lg:col-span-8 p-6 space-y-6">
-                        
-                        <!-- Tool Upload System Card -->
-                        <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 shadow-xl relative">
-                            <div class="flex items-center gap-2.5 mb-5">
-                                <i class="fa-solid fa-square-plus text-[#ffeb3b] text-xl"></i>
-                                <h3 class="text-white font-bold text-base">Initialize & Upload New System Tool</h3>
-                            </div>
-
-                            <div class="space-y-4">
-                                <!-- Tool Name Fields -->
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase">Tool System Name</label>
-                                        <input type="text" id="tool-name" placeholder="e.g. Premium XML Extractor" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:ring-1 focus:ring-sky-500">
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase">Short Target Purpose</label>
-                                        <input type="text" id="tool-desc" placeholder="e.g. Converts static arrays directly" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-slate-200 text-sm focus:outline-none focus:ring-1 focus:ring-sky-500">
-                                    </div>
-                                </div>
-
-                                <!-- Monospaced Code Block Editor -->
-                                <div>
-                                    <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase">Source Code Repository</label>
-                                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 overflow-hidden">
-                                        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2 text-xs font-mono text-slate-500">
-                                            <span>index.js / executable module</span>
-                                            <span class="text-sky-500">Active Syntax Mode</span>
-                                        </div>
-                                        <textarea id="tool-code" rows="6" placeholder="// Write or paste tool implementation scripts here...&#10;function processSystemPayload() {&#10;    console.log('Admin Action Authorized');&#10;}" class="w-full bg-transparent font-mono text-xs text-sky-300 focus:outline-none resize-none custom-scrollbar"></textarea>
-                                    </div>
-                                </div>
-
-                                <!-- Action Buttons -->
-                                <div class="flex justify-end gap-3 pt-2">
-                                    <button onclick="clearUploadFormFields()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold px-4 py-2.5 rounded-xl text-xs transition duration-150">
-                                        Clear Draft
-                                    </button>
-                                    <button onclick="uploadToolToSystemDatabase()" class="bg-[#1e88e5] hover:bg-sky-600 text-white font-bold px-6 py-2.5 rounded-xl text-xs transition duration-150 flex items-center gap-2 shadow-lg shadow-sky-500/10">
-                                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload to Firebase Database
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- List view of currently uploaded tools inside Database -->
-                        <div class="space-y-3">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-slate-500">Existing Active Repositories</h3>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="uploaded-tools-list">
-                                <!-- Populated dynamically from storage -->
-                            </div>
-                        </div>
-
-                    </section>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- Global Technical Footer -->
-    <footer class="py-6 text-center border-t border-slate-200/50 bg-white">
-        <p class="text-[11px] text-slate-400 font-mono tracking-widest">
-            © 2026 TECHNICAL JUMAN DIRECTORIES. ALL DATA SECURED INDEPENDENTLY.
-        </p>
-    </footer>
-
-    <!-- Firebase Integration Logic & Simulation Script Wrapper -->
-    <script>
-        // ==========================================
-        // 1. FIREBASE AUTH & FIRESTORE CONFIGURATION
-        // ==========================================
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY_HERE",
-            authDomain: "YOUR_AUTH_DOMAIN_HERE",
-            projectId: "YOUR_PROJECT_ID_HERE",
-            storageBucket: "YOUR_STORAGE_BUCKET_HERE",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID_HERE",
-            appId: "YOUR_APP_ID_HERE"
-        };
-
-        // Automatic System Selector (Checks if user updated config keys or is running locally)
-        let isFirebaseConfigured = false;
-        if (firebaseConfig.apiKey !== "YOUR_API_KEY_HERE") {
-            try {
-                firebase.initializeApp(firebaseConfig);
-                isFirebaseConfigured = true;
-                console.log("Firebase Database link active.");
-            } catch (error) {
-                console.error("Firebase config fail, moving to dynamic simulation: ", error);
-            }
+    rec.onstart = () => setIsListening(true);
+    rec.onend = () => setIsListening(false);
+    rec.onresult = (event: any) => {
+      let interimTranscript = '';
+      let finalTranscript = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          finalTranscript += event.results[i][0].transcript;
         } else {
-            console.warn("Active keys not configured. System is running in Secure Simulation Engine.");
+          interimTranscript += event.results[i][0].transcript;
         }
+      }
+      setVoiceText(finalTranscript + interimTranscript);
+    };
 
-        // ==========================================
-        // 2. STATE MANAGER VARIABLES
-        // ==========================================
-        let phoneAuthState = "PHONE_ENTRY"; // "PHONE_ENTRY" or "OTP_ENTRY"
-        let sessionStartTime = null;
-        let activeAdminNumber = "";
-        let uptimeInterval = null;
+    recognitionRef.current = rec;
+    rec.start();
+  };
 
-        // Simulation local mock store
-        let mockToolsDatabase = JSON.parse(localStorage.getItem('juman_tools')) || [
-            { id: "tool_1", name: "Premium XML Converter", desc: "Instantly parse static layouts", code: "const parse = (file) => { return true; }" },
-            { id: "tool_2", name: "API Guard System", desc: "Limits user calls to backend routes", code: "function rateLimiter(req) { return 'Authorized'; }" }
-        ];
+  const stopVoiceTyping = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    }
+  };
 
-        // ==========================================
-        // 3. SECURE AUTHENTICATION SYSTEM INTERFACES
-        // ==========================================
-        
-        function processAuthSubmission() {
-            if (phoneAuthState === "PHONE_ENTRY") {
-                sendSMSVerificationCode();
-            } else if (phoneAuthState === "OTP_ENTRY") {
-                verifySMSCodeInput();
-            }
-        }
+  // --- Base64 Logic ---
+  const handleBase64Encode = () => {
+    try {
+      setBase64Output(btoa(base64Input));
+    } catch (e) {
+      setBase64Output('Invalid text for Base64 encoding.');
+    }
+  };
 
-        function sendSMSVerificationCode() {
-            const num = document.getElementById('mobile-number-input').value.trim();
+  const handleBase64Decode = () => {
+    try {
+      setBase64Output(atob(base64Input));
+    } catch (e) {
+      setBase64Output('Invalid Base64 string for decoding.');
+    }
+  };
+
+  // --- Translation Logic (Simulated for Frontend UI demo) ---
+  const handleTranslate = async () => {
+    if (!translateText) return;
+    try {
+      const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(translateText)}&langpair=en|hi`);
+      const data = await res.json();
+      setTranslatedResult(data.responseData.translatedText || 'Translation Error');
+    } catch (e) {
+      setTranslatedResult('Translation failed. Please check network connection.');
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+      {/* Header */}
+      <header className="sticky top-0 z-50 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 bg-white px-6 py-4 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 overflow-hidden rounded-full border-2 border-cyan-500 p-1 bg-white">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/YouTube_social_red_circle_%282017%29.svg" alt="Technical Juman Logo" className="h-full w-full object-contain" />
+          </div>
+          <div>
+            <h1 className="text-xl font-black tracking-tight text-slate-900">Technical Juman</h1>
+            <p className="text-xs text-slate-500">Free Online Document & Utility Workspace</p>
+          </div>
+        </div>
+
+        {/* Search Box */}
+        <div className="relative flex w-full max-w-md items-center rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 focus-within:border-cyan-500 focus-within:bg-white transition-colors">
+          <Search className="mr-2 h-5 w-5 text-slate-400" />
+          <input 
+            type="text" 
+            placeholder="Search tools..." 
+            className="w-full bg-transparent outline-none text-sm text-slate-700"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button className="rounded-md bg-slate-100 px-4 py-2 text-sm font-semibold hover:bg-slate-200 transition">Login</button>
+          <button className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700 transition">Sign Up</button>
+        </div>
+      </header>
+
+      {/* Main Container */}
+      <main className="mx-auto max-w-7xl px-6 py-8">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-extrabold tracking-tight text-slate-900 md:text-4xl">
+            All In One <span className="text-red-600">Automatic Document</span> Tools
+          </h2>
+          <p className="mt-2 text-slate-500">Select any tool below to begin your work instantly</p>
+        </div>
+
+        {/* Tools Grid Selection */}
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mb-12">
+          {filteredTools.map((tool) => (
+            <div 
+              key={tool.id}
+              onClick={() => setActiveTool(tool.id)}
+              className={`group flex flex-col items-center justify-center rounded-xl border border-slate-200 bg-white p-5 text-center cursor-pointer hover:border-red-500 hover:-translate-y-1 transition duration-300 shadow-sm hover:shadow-md ${activeTool === tool.id ? 'ring-2 ring-red-500 border-red-500' : ''}`}
+            >
+              <div className={`mb-3 flex h-12 w-12 items-center justify-center rounded-lg ${tool.colorClass} group-hover:scale-110 transition`}>
+                {tool.icon}
+              </div>
+              <h3 className="text-sm font-bold text-slate-800 leading-tight mb-1">{tool.name}</h3>
+              <p className="text-xxs text-slate-400 line-clamp-2">{tool.description}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Tool Workspace Section */}
+        {activeTool && (
+          <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-md transition-all">
             
-            // Standard Validation
-            if (!/^\+?[\d\s-]{10,14}$/.test(num)) {
-                alert("Incorrect entry: Please write a valid administrator mobile sequence.");
-                return;
-            }
-
-            activeAdminNumber = num;
-
-            if (isFirebaseConfigured) {
-                // REAL FIREBASE LOGIC
-                const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-                    'size': 'invisible'
-                });
-                
-                firebase.auth().signInWithPhoneNumber(num, appVerifier)
-                    .then((confirmationResult) => {
-                        window.confirmationResult = confirmationResult;
-                        transitionToOTPInput();
-                    }).catch((error) => {
-                        alert("Firebase Authentication Transmission Fail: " + error.message);
-                    });
-            } else {
-                // SIMULATOR MODE
-                console.log(`[Simulator] Transmitted OTP payload key to: ${num}`);
-                transitionToOTPInput();
-            }
-        }
-
-        function transitionToOTPInput() {
-            phoneAuthState = "OTP_ENTRY";
-            
-            // View Transitions
-            document.getElementById('phone-input-field-wrapper').classList.add('hidden');
-            document.getElementById('otp-input-field-wrapper').classList.remove('hidden');
-            
-            // Redesign buttons and text content
-            const actionBtn = document.getElementById('system-action-btn');
-            actionBtn.innerText = "( Verify / Code )";
-            actionBtn.classList.remove('border-sky-400');
-            actionBtn.classList.add('border-emerald-400');
-        }
-
-        function resetToPhoneRequest() {
-            phoneAuthState = "PHONE_ENTRY";
-            
-            // Switch views back
-            document.getElementById('otp-input-field-wrapper').classList.add('hidden');
-            document.getElementById('phone-input-field-wrapper').classList.remove('hidden');
-            
-            const actionBtn = document.getElementById('system-action-btn');
-            actionBtn.innerText = "( Send / OTP )";
-            actionBtn.classList.remove('border-emerald-400');
-            actionBtn.classList.add('border-sky-400');
-        }
-
-        function verifySMSCodeInput() {
-            const code = document.getElementById('otp-verification-code').value.trim();
-            if (code.length < 4) {
-                alert("Incorrect key: Please enter verification parameters.");
-                return;
-            }
-
-            if (isFirebaseConfigured) {
-                // REAL FIREBASE LOGIC
-                window.confirmationResult.confirm(code)
-                    .then((result) => {
-                        authorizeSessionAndLaunch();
-                    }).catch((error) => {
-                        alert("Authentication Denied: Verification Code Invalid. " + error.message);
-                    });
-            } else {
-                // SIMULATOR MODE
-                if (code === "1234" || code === "123456" || code.length >= 4) { // Accept any simulated 4-6 digit sequence
-                    authorizeSessionAndLaunch();
-                } else {
-                    alert("Authentication Denied: Code Mismatch in Simulation.");
-                }
-            }
-        }
-
-        function authorizeSessionAndLaunch() {
-            sessionStartTime = new Date();
-            
-            // Hide Auth Box and display dashboard view
-            document.getElementById('auth-panel-view').classList.add('hidden');
-            document.getElementById('admin-dashboard-view').classList.remove('hidden');
-
-            // Render Dashboard variables
-            document.getElementById('otp-verified-status').innerText = `Verified: ${activeAdminNumber || "Developer Simulation Mode"}`;
-            
-            triggerTelemetryClock();
-            pushAccessLogs();
-            renderActiveRepositories();
-        }
-
-        function terminateAdminSession() {
-            if (uptimeInterval) clearInterval(uptimeInterval);
-            sessionStartTime = null;
-
-            // Clear credentials
-            document.getElementById('otp-verification-code').value = "";
-            document.getElementById('mobile-number-input').value = "";
-            resetToPhoneRequest();
-
-            document.getElementById('admin-dashboard-view').classList.add('hidden');
-            document.getElementById('auth-panel-view').classList.remove('hidden');
-        }
-
-        // ==========================================
-        // 4. METRICS / TELEMETRY SERVICES
-        // ==========================================
-        function triggerTelemetryClock() {
-            document.getElementById('session-device').innerText = navigator.platform || "Web Browser Emulator";
-
-            uptimeInterval = setInterval(() => {
-                // Update live clock
-                const date = new Date();
-                document.getElementById('session-clock').innerText = date.toLocaleTimeString();
-
-                // Update session uptime delta
-                const diffMs = new Date() - sessionStartTime;
-                const diffMins = Math.floor(diffMs / 60000);
-                const diffSecs = Math.floor((diffMs % 60000) / 1000);
-                document.getElementById('session-uptime').innerText = `${diffMins}m ${diffSecs}s`;
-            }, 1000);
-        }
-
-        function pushAccessLogs() {
-            const list = document.getElementById('admin-access-log-list');
-            list.innerHTML = "";
-            
-            // Mock security logging events
-            const randomIP = `${Math.floor(Math.random() * 255) + 1}.162.${Math.floor(Math.random() * 255) + 1}.21`;
-            const staticTime = new Date().toLocaleTimeString();
-            
-            list.innerHTML += `
-                <div class="flex justify-between text-emerald-400">
-                    <span>${randomIP} (Current)</span>
-                    <span>${staticTime}</span>
+            {/* 1. Speech to Text Workspace */}
+            {activeTool === 'voice-typing' && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b pb-3">
+                  <h3 className="text-lg font-bold flex items-center gap-2"><Mic className="text-blue-600" /> Speech to Text (Voice Typing)</h3>
+                  <button 
+                    onClick={() => handleCopyToClipboard(voiceText, 'voice')}
+                    className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold hover:bg-slate-50 transition"
+                  >
+                    {copiedStates['voice'] ? (
+                      <>
+                        <Check size={14} className="text-green-600" />
+                        <span className="text-green-600">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={14} />
+                        <span>Copy Output</span>
+                      </>
+                    )}
+                  </button>
                 </div>
-                <div class="flex justify-between text-slate-500">
-                    <span>192.168.1.1 (Access Node)</span>
-                    <span>Yesterday 04:32 PM</span>
+                <p className="text-xs text-slate-400">Microphone permission required. Speaks your mind, and let AI write it down.</p>
+                <textarea 
+                  className="w-full rounded-lg border border-slate-300 bg-slate-50 p-4 outline-none focus:border-blue-500 focus:bg-white text-sm"
+                  rows={6}
+                  value={voiceText}
+                  onChange={(e) => setVoiceText(e.target.value)}
+                  placeholder="Click 'Start Microphone' and begin speaking..."
+                />
+                <div className="flex gap-2">
+                  {!isListening ? (
+                    <button onClick={startVoiceTyping} className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white hover:bg-blue-700 transition">Start Microphone</button>
+                  ) : (
+                    <button onClick={stopVoiceTyping} className="rounded-lg bg-red-600 px-4 py-2 text-sm font-bold text-white hover:bg-red-700 transition animate-pulse">Stop Recording</button>
+                  )}
+                  <button onClick={() => setVoiceText('')} className="rounded-lg border px-4 py-2 text-sm font-bold hover:bg-slate-50 transition">Clear Text</button>
                 </div>
-            `;
-        }
+              </div>
+            )}
 
-        // ==========================================
-        // 5. FIRESTORE DATABASE / TOOLS MANAGER
-        // ==========================================
-        
-        function clearUploadFormFields() {
-            document.getElementById('tool-name').value = "";
-            document.getElementById('tool-desc').value = "";
-            document.getElementById('tool-code').value = "";
-        }
+            {/* 2. Language Translator Workspace */}
+            {activeTool === 'translator' && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b pb-3">
+                  <h3 className="text-lg font-bold flex items-center gap-2"><Languages className="text-orange-600" /> Language Translator (English to Hindi)</h3>
+                  <button 
+                    onClick={() => handleCopyToClipboard(translatedResult, 'translate')}
+                    className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold hover:bg-slate-50 transition"
+                  >
+                    {copiedStates['translate'] ? (
+                      <>
+                        <Check size={14} className="text-green-600" />
+                        <span className="text-green-600">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={14} />
+                        <span>Copy Translation</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 uppercase mb-2">English Text</label>
+                    <textarea 
+                      className="w-full rounded-lg border border-slate-300 p-3 text-sm focus:border-orange-500 focus:outline-none"
+                      rows={4}
+                      placeholder="Type text in English here..."
+                      value={translateText}
+                      onChange={(e) => setTranslateText(e.target.value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Hindi Translation</label>
+                    <textarea 
+                      className="w-full rounded-lg border border-slate-300 bg-slate-50 p-3 text-sm focus:outline-none"
+                      rows={4}
+                      placeholder="Translated text will appear here..."
+                      value={translatedResult}
+                      readOnly
+                    />
+                  </div>
+                </div>
+                <button onClick={handleTranslate} className="rounded-lg bg-orange-600 px-5 py-2 text-sm font-bold text-white hover:bg-orange-700 transition">Translate</button>
+              </div>
+            )}
 
-        function uploadToolToSystemDatabase() {
-            const name = document.getElementById('tool-name').value.trim();
-            const desc = document.getElementById('tool-desc').value.trim();
-            const code = document.getElementById('tool-code').value.trim();
+            {/* 3. Base64 Encoder / Decoder */}
+            {activeTool === 'base64' && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b pb-3">
+                  <h3 className="text-lg font-bold flex items-center gap-2"><FileCode className="text-purple-600" /> Base64 Encoder/Decoder</h3>
+                  <button 
+                    onClick={() => handleCopyToClipboard(base64Output, 'base64')}
+                    className="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold hover:bg-slate-50 transition"
+                  >
+                    {copiedStates['base64'] ? (
+                      <>
+                        <Check size={14} className="text-green-600" />
+                        <span className="text-green-600">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={14} />
+                        <span>Copy Code</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Input Raw text / Base64 string</label>
+                    <textarea 
+                      className="w-full rounded-lg border border-slate-300 p-3 text-sm focus:border-purple-500 focus:outline-none"
+                      rows={4}
+                      value={base64Input}
+                      onChange={(e) => setBase64Input(e.target.value)}
+                      placeholder="Write plain text to encode, or base64 to decode..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Processed Output</label>
+                    <textarea 
+                      className="w-full rounded-lg border border-slate-300 bg-slate-50 p-3 text-sm focus:outline-none"
+                      rows={4}
+                      value={base64Output}
+                      readOnly
+                      placeholder="Result of operations..."
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={handleBase64Encode} className="rounded-lg bg-purple-600 px-5 py-2 text-sm font-bold text-white hover:bg-purple-700 transition">Encode to Base64</button>
+                  <button onClick={handleBase64Decode} className="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-bold text-white hover:bg-indigo-700 transition">Decode Base64</button>
+                </div>
+              </div>
+            )}
 
-            if (!name || !desc || !code) {
-                alert("Error: All tool definition parameters (Name, Description, Script) are mandatory.");
-                return;
-            }
+            {/* Simulated UI placeholders for remaining PDF tools */}
+            {!['voice-typing', 'translator', 'base64'].includes(activeTool) && (
+              <div className="text-center py-8">
+                <h4 className="text-lg font-bold text-slate-700">Client-Side Engine Active</h4>
+                <p className="text-sm text-slate-500 mt-1">This tool runs directly in your local browser sandbox to guarantee data security.</p>
+                <div className="mt-4 flex justify-center">
+                  <input type="file" className="block text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100" />
+                </div>
+              </div>
+            )}
 
-            if (isFirebaseConfigured) {
-                // REAL FIREBASE LOGIC (Firestore tools storage upload)
-                firebase.firestore().collection("tools").add({
-                    name: name,
-                    desc: desc,
-                    code: code,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                }).then(() => {
-                    alert("Security Check Completed. Tool uploaded successfully to Firebase.");
-                    clearUploadFormFields();
-                    retrieveFirebaseTools();
-                }).catch((error) => {
-                    alert("Firestore Database Error: " + error.message);
-                });
-            } else {
-                // SIMULATOR MODE
-                const newTool = {
-                    id: 'tool_' + Math.random().toString(36).substr(2, 9),
-                    name: name,
-                    desc: desc,
-                    code: code
-                };
-                mockToolsDatabase.unshift(newTool);
-                localStorage.setItem('juman_tools', JSON.stringify(mockToolsDatabase));
-                
-                alert("Simulator Notification: Uploaded successfully to LocalStorage DB.");
-                clearUploadFormFields();
-                renderActiveRepositories();
-            }
-        }
+          </div>
+        )}
+      </main>
 
-        function renderActiveRepositories() {
-            if (isFirebaseConfigured) {
-                retrieveFirebaseTools();
-                return;
-            }
-
-            const container = document.getElementById('uploaded-tools-list');
-            container.innerHTML = "";
-
-            if (mockToolsDatabase.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-500 italic py-4">No tools available in local workspace.</p>`;
-                return;
-            }
-
-            mockToolsDatabase.forEach(t => {
-                container.innerHTML += `
-                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2 relative group hover:border-[#0091ea]/50 transition duration-150">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <h4 class="text-slate-200 font-bold text-sm group-hover:text-sky-400 transition">${t.name}</h4>
-                                <p class="text-[11px] text-slate-500 mt-0.5">${t.desc}</p>
-                            </div>
-                            <button onclick="deleteToolFromStorage('${t.id}')" class="text-slate-500 hover:text-red-500 transition">
-                                <i class="fa-solid fa-trash-can text-xs"></i>
-                            </button>
-                        </div>
-                        <div class="bg-slate-900 rounded p-2.5 overflow-x-auto border border-slate-800/80">
-                            <pre class="font-mono text-[10px] text-[#ffeb3b] leading-tight">${t.code}</pre>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        function deleteToolFromStorage(toolId) {
-            if (confirm("Execute purge protocol? This tool will be permanently removed.")) {
-                if (isFirebaseConfigured) {
-                    firebase.firestore().collection("tools").doc(toolId).delete()
-                        .then(() => {
-                            retrieveFirebaseTools();
-                        }).catch(e => alert(e.message));
-                } else {
-                    mockToolsDatabase = mockToolsDatabase.filter(t => t.id !== toolId);
-                    localStorage.setItem('juman_tools', JSON.stringify(mockToolsDatabase));
-                    renderActiveRepositories();
-                }
-            }
-        }
-
-        function retrieveFirebaseTools() {
-            firebase.firestore().collection("tools").orderBy("timestamp", "desc").get()
-                .then((querySnapshot) => {
-                    const container = document.getElementById('uploaded-tools-list');
-                    container.innerHTML = "";
-                    
-                    if (querySnapshot.empty) {
-                        container.innerHTML = `<p class="text-xs text-slate-500 italic py-4">No databases registered in storage.</p>`;
-                        return;
-                    }
-
-                    querySnapshot.forEach((doc) => {
-                        const t = doc.data();
-                        const docId = doc.id;
-                        container.innerHTML += `
-                            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2 relative group hover:border-[#0091ea]/50 transition duration-150">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h4 class="text-slate-200 font-bold text-sm group-hover:text-sky-400 transition">${t.name}</h4>
-                                        <p class="text-[11px] text-slate-500 mt-0.5">${t.desc}</p>
-                                    </div>
-                                    <button onclick="deleteToolFromStorage('${docId}')" class="text-slate-500 hover:text-red-500 transition">
-                                        <i class="fa-solid fa-trash-can text-xs"></i>
-                                    </button>
-                                </div>
-                                <div class="bg-slate-900 rounded p-2.5 overflow-x-auto border border-slate-800/80">
-                                    <pre class="font-mono text-[10px] text-[#ffeb3b] leading-tight">${t.code}</pre>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }).catch((error) => {
-                    console.error("Firestore database retrieve error: ", error);
-                });
-        }
-    </script>
-</body>
-</html>
+      {/* Footer */}
+      <footer className="mt-20 border-t border-slate-200 bg-white py-8 px-6 text-center text-xs text-slate-500">
+        <div>© 2025-2026 Technical Juman. Free Online PDF and Document Editor Tools. All rights reserved.</div>
+        <div className="mt-2 flex justify-center gap-4">
+          <a href="#" className="hover:underline">Disclaimer</a>
+          <a href="#" className="hover:underline">Privacy Policy</a>
+          <a href="#" className="hover:underline">Terms & Conditions</a>
+        </div>
+      </footer>
+    </div>
+  );
+}
